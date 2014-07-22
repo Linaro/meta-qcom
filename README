@@ -1,0 +1,23 @@
+The OpenEmbedded layer for Qualcomm based platforms
+
+This layer depends on:
+
+URI: git://github.com/openembedded/oe-core.git
+layers: meta
+branch: master
+revision: HEAD
+
+If you want to contribute changes, please send patches or pull requests to
+linaro-dev@lists.linaro.org.
+
+When creating patches, please use something like:
+
+    git format-patch -s --subject-prefix='meta-qualcomm][PATCH' origin
+
+When sending patches, please use something like:
+
+    git send-email --to linaro-dev@lists.linaro.org <generated patch>
+
+You can discuss about this layer, on #linaro on FreeNode IRC network.
+
+Main layer maintainers: Nicolas Dechesne <nicolas.dechesne@linaro.org>
