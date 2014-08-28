@@ -3,5 +3,5 @@
 
 require recipes-kernel/linux/linux-linaro-lt-freedreno.inc
 
-SRCBRANCH = "freedreno/ifc6410-drm"
-SRCREV = "5adedb7593944d867b2de3393fb14ca4c16b1338"
+SRCBRANCH = "freedreno/ifc6410-v2.0-drm"
+SRCREV = "d392f534aee60425fb23868c1164bfbe99e6d52b"
