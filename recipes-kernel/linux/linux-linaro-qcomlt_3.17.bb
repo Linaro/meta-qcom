@@ -11,7 +11,6 @@ SRCREV = "941c546eeeb5dfe8b8fa2bbeadd97182fb5d18fc"
 # fixup.bin needs to be prepended to zImage to fixup the atag mem info because of broken bootloaders.
 # Without this a panic will occur upon freeing bootmem.
 do_compile_append() {
-    cd ${S}
     if [ -e "fixup.bin" ]; then
         cp ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.backup
         cat "fixup.bin" ${KERNEL_OUTPUT}.backup > ${KERNEL_OUTPUT}
