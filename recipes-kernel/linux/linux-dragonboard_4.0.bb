@@ -1,7 +1,7 @@
 require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-dtb.inc
 
-DESCRIPTION = "Hisilicon 3.18 Kernel"
+DESCRIPTION = "Linaro Qualcomm Landing team 4.0 Kernel"
 
 PV = "4.0.0+git${SRCPV}"
 SRCREV_kernel="7b59de360b2a092bf3afe068df52ee17e848fa5a"
