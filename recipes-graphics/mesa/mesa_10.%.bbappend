@@ -1,6 +1,6 @@
-# Enable freedreno driver ( arm only )
-GALLIUMDRIVERS_append_armv7a = ",freedreno"
+# Enable freedreno driver
+GALLIUMDRIVERS_append_ifc6410 = ",freedreno"
 
-PACKAGECONFIG_append_armv7a = " gallium gallium-egl \
+PACKAGECONFIG_append_ifc6410 = " gallium gallium-egl \
                          ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xa', '', d)} \
                        "
