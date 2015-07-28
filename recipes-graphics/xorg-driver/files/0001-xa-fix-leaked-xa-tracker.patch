@@ -1,0 +1,126 @@
+From 33724ce4711ef98e93a9b16c1b7e974aa11086ed Mon Sep 17 00:00:00 2001
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 15 May 2015 19:28:48 -0400
+Subject: [PATCH] xa: fix leaked xa tracker
+
+At CloseScreen, we wouldn't cleanup the XA tracker (so underlying
+pipe_screen never got destroyed, so drm device fd never got closed).
+
+Pull all this into MSMAccelFini() to make things match how things are
+created at ScreenInit.
+
+Signed-off-by: Rob Clark <robdclark@gmail.com>
+---
+ src/msm-accel.c  | 28 +++++++++++++++++++++++++++-
+ src/msm-driver.c | 14 ++------------
+ src/msm-exa-xa.c |  1 +
+ src/msm.h        |  3 ++-
+ 4 files changed, 32 insertions(+), 14 deletions(-)
+
+diff --git a/src/msm-accel.c b/src/msm-accel.c
+index b8d9c0c..2634c27 100644
+--- a/src/msm-accel.c
++++ b/src/msm-accel.c
+@@ -39,7 +39,7 @@
+ #endif
+ 
+ Bool
+-MSMSetupAccel(ScreenPtr pScreen)
++MSMAccelInit(ScreenPtr pScreen)
+ {
+ 	ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
+ 	MSMPtr pMsm = MSMPTR(pScrn);
+@@ -104,6 +104,32 @@ out:
+ }
+ 
+ void
++MSMAccelFini(ScreenPtr pScreen)
++{
++	ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
++	MSMPtr pMsm = MSMPTR(pScrn);
++
++	/* Close DRI2 */
++	if (pMsm->dri) {
++		MSMDRI2CloseScreen(pScreen);
++	}
++
++	/* Close EXA */
++	if (pMsm->pExa) {
++		exaDriverFini(pScreen);
++		free(pMsm->pExa);
++		pMsm->pExa = NULL;
++	}
++
++#ifdef HAVE_XA
++	if (pMsm->xa) {
++		xa_tracker_destroy(pMsm->xa);
++		pMsm->xa = NULL;
++	}
++#endif
++}
++
++void
+ MSMFlushAccel(ScreenPtr pScreen)
+ {
+ 	ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
+diff --git a/src/msm-driver.c b/src/msm-driver.c
+index 824eb17..9cb7da3 100644
+--- a/src/msm-driver.c
++++ b/src/msm-driver.c
+@@ -356,17 +356,7 @@ MSMCloseScreen(CLOSE_SCREEN_ARGS_DECL)
+ 
+ 	DEBUG_MSG("close screen");
+ 
+-	/* Close DRI2 */
+-	if (pMsm->dri) {
+-		MSMDRI2CloseScreen(pScreen);
+-	}
+-
+-	/* Close EXA */
+-	if (pMsm->pExa) {
+-		exaDriverFini(pScreen);
+-		free(pMsm->pExa);
+-		pMsm->pExa = NULL;
+-	}
++	MSMAccelFini(pScreen);
+ 
+ 	if (pScrn->vtSema) {
+ 		MSMLeaveVT(VT_FUNC_ARGS(0));
+@@ -459,7 +449,7 @@ MSMScreenInit(SCREEN_INIT_ARGS_DECL)
+ 	/* Set up EXA */
+ 	xf86LoadSubModule(pScrn, "exa");
+ 
+-	if (!MSMSetupAccel(pScreen))
++	if (!MSMAccelInit(pScreen))
+ 		ERROR_MSG("Unable to setup EXA");
+ 
+ 	/* Set up the software cursor */
+diff --git a/src/msm-exa-xa.c b/src/msm-exa-xa.c
+index c296ce2..e2ec439 100644
+--- a/src/msm-exa-xa.c
++++ b/src/msm-exa-xa.c
+@@ -745,6 +745,7 @@ XACreatePixmap2(ScreenPtr pScreen, int width, int height,
+ 		uint32_t handle, stride;
+ 		xa_surface_handle(priv->surf, xa_handle_type_kms,
+ 				&handle, &stride);
++		priv->bo = fd_bo_from_handle(pMsm->dev, handle, 0);
+ 		*new_fb_pitch = stride;
+ 		return priv;
+ 	}
+diff --git a/src/msm.h b/src/msm.h
+index 76bcce5..adc596c 100644
+--- a/src/msm.h
++++ b/src/msm.h
+@@ -129,7 +129,8 @@ struct msm_pixmap_priv {
+ #define MSMPTR_FROM_PIXMAP(_x)         \
+ 		MSMPTR_FROM_SCREEN((_x)->drawable.pScreen)
+ 
+-Bool MSMSetupAccel(ScreenPtr pScreen);
++Bool MSMAccelInit(ScreenPtr pScreen);
++void MSMAccelFini(ScreenPtr pScreen);
+ void MSMFlushAccel(ScreenPtr pScreen);
+ Bool MSMSetupExa(ScreenPtr, Bool softexa);
+ Bool MSMSetupExaXA(ScreenPtr);
+-- 
+2.4.6
+
