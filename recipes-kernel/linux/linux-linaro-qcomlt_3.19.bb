@@ -5,7 +5,8 @@ require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-dtb.inc
 
 SRCBRANCH = "release/qcomlt-3.19"
-SRCREV = "df45bb423207aa10a1baa97d653eb04de9da3ac5"
+SRCREV = "ce5c75ed2a5bf6530ce5c0bcd6b38e5cd3affcd4"
+KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
 # fixup.bin needs to be prepended to zImage to fixup the atag mem info because of broken bootloaders.
 # Without this a panic will occur upon freeing bootmem.
