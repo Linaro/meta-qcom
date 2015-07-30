@@ -8,9 +8,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit kernel
 
-# Limit to ifc6410 machine
-COMPATIBLE_MACHINE = "(ifc6410)"
-
 # Put a local version until we have a true SRCREV to point to
 LOCALVERSION ?= "+yocto"
 SCMVERSION ?= "y"
