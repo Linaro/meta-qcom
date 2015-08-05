@@ -4,7 +4,7 @@ require recipes-kernel/linux/linux-dtb.inc
 DESCRIPTION = "Linaro Qualcomm Landing team 4.0 Kernel"
 
 PV = "4.0.0+git${SRCPV}"
-SRCREV_kernel="7b59de360b2a092bf3afe068df52ee17e848fa5a"
+SRCREV_kernel="f8a46972ba59f51cbda34f4e9eee6b4d1fbe2731"
 
 SRC_URI = "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;name=kernel;protocol=http;branch=release/qcomlt-4.0 \
            file://defconfig \
