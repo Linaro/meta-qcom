@@ -1,5 +1,6 @@
 require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-dtb.inc
+require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 DESCRIPTION = "Linaro Qualcomm Landing team 4.0 Kernel"
 
@@ -20,3 +21,5 @@ KERNEL_DEVICETREE = "qcom/apq8016-sbc.dtb"
 
 # Wifi firmware has a recognizable arch :( 
 ERROR_QA_remove = "arch"
+
+QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
