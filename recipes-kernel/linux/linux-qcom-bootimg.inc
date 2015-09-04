@@ -28,7 +28,7 @@ do_deploy_append() {
               --pagesize 2048 \
               --base 0x80000000 \
               --cmdline \
-              "root=/dev/{QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
+              "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
 
     cd ${DEPLOYDIR}
 	ln -sf ${DT_IMG_NAME}.img dt-${MACHINE}.img
