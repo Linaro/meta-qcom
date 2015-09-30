@@ -6,7 +6,7 @@ python __anonymous () {
 
 QCOM_BOOTIMG_ROOTFS ?= "undefined"
 
-do_deploy_append() {
+do_deploy_append_dragonboard-410c() {
 
     DT_IMG_NAME="dt-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
     BOOT_IMG_NAME="boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
