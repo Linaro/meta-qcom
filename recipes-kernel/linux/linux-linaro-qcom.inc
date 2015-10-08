@@ -12,9 +12,7 @@ inherit kernel
 LOCALVERSION ?= "+yocto"
 SCMVERSION ?= "y"
 
-SRC_URI = "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;branch=${SRCBRANCH};protocol=https \
-           file://defconfig \
-"
+SRC_URI = "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;branch=${SRCBRANCH};protocol=https"
 
 S = "${WORKDIR}/git"
 
@@ -35,7 +33,11 @@ do_configure_prepend() {
 	kernel_conf_variable LOCALVERSION "\"${LOCALVERSION}\""
 	kernel_conf_variable LOCALVERSION_AUTO y
 
-	sed -e "${CONF_SED_SCRIPT}" < '${WORKDIR}/defconfig' >> '${B}/.config'
+	if [ -f '${WORKDIR}/defconfig' ]; then
+		sed -e "${CONF_SED_SCRIPT}" < '${WORKDIR}/defconfig' >> '${B}/.config'
+	else
+		sed -e "${CONF_SED_SCRIPT}" < '${KERNEL_DEFCONFIG}' >> '${B}/.config'
+	fi
 
 	if [ "${SCMVERSION}" = "y" ]; then
 		# Add GIT revision to the local version
