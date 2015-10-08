@@ -9,10 +9,11 @@ require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 SRCBRANCH = "release/qcomlt-4.2"
 SRCREV = "d3a8cef5d9a3eaa2b8e0f9f95e82354a40fac528"
-SRC_URI += "file://defconfig"
 
 COMPATIBLE_MACHINE = "(ifc6410|dragonboard-410c)"
 
+KERNEL_DEFCONFIG_dragonboard-410c ?= "${S}/arch/arm64/configs/defconfig"
+KERNEL_DEFCONFIG_ifc6410 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 KERNEL_IMAGETYPE_dragonboard-410c ?= "Image"
 KERNEL_DEVICETREE_dragonboard-410c = "qcom/apq8016-sbc.dtb"
