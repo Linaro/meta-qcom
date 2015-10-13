@@ -9,7 +9,7 @@ inherit core-image distro_features_check extrausers
 # let's make sure we have a good image..
 REQUIRED_DISTRO_FEATURES = "wayland pam systemd"
 
-CORE_IMAGE_BASE_INSTALL += "weston weston-examples gtk+3-demo clutter-1.0-examples \
+CORE_IMAGE_BASE_INSTALL += "weston weston-examples clutter-1.0-examples \
                             e2fsprogs-resize2fs chromium kernel-modules connman"
 
 EXTRA_USERS_PARAMS = "\
