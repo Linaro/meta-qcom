@@ -1,0 +1,19 @@
+diff --git a/autogen.sh b/autogen.sh
+index c927914..5841244 100755
+--- a/autogen.sh
++++ b/autogen.sh
+@@ -10,14 +10,6 @@ cd "$srcdir"
+ DIE=0
+ package=gst-plugins-st
+ 
+-# Make sure we have common
+-if test ! -f common/gst-autogen.sh;
+-then
+-  echo "+ Setting up common submodule"
+-  git submodule init
+-fi
+-git submodule update
+-
+ # source helper functions
+ if test ! -f common/gst-autogen.sh;
+ then
