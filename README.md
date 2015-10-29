@@ -18,7 +18,7 @@ revision: HEAD
 If you want to contribute changes, you can send Github pull requests at
 https://github.com/ndechesne/meta-qcom/pulls.
 
-Alternatively you can send patches to linaro-dev@lists.linaro.org, in which
+Alternatively you can send patches to openembedded@lists.linaro.org, in which
 case, please: 
 
 * When creating patches, please use something like:
@@ -27,7 +27,7 @@ case, please:
 
 * When sending patches, please use something like:
 
-`git send-email --to linaro-dev@lists.linaro.org <generated patch>`
+`git send-email --to openembedded@lists.linaro.org <generated patch>`
 
 You can discuss about this layer, on `#linaro` on FreeNode IRC network.
 
