@@ -38,6 +38,8 @@ do_deploy_append_dragonboard-410c() {
 
 do_deploy_append_ifc6410 () {
 
+    BOOT_IMG_NAME="boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+
     tmp="${SERIAL_CONSOLES}"
     baudrate=`echo $tmp | sed 's/\;.*//'`
     ttydev=`echo $tmp | sed -e 's/^[0-9]*\;//' -e 's/\s.*//' -e 's/\;.*//'`
