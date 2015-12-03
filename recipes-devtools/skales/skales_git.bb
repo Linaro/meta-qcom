@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM = "file://mkbootimg;beginline=3;endline=29;md5=114b84083e657f38
 
 DEPENDS = "python dtc"
 
-inherit native
-
 SRCREV = "15ece94f09f534105f28c944d0030f8953e8267f"
 PV = "0.1+git${SRCPV}"
 
@@ -22,3 +20,5 @@ do_install () {
     install -m 0755 ${S}/mkbootimg ${D}${bindir}
     install -m 0755 ${S}/dtbTool ${D}${bindir}
 }
+
+BBCLASSEXTEND = "native"
