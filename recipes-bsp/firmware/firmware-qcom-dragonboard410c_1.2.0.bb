@@ -4,13 +4,13 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=003cae816e20ae44589f8f7cc022cb54"
 
 SRC_URI = "http://developer.qualcomm.com/download/db410c/firmware-410c-${PV}.bin;qcom-eula=true"
-SRC_URI[md5sum] = "dffdd5da9fb45e15d786b0ae15a94dab"
-SRC_URI[sha256sum] = "751bc33b648d98121a544692f7a66b736c7ae389ba04beea93f5d3acff73ac9b"
+SRC_URI[md5sum] = "de6038f1c07b93886b8d0845a1d8eb4b"
+SRC_URI[sha256sum] = "c017b4c1bc4e52294539ef84ea18ed9a06e863b553c96eb5aaad915fc8b41bd6"
 
 COMPATIBLE_MACHINE = "(dragonboard-410c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-S = "${WORKDIR}/linux-ubuntu-board-support-package-v1.1"
+S = "${WORKDIR}/linux-ubuntu-board-support-package-v1.2"
 
 python qcom_bin_do_unpack() {
     src_uri = (d.getVar('SRC_URI', True) or "").split()
