@@ -31,7 +31,7 @@ do_compile_append_ifc6410() {
 # append DTB, since bootloader doesn't support DTB
 do_compile_append_ifc6410() {
     if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
-        oe_runmake ${DTB}
+        oe_runmake ${KERNEL_DEVICETREE}
     fi
     cp ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.backup
     cat ${KERNEL_OUTPUT}.backup ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} > ${KERNEL_OUTPUT}
