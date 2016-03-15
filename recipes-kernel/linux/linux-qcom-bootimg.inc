@@ -6,10 +6,14 @@ python __anonymous () {
 
 QCOM_BOOTIMG_ROOTFS ?= "undefined"
 
-do_deploy_append_dragonboard-410c() {
+# set output file names
+DT_IMG_NAME = "dt-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+DT_IMG_NAME[vardepsexclude] = "DATETIME"
 
-    DT_IMG_NAME="dt-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-    BOOT_IMG_NAME="boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+BOOT_IMG_NAME = "boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+BOOT_IMG_NAME[vardepsexclude] = "DATETIME"
+
+do_deploy_append_dragonboard-410c() {
 
     dtbTool -o ${DEPLOYDIR}/${DT_IMG_NAME}.img -s 2048 ${B}/arch/${ARCH}/boot/dts/qcom/
 
@@ -37,8 +41,6 @@ do_deploy_append_dragonboard-410c() {
 }
 
 do_deploy_append_ifc6410 () {
-
-    BOOT_IMG_NAME="boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
 
     tmp="${SERIAL_CONSOLES}"
     baudrate=`echo $tmp | sed 's/\;.*//'`
