@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-dtb.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 SRCBRANCH = "release/qcomlt-4.4"
-SRCREV = "01c59c198eb787e00dbdf233257411eb21d24d68"
+SRCREV = "6bfb715ed71e6948d08b0205f721488bd764e65c"
 
 COMPATIBLE_MACHINE = "(ifc6410|dragonboard-410c)"
 
