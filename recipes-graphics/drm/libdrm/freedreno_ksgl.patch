@@ -1,0 +1,19 @@
+when libdrm is built without kgsl backend enabled (which is our case by default
+this function is not defined in libdrm
+
+
+diff --git a/freedreno/freedreno_bo.c b/freedreno/freedreno_bo.c
+index a23c65d..82c1f15 100644
+--- a/freedreno/freedreno_bo.c
++++ b/freedreno/freedreno_bo.c
+@@ -431,3 +431,10 @@ void fd_bo_cpu_fini(struct fd_bo *bo)
+ {
+ 	bo->funcs->cpu_fini(bo);
+ }
++
++#ifndef HAVE_FREEDRENO_KGSL
++struct fd_bo * fd_bo_from_fbdev(struct fd_pipe *pipe, int fbfd, uint32_t size)
++{
++    return NULL;
++}
++#endif
