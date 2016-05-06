@@ -30,18 +30,17 @@ Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
  create mode 100644 src/conf/ucm/DB410c/HiFi
  create mode 100644 src/conf/ucm/DB410c/Makefile.am
 
-diff --git a/configure.ac b/configure.ac
-index f0995e3..3b78e4f 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -655,6 +655,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
- 	  src/conf/ucm/tegraalc5632/Makefile \
+diff -urN alsa-lib-1.1.0/configure.ac alsa-lib-1.1.0--fix/configure.ac
+--- alsa-lib-1.1.0/configure.ac	2015-11-09 02:39:18.000000000 -0500
++++ alsa-lib-1.1.0--fix/configure.ac	2016-05-06 17:15:12.878410903 -0400
+@@ -658,6 +658,7 @@
  	  src/conf/ucm/PAZ00/Makefile \
  	  src/conf/ucm/GoogleNyan/Makefile \
+ 	  src/conf/ucm/broadwell-rt286/Makefile \
 +	  src/conf/ucm/DB410c/Makefile \
+ 	  src/conf/topology/Makefile \
+ 	  src/conf/topology/broadwell/Makefile \
  	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
- 	  alsalisp/Makefile aserver/Makefile \
- 	  test/Makefile test/lsb/Makefile \
 diff --git a/src/conf/ucm/DB410c/DB410c.conf b/src/conf/ucm/DB410c/DB410c.conf
 new file mode 100644
 index 0000000..590278f
@@ -259,13 +258,12 @@ index 0000000..e10a136
 +ucmdir = $(alsaconfigdir)/ucm/DB410c
 +ucm_DATA = DB410c.conf HDMI HiFi
 +EXTRA_DIST = $(ucm_DATA)
-diff --git a/src/conf/ucm/Makefile.am b/src/conf/ucm/Makefile.am
-index 14fc7ae..acf09d5 100644
---- a/src/conf/ucm/Makefile.am
-+++ b/src/conf/ucm/Makefile.am
+diff -urN alsa-lib-1.1.0/src/conf/ucm/Makefile.am alsa-lib-1.1.0--fix/src/conf/ucm/Makefile.am
+--- alsa-lib-1.1.0/src/conf/ucm/Makefile.am	2015-11-09 02:39:18.000000000 -0500
++++ alsa-lib-1.1.0--fix/src/conf/ucm/Makefile.am	2016-05-06 17:15:35.823283339 -0400
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan DB410c
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 DB410c
 -- 
 2.8.1
 
