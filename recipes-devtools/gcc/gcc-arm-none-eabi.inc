@@ -1,0 +1,7 @@
+TARGET_VENDOR = "-none"
+TARGET_VENDOR_virtclass-multilib-lib32 = "-none"
+TARGET_OS = "eabi"
+EXTRA_OECONF += "--without-headers"
+EXTRA_OECONF_remove = "--enable-threads=posix"
+EXTRA_OECONF_remove = "--enable-clocale=gnu"
+PROVIDES = ""
