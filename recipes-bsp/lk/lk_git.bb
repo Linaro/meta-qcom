@@ -9,7 +9,6 @@ SRCREV = "2740fc8aeb78bb2e012f63f6d500f3133139c504"
 PV = "1.2.4-00310+${SRCPV}"
 
 COMPATIBLE_MACHINE = "(dragonboard-410c)"
-COMPATIBLE_ARCH = "(arm.*)"
 MAKE_TARGET = ""
 MAKE_ARGS = ""
 MAKE_TARGET_dragonboard-410c = "msm8916"
@@ -22,10 +21,10 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 S = "${WORKDIR}/git"
 
 INHIBIT_DEFAULT_DEPS = "1"
-DEPENDS = "gcc-cross-arm-none-eabi gcc-runtime-arm-none-eabi"
+DEPENDS = "gcc-cross-arm-none-eabi gcc-runtime-arm-none-eabi binutils-cross-arm-none-eabi"
 
-STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}-none-eabi"
-LD = "${TARGET_ARCH}-none-eabi-ld ${TOOLCHAIN_OPTIONS}"
+STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/arm-none-eabi"
+LD = "arm-none-eabi-ld ${TOOLCHAIN_OPTIONS}"
 
 do_compile () {
     LIBGCC=`arm-none-eabi-gcc ${TOOLCHAIN_OPTIONS} -print-libgcc-file-name`
