@@ -5,6 +5,8 @@ HOMEPAGE = ""
 BUGTRACKER = ""
 SECTION = "multimedia"
 
+FILESEXTRAPATHS_append := ":${COREBASE}/meta/recipes-multimedia/gstreamer/files"
+
 LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
 LICENSE = "GPLv2+ & LGPLv2.1+"
 
