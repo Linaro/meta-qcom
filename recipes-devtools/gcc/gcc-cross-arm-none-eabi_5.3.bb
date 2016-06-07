@@ -6,8 +6,6 @@ PN = "gcc-cross-arm-none-eabi"
 PROVIDES = "${PN}"
 DEPENDS = "binutils-cross-arm-none-eabi ${NATIVEDEPS}"
 
-COMPATIBLE_ARCH = "(arm.*)"
-
 EXTRA_OEMAKE += "inhibit_libc=true"
 
 do_install_append() {

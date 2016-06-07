@@ -13,4 +13,5 @@ do_install_append() {
 	rmdir ${D}${libdir}/gcc
 }
 
-COMPATIBLE_ARCH = "(arm.*)"
+PACKAGES = "${PN}-dev"
+FILES_${PN}-dev = "${libdir}/${TARGET_SYS}"
