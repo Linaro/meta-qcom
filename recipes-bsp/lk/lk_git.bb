@@ -18,6 +18,8 @@ EXTRA_OEMAKE = "${MAKE_TARGET} ${MAKE_ARGS} TOOLCHAIN_PREFIX=arm-none-eabi- NOEC
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
+PROVIDES = "virtual/bootloader"
+
 S = "${WORKDIR}/git"
 
 inherit deploy
