@@ -7,9 +7,9 @@ require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-dtb.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
-LOCALVERSION = "-linaro-lt-qcom"
-SRCBRANCH = "release/qcomlt-4.4"
-SRCREV = "8205f603ceeb02d08a720676d9075c9e75e47b0f"
+LOCALVERSION ?= "-linaro-lt-qcom"
+SRCBRANCH ?= "release/qcomlt-4.4"
+SRCREV ?= "8205f603ceeb02d08a720676d9075c9e75e47b0f"
 
 COMPATIBLE_MACHINE = "(ifc6410|dragonboard-410c)"
 
