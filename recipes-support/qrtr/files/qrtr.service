@@ -1,0 +1,11 @@
+[Unit]
+Description=QRTR service
+After=systemd-remount-fs.service
+
+[Service]
+ExecStartPre=/usr/bin/qrtr-cfg 1
+ExecStart=/usr/bin/qrtr-ns
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
