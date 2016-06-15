@@ -12,7 +12,8 @@ inherit kernel
 LOCALVERSION ?= "+linaro"
 SCMVERSION ?= "y"
 
-SRC_URI = "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;branch=${SRCBRANCH};protocol=https"
+LINUX_LINARO_QCOM_GIT ?= "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;protocol=https"
+SRC_URI = "${LINUX_LINARO_QCOM_GIT};branch=${SRCBRANCH}"
 
 S = "${WORKDIR}/git"
 
