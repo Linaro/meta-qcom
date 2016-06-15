@@ -7,6 +7,8 @@ SRC_URI = "http://developer.qualcomm.com/download/db410c/firmware-410c-${PV}.bin
 SRC_URI[md5sum] = "de6038f1c07b93886b8d0845a1d8eb4b"
 SRC_URI[sha256sum] = "c017b4c1bc4e52294539ef84ea18ed9a06e863b553c96eb5aaad915fc8b41bd6"
 
+DEPENDS += "mtools-native"
+
 COMPATIBLE_MACHINE = "(dragonboard-410c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -75,6 +77,9 @@ do_install() {
     install -d  ${D}/lib/firmware/
     rm -f ./proprietary-ubuntu/firmware.tar
     cp -r ./proprietary-ubuntu/* ${D}/lib/firmware/
+
+    MTOOLS_SKIP_CHECK=1 mcopy -i ./bootloaders-ubuntu/NON-HLOS.bin \
+    ::image/modem.* ::image/mba.mbn ${D}/lib/firmware/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/license.txt
