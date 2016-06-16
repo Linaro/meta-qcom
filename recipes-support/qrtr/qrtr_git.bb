@@ -16,7 +16,7 @@ PV = "0.0+${SRCPV}"
 S = "${WORKDIR}/git"
 
 do_install () {
-    oe_runmake install DESTDIR=${D}
+    oe_runmake install DESTDIR=${D} prefix=${prefix}
 
     sed -i -e s:/usr/bin:${bindir}:g ${WORKDIR}/qrtr.service
     install -d ${D}${systemd_unitdir}/system/
