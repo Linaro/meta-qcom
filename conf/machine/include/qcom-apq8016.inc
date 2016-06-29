@@ -2,17 +2,20 @@ SOC_FAMILY = "apq8016"
 require conf/machine/include/soc-family.inc
 require conf/machine/include/arm/arch-armv8.inc
 
-XSERVER_OPENGL ?= "xf86-video-freedreno \
-                   xserver-xorg-module-exa \
-                   xserver-xorg-extension-glx \
-                   xserver-xorg-extension-dri \
-                  "
+XSERVER_OPENGL ?= " \
+    xf86-video-freedreno \
+    xserver-xorg-module-exa \
+    xserver-xorg-extension-glx \
+    xserver-xorg-extension-dri \
+"
 
-XSERVER ?= "xserver-xorg \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${XSERVER_OPENGL}', 'xf86-video-fbdev', d)} \
-            xf86-input-evdev \
-            xf86-input-mouse \
-            xf86-input-keyboard"
+XSERVER ?= " \
+    xserver-xorg \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${XSERVER_OPENGL}', 'xf86-video-fbdev', d)} \
+    xf86-input-evdev \
+    xf86-input-mouse \
+    xf86-input-keyboard \
+"
 
 PREFERRED_PROVIDER_virtual/egl ?= "mesa"
 PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
