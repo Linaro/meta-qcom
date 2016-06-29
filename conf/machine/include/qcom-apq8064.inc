@@ -1,3 +1,5 @@
+SOC_FAMILY = "apq8064"
+require conf/machine/include/soc-family.inc
 require conf/machine/include/tune-cortexa8.inc
 
 XSERVER_OPENGL ?= "xf86-video-freedreno \
