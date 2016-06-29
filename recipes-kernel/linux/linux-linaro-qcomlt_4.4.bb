@@ -11,7 +11,7 @@ LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/qcomlt-4.4"
 SRCREV ?= "f404da21e128bc015dfcbb88d3daf2bcf18ef872"
 
-COMPATIBLE_MACHINE = "(ifc6410|dragonboard-410c)"
+COMPATIBLE_MACHINE = "(ifc6410|sd-600eval|dragonboard-410c)"
 
 KERNEL_DEFCONFIG_apq8016 ?= "${S}/arch/arm64/configs/defconfig"
 KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
@@ -42,3 +42,4 @@ ERROR_QA_remove = "arch"
 
 QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
 QCOM_BOOTIMG_ROOTFS_ifc6410 = "mmcblk0p12"
+QCOM_BOOTIMG_ROOTFS_sd-600eval = "mmcblk0p12"
