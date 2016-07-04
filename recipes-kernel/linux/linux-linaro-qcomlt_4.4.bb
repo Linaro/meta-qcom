@@ -9,15 +9,13 @@ require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/qcomlt-4.4"
-SRCREV ?= "a84088931ea4f33d39ab066c0d3146e5dc501308"
+SRCREV ?= "f404da21e128bc015dfcbb88d3daf2bcf18ef872"
 
 COMPATIBLE_MACHINE = "(ifc6410|dragonboard-410c)"
 
 KERNEL_DEFCONFIG_dragonboard-410c ?= "${S}/arch/arm64/configs/defconfig"
 KERNEL_DEFCONFIG_ifc6410 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
-KERNEL_IMAGETYPE_dragonboard-410c ?= "Image"
-KERNEL_DEVICETREE_dragonboard-410c = "qcom/apq8016-sbc.dtb"
 
 # fixup.bin needs to be prepended to zImage to fixup the atag mem info because of broken bootloaders.
 # Without this a panic will occur upon freeing bootmem.
