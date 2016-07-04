@@ -1,6 +1,6 @@
 [Unit]
 Description=RMTFS setup
-After=systemd-remount-fs.service
+After=systemd-remount-fs.service qrtr.service
 Requires=qrtr.service
 
 [Service]
