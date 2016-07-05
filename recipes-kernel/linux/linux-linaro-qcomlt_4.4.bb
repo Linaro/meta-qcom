@@ -11,10 +11,10 @@ LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/qcomlt-4.4"
 SRCREV ?= "f404da21e128bc015dfcbb88d3daf2bcf18ef872"
 
-COMPATIBLE_MACHINE = "(ifc6410|dragonboard-410c)"
+COMPATIBLE_MACHINE = "(ifc6410|sd-600eval|dragonboard-410c)"
 
-KERNEL_DEFCONFIG_dragonboard-410c ?= "${S}/arch/arm64/configs/defconfig"
-KERNEL_DEFCONFIG_ifc6410 ?= "${S}/arch/arm/configs/qcom_defconfig"
+KERNEL_DEFCONFIG_apq8016 ?= "${S}/arch/arm64/configs/defconfig"
+KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
 # fixup.bin needs to be prepended to zImage to fixup the atag mem info because of broken bootloaders.
@@ -28,7 +28,7 @@ do_compile_append_ifc6410() {
 }
 
 # append DTB, since bootloader doesn't support DTB
-do_compile_append_ifc6410() {
+do_compile_append_apq8064() {
     if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
         oe_runmake ${KERNEL_DEVICETREE}
     fi
@@ -42,3 +42,4 @@ ERROR_QA_remove = "arch"
 
 QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
 QCOM_BOOTIMG_ROOTFS_ifc6410 = "mmcblk0p12"
+QCOM_BOOTIMG_ROOTFS_sd-600eval = "mmcblk0p12"
