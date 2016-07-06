@@ -13,7 +13,7 @@ DT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
 BOOT_IMAGE_BASE_NAME = "boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
 BOOT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
 
-do_deploy_append_dragonboard-410c() {
+do_deploy_append_apq8016() {
 
     dtbTool -o ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img -s 2048 ${B}/arch/${ARCH}/boot/dts/qcom/
 
@@ -40,7 +40,7 @@ do_deploy_append_dragonboard-410c() {
     cd -
 }
 
-do_deploy_append_ifc6410 () {
+do_deploy_append_apq8064 () {
 
     tmp="${SERIAL_CONSOLES}"
     baudrate=`echo $tmp | sed 's/\;.*//'`

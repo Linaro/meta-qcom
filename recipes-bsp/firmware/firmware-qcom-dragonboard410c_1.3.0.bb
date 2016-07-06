@@ -4,13 +4,15 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=003cae816e20ae44589f8f7cc022cb54"
 
 SRC_URI = "http://developer.qualcomm.com/download/db410c/firmware-410c-${PV}.bin;qcom-eula=true"
-SRC_URI[md5sum] = "de6038f1c07b93886b8d0845a1d8eb4b"
-SRC_URI[sha256sum] = "c017b4c1bc4e52294539ef84ea18ed9a06e863b553c96eb5aaad915fc8b41bd6"
+SRC_URI[md5sum] = "3bcec6fa4068f4622c65a9b2e0b67f1f"
+SRC_URI[sha256sum] = "0f74c25f5c17c528a75138ad08722c835feb4cd7edac8fcafb9746481b8bdc44"
+
+DEPENDS += "mtools-native"
 
 COMPATIBLE_MACHINE = "(dragonboard-410c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-S = "${WORKDIR}/linux-ubuntu-board-support-package-v1.2"
+S = "${WORKDIR}/linux-board-support-package-v1.3"
 
 python qcom_bin_do_unpack() {
     src_uri = (d.getVar('SRC_URI', True) or "").split()
@@ -73,8 +75,11 @@ do_compile() {
 
 do_install() {
     install -d  ${D}/lib/firmware/
-    rm -f ./proprietary-ubuntu/firmware.tar
-    cp -r ./proprietary-ubuntu/* ${D}/lib/firmware/
+    rm -f ./proprietary-linux/firmware.tar
+    cp -r ./proprietary-linux/* ${D}/lib/firmware/
+
+    MTOOLS_SKIP_CHECK=1 mcopy -i ./bootloaders-linux/NON-HLOS.bin \
+    ::image/modem.* ::image/mba.mbn ${D}/lib/firmware/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/license.txt

@@ -7,17 +7,15 @@ require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-dtb.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
-LOCALVERSION = "-linaro-lt-qcom"
-SRCBRANCH = "release/qcomlt-4.4"
-SRCREV = "8205f603ceeb02d08a720676d9075c9e75e47b0f"
+LOCALVERSION ?= "-linaro-lt-qcom"
+SRCBRANCH ?= "release/qcomlt-4.4"
+SRCREV ?= "f404da21e128bc015dfcbb88d3daf2bcf18ef872"
 
-COMPATIBLE_MACHINE = "(ifc6410|dragonboard-410c)"
+COMPATIBLE_MACHINE = "(ifc6410|sd-600eval|dragonboard-410c)"
 
-KERNEL_DEFCONFIG_dragonboard-410c ?= "${S}/arch/arm64/configs/defconfig"
-KERNEL_DEFCONFIG_ifc6410 ?= "${S}/arch/arm/configs/qcom_defconfig"
+KERNEL_DEFCONFIG_apq8016 ?= "${S}/arch/arm64/configs/defconfig"
+KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
-KERNEL_IMAGETYPE_dragonboard-410c ?= "Image"
-KERNEL_DEVICETREE_dragonboard-410c = "qcom/apq8016-sbc.dtb"
 
 # fixup.bin needs to be prepended to zImage to fixup the atag mem info because of broken bootloaders.
 # Without this a panic will occur upon freeing bootmem.
@@ -30,7 +28,7 @@ do_compile_append_ifc6410() {
 }
 
 # append DTB, since bootloader doesn't support DTB
-do_compile_append_ifc6410() {
+do_compile_append_apq8064() {
     if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
         oe_runmake ${KERNEL_DEVICETREE}
     fi
@@ -44,3 +42,4 @@ ERROR_QA_remove = "arch"
 
 QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
 QCOM_BOOTIMG_ROOTFS_ifc6410 = "mmcblk0p12"
+QCOM_BOOTIMG_ROOTFS_sd-600eval = "mmcblk0p12"

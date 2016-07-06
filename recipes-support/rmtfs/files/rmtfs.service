@@ -1,0 +1,14 @@
+[Unit]
+Description=RMTFS setup
+After=systemd-remount-fs.service qrtr.service
+Requires=qrtr.service
+
+[Service]
+ExecStartPre=/bin/sh -c "[ ! -f /boot/modem_fs1 ] &&  dd if=/dev/zero of=/boot/modem_fs1 bs=1M count=2 || :"
+ExecStartPre=/bin/sh -c "[ ! -f /boot/modem_fs2 ] &&  dd if=/dev/zero of=/boot/modem_fs2 bs=1M count=2 || :"
+ExecStartPre=/bin/sh -c "[ ! -f /boot/modem_fsc ] &&  dd if=/dev/zero of=/boot/modem_fsc bs=1M count=2 || :"
+ExecStartPre=/bin/sh -c "[ ! -f /boot/modem_fsg ] &&  dd if=/dev/zero of=/boot/modem_fsg bs=1M count=2 || :"
+ExecStart=/usr/bin/rmtfs -v
+
+[Install]
+WantedBy=multi-user.target

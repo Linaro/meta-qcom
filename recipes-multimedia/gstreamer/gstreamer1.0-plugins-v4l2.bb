@@ -12,9 +12,10 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
 
 SRCREV_FORMAT = "plugin-common"
 
-SRC_URI = " git://git.linaro.org/landing-teams/working/qualcomm/pkg/gst-plugins-v4l2.git;protocol=https;branch=debian;name=plugin \
-            git://anongit.freedesktop.org/gstreamer/common;name=common;branch=master;destsuffix=git/common \
-            file://remove-git-from-autogen.patch \
+SRC_URI = " \
+    git://git.linaro.org/landing-teams/working/qualcomm/pkg/gst-plugins-v4l2.git;protocol=https;branch=debian;name=plugin \
+    git://anongit.freedesktop.org/gstreamer/common;name=common;branch=master;destsuffix=git/common \
+    file://remove-git-from-autogen.patch \
 "
 
 SRCREV_plugin = "0d051f538fe00c8a79fcf12a05a6dac3a9af7dd7"
