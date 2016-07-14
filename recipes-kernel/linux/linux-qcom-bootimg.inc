@@ -13,7 +13,7 @@ DT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
 BOOT_IMAGE_BASE_NAME = "boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
 BOOT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
 
-do_deploy_append_apq8016() {
+do_deploy_append_aarch64() {
 
     dtbTool -o ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img -s 2048 ${B}/arch/${ARCH}/boot/dts/qcom/
 

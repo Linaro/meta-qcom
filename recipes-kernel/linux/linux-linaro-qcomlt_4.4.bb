@@ -13,7 +13,7 @@ SRCREV ?= "f404da21e128bc015dfcbb88d3daf2bcf18ef872"
 
 COMPATIBLE_MACHINE = "(ifc6410|sd-600eval|dragonboard-410c)"
 
-KERNEL_DEFCONFIG_apq8016 ?= "${S}/arch/arm64/configs/defconfig"
+KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
 KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
