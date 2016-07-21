@@ -17,16 +17,6 @@ KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
 KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
-# fixup.bin needs to be prepended to zImage to fixup the atag mem info because of broken bootloaders.
-# Without this a panic will occur upon freeing bootmem.
-do_compile_append_ifc6410() {
-    if [ -e "fixup.bin" ]; then
-        cp ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.backup
-        cat "fixup.bin" ${KERNEL_OUTPUT}.backup > ${KERNEL_OUTPUT}
-        rm -f ${KERNEL_OUTPUT}.backup
-    fi
-}
-
 # append DTB, since bootloader doesn't support DTB
 do_compile_append_apq8064() {
     if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
