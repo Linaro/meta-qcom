@@ -23,9 +23,9 @@ do_compile_append_apq8064() {
     if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
         oe_runmake ${KERNEL_DEVICETREE}
     fi
-    cp ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.backup
-    cat ${KERNEL_OUTPUT}.backup ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} > ${KERNEL_OUTPUT}
-    rm -f ${KERNEL_OUTPUT}.backup
+    cp arch/${ARCH}/boot/zImage arch/${ARCH}/boot/zImage.backup
+    cat arch/${ARCH}/boot/zImage.backup arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} > arch/${ARCH}/boot/zImage
+    rm -f arch/${ARCH}/boot/zImage.backup
 }
 
 # Wifi firmware has a recognizable arch :(
