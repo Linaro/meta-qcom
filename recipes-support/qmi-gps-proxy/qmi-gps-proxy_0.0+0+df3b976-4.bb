@@ -9,10 +9,19 @@ inherit systemd
 
 SRCREV = "debian/${PV}"
 SRC_URI = "git://git.linaro.org/landing-teams/working/qualcomm/pkg/qmi_loc2.git;branch=master;protocol=https"
-SRC_URI += "file://fix_makefile.patch"
 DEPENDS = "qrtr"
 
 S = "${WORKDIR}/git"
+
+debian_do_patch() {
+    cd ${S}
+    while read line; do patch -p1 < debian/patches/$line; done < debian/patches/series
+}
+
+python do_patch() {
+    bb.build.exec_func('debian_do_patch', d)
+    bb.build.exec_func('patch_do_patch', d)
+}
 
 EXTRA_OEMAKE = "'LDFLAGS=${TARGET_LDFLAGS} -L${STAGING_LIBDIR} -lqrtr'"
 
