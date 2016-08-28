@@ -11,11 +11,10 @@ LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "integration-linux-qcomlt"
 SRCREV ?= "5574089362de2fb0ebbc0c4d9bd48203b59b7b1b"
 SRC_URI = "${LINUX_LINARO_QCOM_GIT};nobranch=1"
+PV .= "+git${SRCPV}"
 
 COMPATIBLE_MACHINE = "(apq8064|apq8016|apq8096)"
 
-KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
-KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
 # append DTB, since bootloader doesn't support DTB
@@ -30,8 +29,3 @@ do_compile_append_apq8064() {
 
 # Wifi firmware has a recognizable arch :(
 ERROR_QA_remove = "arch"
-
-QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
-QCOM_BOOTIMG_ROOTFS_dragonboard-820c = "sde18"
-QCOM_BOOTIMG_ROOTFS_ifc6410 = "mmcblk0p12"
-QCOM_BOOTIMG_ROOTFS_sd-600eval = "mmcblk0p12"
