@@ -8,6 +8,7 @@ SRC_URI[md5sum] = "3bcec6fa4068f4622c65a9b2e0b67f1f"
 SRC_URI[sha256sum] = "0f74c25f5c17c528a75138ad08722c835feb4cd7edac8fcafb9746481b8bdc44"
 
 DEPENDS += "mtools-native"
+do_unpack[depends] += "bc-native:do_populate_sysroot"
 
 COMPATIBLE_MACHINE = "(dragonboard-410c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"

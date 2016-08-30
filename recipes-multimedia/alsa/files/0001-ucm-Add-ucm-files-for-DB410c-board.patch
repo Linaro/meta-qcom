@@ -30,22 +30,10 @@ Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
  create mode 100644 src/conf/ucm/DB410c/HiFi
  create mode 100644 src/conf/ucm/DB410c/Makefile.am
 
-diff -urN alsa-lib-1.1.0/configure.ac alsa-lib-1.1.0--fix/configure.ac
---- alsa-lib-1.1.0/configure.ac	2015-11-09 02:39:18.000000000 -0500
-+++ alsa-lib-1.1.0--fix/configure.ac	2016-05-06 17:15:12.878410903 -0400
-@@ -658,6 +658,7 @@
- 	  src/conf/ucm/PAZ00/Makefile \
- 	  src/conf/ucm/GoogleNyan/Makefile \
- 	  src/conf/ucm/broadwell-rt286/Makefile \
-+	  src/conf/ucm/DB410c/Makefile \
- 	  src/conf/topology/Makefile \
- 	  src/conf/topology/broadwell/Makefile \
- 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
-diff --git a/src/conf/ucm/DB410c/DB410c.conf b/src/conf/ucm/DB410c/DB410c.conf
-new file mode 100644
-index 0000000..590278f
---- /dev/null
-+++ b/src/conf/ucm/DB410c/DB410c.conf
+Index: alsa-lib-1.1.2/src/conf/ucm/DB410c/DB410c.conf
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.1.2/src/conf/ucm/DB410c/DB410c.conf	2016-08-24 16:10:19.002086888 +0100
 @@ -0,0 +1,8 @@
 +SectionUseCase."HiFi" {
 +	File "HiFi"
@@ -55,11 +43,10 @@ index 0000000..590278f
 +	File "HDMI"
 +	Comment "HDMI output."
 +}
-diff --git a/src/conf/ucm/DB410c/HDMI b/src/conf/ucm/DB410c/HDMI
-new file mode 100644
-index 0000000..7927f49
---- /dev/null
-+++ b/src/conf/ucm/DB410c/HDMI
+Index: alsa-lib-1.1.2/src/conf/ucm/DB410c/HDMI
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.1.2/src/conf/ucm/DB410c/HDMI	2016-08-24 16:10:19.002086888 +0100
 @@ -0,0 +1,31 @@
 +# Use case configuration for DB410c board.
 +# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
@@ -92,11 +79,10 @@ index 0000000..7927f49
 +                PlaybackChannels "2"
 +        }
 +}
-diff --git a/src/conf/ucm/DB410c/HiFi b/src/conf/ucm/DB410c/HiFi
-new file mode 100644
-index 0000000..9292c7b
---- /dev/null
-+++ b/src/conf/ucm/DB410c/HiFi
+Index: alsa-lib-1.1.2/src/conf/ucm/DB410c/HiFi
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.1.2/src/conf/ucm/DB410c/HiFi	2016-08-24 16:10:19.002086888 +0100
 @@ -0,0 +1,150 @@
 +# Use case configuration for DB410c board.
 +# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
@@ -248,22 +234,31 @@ index 0000000..9292c7b
 +}
 +
 +
-diff --git a/src/conf/ucm/DB410c/Makefile.am b/src/conf/ucm/DB410c/Makefile.am
-new file mode 100644
-index 0000000..e10a136
---- /dev/null
-+++ b/src/conf/ucm/DB410c/Makefile.am
+Index: alsa-lib-1.1.2/src/conf/ucm/DB410c/Makefile.am
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.1.2/src/conf/ucm/DB410c/Makefile.am	2016-08-24 16:10:19.002086888 +0100
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/DB410c
 +ucm_DATA = DB410c.conf HDMI HiFi
 +EXTRA_DIST = $(ucm_DATA)
-diff -urN alsa-lib-1.1.0/src/conf/ucm/Makefile.am alsa-lib-1.1.0--fix/src/conf/ucm/Makefile.am
---- alsa-lib-1.1.0/src/conf/ucm/Makefile.am	2015-11-09 02:39:18.000000000 -0500
-+++ alsa-lib-1.1.0--fix/src/conf/ucm/Makefile.am	2016-05-06 17:15:35.823283339 -0400
+Index: alsa-lib-1.1.2/src/conf/ucm/Makefile.am
+===================================================================
+--- alsa-lib-1.1.2.orig/src/conf/ucm/Makefile.am	2016-08-24 16:10:19.002086888 +0100
++++ alsa-lib-1.1.2/src/conf/ucm/Makefile.am	2016-08-24 16:12:02.004690639 +0100
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 DB410c
--- 
-2.8.1
-
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645 DB410c
+Index: alsa-lib-1.1.2/configure.ac
+===================================================================
+--- alsa-lib-1.1.2.orig/configure.ac	2016-08-24 16:10:19.002086888 +0100
++++ alsa-lib-1.1.2/configure.ac	2016-08-24 16:13:12.698478003 +0100
+@@ -678,6 +678,7 @@
+ 	  src/conf/ucm/broadwell-rt286/Makefile \
+ 	  src/conf/ucm/VEYRON-I2S/Makefile \
+ 	  src/conf/ucm/chtrt5645/Makefile \
++	  src/conf/ucm/DB410c/Makefile \
+ 	  src/conf/topology/Makefile \
+ 	  src/conf/topology/broadwell/Makefile \
+ 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
