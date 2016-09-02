@@ -14,9 +14,5 @@ SRC_URI = "${LINUX_LINARO_QCOM_GIT};nobranch=1"
 
 COMPATIBLE_MACHINE = "(apq8064|apq8016|apq8096)"
 
-KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
-KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
-KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
-
 # Wifi firmware has a recognizable arch :(
 ERROR_QA_remove = "arch"
