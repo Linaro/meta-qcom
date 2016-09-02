@@ -13,9 +13,5 @@ SRCREV ?= "40e98b46d2d547c44ad1d0a0125cf4c6f963a3d4"
 
 COMPATIBLE_MACHINE = "(ifc6410|sd-600eval|dragonboard-410c)"
 
-KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
-KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
-KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
-
 # Wifi firmware has a recognizable arch :( 
 ERROR_QA_remove = "arch"
