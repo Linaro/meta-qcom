@@ -17,16 +17,6 @@ KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
 KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
-# append DTB, since bootloader doesn't support DTB
-do_compile_append_apq8064() {
-    if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
-        oe_runmake ${KERNEL_DEVICETREE}
-    fi
-    cp ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.backup
-    cat ${KERNEL_OUTPUT}.backup ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} > ${KERNEL_OUTPUT}
-    rm -f ${KERNEL_OUTPUT}.backup
-}
-
 # Wifi firmware has a recognizable arch :( 
 ERROR_QA_remove = "arch"
 
