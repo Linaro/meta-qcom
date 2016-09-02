@@ -5,6 +5,10 @@ python __anonymous () {
 }
 
 QCOM_BOOTIMG_ROOTFS ?= "undefined"
+QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
+QCOM_BOOTIMG_ROOTFS_dragonboard-820c = "sde18"
+QCOM_BOOTIMG_ROOTFS_ifc6410 = "mmcblk0p12"
+QCOM_BOOTIMG_ROOTFS_sd-600eval = "mmcblk0p12"
 
 # set output file names
 DT_IMAGE_BASE_NAME = "dt-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
