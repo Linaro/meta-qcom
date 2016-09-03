@@ -7,7 +7,7 @@ SRC_URI = "http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/${P
 SRC_URI[md5sum] = "d197d8d6b8ad1d2c6441cd2926fbabed"
 SRC_URI[sha256sum] = "6fc23878ddae5131d32ee6b02c96a9b1edfd20d8a8472f647ba90d6cb4d6e712"
 
-COMPATIBLE_MACHINE = "(dragonboard-410c)"
+COMPATIBLE_MACHINE = "(apq8016)"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
