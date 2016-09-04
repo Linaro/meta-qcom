@@ -17,6 +17,18 @@ DT_IMAGE_SYMLINK_NAME = "dt-${KERNEL_IMAGE_SYMLINK_NAME}"
 BOOT_IMAGE_BASE_NAME = "boot-${KERNEL_IMAGE_BASE_NAME}"
 BOOT_IMAGE_SYMLINK_NAME = "boot-${KERNEL_IMAGE_SYMLINK_NAME}"
 
+# append DTB if bootloader doesn't support DTB
+do_compile_append() {
+    if [ "${QCOM_BOOTIMG_BUNDLE_DT}" != "1" ]; then
+        if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
+            oe_runmake ${KERNEL_DEVICETREE}
+        fi
+        cp arch/${ARCH}/boot/${KERNEL_IMAGETYPE} arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup
+        cat arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} > arch/${ARCH}/boot/${KERNEL_IMAGETYPE}
+        rm -f arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup
+    fi
+}
+
 do_deploy_append() {
 
     mkbootimg_dtarg=""
