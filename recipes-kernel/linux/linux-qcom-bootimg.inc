@@ -7,11 +7,10 @@ QCOM_BOOTIMG_ROOTFS_ifc6410 = "mmcblk0p12"
 QCOM_BOOTIMG_ROOTFS_sd-600eval = "mmcblk0p12"
 
 # set output file names
-DT_IMAGE_BASE_NAME = "dt-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-DT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-
-BOOT_IMAGE_BASE_NAME = "boot-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-BOOT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+DT_IMAGE_BASE_NAME = "dt-${KERNEL_IMAGE_BASE_NAME}"
+DT_IMAGE_SYMLINK_NAME = "dt-${KERNEL_IMAGE_SYMLINK_NAME}"
+BOOT_IMAGE_BASE_NAME = "boot-${KERNEL_IMAGE_BASE_NAME}"
+BOOT_IMAGE_SYMLINK_NAME = "boot-${KERNEL_IMAGE_SYMLINK_NAME}"
 
 do_deploy_append_aarch64() {
 
@@ -34,10 +33,8 @@ do_deploy_append_aarch64() {
               --cmdline \
               "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
 
-    cd ${DEPLOYDIR}
-	ln -sf ${DT_IMAGE_BASE_NAME}.img dt-${MACHINE}.img
-	ln -sf ${BOOT_IMAGE_BASE_NAME}.img boot-${MACHINE}.img
-    cd -
+    ln -sf ${DT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${DT_IMAGE_SYMLINK_NAME}.img
+    ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${BOOT_IMAGE_SYMLINK_NAME}.img
 }
 
 do_deploy_append_apq8064 () {
@@ -58,7 +55,5 @@ do_deploy_append_apq8064 () {
               --cmdline \
               "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
 
-    cd ${DEPLOYDIR}
-	ln -sf ${BOOT_IMAGE_BASE_NAME}.img boot-${MACHINE}.img
-    cd -
+    ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${BOOT_IMAGE_SYMLINK_NAME}.img
 }
