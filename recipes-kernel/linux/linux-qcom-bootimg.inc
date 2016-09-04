@@ -1,8 +1,4 @@
-python __anonymous () {
-    depends = d.getVar("DEPENDS", True)
-    depends = "%s skales-native" % depends
-    d.setVar("DEPENDS", depends)
-}
+DEPENDS += "skales-native"
 
 QCOM_BOOTIMG_ROOTFS ?= "undefined"
 QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
