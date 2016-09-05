@@ -1,43 +1,18 @@
 DEPENDS += "skales-native"
 
-QCOM_BOOTIMG_ROOTFS ?= "undefined"
-QCOM_BOOTIMG_ROOTFS_dragonboard-410c = "mmcblk0p10"
-QCOM_BOOTIMG_ROOTFS_dragonboard-820c = "sde18"
-QCOM_BOOTIMG_ROOTFS_ifc6410 = "mmcblk0p12"
-QCOM_BOOTIMG_ROOTFS_sd-600eval = "mmcblk0p12"
-
 # set output file names
 DT_IMAGE_BASE_NAME = "dt-${KERNEL_IMAGE_BASE_NAME}"
 DT_IMAGE_SYMLINK_NAME = "dt-${KERNEL_IMAGE_SYMLINK_NAME}"
 BOOT_IMAGE_BASE_NAME = "boot-${KERNEL_IMAGE_BASE_NAME}"
 BOOT_IMAGE_SYMLINK_NAME = "boot-${KERNEL_IMAGE_SYMLINK_NAME}"
 
-do_deploy_append_aarch64() {
+do_deploy_append() {
 
-    dtbTool -o ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img -s 2048 ${B}/arch/${ARCH}/boot/dts/qcom/
-
-    tmp="${SERIAL_CONSOLES}"
-    baudrate=`echo $tmp | sed 's/\;.*//'`
-    ttydev=`echo $tmp | sed -e 's/^[0-9]*\;//' -e 's/\s.*//' -e 's/\;.*//'`
-
-    # mkbootimg requires an initrd file, make fake one that will be ignored
-    # during boot
-    echo "This is not an initrd" > ${B}/initrd.img
-
-    mkbootimg --kernel ${B}/arch/${ARCH}/boot/Image \
-              --ramdisk ${B}/initrd.img \
-              --output ${DEPLOYDIR}/${BOOT_IMAGE_BASE_NAME}.img \
-              --dt ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img \
-              --pagesize 2048 \
-              --base 0x80000000 \
-              --cmdline \
-              "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
-
-    ln -sf ${DT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${DT_IMAGE_SYMLINK_NAME}.img
-    ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${BOOT_IMAGE_SYMLINK_NAME}.img
-}
-
-do_deploy_append_apq8064 () {
+    mkbootimg_dtarg=""
+    if [ "${QCOM_BOOTIMG_BUNDLE_DT}" = "1" ]; then
+        dtbTool -o ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img -s ${QCOM_BOOTIMG_PAGE_SIZE} ${B}/arch/${ARCH}/boot/dts/qcom/
+        mkbootimg_dtarg="--dt ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img"
+    fi
 
     tmp="${SERIAL_CONSOLES}"
     baudrate=`echo $tmp | sed 's/\;.*//'`
@@ -47,13 +22,17 @@ do_deploy_append_apq8064 () {
     # during boot
     echo "This is not an initrd" > ${B}/initrd.img
 
-    mkbootimg --kernel ${B}/arch/${ARCH}/boot/zImage \
+    mkbootimg --kernel ${B}/arch/${ARCH}/boot/${KERNEL_IMAGETYPE} \
               --ramdisk ${B}/initrd.img \
               --output ${DEPLOYDIR}/${BOOT_IMAGE_BASE_NAME}.img \
-              --pagesize 2048 \
-              --base 0x80200000 \
+              $mkbootimg_dtarg \
+              --pagesize ${QCOM_BOOTIMG_PAGE_SIZE} \
+              --base ${QCOM_BOOTIMG_KERNEL_BASE} \
               --cmdline \
               "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
 
+    if [ "${QCOM_BOOTIMG_BUNDLE_DT}" = "1" ]; then
+        ln -sf ${DT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${DT_IMAGE_SYMLINK_NAME}.img
+    fi
     ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${BOOT_IMAGE_SYMLINK_NAME}.img
 }
