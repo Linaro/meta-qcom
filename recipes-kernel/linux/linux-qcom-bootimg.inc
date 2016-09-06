@@ -1,6 +1,7 @@
 DEPENDS += "skales-native"
 
 QCOM_BOOTIMG_ROOTFS ?= "undefined"
+QCOM_BOOTIMG_CMDLINE ?= "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait"
 
 # set output file names
 DT_IMAGE_BASE_NAME = "dt-${KERNEL_IMAGE_BASE_NAME}"
@@ -33,7 +34,7 @@ do_deploy_append() {
               --pagesize ${QCOM_BOOTIMG_PAGE_SIZE} \
               --base ${QCOM_BOOTIMG_KERNEL_BASE} \
               --cmdline \
-              "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
+              "console=${ttydev},${baudrate}n8 ${QCOM_BOOTIMG_CMDLINE}"
 
     ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${BOOT_IMAGE_SYMLINK_NAME}.img
 }
