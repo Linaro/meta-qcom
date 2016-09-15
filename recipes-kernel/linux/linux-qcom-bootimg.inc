@@ -35,4 +35,5 @@ do_deploy_append() {
               "root=/dev/${QCOM_BOOTIMG_ROOTFS} rw rootwait console=${ttydev},${baudrate}n8"
 
     ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${BOOT_IMAGE_SYMLINK_NAME}.img
+    ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/boot-${MACHINE}.img
 }
