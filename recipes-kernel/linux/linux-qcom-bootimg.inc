@@ -37,4 +37,5 @@ do_deploy_append() {
               "console=${ttydev},${baudrate}n8 ${QCOM_BOOTIMG_CMDLINE}"
 
     ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${BOOT_IMAGE_SYMLINK_NAME}.img
+    ln -sf ${BOOT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/boot-${MACHINE}.img
 }
