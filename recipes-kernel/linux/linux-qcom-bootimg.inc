@@ -12,6 +12,7 @@ do_deploy_append() {
 
     mkbootimg_dtarg=""
     if [ "${QCOM_BOOTIMG_BUNDLE_DT}" = "1" ]; then
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${STAGING_LIBDIR_NATIVE}"
         dtbTool -o ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img -s ${QCOM_BOOTIMG_PAGE_SIZE} ${B}/arch/${ARCH}/boot/dts/qcom/
         mkbootimg_dtarg="--dt ${DEPLOYDIR}/${DT_IMAGE_BASE_NAME}.img"
         ln -sf ${DT_IMAGE_BASE_NAME}.img ${DEPLOYDIR}/${DT_IMAGE_SYMLINK_NAME}.img
