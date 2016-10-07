@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://mkbootimg;beginline=3;endline=29;md5=114b84083e657f38
 
 DEPENDS = "python dtc"
 
-SRCREV = "15ece94f09f534105f28c944d0030f8953e8267f"
-PV = "0.1+git${SRCPV}"
+SRCREV = "6eac9e943de53c4aaaede3697e9226a47686fe25"
+PV = "1.5.0+git${SRCPV}"
 
 SRC_URI = "git://codeaurora.org/quic/kernel/skales"
 
