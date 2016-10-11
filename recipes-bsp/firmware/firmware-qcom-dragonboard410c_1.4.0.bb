@@ -4,8 +4,8 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=003cae816e20ae44589f8f7cc022cb54"
 
 SRC_URI = "http://developer.qualcomm.com/download/db410c/firmware-410c-${PV}.bin;qcom-eula=true"
-SRC_URI[md5sum] = "3bcec6fa4068f4622c65a9b2e0b67f1f"
-SRC_URI[sha256sum] = "0f74c25f5c17c528a75138ad08722c835feb4cd7edac8fcafb9746481b8bdc44"
+SRC_URI[md5sum] = "be80a375473a9308d8b4b47c4d8ff811"
+SRC_URI[sha256sum] = "822d2f8506d9657dbce6aa2bfce81ccbf97dcfc40831b70703b14b3f296fa4c0"
 
 DEPENDS += "mtools-native"
 do_unpack[depends] += "bc-native:do_populate_sysroot"
@@ -13,7 +13,7 @@ do_unpack[depends] += "bc-native:do_populate_sysroot"
 COMPATIBLE_MACHINE = "(dragonboard-410c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-S = "${WORKDIR}/linux-board-support-package-v1.3"
+S = "${WORKDIR}/linux-board-support-package-v1.4"
 
 python qcom_bin_do_unpack() {
     src_uri = (d.getVar('SRC_URI', True) or "").split()
