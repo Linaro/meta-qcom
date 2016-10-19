@@ -71,8 +71,8 @@ create_fastboot_pkg() {
     dd if=${WORKDIR}/emmc.backup of=${WORKDIR}/gpt-data bs=512 count=32 skip=3 conv=notrunc
     cat ${WORKDIR}/mbr ${WORKDIR}/gpt-primary ${WORKDIR}/gpt-data ${WORKDIR}/gpt-data ${WORKDIR}/gpt-secondary > ${WORKDIR}/fastboot/parttable.bin
     cd ${WORKDIR}/fastboot
-    zip ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.zip *
-    ln -sf ${IMAGE_NAME}.zip ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.zip
+    zip ${IMGDEPLOYDIR}/${IMAGE_NAME}.zip *
+    ln -sf ${IMAGE_NAME}.zip ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.zip
 
     rm -f ${WORKDIR}/emmc.img
 }
