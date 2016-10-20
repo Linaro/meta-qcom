@@ -8,7 +8,7 @@ IMAGE_DEPENDS_fastboot = "gptfdisk-native bootloader-emmc-linux virtual/bootload
 FASTBOOT_EMMC_SIZE ?= "7812500"
 FASTBOOT_ABOOT ?= "${DEPLOY_DIR_IMAGE}/emmc_appsboot.mbn"
 FASTBOOT_KERNEL ?= "${DEPLOY_DIR_IMAGE}/boot-${MACHINE}.img"
-FASTBOOT_ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ext4"
+FASTBOOT_ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ext4"
 FASTBOOT_PARTTABLE ?= "${STAGING_LIBDIR}/bootloader-emmc-linux/partitions.txt"
 
 create_fastboot_pkg() {
