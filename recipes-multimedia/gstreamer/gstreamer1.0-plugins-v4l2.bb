@@ -14,7 +14,10 @@ SRC_URI = " \
     git://git.linaro.org/landing-teams/working/qualcomm/pkg/gst-plugins-v4l2.git;protocol=https;branch=debian;name=plugin \
     git://anongit.freedesktop.org/gstreamer/common;name=common;branch=master;destsuffix=git/common \
     file://remove-git-from-autogen.patch \
+    file://introspection-prefix-pkgconfig-paths-with-PKG_CON.patch \
 "
+
+SRC_URI_remove = "file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch"
 
 SRCREV_plugin = "0d051f538fe00c8a79fcf12a05a6dac3a9af7dd7"
 SRCREV_common = "12af105243823fc73581db4fd79a46f6d0268dc5"
