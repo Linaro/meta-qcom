@@ -4,7 +4,7 @@ require gcc-arm-none-eabi.inc
 
 RUNTIMETARGET = "libgcc"
 
-DEPENDS = "gcc-cross-arm-none-eabi"
+DEPENDS = "gcc-cross-arm-none-eabi virtual/libc"
 PN = "gcc-runtime-arm-none-eabi"
 
 do_install_append() {
@@ -15,3 +15,5 @@ do_install_append() {
 
 PACKAGES = "${PN}-dev"
 FILES_${PN}-dev = "${libdir}/${TARGET_SYS}"
+RDEPENDS_${PN}-dev = ""
+INSANE_SKIP_${PN}-dev = "staticdev"
