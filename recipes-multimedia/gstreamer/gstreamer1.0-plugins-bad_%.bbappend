@@ -1,4 +1,4 @@
-GST_BAD_OPENGL_FEATURES= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gles2', 'opengl', d)}"
+GST_BAD_OPENGL_FEATURES= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'opengl', 'gles2', d)}"
 
 # We want OpenGL with freedreno for our machines
 PACKAGECONFIG_GL_apq8064 = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${GST_BAD_OPENGL_FEATURES}', '', d)}"
