@@ -16,6 +16,9 @@ PV = "0.0+${SRCPV}"
 S = "${WORKDIR}/git"
 
 do_install () {
+    # Fix installation in /lib64 for multilib
+    sed -i -e 's:$(prefix)/lib/:$(prefix)/${base_libdir}/:g' ${S}/Makefile
+
     oe_runmake install DESTDIR=${D} prefix=${prefix}
 
     sed -i -e s:/usr/bin:${bindir}:g ${WORKDIR}/qrtr.service
