@@ -1,15 +1,15 @@
 # Copyright (C) 2014 Linaro
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-DESCRIPTION = "Linaro Qualcomm Landing team 4.7 Kernel"
+DESCRIPTION = "Linaro Qualcomm Landing team 4.9 Kernel"
 
 require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-dtb.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 LOCALVERSION ?= "-linaro-lt-qcom"
-SRCBRANCH ?= "release/qcomlt-4.7"
-SRCREV ?= "56d2bf18463d52d63fe382cb8610af6cb21bd822"
+SRCBRANCH ?= "release/qcomlt-4.9"
+SRCREV ?= "31eed9beb6ceaba63a2c35ccceba7e3ffcaa3eed"
 
 COMPATIBLE_MACHINE = "(apq8064|apq8016|apq8096)"
 
