@@ -1,0 +1,93 @@
+From 5f60ca4fe99199183dced955de0206acb5a5ebe9 Mon Sep 17 00:00:00 2001
+From: Keith Packard <keithp@keithp.com>
+Date: Tue, 19 Jul 2016 08:33:51 -0700
+Subject: [PATCH 2/3] Use NotifyFd for drm and udev fds
+
+NotifyFd is available after API 22, and must be used after API 23.
+
+Signed-off-by: Keith Packard <keithp@keithp.com>
+---
+ src/compat-api.h      |  4 ++++
+ src/drmmode_display.c | 21 +++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/src/compat-api.h b/src/compat-api.h
+index 15b92fe..80dabc1 100644
+--- a/src/compat-api.h
++++ b/src/compat-api.h
+@@ -76,6 +76,10 @@
+ 
+ #define SCREEN_INIT_ARGS_DECL ScreenPtr pScreen, int argc, char **argv
+ 
++#if ABI_VIDEODRV_VERSION >= SET_ABI_VERSION(22,0)
++#define HAVE_NOTIFY_FD	1
++#endif
++
+ #if ABI_VIDEODRV_VERSION >= SET_ABI_VERSION(23, 0)
+ #define BLOCKHANDLER_ARGS_DECL ScreenPtr arg, pointer pTimeout
+ #define BLOCKHANDLER_ARGS arg, pTimeout
+diff --git a/src/drmmode_display.c b/src/drmmode_display.c
+index 0d94bb5..53ae677 100644
+--- a/src/drmmode_display.c
++++ b/src/drmmode_display.c
+@@ -1462,6 +1462,18 @@ drmmode_flip_handler(int fd, unsigned int frame, unsigned int tv_sec,
+ 	free(flipdata);
+ }
+ 
++#if HAVE_NOTIFY_FD
++
++static void
++drmmode_notify_fd(int fd, int notify, void *data)
++{
++	ScrnInfoPtr scrn = data;
++	drmmode_ptr drmmode = drmmode_from_scrn(scrn);
++	drmHandleEvent(drmmode->fd, &drmmode->event_context);
++}
++
++#else
++
+ static void
+ drmmode_wakeup_handler(pointer data, int err, pointer p)
+ {
+@@ -1480,6 +1492,7 @@ drmmode_wakeup_handler(pointer data, int err, pointer p)
+ 		drmmode_handle_uevents(scrn);
+ #endif
+ }
++#endif	/* HAVE_NOTIFY_FD */
+ 
+ void
+ drmmode_wait_for_event(ScrnInfoPtr pScrn)
+@@ -1517,11 +1530,15 @@ drmmode_screen_init(ScreenPtr pScreen)
+ 	drmmode->event_context.version = DRM_EVENT_CONTEXT_VERSION;
+ 	drmmode->event_context.page_flip_handler = drmmode_flip_handler;
+ 
++#if HAVE_NOTIFY_FD
++	SetNotifyFd(drmmode->fd, drmmode_notify_fd, X_NOTIFY_READ, pScrn);
++#else
+ 	AddGeneralSocket(drmmode->fd);
+ 
+ 	/* Register a wakeup handler to get informed on DRM events */
+ 	RegisterBlockAndWakeupHandlers((BlockHandlerProcPtr)NoopDDA,
+ 			drmmode_wakeup_handler, pScrn);
++#endif
+ 
+ 	return TRUE;
+ }
+@@ -1535,10 +1552,14 @@ drmmode_screen_fini(ScreenPtr pScreen)
+ 
+ 	drmmode_uevent_fini(pScrn);
+ 
++#if HAVE_NOTIFY_FD
++	RemoveNotifyFd(drmmode->fd);
++#else
+ 	/* Register a wakeup handler to get informed on DRM events */
+ 	RemoveBlockAndWakeupHandlers((BlockHandlerProcPtr)NoopDDA,
+ 			drmmode_wakeup_handler, pScrn);
+ 	RemoveGeneralSocket(drmmode->fd);
++#endif
+ 
+ 	drmmode_remove_fb(pScrn);
+ 	fd_bo_del(pMsm->scanout);
+-- 
+2.11.0
+

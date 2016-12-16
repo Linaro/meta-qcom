@@ -1,0 +1,132 @@
+From 6c8e21c686578f22d973a243a09c838943ddbadd Mon Sep 17 00:00:00 2001
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 7 Dec 2016 17:59:09 -0500
+Subject: [PATCH 3/3] Use NotifyFd more completely
+
+previous commit missed some.
+
+Signed-off-by: Rob Clark <robdclark@gmail.com>
+---
+ src/Makefile.am       |  1 -
+ src/compat-api.h      | 19 +++++++++++++++++++
+ src/drmmode_display.c | 18 ++++++++++++++++++
+ 3 files changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index d4c1289..f7d5dd1 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -2,7 +2,6 @@ AM_CFLAGS = \
+ 	@XORG_CFLAGS@ \
+ 	@XATRACKER_CFLAGS@ \
+ 	-Wall \
+-	-Werror \
+ 	-I$(top_srcdir)/system-includes/ \
+ 	-I$(top_builddir)/
+ 
+diff --git a/src/compat-api.h b/src/compat-api.h
+index 80dabc1..af1b922 100644
+--- a/src/compat-api.h
++++ b/src/compat-api.h
+@@ -28,6 +28,11 @@
+ #ifndef COMPAT_API_H
+ #define COMPAT_API_H
+ 
++#include <xorg-server.h>
++#include <xorgVersion.h>
++#include <xf86Module.h>
++
++#include <picturestr.h>
+ #ifndef GLYPH_HAS_GLYPH_PICTURE_ACCESSOR
+ #define GetGlyphPicture(g, s) GlyphPicture((g))[(s)->myNum]
+ #define SetGlyphPicture(g, s, p) GlyphPicture((g))[(s)->myNum] = p
+@@ -35,7 +40,13 @@
+ 
+ #ifndef XF86_HAS_SCRN_CONV
+ #define xf86ScreenToScrn(s) xf86Screens[(s)->myNum]
++#if XORG_VERSION_CURRENT < XORG_VERSION_NUMERIC(1,1,0,0,0)
+ #define xf86ScrnToScreen(s) screenInfo.screens[(s)->scrnIndex]
++#else
++#define xf86ScrnToScreen(s) ((s)->pScreen)
++#endif
++#else
++#define xf86ScrnToScreen(s) ((s)->pScreen)
+ #endif
+ 
+ #ifndef XF86_SCRN_INTERFACE
+@@ -51,12 +62,17 @@
+ #define BLOCKHANDLER_ARGS_DECL int arg, pointer blockData, pointer pTimeout, pointer pReadmask
+ #define BLOCKHANDLER_ARGS arg, blockData, pTimeout, pReadmask
+ 
++#define WAKEUPHANDLER_ARGS_DECL int arg, pointer wakeupData, unsigned long result, pointer read_mask
++#define WAKEUPHANDLER_ARGS arg, wakeupData, result, read_mask
++
+ #define CLOSE_SCREEN_ARGS_DECL int scrnIndex, ScreenPtr pScreen
+ #define CLOSE_SCREEN_ARGS scrnIndex, pScreen
+ 
+ #define ADJUST_FRAME_ARGS_DECL int arg, int x, int y, int flags
++#define ADJUST_FRAME_ARGS(arg, x, y) (arg)->scrnIndex, x, y, 0
+ 
+ #define SWITCH_MODE_ARGS_DECL int arg, DisplayModePtr mode, int flags
++#define SWITCH_MODE_ARGS(arg, m) (arg)->scrnIndex, m, 0
+ 
+ #define FREE_SCREEN_ARGS_DECL int arg, int flags
+ #define FREE_SCREEN_ARGS(x) (x)->scrnIndex, 0
+@@ -88,6 +104,9 @@
+ #define BLOCKHANDLER_ARGS arg, pTimeout, pReadmask
+ #endif
+ 
++#define WAKEUPHANDLER_ARGS_DECL ScreenPtr arg, unsigned long result, pointer read_mask
++#define WAKEUPHANDLER_ARGS arg, result, read_mask
++
+ #define CLOSE_SCREEN_ARGS_DECL ScreenPtr pScreen
+ #define CLOSE_SCREEN_ARGS pScreen
+ 
+diff --git a/src/drmmode_display.c b/src/drmmode_display.c
+index 53ae677..c3a55e6 100644
+--- a/src/drmmode_display.c
++++ b/src/drmmode_display.c
+@@ -1381,6 +1381,15 @@ drmmode_handle_uevents(ScrnInfoPtr scrn)
+ }
+ #endif
+ 
++#if HAVE_NOTIFY_FD
++static void
++drmmode_udev_notify(int fd, int notify, void *data)
++{
++	ScrnInfoPtr scrn = data;
++	drmmode_handle_uevents(scrn);
++}
++#endif
++
+ static void
+ drmmode_uevent_init(ScrnInfoPtr scrn)
+ {
+@@ -1407,7 +1416,12 @@ drmmode_uevent_init(ScrnInfoPtr scrn)
+ 		return;
+ 	}
+ 
++#if HAVE_NOTIFY_FD
++	SetNotifyFd(udev_monitor_get_fd(mon), drmmode_udev_notify, X_NOTIFY_READ, scrn);
++#else
+ 	AddGeneralSocket(udev_monitor_get_fd(mon));
++#endif
++
+ 	drmmode->uevent_monitor = mon;
+ #endif
+ }
+@@ -1421,7 +1435,11 @@ drmmode_uevent_fini(ScrnInfoPtr scrn)
+ 	if (drmmode->uevent_monitor) {
+ 		struct udev *u = udev_monitor_get_udev(drmmode->uevent_monitor);
+ 
++#if HAVE_NOTIFY_FD
++		RemoveNotifyFd(udev_monitor_get_fd(drmmode->uevent_monitor));
++#else
+ 		RemoveGeneralSocket(udev_monitor_get_fd(drmmode->uevent_monitor));
++#endif
+ 		udev_monitor_unref(drmmode->uevent_monitor);
+ 		udev_unref(u);
+ 	}
+-- 
+2.11.0
+
