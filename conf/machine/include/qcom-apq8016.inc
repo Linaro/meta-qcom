@@ -2,10 +2,8 @@ SOC_FAMILY = "apq8016"
 require conf/machine/include/soc-family.inc
 
 XSERVER_OPENGL ?= " \
-    xf86-video-freedreno \
-    xserver-xorg-module-exa \
+    xf86-video-modesetting \
     xserver-xorg-extension-glx \
-    xserver-xorg-extension-dri \
 "
 
 XSERVER ?= " \
