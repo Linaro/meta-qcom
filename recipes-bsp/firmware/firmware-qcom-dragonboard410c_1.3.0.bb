@@ -49,7 +49,7 @@ python qcom_bin_do_unpack() {
 }
 
 python do_unpack() {
-    eula = d.getVar('ACCEPT_EULA_dragonboard-410c', True)
+    eula = d.getVar('ACCEPT_EULA_'+d.getVar('MACHINE', True), True)
     eula_file = d.getVar('QCOM_EULA_FILE', True)
     pkg = d.getVar('PN', True)
     if eula == None:
