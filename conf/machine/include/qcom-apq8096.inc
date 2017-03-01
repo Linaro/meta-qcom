@@ -2,6 +2,20 @@ SOC_FAMILY = "apq8096"
 require conf/machine/include/soc-family.inc
 require conf/machine/include/arm/arch-armv8.inc
 
+XSERVER_OPENGL ?= " \
+    xf86-video-modesetting \
+    xserver-xorg-extension-glx \
+"
+
+XSERVER ?= " \
+    xserver-xorg \
+    xserver-xorg-module-libint10 \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${XSERVER_OPENGL}', 'xf86-video-fbdev', d)} \
+    xf86-input-evdev \
+    xf86-input-mouse \
+    xf86-input-keyboard \
+"
+
 PREFERRED_PROVIDER_virtual/egl ?= "mesa"
 PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
 PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
