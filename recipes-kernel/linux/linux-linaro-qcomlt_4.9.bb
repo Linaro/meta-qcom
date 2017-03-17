@@ -9,7 +9,7 @@ require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "db820c/qcomlt-4.9"
-SRCREV ?= "5a5796596323bfee4547323e649216401e4b642a"
+SRCREV ?= "ebe8dd7336e6dd2d9733116f852f426b355fbefd"
 
 COMPATIBLE_MACHINE = "(apq8064|apq8016|apq8096)"
 
