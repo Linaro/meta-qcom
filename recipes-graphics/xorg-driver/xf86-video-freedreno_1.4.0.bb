@@ -2,6 +2,11 @@ require recipes-graphics/xorg-driver/xorg-driver-video.inc
 
 SUMMARY = "X.Org driver for Adreno mobile GPUs"
 
+COMPATIBLE_MACHINE = "(-)"
+COMPATIBLE_MACHINE_armv7a = "(.*)"
+COMPATIBLE_MACHINE_armv7ve = "(.*)"
+COMPATIBLE_MACHINE_aarch64 = "(.*)"
+
 #FIXME:
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 SRC_URI[md5sum] = "e0f49b1a07ac2d390a1239701b5fcefc"
