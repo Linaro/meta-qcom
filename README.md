@@ -9,7 +9,7 @@ This layer depends on:
 ```
 URI: git://github.com/openembedded/oe-core.git
 layers: meta
-branch: master
+branch: morty
 revision: HEAD
 ```
 
@@ -18,7 +18,7 @@ This layers has an optional dependency on meta-oe layer:
 ```
 URI: git://github.com/openembedded/meta-openembedded.git
 layers: meta-oe
-branch: master
+branch: morty
 revision: HEAD
 ```
 
@@ -52,7 +52,7 @@ case, please:
 
 * When creating patches, please use something like:
 
-`git format-patch -s --subject-prefix='meta-qcom][PATCH' origin`
+`git format-patch -s --subject-prefix='meta-qcom][morty][PATCH' origin`
 
 * When sending patches, please use something like:
 
