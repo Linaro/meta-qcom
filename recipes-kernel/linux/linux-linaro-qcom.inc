@@ -13,7 +13,9 @@ LOCALVERSION ?= "+linaro"
 SCMVERSION ?= "y"
 
 LINUX_LINARO_QCOM_GIT ?= "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;protocol=https"
-SRC_URI = "${LINUX_LINARO_QCOM_GIT};branch=${SRCBRANCH}"
+SRC_URI = "${LINUX_LINARO_QCOM_GIT};branch=${SRCBRANCH} \
+           file://0001-give-up-on-gcc-ilog2-constant-optimizations.patch \
+"
 
 S = "${WORKDIR}/git"
 
