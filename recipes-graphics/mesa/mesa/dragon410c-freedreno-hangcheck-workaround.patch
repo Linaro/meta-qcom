@@ -1,0 +1,16 @@
+diff --git a/src/gallium/drivers/freedreno/a3xx/fd3_gmem.c b/src/gallium/drivers/freedreno/a3xx/fd3_gmem.c
+index 493fdd29e5..5e09dabff1 100644
+--- a/src/gallium/drivers/freedreno/a3xx/fd3_gmem.c
++++ b/src/gallium/drivers/freedreno/a3xx/fd3_gmem.c
+@@ -131,6 +131,11 @@ static bool
+ use_hw_binning(struct fd_batch *batch)
+ {
+ 	struct fd_gmem_stateobj *gmem = &batch->ctx->gmem;
++	struct pipe_framebuffer_state *pfb = &batch->framebuffer;
++
++	/* only on a306?? maybe something w/ gmem layout or too many bins? */
++	if ((pfb->width > 2048) && (pfb->height > 2048))
++		return false;
+ 
+ 	/* workaround: combining scissor optimization and hw binning
+ 	 * seems problematic.  Seems like we end up with a mismatch
