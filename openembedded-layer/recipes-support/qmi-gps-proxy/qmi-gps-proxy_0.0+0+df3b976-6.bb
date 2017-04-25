@@ -33,7 +33,6 @@ do_install () {
     install -m 0644 ${S}/debian/gnss-gpsd.service ${D}${systemd_unitdir}/system
 
     install -d ${D}${sysconfdir}/udev/rules.d
-    install -m 0644 ${S}/debian/qmi-gps-proxy.udev ${D}${sysconfdir}/udev/rules.d/qmi-gps-proxy.rules
     install -m 0644 ${S}/debian/gnss-gpsd.udev ${D}${sysconfdir}/udev/rules.d/gnss-gpsd.rules
 }
 
