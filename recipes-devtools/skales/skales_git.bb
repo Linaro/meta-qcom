@@ -16,9 +16,9 @@ SRC_URI = "git://codeaurora.org/quic/kernel/skales"
 S = "${WORKDIR}/git"
 
 do_install () {
-    install -d ${D}${bindir}
-    install -m 0755 ${S}/mkbootimg ${D}${bindir}
-    install -m 0755 ${S}/dtbTool ${D}${bindir}
+    install -d ${D}${bindir}/skales
+    install -m 0755 ${S}/mkbootimg ${D}${bindir}/skales
+    install -m 0755 ${S}/dtbTool ${D}${bindir}/skales
 }
 
 BBCLASSEXTEND = "native"
