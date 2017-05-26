@@ -4,9 +4,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5a1abdab641eec675725c843f43f03af"
 
 SRC_URI = "git://${LK_GIT_REPO};branch=${SRCBRANCH}"
 LK_GIT_REPO ??= "git.linaro.org/landing-teams/working/qualcomm/lk.git;protocol=http"
-SRCBRANCH = "release/LA.BR.1.2.4-00310-8x16.0"
-SRCREV = "2740fc8aeb78bb2e012f63f6d500f3133139c504"
-PV = "1.2.4-00310+${SRCPV}"
+SRCBRANCH = "release/LA.BR.1.2.7-03810-8x16.0"
+SRCREV = "86d35f50902134e53da520ed6e982556d32619a8"
+PV = "1.2.7-03810+${SRCPV}"
 
 COMPATIBLE_MACHINE = "(apq8016)"
 MAKE_TARGET = ""
