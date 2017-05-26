@@ -1,0 +1,32 @@
+From 60c295e1a7852ab5311b0f3be6945a37c8256a2a Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 6 Apr 2017 22:02:30 +0000
+Subject: [PATCH] Makefile: Allow compiler/linker flags to be overridden
+
+This helps with cross compilation where toolchains specify
+certain flags via environment e.g. CFLAGS/LDFLAGS
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 0783e49..2efba54 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,8 +1,8 @@
+ OUT := qmic
+ 
+-CFLAGS := -Wall -g -O2
+-LDFLAGS :=
+-prefix := /usr/local
++CFLAGS ?= -Wall -g -O2
++LDFLAGS ?=
++prefix ?= /usr/local
+ 
+ SRCS := qmic.c qmi_message.c qmi_struct.c
+ OBJS := $(SRCS:.c=.o)
+-- 
+1.9.1
+

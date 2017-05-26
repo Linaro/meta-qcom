@@ -1,15 +1,17 @@
 # Copyright (C) 2014 Linaro
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-DESCRIPTION = "Linaro Qualcomm Landing team 4.4 Kernel"
+DESCRIPTION = "Linaro Qualcomm Landing team 4.9 Kernel"
+
+inherit pythonnative
 
 require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-dtb.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 LOCALVERSION ?= "-linaro-lt-qcom"
-SRCBRANCH ?= "release/qcomlt-4.4"
-SRCREV ?= "40e98b46d2d547c44ad1d0a0125cf4c6f963a3d4"
+SRCBRANCH ?= "release/qcomlt-4.9"
+SRCREV ?= "180b1b7c70a3c567b72421dd9ac1b465527bdf65"
 
 COMPATIBLE_MACHINE = "(apq8016|apq8064|apq8096)"
 

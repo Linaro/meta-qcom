@@ -13,6 +13,20 @@ branch: master
 revision: HEAD
 ```
 
+This layers has an optional dependency on meta-oe layer:
+
+```
+URI: git://github.com/openembedded/meta-openembedded.git
+layers: meta-oe
+branch: master
+revision: HEAD
+```
+
+The dependency is optional, and not strictly required. When meta-oe is enabled
+in the build (e.g. it is used in BBLAYERS) then additional recipes from
+meta-qcom are added to the metadata. You can refer to meta-qcom/conf/layer.conf
+for the implementation details.
+
 ## EULA
 
 Some SoC depends on firmware and/or packages that are covered by
