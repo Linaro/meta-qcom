@@ -1,0 +1,31 @@
+From 1051edb06aba8f288b9ab6777e694217ac02a2ca Mon Sep 17 00:00:00 2001
+From: Matt Madison <mmadison@sensity.com>
+Date: Mon, 5 Jun 2017 08:52:44 -0700
+Subject: [PATCH] Remove build of signlk from script
+
+---
+ signlk.sh | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/signlk.sh b/signlk.sh
+index 4b2ffa4..d425166 100755
+--- a/signlk.sh
++++ b/signlk.sh
+@@ -115,14 +115,6 @@ if [ ! "$(g++ --version)" ]; then
+    exit 8
+ fi
+ 
+-export mfile_path=$DIR/signer
+-make -f $mfile_path/Makefile
+-
+-if [ "$?" != 0 ]; then
+-    echo " failed to build executable"
+-    exit 5
+-fi
+-
+ $EXECUTABLE $INFILE $TMPOUTFILE $tmpdir
+ 
+ openssl sha256 -binary $tmpdir/header > $tmpdir/data
+-- 
+2.7.4
+
