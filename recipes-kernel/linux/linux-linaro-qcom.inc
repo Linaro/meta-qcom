@@ -47,7 +47,7 @@ do_configure_prepend() {
 	if [ "${SCMVERSION}" = "y" ]; then
 		# Add GIT revision to the local version
 		head=`git --git-dir=${S}/.git  rev-parse --verify --short HEAD 2> /dev/null`
-		printf "%s%s" +g $head > ${B}/.scmversion
+		printf "%s%s" +g $head > ${S}/.scmversion
 	fi
 
     # Check for kernel config fragments.  The assumption is that the config
