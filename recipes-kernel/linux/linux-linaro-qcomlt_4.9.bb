@@ -11,7 +11,7 @@ require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/qcomlt-4.9"
-SRCREV ?= "8f39767444e10c03113ea113ed10b66ffdaf81be"
+SRCREV ?= "2ddb40a3e7021fe0367181ef5da98dba6b3a396a"
 
 COMPATIBLE_MACHINE = "(ifc6410|sd-600eval|dragonboard-410c)"
 
