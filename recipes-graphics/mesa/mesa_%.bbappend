@@ -8,12 +8,18 @@ PACKAGECONFIG_append_apq8064 = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xa', '', d)} \
 "
 
+EXTRA_OECONF_append_apq8064 = " --enable-texture-float"
+
 PACKAGECONFIG_append_apq8016 = " \
     gallium \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xa', '', d)} \
 "
 
+EXTRA_OECONF_append_apq8016 = " --enable-texture-float"
+
 PACKAGECONFIG_append_apq8096 = " \
     gallium \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xa', '', d)} \
 "
+
+EXTRA_OECONF_append_apq8096 = " --enable-texture-float"
