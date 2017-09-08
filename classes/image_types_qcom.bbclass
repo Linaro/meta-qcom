@@ -29,7 +29,7 @@ make_qboot_image() {
 make_qboot_image[vardepsexclude] += "DATETIME BUILDNAME"
 
 CONVERSIONTYPES += "gz.qboot qboot"
-CONVERSION_DEPENDS_qboot = "skales-native"
+CONVERSION_DEPENDS_qboot = "skales-native virtual/kernel:do_deploy"
 CONVERSION_CMD_qboot = "make_qboot_image ${type}"
 CONVERSION_CMD_gz.qboot = "${CONVERSION_CMD_gz}; make_qboot_image ${type}.gz"
 
