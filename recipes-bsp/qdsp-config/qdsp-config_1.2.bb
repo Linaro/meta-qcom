@@ -23,4 +23,3 @@ do_install () {
 RDEPENDS_${PN} += "rmtfs"
 
 SYSTEMD_SERVICE_${PN} = "qdsp-start.service"
-SYSTEMD_AUTO_ENABLE_${PN} = "disable"
