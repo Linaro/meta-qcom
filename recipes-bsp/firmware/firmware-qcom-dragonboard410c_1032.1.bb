@@ -44,6 +44,14 @@ do_install() {
     MTOOLS_SKIP_CHECK=1 mcopy -i ./bootloaders-linux/NON-HLOS.bin \
     ::image/modem.* ::image/mba.mbn ::image/wcnss.* ${D}/lib/firmware/
 
+    # Venus firmware have been merged in linux-firmware in a different location than
+    # what we've been using for now. Let's add symlinks for now, until we switch to linux-firmware
+    install -d ${D}/lib/firmware/qcom/venus-1.8/
+    for f in ${D}/lib/firmware/venus.*; do
+        f=$(basename $f)
+        ln -s /lib/firmware/$f ${D}/lib/firmware/qcom/venus-1.8/$f
+    done
+
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE
 }
