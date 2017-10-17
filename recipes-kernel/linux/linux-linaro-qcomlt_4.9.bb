@@ -6,7 +6,6 @@ DESCRIPTION = "Linaro Qualcomm Landing team 4.9 Kernel"
 inherit pythonnative
 
 require recipes-kernel/linux/linux-linaro-qcom.inc
-require recipes-kernel/linux/linux-dtb.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 LOCALVERSION ?= "-linaro-lt-qcom"
