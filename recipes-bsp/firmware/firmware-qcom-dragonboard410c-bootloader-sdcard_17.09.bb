@@ -12,8 +12,10 @@ SRC_URI[sha256sum] = "9885f915ebd4986432340cf1d03b8fd2bfdd97ad6a4a7466200fddbe41
 COMPATIBLE_MACHINE = "(dragonboard-410c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
+S = "${WORKDIR}"
+
 do_deploy() {
-    install -D -p -m644 ${WORKDIR}/*.mbn ${DEPLOYDIR}
+    install -D -p -m644 ${S}/*.mbn ${DEPLOYDIR}
 }
 
 addtask deploy before do_build after do_compile
