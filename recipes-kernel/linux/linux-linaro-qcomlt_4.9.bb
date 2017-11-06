@@ -12,7 +12,7 @@ LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/qcomlt-4.9"
 SRCREV ?= "3e797f5b154e7b382aa1801b022d0d431ca00b86"
 
-COMPATIBLE_MACHINE = "(ifc6410|sd-600eval|dragonboard-410c)"
+COMPATIBLE_MACHINE = "(apq8016|apq8064|apq8096)"
 
 # Wifi firmware has a recognizable arch :( 
 ERROR_QA_remove = "arch"
