@@ -25,7 +25,7 @@ do_compile() {
 }
 do_install() {
     install -d ${D}${libdir}/${PN}
-    for f in NON-HLOS.bin hyp.mbn rpm.mbn tz-psci.mbn sbl1.mbn license.txt; do
+    for f in NON-HLOS.bin hyp.mbn rpm.mbn tz.mbn sbl1.mbn license.txt; do
 	install -m 0644 $f ${D}${libdir}/${PN}/
     done
     install -m 0644 emmc-partitions.txt ${D}${libdir}/${PN}/partitions.txt
