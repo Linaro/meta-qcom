@@ -1,7 +1,7 @@
-# Copyright (C) 2014 Linaro
+# Copyright (C) 2014-2018 Linaro
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-DESCRIPTION = "Linaro Qualcomm Landing team 4.9 Kernel"
+DESCRIPTION = "Linaro Qualcomm Landing team 4.14 Kernel"
 
 inherit pythonnative
 
