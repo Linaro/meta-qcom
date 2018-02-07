@@ -17,16 +17,16 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}/lib/firmware/
-    install -d ${D}/lib/firmware/qcom/venus-4.2/
+    install -d ${D}${nonarch_base_libdir}/firmware/
+    install -d ${D}${nonarch_base_libdir}/firmware/qcom/venus-4.2/
     
-    install -m 0444 ./proprietary-linux/a530*.* ${D}/lib/firmware/
-    install -m 0444 ./proprietary-linux/venus.* ${D}/lib/firmware/qcom/venus-4.2/
-    install -m 0444 ./proprietary-linux/adsp.* ${D}/lib/firmware/
+    install -m 0444 ./proprietary-linux/a530*.* ${D}${nonarch_base_libdir}/firmware/
+    install -m 0444 ./proprietary-linux/venus.* ${D}${nonarch_base_libdir}/firmware/qcom/venus-4.2/
+    install -m 0444 ./proprietary-linux/adsp.* ${D}${nonarch_base_libdir}/firmware/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE
 }
 
-FILES_${PN} += "/lib/firmware/*"
+FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
 INSANE_SKIP_${PN} += "arch"
