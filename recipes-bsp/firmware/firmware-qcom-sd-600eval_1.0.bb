@@ -17,12 +17,12 @@ do_compile() {
 }
 
 do_install() {
-    install -d  ${D}/lib/firmware/
-    cp -a * ${D}/lib/firmware/
+    install -d  ${D}${nonarch_base_libdir}/firmware/
+    cp -a * ${D}${nonarch_base_libdir}/firmware/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 license.txt ${D}${sysconfdir}/
 }
 
-FILES_${PN} += "/lib/firmware/*"
+FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
 INSANE_SKIP_${PN} += "arch"
