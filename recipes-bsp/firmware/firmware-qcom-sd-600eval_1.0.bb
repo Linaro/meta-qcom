@@ -1,4 +1,4 @@
-DESCRIPTION = "QCOM Firmware for DragonBoard 410c"
+DESCRIPTION = "QCOM Firmware for Arrow SD 600eval"
 
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://license.txt;md5=c09af6bc68c68f92e6a711634ee5cb14"
