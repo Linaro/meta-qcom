@@ -30,3 +30,15 @@ do_install() {
 
 FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
 INSANE_SKIP_${PN} += "arch"
+
+RPROVIDES_${PN} += "linux-firmware-qcom-adreno-a530"
+RREPLACES_${PN} += "linux-firmware-qcom-adreno-a530"
+RCONFLICTS_${PN} += "linux-firmware-qcom-adreno-a530"
+
+RPROVIDES_${PN} += "linux-firmware-qcom-venus-4.2"
+RREPLACES_${PN} += "linux-firmware-qcom-venus-4.2"
+RCONFLICTS_${PN} += "linux-firmware-qcom-venus-4.2"
+
+RPROVIDES_${PN} += "linux-firmware-qcom-license"
+RREPLACES_${PN} += "linux-firmware-qcom-license"
+RCONFLICTS_${PN} += "linux-firmware-qcom-license"
