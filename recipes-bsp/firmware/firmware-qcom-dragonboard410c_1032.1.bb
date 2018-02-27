@@ -39,3 +39,15 @@ do_install() {
 
 FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
 INSANE_SKIP_${PN} += "arch"
+
+RPROVIDES_${PN} += "linux-firmware-qcom-adreno-a3xx"
+RREPLACES_${PN} += "linux-firmware-qcom-adreno-a3xx"
+RCONFLICTS_${PN} += "linux-firmware-qcom-adreno-a3xx"
+
+RPROVIDES_${PN} += "linux-firmware-qcom-venus-1.8"
+RREPLACES_${PN} += "linux-firmware-qcom-venus-1.8"
+RCONFLICTS_${PN} += "linux-firmware-qcom-venus-1.8"
+
+RPROVIDES_${PN} += "linux-firmware-qcom-license"
+RREPLACES_${PN} += "linux-firmware-qcom-license"
+RCONFLICTS_${PN} += "linux-firmware-qcom-license"
