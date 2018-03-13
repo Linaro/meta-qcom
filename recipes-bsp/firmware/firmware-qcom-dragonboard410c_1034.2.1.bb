@@ -40,6 +40,7 @@ do_install() {
 }
 
 FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
+FILES_${PN} += "/boot/modem_fsg"
 INSANE_SKIP_${PN} += "arch"
 
 RPROVIDES_${PN} += "linux-firmware-qcom-adreno-a3xx"
