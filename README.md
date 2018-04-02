@@ -27,21 +27,6 @@ in the build (e.g. it is used in BBLAYERS) then additional recipes from
 meta-qcom are added to the metadata. You can refer to meta-qcom/conf/layer.conf
 for the implementation details.
 
-## EULA
-
-Some SoC depends on firmware and/or packages that are covered by
-Qualcomm EULA. To have the right to use those binaries in your images
-you need to read and accept the EULA available as:
-
-conf/eula/$MACHINE, e.g. conf/eula/dragonboard-410c
-
-In order to accept it, you should add, in your local.conf file:
-
-ACCEPT_EULA_$MACHINE = "1", e.g.: ACCEPT_EULA_dragonboard-410c = "1"
-
-If you do not accept the EULA the generated image will be missing some
-components and features.
-
 ## Contributing
 
 If you want to contribute changes, you can send Github pull requests at
