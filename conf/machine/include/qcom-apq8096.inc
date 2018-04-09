@@ -21,7 +21,7 @@ PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
 PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
 PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro-qcomlt-db820c"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro-qcomlt"
 
 # Fastboot expects an ext4 image, which needs to be 4096 aligned
 IMAGE_FSTYPES_append = " ext4.gz"
