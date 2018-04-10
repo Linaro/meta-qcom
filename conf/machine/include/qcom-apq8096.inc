@@ -24,7 +24,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro-qcomlt"
 
 # Fastboot expects an ext4 image, which needs to be 4096 aligned
-IMAGE_FSTYPES_append = " ext4.gz"
+IMAGE_FSTYPES ?= "ext4.gz"
 IMAGE_ROOTFS_ALIGNMENT = "4096"
 
 QCOM_BOOTIMG_KERNEL_BASE ?= "0x80000000"
