@@ -1,5 +1,5 @@
 EXTRA_DEPS = ""
-EXTRA_DEPS_dragonboard-410c = "qrtr-apps qdsp-config"
+EXTRA_DEPS_dragonboard-410c = "qrtr-apps"
 
 RDEPENDS_${PN} += "${EXTRA_DEPS}"
 
