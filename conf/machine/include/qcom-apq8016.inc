@@ -22,6 +22,11 @@ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro-qcomlt"
 
+MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += " \
+    qrtr-apps \
+    rmtfs \
+"
+
 # Fastboot expects an ext4 image, which needs to be 4096 aligned
 IMAGE_FSTYPES ?= "ext4.gz"
 IMAGE_ROOTFS_ALIGNMENT = "4096"
