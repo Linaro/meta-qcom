@@ -28,6 +28,7 @@ mkdir -p /run
 mkdir -p /var/run
 
 /sbin/udevd --daemon
+/bin/udevadm trigger
 
 do_mknod /dev/console c 5 1
 do_mknod /dev/null c 1 3
