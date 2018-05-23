@@ -28,9 +28,23 @@ mkdir -p /run
 mkdir -p /var/run
 
 /sbin/udevd --daemon
+/bin/udevadm trigger
 
 do_mknod /dev/console c 5 1
 do_mknod /dev/null c 1 3
 do_mknod /dev/zero c 1 5
+
+echo -n 'BOOT TIME: '
+cat /proc/uptime
+
+if $(grep -q bootrr-auto /proc/cmdline); then
+	for TEST in $(tr "\0" "\n" < /proc/device-tree/compatible); do
+		if [ -x "/usr/bin/${TEST}" ]; then
+			/usr/bin/${TEST}
+		fi
+	done
+
+	echo ~~~~~~~~~~~~~~~~~~~~~
+fi
 
 exec sh </dev/console >/dev/console 2>/dev/console
