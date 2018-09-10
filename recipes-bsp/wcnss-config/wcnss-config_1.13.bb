@@ -22,6 +22,9 @@ do_install () {
     install -m 0755 ${S}/wcnss-start ${D}${sbindir}
 }
 
+# They are empty, and would break dev-pkgs image feature.
+PACKAGES_remove = "${PN}-dev ${PN}-staticdev"
+
 FILES_wcnss-start = "${sbindir}/wcnss-start ${systemd_unitdir}/system/wcnss-start.service"
 
 SYSTEMD_PACKAGES = "wcnss-start"
