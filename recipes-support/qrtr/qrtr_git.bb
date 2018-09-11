@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=15329706fbfcb5fc5edcc1bc7c139da5"
 
 inherit systemd
 
-SRCREV = "7d9a2e7df9cf901ec28b372185eabf93ec2e11be"
+SRCREV = "a1694a1c938fdcd047553841370ebe2cd7384299"
 SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
 SRC_URI += "file://qrtr.service"
 
