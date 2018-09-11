@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ca25dbf5ebfc1a058bfc657c895aac2f"
 
 inherit systemd
 
-SRCREV = "0f800fa4334b03a47941ce1b577f51a69552e414"
+SRCREV = "0d3c49ec5aa27517afec9f18a3afc4b0800e6cbb"
 SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
 SRC_URI += "file://rmtfs.service"
 DEPENDS = "qmic-native qrtr udev"
