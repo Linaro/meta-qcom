@@ -1,6 +1,6 @@
 DESCRIPTION = "Small ramdisk image for running bootrr"
 
-PACKAGE_INSTALL = "bootrr-init busybox base-passwd ${ROOTFS_BOOTSTRAP_INSTALL} qrtr-apps udev bootrr rmtfs gptfdisk lava-test-shell diag"
+PACKAGE_INSTALL = "busybox base-passwd ${ROOTFS_BOOTSTRAP_INSTALL} qrtr-apps udev rmtfs gptfdisk lava-test-shell diag"
 
 # Do not pollute the initrd image with rootfs features
 IMAGE_FEATURES = ""
