@@ -4,11 +4,16 @@ PACKAGE_INSTALL = " \
     ${ROOTFS_BOOTSTRAP_INSTALL} \
     busybox \
     base-passwd \
+    devmem2 \
     diag \
+    ethtool \
     gptfdisk \
+    iperf2 \
+    iperf3 \
     qrtr-apps \
     lava-test-shell \
     rmtfs \
+    tcpdump \
     udev \
 "
 
