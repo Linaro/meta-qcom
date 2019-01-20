@@ -1,6 +1,14 @@
 DESCRIPTION = "Small ramdisk image for running bootrr"
 
+INITRAMFS_SCRIPTS ?= "\
+    initramfs-framework-base \
+    initramfs-module-udev \
+    initramfs-module-debug \
+    initramfs-module-exec \
+                     "
+
 PACKAGE_INSTALL = " \
+    ${INITRAMFS_SCRIPTS} \
     ${ROOTFS_BOOTSTRAP_INSTALL} \
     busybox \
     base-passwd \
