@@ -5,7 +5,8 @@ SECTION = "devel"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://debian/copyright;md5=9ffc7d99f148b53a339cd4374c5c431f"
 
-SRCREV = "debian/${PV}"
+# TAG:debian/1.13
+SRCREV = "655a59f30915bed785d39cc90130dc06b44d7f6f"
 SRC_URI = "git://git.linaro.org/landing-teams/working/qualcomm/wcnss-config.git;branch=master;protocol=https"
 
 S = "${WORKDIR}/git"
