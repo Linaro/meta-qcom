@@ -10,15 +10,16 @@ PACKAGE_INSTALL = " \
     gptfdisk \
     iperf2 \
     iperf3 \
-    qrtr-apps \
     lava-test-shell \
+    packagegroup-core-boot \
+    qrtr-apps \
     rmtfs \
     tcpdump \
     udev \
 "
 
 # Do not pollute the initrd image with rootfs features
-IMAGE_FEATURES = ""
+IMAGE_FEATURES = "debug-tweaks"
 
 export IMAGE_BASENAME = "initramfs-bootrr-image"
 IMAGE_LINGUAS = ""
@@ -31,4 +32,5 @@ inherit core-image
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_ROOTFS_EXTRA_SPACE = "0"
 
-BAD_RECOMMENDATIONS += "busybox-syslog"
+# Disable installation of kernel and modules via packagegroup-core-boot
+NO_RECOMMENDATIONS = "1"
