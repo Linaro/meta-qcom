@@ -1,6 +1,6 @@
 SOC_FAMILY = "apq8096"
 require conf/machine/include/soc-family.inc
-require conf/machine/include/arm/arch-armv8.inc
+require conf/machine/include/arm/arch-armv8a.inc
 
 XSERVER_OPENGL ?= " \
     xf86-video-modesetting \
