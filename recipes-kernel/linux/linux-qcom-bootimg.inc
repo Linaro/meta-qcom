@@ -38,9 +38,8 @@ do_deploy_append() {
     baudrate=`echo $tmp | sed 's/\;.*//'`
     ttydev=`echo $tmp | sed -e 's/^[0-9]*\;//' -e 's/\s.*//' -e 's/\;.*//'`
 
-    # mkbootimg requires an initrd file, make fake one that will be ignored
-    # during boot
-    echo "This is not an initrd" > ${B}/initrd.img
+    # dummy initrd file required by mkbootimg
+    echo "." | cpio --create --format='newc' | gzip - > ${B}/initrd.img
 
     # don't build bootimg if rootfs partition is not defined
     if [ "${QCOM_BOOTIMG_ROOTFS}" == "undefined"]; then
