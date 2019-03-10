@@ -33,6 +33,7 @@ IMAGE_ROOTFS_ALIGNMENT = "4096"
 
 QCOM_BOOTIMG_KERNEL_BASE ?= "0x80000000"
 QCOM_BOOTIMG_PAGE_SIZE ?= "2048"
+QCOM_BOOTIMG_BUNDLE_DT ?= "1"
 
 KERNEL_MODULE_PROBECONF += "qcom_q6v5_pil"
 module_conf_qcom_q6v5_pil = "blacklist qcom_q6v5_pil"
