@@ -9,7 +9,7 @@ This layer depends on:
 ```
 URI: git://github.com/openembedded/oe-core.git
 layers: meta
-branch: master
+branch: warrior
 revision: HEAD
 ```
 
@@ -18,7 +18,7 @@ This layers has an optional dependency on meta-oe layer:
 ```
 URI: git://github.com/openembedded/meta-openembedded.git
 layers: meta-oe
-branch: master
+branch: warrior
 revision: HEAD
 ```
 
