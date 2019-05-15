@@ -1,0 +1,101 @@
+From c4bee1a1b3fb224002fe8c263bedbce1b705ed49 Mon Sep 17 00:00:00 2001
+From: Peter Griffin <peter.griffin@linaro.org>
+Date: Mon, 13 May 2019 19:18:56 +0100
+Subject: [PATCH] freedreno: add query for dmabuf modifiers
+
+Backport of mesa 7c4b9510d by Fritz Koenig. Tested with Weston
+and weston-simple-dmabuf-drm client.
+
+Upstream-Status: Backport from 19.0
+
+Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+---
+ src/gallium/drivers/freedreno/freedreno_screen.c | 43 ++++++++++++++++++++++++
+ src/gallium/drivers/freedreno/freedreno_screen.h |  3 ++
+ 2 files changed, 46 insertions(+)
+
+diff --git a/src/gallium/drivers/freedreno/freedreno_screen.c b/src/gallium/drivers/freedreno/freedreno_screen.c
+index f338d75..cbb5b8a 100644
+--- a/src/gallium/drivers/freedreno/freedreno_screen.c
++++ b/src/gallium/drivers/freedreno/freedreno_screen.c
+@@ -40,6 +40,7 @@
+ 
+ #include "util/os_time.h"
+ 
++#include <drm_fourcc.h>
+ #include <errno.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -732,6 +733,37 @@ fd_screen_bo_get_handle(struct pipe_screen *pscreen,
+ 	}
+ }
+ 
++static void
++fd_screen_query_dmabuf_modifiers(struct pipe_screen *pscreen,
++		enum pipe_format format,
++		int max, uint64_t *modifiers,
++		unsigned int *external_only,
++		int *count)
++{
++	struct fd_screen *screen = fd_screen(pscreen);
++	int i, num = 0;
++
++	max = MIN2(max, screen->num_supported_modifiers);
++
++	if (!max) {
++		max = screen->num_supported_modifiers;
++		external_only = NULL;
++		modifiers = NULL;
++	}
++
++	for (i = 0; i < max; i++) {
++		if (modifiers)
++			modifiers[num] = screen->supported_modifiers[i];
++
++		if (external_only)
++			external_only[num] = 0;
++
++		num++;
++	}
++
++	*count = num;
++}
++
+ struct fd_bo *
+ fd_screen_bo_from_handle(struct pipe_screen *pscreen,
+ 		struct winsys_handle *whandle)
+@@ -921,6 +953,17 @@ fd_screen_create(struct fd_device *dev)
+ 	pscreen->fence_finish = fd_fence_finish;
+ 	pscreen->fence_get_fd = fd_fence_get_fd;
+ 
++	pscreen->query_dmabuf_modifiers = fd_screen_query_dmabuf_modifiers;
++
++	if (!screen->supported_modifiers) {
++		static const uint64_t supported_modifiers[] = {
++			DRM_FORMAT_MOD_LINEAR,
++		};
++
++		screen->supported_modifiers = supported_modifiers;
++		screen->num_supported_modifiers = ARRAY_SIZE(supported_modifiers);
++	}
++
+ 	slab_create_parent(&screen->transfer_pool, sizeof(struct fd_transfer), 16);
+ 
+ 	return pscreen;
+diff --git a/src/gallium/drivers/freedreno/freedreno_screen.h b/src/gallium/drivers/freedreno/freedreno_screen.h
+index 6be739a..5558066 100644
+--- a/src/gallium/drivers/freedreno/freedreno_screen.h
++++ b/src/gallium/drivers/freedreno/freedreno_screen.h
+@@ -89,6 +89,9 @@ struct fd_screen {
+ 	struct fd_batch_cache batch_cache;
+ 
+ 	bool reorder;
++
++	unsigned num_supported_modifiers;
++	const uint64_t *supported_modifiers;	
+ };
+ 
+ static inline struct fd_screen *
+-- 
+2.7.4
+
