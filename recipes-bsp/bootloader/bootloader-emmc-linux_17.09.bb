@@ -2,7 +2,7 @@ DESCRIPTION = "Qualcomm primary bootloader binary blobs for Dragonboard"
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4d087ee0965cb059f1b2f9429e166f64"
 
-SRC_URI = "http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/${PV}/dragonboard410c_bootloader_emmc_linux-88.zip \
+SRC_URI = "https://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/17.09/dragonboard410c_bootloader_emmc_linux-88.zip \
 	   file://emmc-partitions.txt"
 SRC_URI[md5sum] = "ac646bc6f18408f84af09672a41e2714"
 SRC_URI[sha256sum] = "7337c403a1e9b85592f662180a3a4caacc68f0a945cdb30de3394d148bb66cf5"
