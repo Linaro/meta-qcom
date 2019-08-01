@@ -24,7 +24,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro-qcomlt"
 
 MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += " \
-    qrtr-apps \
+    qrtr \
 "
 
 IMAGE_FSTYPES ?= "ext4.gz"
