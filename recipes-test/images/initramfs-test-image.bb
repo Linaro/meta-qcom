@@ -12,7 +12,7 @@ PACKAGE_INSTALL = " \
     iperf3 \
     lava-test-shell \
     packagegroup-core-boot \
-    qrtr-apps \
+    qrtr \
     rmtfs \
     tcpdump \
     udev \
