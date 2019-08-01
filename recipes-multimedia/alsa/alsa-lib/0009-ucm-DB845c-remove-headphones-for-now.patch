@@ -1,0 +1,137 @@
+From 68ac97e02d62bd2881beb1f66bddcb3937a7fc8b Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Thu, 24 Oct 2019 18:10:38 +0100
+Subject: [PATCH 9/9] ucm: DB845c: remove headphones for now
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ gitcompile                      |  2 +-
+ src/conf/ucm/DB845c/DB845c.conf |  5 ++--
+ src/conf/ucm/DB845c/HiFi        | 50 ++++-----------------------------
+ 3 files changed, 8 insertions(+), 49 deletions(-)
+
+diff --git a/gitcompile b/gitcompile
+index 2741db4c..e6f709de 100755
+--- a/gitcompile
++++ b/gitcompile
+@@ -75,7 +75,7 @@ autoheader
+ automake --foreign --copy --add-missing
+ touch depcomp		# seems to be missing for old automake
+ autoconf
+-export CFLAGS='-O2 -Wall -W -Wunused-const-variable=0 -pipe -g'
++export CFLAGS='-O2 -Wall -W -pipe -g'
+ echo "CFLAGS=$CFLAGS"
+ echo "./configure $args"
+ ./configure $args || exit 1
+diff --git a/src/conf/ucm/DB845c/DB845c.conf b/src/conf/ucm/DB845c/DB845c.conf
+index 79efd81e..5765aacd 100644
+--- a/src/conf/ucm/DB845c/DB845c.conf
++++ b/src/conf/ucm/DB845c/DB845c.conf
+@@ -13,14 +13,13 @@ SectionDefaults [
+ 	cset "name='QUAT_MI2S_RX Audio Mixer MultiMedia1' 1"
+ 	cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 1"
+ 	cset "name='SLIM RX0 MUX' AIF1_PB"
+-	cset "name='CDC_IF RX0 MUX' SLIM RX0"
+ 	cset "name='RX INT7_1 MIX1 INP0' RX0"
+ 	cset "name='RX INT8_1 MIX1 INP0' RX0"
+ 	## gain to  0dB
+ 	cset "name='RX7 Digital Volume' 0"
+ 	cset "name='RX8 Digital Volume' 0"
+-	cset "name='RX1 Mux Digital Volume' 0"
+-	cset "name='RX2 Mux Digital Volume' 0"
++	cset "name='RX1 Mix Digital Volume' 0"
++	cset "name='RX2 Mix Digital Volume' 0"
+ 	cset "name='MultiMedia3 Mixer SLIMBUS_0_TX' 1"
+ 	cset "name='AIF1_CAP Mixer SLIM TX0' 1"
+ 	cset "name='CDC_IF TX0 MUX' DEC0"
+diff --git a/src/conf/ucm/DB845c/HiFi b/src/conf/ucm/DB845c/HiFi
+index 6f57068a..a794523b 100644
+--- a/src/conf/ucm/DB845c/HiFi
++++ b/src/conf/ucm/DB845c/HiFi
+@@ -10,18 +10,18 @@ SectionVerb {
+ 		cset "name='RX INT7_1 MIX1 INP0' RX6"
+ 		cset "name='RX INT8_1 MIX1 INP0' RX7"
+ 		## gain to  0dB
+-		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 1"
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 1"
+ 	]
+ 
+ 	DisableSequence [
+                 cdev "hw:DB845c"
+-		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 0"
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 0"
+ 	]
+ 
+ 	# ALSA PCM
+ 	Value {
+ 		# ALSA PCM device for HiFi
+-		PlaybackPCM "hw:DB845c,0"
++		PlaybackPCM "hw:DB845c,1"
+ 	}
+ }
+ 
+@@ -36,7 +36,7 @@ SectionDevice."Speakers" {
+ 		cset "name='SLIM RX2 MUX' ZERO"
+ 		cset "name='RX INT7_1 MIX1 INP0' RX6"
+ 		cset "name='RX INT8_1 MIX1 INP0' RX7"
+-		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 1"
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 1"
+ 		cset "name='COMP7 Switch' 1"
+ 		cset "name='COMP8 Switch' 1"
+ 		cset "name='RX7 Digital Volume' 70"
+@@ -58,7 +58,7 @@ SectionDevice."Speakers" {
+ 		cset "name='SLIM RX7 MUX' ZERO"
+ 		cset "name='COMP7 Switch' 0"
+ 		cset "name='COMP8 Switch' 0"
+-		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 0"
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 0"
+ 		cset "name='SpkrLeft DAC Switch' 0"
+ 		cset "name='SpkrLeft COMP Switch' 0"
+ 		cset "name='SpkrLeft BOOST Switch' 0"
+@@ -73,43 +73,3 @@ SectionDevice."Speakers" {
+ 		PlaybackChannels "2"
+ 	}
+ }
+-
+-SectionDevice."HeadPhones" {
+-	Comment "HeadPhones playback"
+-
+-	EnableSequence [
+-		cdev "hw:DB845c"
+-		cset "name='SLIM RX1 MUX' AIF1_PB"
+-		cset "name='SLIM RX2 MUX' AIF1_PB"
+-		cset "name='SLIM RX7 MUX' ZERO"
+-		cset "name='SLIM RX6 MUX' ZERO"
+-		cset "name='RX INT1_2 MUX' RX1"
+-		cset "name='RX INT2_2 MUX' RX2"
+-		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 1"
+-		cset "name='COMP1 Switch' 1"
+-		cset "name='COMP2 Switch' 1"
+-		cset "name='RX1 Mix Digital Volume' 68"
+-		cset "name='RX2 Mix Digital Volume' 68"
+-		cset "name='RX INT1 DEM MUX' CLSH_DSM_OUT"
+-		cset "name='RX INT2 DEM MUX' CLSH_DSM_OUT"
+-	]
+-
+-	DisableSequence [
+-		cdev "hw:DB845c"
+-		cset "name='SLIM RX1 MUX' ZERO"
+-		cset "name='SLIM RX2 MUX' ZERO"
+-		cset "name='RX INT1_2 MUX' ZERO"
+-		cset "name='RX INT2_2 MUX' ZERO"
+-		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 0"
+-		cset "name='COMP1 Switch' 0"
+-		cset "name='COMP2 Switch' 0"
+-		cset "name='RX1 Digital Volume' 68"
+-		cset "name='RX2 Digital Volume' 68"
+-		cset "name='RX INT1 DEM MUX' ZERO"
+-		cset "name='RX INT2 DEM MUX' ZERO"
+-	]
+-
+-	Value {
+-		PlaybackChannels "2"
+-	}
+-}
+-- 
+2.23.0
+
