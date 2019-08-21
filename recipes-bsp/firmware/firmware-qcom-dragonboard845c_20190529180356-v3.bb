@@ -12,6 +12,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 S = "${WORKDIR}"
 
+PR = "r1"
+
 do_compile() {
 	:
 }
@@ -19,11 +21,12 @@ do_compile() {
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
     install -d ${D}${nonarch_base_libdir}/firmware/qcom/venus-5.2/
+    install -d ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
 
     install -m 0444 ./17-USB3-201-202-FW/K2026090.mem ${D}${nonarch_base_libdir}/firmware/
     install -m 0444 ./18-adreno-fw/a630*.* ${D}${nonarch_base_libdir}/firmware/
-    install -m 0444 ./20-adsp_split/firmware/adsp*.* ${D}${nonarch_base_libdir}/firmware/
-    install -m 0444 ./21-cdsp_split/firmware/cdsp*.* ${D}${nonarch_base_libdir}/firmware/
+    install -m 0444 ./20-adsp_split/firmware/adsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
+    install -m 0444 ./21-cdsp_split/firmware/cdsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
     install -m 0444 ./33-venus_split/venus.* ${D}${nonarch_base_libdir}/firmware/qcom/venus-5.2/
     install -m 0444 ./37-wlan_FW/wlanmdsp.mbn ${D}${nonarch_base_libdir}/firmware/
     install -m 0444 ./38-bdwlan_split/bdwlan*.* ${D}${nonarch_base_libdir}/firmware/
