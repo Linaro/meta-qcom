@@ -25,6 +25,8 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro-qcomlt"
 
 MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += " \
     qrtr \
+    rmtfs \
+    adsprpc \
 "
 
 IMAGE_FSTYPES ?= "ext4.gz"
