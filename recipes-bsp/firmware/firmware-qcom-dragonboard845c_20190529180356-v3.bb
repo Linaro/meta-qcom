@@ -4,13 +4,13 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE.qcom.txt;md5=cbbe399f2c983ad51768f4561587f000"
 
 SRC_URI = "https://releases.linaro.org/96boards/dragonboard845c/qualcomm/firmware/RB3_firmware_${PV}.zip"
-SRC_URI[md5sum] = "8e9489a4bdfd3738ce4683a970b49f42"
-SRC_URI[sha256sum] = "d88ad0873792687b2906107b3244da874264c19384e49f2c4aec6768081cd29a"
+SRC_URI[md5sum] = "dc89c85422a9c39edbf6632b55dbeabd"
+SRC_URI[sha256sum] = "46cf398e0690a1a489ba4c4f7342b5f8fbc037d6e3d7c8e12a8542025cd3fc73"
 
 COMPATIBLE_MACHINE = "(dragonboard-845c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-S = "${WORKDIR}/RB3_firmware_${PV}"
+S = "${WORKDIR}"
 
 do_compile() {
 	:
