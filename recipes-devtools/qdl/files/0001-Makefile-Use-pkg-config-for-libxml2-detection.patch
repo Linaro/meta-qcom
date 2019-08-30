@@ -12,20 +12,24 @@ Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
  Makefile | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 0a934ff..f18393d 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1,7 +1,7 @@
+@@ -1,14 +1,14 @@
  OUT := qdl
  
 -CFLAGS := -O2 -Wall -g `xml2-config --cflags`
 -LDFLAGS := `xml2-config --libs` -ludev
-+CFLAGS := -O2 -Wall -g `pkg-config --cflags libxml-2.0`
-+LDFLAGS := `pkg-config --libs libxml-2.0` -ludev
- prefix := /usr/local
+-prefix := /usr/local
++CFLAGS += -O2 -Wall -g `pkg-config --cflags libxml-2.0`
++LDFLAGS += `pkg-config --libs libxml-2.0` -ludev
++prefix ?= /usr/local
  
  SRCS := firehose.c qdl.c sahara.c util.c patch.c program.c ufs.c
--- 
-2.23.0
-
+ OBJS := $(SRCS:.c=.o)
+ 
+ $(OUT): $(OBJS)
+-	$(CC) -o $@ $^ $(LDFLAGS)
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+ 
+ clean:
+ 	rm -f $(OUT) $(OBJS)
