@@ -5,7 +5,8 @@ SECTION = "devel"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://qdl.c;beginline=1;endline=31;md5=1c7d712d897368d3d3c161e5493efc6a"
 
-DEPENDS = "libxml2 udev"
+DEPENDS = "libxml2"
+DEPENDS_append_class-target = " udev "
 
 inherit pkgconfig
 
