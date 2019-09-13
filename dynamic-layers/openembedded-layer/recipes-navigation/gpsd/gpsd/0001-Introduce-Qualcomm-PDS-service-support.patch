@@ -1,4 +1,4 @@
-From 4854806fdbd53b4b25d18f966f273c8f32d57c35 Mon Sep 17 00:00:00 2001
+From dda5db4a48b62a92e9d45af71e0d533566b119a4 Mon Sep 17 00:00:00 2001
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 Date: Wed, 4 Apr 2018 04:29:09 +0000
 Subject: [PATCH] Introduce Qualcomm PDS service support
@@ -30,12 +30,12 @@ string "any".
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
  SConstruct     |  10 ++
- driver_pds.c   | 361 +++++++++++++++++++++++++++++++++++++++++++++++++
+ driver_pds.c   | 325 +++++++++++++++++++++++++++++++++++++++++++++++++
  driver_pds.h   |  20 +++
  drivers.c      |   5 +
- gpsd.h         |  20 ++-
- libgpsd_core.c |  15 +-
- 6 files changed, 424 insertions(+), 7 deletions(-)
+ gpsd.h         |  14 ++-
+ libgpsd_core.c |  15 ++-
+ 6 files changed, 382 insertions(+), 7 deletions(-)
  create mode 100644 driver_pds.c
  create mode 100644 driver_pds.h
 
@@ -76,10 +76,10 @@ index d9d75653..6f53fef3 100644
      "driver_sirf.c",
 diff --git a/driver_pds.c b/driver_pds.c
 new file mode 100644
-index 00000000..62464323
+index 00000000..7fe9e533
 --- /dev/null
 +++ b/driver_pds.c
-@@ -0,0 +1,361 @@
+@@ -0,0 +1,325 @@
 +#include <sys/socket.h>
 +#include <errno.h>
 +#include <fcntl.h>
@@ -94,43 +94,7 @@ index 00000000..62464323
 +#include <linux/qrtr.h>
 +
 +#define QMI_PDS_SERVICE_ID	0x10
-+#define QMI_PDS_INSTANCE_ID	0x2
-+
-+#ifndef QRTR_PORT_CTRL
-+#define QRTR_PORT_CTRL	0xfffffffeu
-+
-+enum qrtr_pkt_type {
-+	QRTR_TYPE_DATA		= 1,
-+	QRTR_TYPE_HELLO		= 2,
-+	QRTR_TYPE_BYE		= 3,
-+	QRTR_TYPE_NEW_SERVER	= 4,
-+	QRTR_TYPE_DEL_SERVER	= 5,
-+	QRTR_TYPE_DEL_CLIENT	= 6,
-+	QRTR_TYPE_RESUME_TX	= 7,
-+	QRTR_TYPE_EXIT          = 8,
-+	QRTR_TYPE_PING          = 9,
-+	QRTR_TYPE_NEW_LOOKUP	= 10,
-+	QRTR_TYPE_DEL_LOOKUP	= 11,
-+};
-+
-+struct qrtr_ctrl_pkt {
-+	__le32 cmd;
-+
-+	union {
-+		struct {
-+			__le32 service;
-+			__le32 instance;
-+			__le32 node;
-+			__le32 port;
-+		} server;
-+
-+		struct {
-+			__le32 node;
-+			__le32 port;
-+		} client;
-+	};
-+} __packed;
-+#endif /* of ifndef QRTR_PORT_CTRL */
++#define QMI_PDS_VERSION		0x2
 +
 +struct qmi_header {
 +	uint8_t type;
@@ -181,13 +145,9 @@ index 00000000..62464323
 +		return -1;
 +	}
 +
-+	session->lexer.type = QMI_PDS_PACKET;
++	/* TODO: Validate sq to be our peer */
 +
-+	if (sq.sq_node != session->driver.pds.node ||
-+	    sq.sq_port != session->driver.pds.port) {
-+		session->lexer.outbuflen = 0;
-+		return ret;
-+	}
++	session->lexer.type = QMI_PDS_PACKET;
 +
 +	hdr = buf;
 +	if (hdr->type != QMI_INDICATION ||
@@ -223,36 +183,31 @@ index 00000000..62464323
 +
 +static void qmi_pds_event_hook(struct gps_device_t *session, event_t event)
 +{
-+	struct sockaddr_qrtr sq;
 +	struct qmi_header *hdr;
 +	struct qmi_tlv *tlv;
 +	static int txn_id;
 +	char buf[128];
++	char *ptr;
 +	int sock = session->gpsdata.gps_fd;
 +	int ret;
 +
-+	session->driver.pds.node = 0;
-+	session->driver.pds.port = 14;
-+
-+	sq.sq_family = AF_QIPCRTR;
-+	sq.sq_node = session->driver.pds.node;
-+	sq.sq_port = session->driver.pds.port;
-+
 +	switch (event) {
 +	case event_deactivate:
-+		hdr = (struct qmi_header *)buf;
++		ptr = buf;
++		hdr = (struct qmi_header *)ptr;
 +		hdr->type = QMI_REQUEST;
 +		hdr->txn = txn_id++;
 +		hdr->msg = QMI_LOC_STOP;
 +		hdr->len = sizeof(*tlv) + sizeof(uint8_t);
++		ptr += sizeof(*hdr);
 +
-+		tlv = (struct qmi_tlv *)(buf + sizeof(*hdr));
++		tlv = (struct qmi_tlv *)ptr;
 +		tlv->key = QMI_TLV_SESSION_ID;
 +		tlv->len = sizeof(uint8_t);
 +		*(uint8_t*)tlv->value = 1;
++		ptr += sizeof(*tlv) + sizeof(uint8_t);
 +
-+		ret = sendto(sock, buf, sizeof(*hdr) + hdr->len, 0,
-+			     (struct sockaddr *)&sq, sizeof(sq));
++		ret = send(sock, buf, ptr - buf, 0);
 +		if (ret < 0) {
 +			gpsd_log(&session->context->errout, LOG_ERROR,
 +				 "QRTR event_hook: failed to send STOP request.\n");
@@ -260,38 +215,42 @@ index 00000000..62464323
 +		}
 +		break;
 +	case event_reactivate:
-+		hdr = (struct qmi_header *)buf;
++		ptr = buf;
++		hdr = (struct qmi_header *)ptr;
 +		hdr->type = QMI_REQUEST;
 +		hdr->txn = txn_id++;
 +		hdr->msg = QMI_LOC_REG_EVENTS;
 +		hdr->len = sizeof(*tlv) + sizeof(uint64_t);
++		ptr += sizeof(*hdr);
 +
-+		tlv = (struct qmi_tlv *)(buf + sizeof(*hdr));
++		tlv = (struct qmi_tlv *)ptr;
 +		tlv->key = QMI_TLV_EVENT_MASK;
 +		tlv->len = sizeof(uint64_t);
 +		*(uint64_t*)tlv->value = QMI_EVENT_MASK_NMEA;
++		ptr += sizeof(*tlv) + sizeof(uint64_t);
 +
-+		ret = sendto(sock, buf, sizeof(*hdr) + hdr->len, 0,
-+			     (struct sockaddr *)&sq, sizeof(sq));
++		ret = send(sock, buf, ptr - buf, 0);
 +		if (ret < 0) {
 +			gpsd_log(&session->context->errout, LOG_ERROR,
 +				 "QRTR event_hook: failed to send REG_EVENTS request.\n");
 +			return;
 +		}
 +
-+		hdr = (struct qmi_header *)buf;
++		ptr = buf;
++		hdr = (struct qmi_header *)ptr;
 +		hdr->type = QMI_REQUEST;
 +		hdr->txn = txn_id++;
 +		hdr->msg = QMI_LOC_START;
 +		hdr->len = sizeof(*tlv) + sizeof(uint8_t);
++		ptr += sizeof(*hdr);
 +
 +		tlv = (struct qmi_tlv *)(buf + sizeof(*hdr));
 +		tlv->key = QMI_TLV_SESSION_ID;
 +		tlv->len = sizeof(uint8_t);
 +		*(uint8_t*)tlv->value = 1;
++		ptr += sizeof(*tlv) + sizeof(uint8_t);
 +
-+		ret = sendto(sock, buf, sizeof(*hdr) + hdr->len, 0,
-+			     (struct sockaddr *)&sq, sizeof(sq));
++		ret = send(sock, buf, ptr - buf, 0);
 +		if (ret < 0) {
 +			gpsd_log(&session->context->errout, LOG_ERROR,
 +				 "QRTR event_hook: failed to send START request.\n");
@@ -349,7 +308,7 @@ index 00000000..62464323
 +	memset(&pkt, 0, sizeof(pkt));
 +	pkt.cmd = QRTR_TYPE_NEW_LOOKUP;
 +	pkt.server.service = QMI_PDS_SERVICE_ID;
-+	pkt.server.instance = QMI_PDS_INSTANCE_ID;
++	pkt.server.instance = QMI_PDS_VERSION;
 +
 +	sq_ctrl.sq_port = QRTR_PORT_CTRL;
 +	ret = sendto(sock, &pkt, sizeof(pkt), 0, (struct sockaddr *)&sq_ctrl, sizeof(sq_ctrl));
@@ -387,7 +346,7 @@ index 00000000..62464323
 +			break;
 +
 +		/* Filter results based on specified node */
-+		if (hostid != -1 && hostid != pkt.server.node)
++		if (hostid != -1 && hostid != (int)pkt.server.node)
 +			continue;
 +
 +		pds_node = pkt.server.node;
@@ -408,13 +367,21 @@ index 00000000..62464323
 +	gpsd_log(&session->context->errout, LOG_INF,
 +		 "QRTR open: Found PDS at %d %d.\n", pds_node, pds_port);
 +
++	sq.sq_family = AF_QIPCRTR;
++	sq.sq_node = pds_node;
++	sq.sq_port = pds_port;
++	ret = connect(sock, (struct sockaddr *)&sq, sizeof(sq));
++	if (ret < 0) {
++		gpsd_log(&session->context->errout, LOG_ERROR,
++			 "QRTR open: Failed to connect socket.\n");
++		close(sock);
++		return -1;
++	}
++
 +	gpsd_switch_driver(session, "Qualcomm PDS");
 +	session->gpsdata.gps_fd = sock;
 +	session->sourcetype = source_qrtr;
 +	session->servicetype = service_sensor;
-+
-+	session->driver.pds.node = pds_node;
-+	session->driver.pds.port = pds_port;
 +
 +	return session->gpsdata.gps_fd;
 +}
@@ -425,9 +392,6 @@ index 00000000..62464323
 +		close(session->gpsdata.gps_fd);
 +		INVALIDATE_SOCKET(session->gpsdata.gps_fd);
 +	}
-+
-+	session->driver.pds.node = 0;
-+	session->driver.pds.port = 0;
 +}
 +
 +const struct gps_type_t driver_pds = {
@@ -491,7 +455,7 @@ index eda1fd61..92d7eba8 100644
      &driver_rtcm104v2,
  #endif /* RTCM104V2_ENABLE */
 diff --git a/gpsd.h b/gpsd.h
-index 2bd5f4c0..b24c6e65 100644
+index 2bd5f4c0..8e22e509 100644
 --- a/gpsd.h
 +++ b/gpsd.h
 @@ -163,12 +163,13 @@ struct gps_lexer_t {
@@ -522,19 +486,6 @@ index 2bd5f4c0..b24c6e65 100644
  	      source_pty,	/* PTY: we don't require exclusive access */
  	      source_tcp,	/* TCP/IP stream: case detected but not used */
  	      source_udp,	/* UDP stream: case detected but not used */
-@@ -699,6 +701,12 @@ struct gps_device_t {
- 	    unsigned char sid[8];
- 	} nmea2000;
- #endif /* NMEA2000_ENABLE */
-+#ifdef PDS_ENABLE
-+	struct {
-+		unsigned int node;
-+		unsigned int port;
-+	} pds;
-+#endif /* PDS_ENABLE */
- 	/*
- 	 * This is not conditionalized on RTCM104_ENABLE because we need to
- 	 * be able to build gpsdecode even when RTCM support is not
 diff --git a/libgpsd_core.c b/libgpsd_core.c
 index 85b8d86a..4f6a11ed 100644
 --- a/libgpsd_core.c
@@ -583,5 +534,5 @@ index 85b8d86a..4f6a11ed 100644
  
  	for (dp = gpsd_drivers; *dp; dp++) {
 -- 
-2.17.0
+2.23.0
 
