@@ -1,7 +1,10 @@
-From dda5db4a48b62a92e9d45af71e0d533566b119a4 Mon Sep 17 00:00:00 2001
+From fd6199f456c7c5dcb4cb782e4af63111d22079bf Mon Sep 17 00:00:00 2001
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 Date: Wed, 4 Apr 2018 04:29:09 +0000
 Subject: [PATCH] Introduce Qualcomm PDS service support
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 The Qualcomm PDS service provides location data on a wide range of
 Qualcomm platforms. It used QMI encoded messages sent over a shared
@@ -28,32 +31,33 @@ a numerical identifier of the node in the AF_QIPCRTR network or the
 string "any".
 
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
  SConstruct     |  10 ++
  driver_pds.c   | 325 +++++++++++++++++++++++++++++++++++++++++++++++++
  driver_pds.h   |  20 +++
  drivers.c      |   5 +
- gpsd.h         |  14 ++-
+ gpsd.h         |   2 +
  libgpsd_core.c |  15 ++-
- 6 files changed, 382 insertions(+), 7 deletions(-)
+ 6 files changed, 376 insertions(+), 1 deletion(-)
  create mode 100644 driver_pds.c
  create mode 100644 driver_pds.h
 
 diff --git a/SConstruct b/SConstruct
-index d9d75653..6f53fef3 100644
+index 5160481a7..31545b07f 100644
 --- a/SConstruct
 +++ b/SConstruct
-@@ -155,6 +155,7 @@ boolopts = (
+@@ -191,6 +191,7 @@ boolopts = (
+     ("tripmate",      True,  "DeLorme TripMate support"),
+     ("tsip",          True,  "Trimble TSIP support"),
      ("ublox",         True,  "u-blox Protocol support"),
-     ("fury",          True,  "Jackson Labs Fury and Firefly support"),
-     ("nmea2000",      True,  "NMEA2000/CAN support"),
 +    ("pds",           True,  "Qualcomm PDS support"),
      # Non-GPS protocols
      ("aivdm",         True,  "AIVDM support"),
      ("gpsclock",      True,  "GPSClock support"),
-@@ -778,6 +779,14 @@ else:
+@@ -923,6 +924,14 @@ else:
          announce("You do not have kernel CANbus available.")
-         env["nmea2000"] = False
+         config.env["nmea2000"] = False
  
 +    if config.CheckHeader(["bits/sockaddr.h", "linux/qrtr.h"]):
 +        confdefs.append("#define HAVE_LINUX_QRTR_H 1\n")
@@ -65,18 +69,18 @@ index d9d75653..6f53fef3 100644
 +
      # check for C11 or better, and __STDC__NO_ATOMICS__ is not defined
      # before looking for stdatomic.h
-     if ((config.CheckC11()
-@@ -1121,6 +1130,7 @@ libgpsd_sources = [
+     if ((config.CheckC11() and
+@@ -1295,6 +1304,7 @@ libgpsd_sources = [
      "driver_nmea0183.c",
      "driver_nmea2000.c",
      "driver_oncore.c",
 +    "driver_pds.c",
      "driver_rtcm2.c",
      "driver_rtcm3.c",
-     "driver_sirf.c",
+     "drivers.c",
 diff --git a/driver_pds.c b/driver_pds.c
 new file mode 100644
-index 00000000..7fe9e533
+index 000000000..7fe9e5339
 --- /dev/null
 +++ b/driver_pds.c
 @@ -0,0 +1,325 @@
@@ -407,7 +411,7 @@ index 00000000..7fe9e533
 +#endif /* of defined(PDS_ENABLE) */
 diff --git a/driver_pds.h b/driver_pds.h
 new file mode 100644
-index 00000000..3b373743
+index 000000000..3b373743d
 --- /dev/null
 +++ b/driver_pds.h
 @@ -0,0 +1,20 @@
@@ -432,10 +436,10 @@ index 00000000..3b373743
 +#endif /* of defined(PDS_ENABLE) */
 +#endif /* of ifndef _DRIVER_PDS_H_ */
 diff --git a/drivers.c b/drivers.c
-index eda1fd61..92d7eba8 100644
+index f49ba0a93..a2be4d9ad 100644
 --- a/drivers.c
 +++ b/drivers.c
-@@ -1744,6 +1744,7 @@ extern const struct gps_type_t driver_geostar;
+@@ -1766,6 +1766,7 @@ extern const struct gps_type_t driver_greis;
  extern const struct gps_type_t driver_italk;
  extern const struct gps_type_t driver_navcom;
  extern const struct gps_type_t driver_nmea2000;
@@ -443,7 +447,7 @@ index eda1fd61..92d7eba8 100644
  extern const struct gps_type_t driver_oncore;
  extern const struct gps_type_t driver_sirf;
  extern const struct gps_type_t driver_skytraq;
-@@ -1838,6 +1839,10 @@ static const struct gps_type_t *gpsd_driver_array[] = {
+@@ -1863,6 +1864,10 @@ static const struct gps_type_t *gpsd_driver_array[] = {
      &driver_nmea2000,
  #endif /* NMEA2000_ENABLE */
  
@@ -455,30 +459,18 @@ index eda1fd61..92d7eba8 100644
      &driver_rtcm104v2,
  #endif /* RTCM104V2_ENABLE */
 diff --git a/gpsd.h b/gpsd.h
-index 2bd5f4c0..8e22e509 100644
+index e78afd4c3..fdbbd8f4c 100644
 --- a/gpsd.h
 +++ b/gpsd.h
-@@ -163,12 +163,13 @@ struct gps_lexer_t {
- #define ONCORE_PACKET   	13
+@@ -191,6 +191,7 @@ struct gps_lexer_t {
  #define GEOSTAR_PACKET   	14
  #define NMEA2000_PACKET 	15
--#define MAX_GPSPACKET_TYPE	15	/* increment this as necessary */
--#define RTCM2_PACKET    	16
--#define RTCM3_PACKET    	17
--#define JSON_PACKET    	    	18
--#define PACKET_TYPES		19	/* increment this as necessary */
--#define SKY_PACKET     		20
+ #define GREIS_PACKET		16
 +#define QMI_PDS_PACKET		16
-+#define MAX_GPSPACKET_TYPE	16	/* increment this as necessary */
-+#define RTCM2_PACKET    	17
-+#define RTCM3_PACKET    	18
-+#define JSON_PACKET    	    	19
-+#define PACKET_TYPES		20	/* increment this as necessary */
-+#define SKY_PACKET     		21
- #define TEXTUAL_PACKET_TYPE(n)	((((n)>=NMEA_PACKET) && ((n)<=MAX_TEXTUAL_TYPE)) || (n)==JSON_PACKET)
- #define GPS_PACKET_TYPE(n)	(((n)>=NMEA_PACKET) && ((n)<=MAX_GPSPACKET_TYPE))
- #define LOSSLESS_PACKET_TYPE(n)	(((n)>=RTCM2_PACKET) && ((n)<=RTCM3_PACKET))
-@@ -411,6 +412,7 @@ typedef enum {source_unknown,
+ #define MAX_GPSPACKET_TYPE	16	/* increment this as necessary */
+ #define RTCM2_PACKET    	17
+ #define RTCM3_PACKET    	18
+@@ -439,6 +440,7 @@ typedef enum {source_unknown,
  	      source_usb,	/* potential GPS source, discoverable */
  	      source_bluetooth,	/* potential GPS source, discoverable */
  	      source_can,	/* potential GPS source, fixed CAN format */
@@ -487,10 +479,10 @@ index 2bd5f4c0..8e22e509 100644
  	      source_tcp,	/* TCP/IP stream: case detected but not used */
  	      source_udp,	/* UDP stream: case detected but not used */
 diff --git a/libgpsd_core.c b/libgpsd_core.c
-index 85b8d86a..4f6a11ed 100644
+index 3bf420c3e..848da6aeb 100644
 --- a/libgpsd_core.c
 +++ b/libgpsd_core.c
-@@ -48,6 +48,9 @@
+@@ -39,6 +39,9 @@
  #if defined(NMEA2000_ENABLE)
  #include "driver_nmea2000.h"
  #endif /* defined(NMEA2000_ENABLE) */
@@ -512,7 +504,7 @@ index 85b8d86a..4f6a11ed 100644
          (void)gpsd_close(session);
      if (session->mode == O_OPTIMIZE)
  	gpsd_run_device_hook(&session->context->errout,
-@@ -547,6 +555,11 @@ int gpsd_open(struct gps_device_t *session)
+@@ -549,6 +557,11 @@ int gpsd_open(struct gps_device_t *session)
          return nmea2000_open(session);
      }
  #endif /* defined(NMEA2000_ENABLE) */
@@ -524,7 +516,7 @@ index 85b8d86a..4f6a11ed 100644
      /* fall through to plain serial open */
      /* could be a naked /dev/ppsX */
      return gpsd_serial_open(session);
-@@ -575,7 +588,7 @@ int gpsd_activate(struct gps_device_t *session, const int mode)
+@@ -577,7 +590,7 @@ int gpsd_activate(struct gps_device_t *session, const int mode)
  #ifdef NON_NMEA0183_ENABLE
      /* if it's a sensor, it must be probed */
      if ((session->servicetype == service_sensor) &&
