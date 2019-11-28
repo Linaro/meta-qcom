@@ -13,7 +13,7 @@ LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/db845c/qcomlt-5.2"
 SRCREV ?= "13e8268d9b5cf3980b6e2766bf00439001c363fd"
 
-COMPATIBLE_MACHINE = "(sdm845)"
+COMPATIBLE_MACHINE = "(sdm845|qcs404)"
 
 # Wifi firmware has a recognizable arch :( 
 ERROR_QA_remove = "arch"
