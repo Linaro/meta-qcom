@@ -10,7 +10,9 @@ DEPENDS = "qrtr"
 inherit systemd
 
 SRCREV = "fe53d2a810abe0e1ee7cc0bb20fd520dc6605ecb"
-SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
+SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https \
+           file://0001-include-limits.h-for-PATH_MAX.patch \
+"
 
 PV = "0.0+${SRCPV}"
 
