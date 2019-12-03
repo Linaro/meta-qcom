@@ -1,7 +1,7 @@
-From 3c908d2df1d12ce370020bb8b39ac5b70deaaf78 Mon Sep 17 00:00:00 2001
+From 5f8c3f0795f463be9594aebe0d20c6a69e5ccff8 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 19 Sep 2019 12:30:35 +0100
-Subject: [PATCH 4/9] DB845c: fix Defaults
+Subject: [PATCH 04/10] DB845c: fix Defaults
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
@@ -130,5 +130,5 @@ index 36df8c1f..e8ede5b3 100644
  		cset "name='RX INT8_1 MIX1 INP0' RX0"
  		## gain to  0dB
 -- 
-2.23.0
+2.24.0
 
