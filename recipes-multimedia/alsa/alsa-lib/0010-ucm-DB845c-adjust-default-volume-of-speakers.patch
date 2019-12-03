@@ -1,4 +1,4 @@
-From 955175f1c93f3f2c8d51595bd5cbf479250d76f8 Mon Sep 17 00:00:00 2001
+From a20ee1b7aa24be04bf46d6aef596e1a07ec7fb60 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 31 Oct 2019 10:10:15 +0000
 Subject: [PATCH 10/10] ucm: DB845c: adjust default volume of speakers
@@ -61,5 +61,5 @@ index a794523b..40f7795e 100644
  		cset "name='SpkrLeft COMP Switch' 1"
  		cset "name='SpkrLeft BOOST Switch' 1"
 -- 
-2.23.0
+2.24.0
 

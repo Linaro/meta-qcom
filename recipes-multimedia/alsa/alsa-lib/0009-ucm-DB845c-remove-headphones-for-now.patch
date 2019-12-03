@@ -1,28 +1,14 @@
-From 68ac97e02d62bd2881beb1f66bddcb3937a7fc8b Mon Sep 17 00:00:00 2001
+From 6bb7e968a8da057b36bdecda1843f9b0f84e5bc8 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 24 Oct 2019 18:10:38 +0100
-Subject: [PATCH 9/9] ucm: DB845c: remove headphones for now
+Subject: [PATCH 09/10] ucm: DB845c: remove headphones for now
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- gitcompile                      |  2 +-
  src/conf/ucm/DB845c/DB845c.conf |  5 ++--
  src/conf/ucm/DB845c/HiFi        | 50 ++++-----------------------------
- 3 files changed, 8 insertions(+), 49 deletions(-)
+ 2 files changed, 7 insertions(+), 48 deletions(-)
 
-diff --git a/gitcompile b/gitcompile
-index 2741db4c..e6f709de 100755
---- a/gitcompile
-+++ b/gitcompile
-@@ -75,7 +75,7 @@ autoheader
- automake --foreign --copy --add-missing
- touch depcomp		# seems to be missing for old automake
- autoconf
--export CFLAGS='-O2 -Wall -W -Wunused-const-variable=0 -pipe -g'
-+export CFLAGS='-O2 -Wall -W -pipe -g'
- echo "CFLAGS=$CFLAGS"
- echo "./configure $args"
- ./configure $args || exit 1
 diff --git a/src/conf/ucm/DB845c/DB845c.conf b/src/conf/ucm/DB845c/DB845c.conf
 index 79efd81e..5765aacd 100644
 --- a/src/conf/ucm/DB845c/DB845c.conf
@@ -133,5 +119,5 @@ index 6f57068a..a794523b 100644
 -	}
 -}
 -- 
-2.23.0
+2.24.0
 

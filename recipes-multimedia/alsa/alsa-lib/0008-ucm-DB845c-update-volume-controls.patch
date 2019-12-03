@@ -1,7 +1,7 @@
-From a69b39cf6a5f32b7df17c34e27c2b3875f89e9ee Mon Sep 17 00:00:00 2001
+From 1fe278ce4d1f426b6f3075575fef078e00a07d3a Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 24 Oct 2019 14:13:30 +0100
-Subject: [PATCH 8/9] ucm: DB845c: update volume controls
+Subject: [PATCH 08/10] ucm: DB845c: update volume controls
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
@@ -51,5 +51,5 @@ index 7efd93df..6f57068a 100644
  		cset "name='RX INT2 DEM MUX' CLSH_DSM_OUT"
  	]
 -- 
-2.23.0
+2.24.0
 

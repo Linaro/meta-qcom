@@ -1,7 +1,7 @@
-From 00b13011d51bd23dc37af5d006cd158cb808b4e1 Mon Sep 17 00:00:00 2001
+From 0b1e5ae38b2b27722fb85c2c7fda1e591cd4adf3 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Fri, 18 Oct 2019 00:37:29 +0100
-Subject: [PATCH 7/9] Lenovo-YOGA-C630-13Q50: Add ucm for Speaker and Headset
+Subject: [PATCH 07/10] Lenovo-YOGA-C630-13Q50: Add ucm for Speaker and Headset
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
@@ -15,7 +15,7 @@ Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
  create mode 100644 src/conf/ucm/Lenovo-YOGA-C630-13Q50/Makefile.am
 
 diff --git a/configure.ac b/configure.ac
-index 382d7fb1..88812aa6 100644
+index ebea5949..d8e6794a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -756,6 +756,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
@@ -175,5 +175,5 @@ index 00000000..05397651
 +ucm_DATA = Lenovo-YOGA-C630-13Q50.conf HiFi
 +EXTRA_DIST = $(ucm_DATA)
 -- 
-2.23.0
+2.24.0
 

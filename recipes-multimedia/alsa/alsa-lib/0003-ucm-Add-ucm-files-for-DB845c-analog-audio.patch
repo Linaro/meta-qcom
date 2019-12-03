@@ -1,7 +1,7 @@
-From c6df679f67d74e6a086b9399846fe7d5172e1e54 Mon Sep 17 00:00:00 2001
+From 01af05eaa8727411186b68f1712242bf27f8ae51 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 4 Jul 2019 09:57:24 +0100
-Subject: [PATCH 3/9] ucm: Add: ucm files for DB845c analog audio
+Subject: [PATCH 03/10] ucm: Add: ucm files for DB845c analog audio
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
@@ -243,5 +243,5 @@ index 34b28d86..f80ab889 100644
 +ucm_DATA = DB845c.conf HDMI HiFi
  EXTRA_DIST = $(ucm_DATA)
 -- 
-2.23.0
+2.24.0
 

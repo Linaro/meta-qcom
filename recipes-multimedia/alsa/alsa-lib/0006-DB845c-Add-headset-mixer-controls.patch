@@ -1,7 +1,7 @@
-From 95da046a766a82ac2a44a2ff7746adb0621aa693 Mon Sep 17 00:00:00 2001
+From 0bb72348330959d7b736131a0a57e01a42b0ecb4 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Fri, 18 Oct 2019 00:33:02 +0100
-Subject: [PATCH 6/9] DB845c: Add headset mixer controls
+Subject: [PATCH 06/10] DB845c: Add headset mixer controls
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
@@ -148,5 +148,5 @@ index f83213c8..7efd93df 100644
 +	}
 +}
 -- 
-2.23.0
+2.24.0
 
