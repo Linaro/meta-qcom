@@ -1,7 +1,7 @@
-From 2b92828b0e8ff30cfe7cbd12db6e96c3860333d7 Mon Sep 17 00:00:00 2001
+From 30669d43de97af2b6367ef3de6f8758fe08c73c5 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Fri, 20 Sep 2019 13:12:05 +0100
-Subject: [PATCH 5/9] WIP: make card name explicit
+Subject: [PATCH 05/10] WIP: make card name explicit
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
@@ -231,5 +231,5 @@ index e8ede5b3..f83213c8 100644
 -	}
 -}
 -- 
-2.23.0
+2.24.0
 

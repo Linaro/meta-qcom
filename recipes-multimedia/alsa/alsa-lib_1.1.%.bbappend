@@ -1,11 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI_append_apq8096 = " \
-	file://0001-conf-ucm-Add-ucm-files-for-DB820c-board.patch \
-"
-
 SRC_URI_append_sdm845 = " \
-	file://0001-conf-ucm-Add-ucm-files-for-DB820c-board.patch \
 	file://0002-ucm-Add-ucm-files-for-DB845c-HDMI-audio.patch \
 	file://0003-ucm-Add-ucm-files-for-DB845c-analog-audio.patch \
 	file://0004-DB845c-fix-Defaults.patch \

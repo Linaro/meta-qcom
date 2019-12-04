@@ -1,7 +1,7 @@
-From 294653f6c664ac20a9b96afc736c1aeca1ce079b Mon Sep 17 00:00:00 2001
+From 220efcf59c12bb3b6022bdbc3fc54e689451b6ba Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Wed, 17 Apr 2019 15:20:27 +0100
-Subject: [PATCH 2/9] ucm: Add: ucm files for DB845c HDMI audio
+Subject: [PATCH 02/10] ucm: Add: ucm files for DB845c HDMI audio
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
@@ -16,7 +16,7 @@ Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
  create mode 100644 src/conf/ucm/DB845c/Makefile.am
 
 diff --git a/configure.ac b/configure.ac
-index e9e1a369..382d7fb1 100644
+index 0fb34de4..ebea5949 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -748,6 +748,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
@@ -103,5 +103,5 @@ index e9f88ed6..46d246ea 100644
  GoogleNyan \
  gpd-win-pocket-rt5645 \
 -- 
-2.23.0
+2.24.0
 
