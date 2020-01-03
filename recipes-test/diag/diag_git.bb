@@ -7,7 +7,7 @@ SRC_URI = "git://github.com/andersson/diag.git;protocol=https \
            "
 
 PV = "0.0+git${SRCPV}"
-SRCREV = "5ef6b6b0c50047be3dd456d91d9a6dd730ba99e2"
+SRCREV = "cc5dc0dec3f584d4a500fa36b983e6e77a98e478"
 
 S = "${WORKDIR}/git"
 
