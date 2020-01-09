@@ -24,8 +24,9 @@ do_install() {
     cp -r ./proprietary-linux/* ${D}${nonarch_base_libdir}/firmware/
     cp ./efs-seed/fs_image_linux.tar.gz.mbn.img ${D}/boot/modem_fsg
 
+    install -d  ${D}${nonarch_base_libdir}/firmware/qcom/msm8916
     MTOOLS_SKIP_CHECK=1 mcopy -i ./bootloaders-linux/NON-HLOS.bin \
-    ::image/modem.* ::image/mba.mbn ::image/wcnss.* ${D}${nonarch_base_libdir}/firmware/
+    ::image/modem.* ::image/mba.mbn ::image/wcnss.* ${D}${nonarch_base_libdir}/firmware/qcom/msm8916
 
     # Venus firmware have been merged in linux-firmware in a different location than
     # what we've been using for now. Let's add symlinks for now, until we switch to linux-firmware
