@@ -1,0 +1,31 @@
+From 14eded9f6c4dea24b6d217420d329f41ca565e51 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Date: Tue, 28 Jan 2020 16:45:35 -0600
+Subject: [PATCH] rmtfs.service.in: Wait before start rmtfs
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+We found that rmtfs requires time after start qrtr to be able
+run succesfully, root cause is in investigation.
+
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ rmtfs.service.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rmtfs.service.in b/rmtfs.service.in
+index 0dd59d4..f249a24 100644
+--- a/rmtfs.service.in
++++ b/rmtfs.service.in
+@@ -4,6 +4,7 @@ Requires=qrtr-ns.service
+ After=qrtr-ns.service
+ 
+ [Service]
++ExecStartPre=/bin/sleep 1
+ ExecStart=RMTFS_PATH/rmtfs -r -P -s
+ Restart=always
+ 
+-- 
+2.25.0
+

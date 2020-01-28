@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ca25dbf5ebfc1a058bfc657c895aac2f"
 inherit systemd
 
 SRCREV = "df6c19d0330d251af0a7c812bf5ddb847962ce2c"
-SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
+SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https \
+           file://0001-rmtfs.service.in-Wait-before-start-rmtfs.patch"
 DEPENDS = "qmic-native qrtr udev"
 
 PV = "0.0+${SRCPV}"
