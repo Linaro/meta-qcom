@@ -1,0 +1,23 @@
+From aadbb5dd64abc2efbb5548d1d0b168d476875157 Mon Sep 17 00:00:00 2001
+From: Peter Griffin <peter.griffin@linaro.org>
+Date: Wed, 29 Jan 2020 22:55:41 +0100
+Subject: [PATCH 2/2] mkbootimg: use python3
+
+Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+---
+ mkbootimg | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mkbootimg b/mkbootimg
+index c0e7dcb..adfc54b 100755
+--- a/mkbootimg
++++ b/mkbootimg
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env python
++#! /usr/bin/env python3
+ #
+ #  Copyright (c) 2013, The Linux Foundation. All rights reserved.
+ #
+-- 
+2.7.4
+
