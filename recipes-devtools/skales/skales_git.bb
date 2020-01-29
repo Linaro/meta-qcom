@@ -11,7 +11,10 @@ DEPENDS = "python3 dtc"
 SRCREV = "6eac9e943de53c4aaaede3697e9226a47686fe25"
 PV = "1.5.0+git${SRCPV}"
 
-SRC_URI = "git://codeaurora.org/quic/kernel/skales"
+SRC_URI = "git://codeaurora.org/quic/kernel/skales \
+          file://0001-dtbTool-use-python3.patch \
+          file://0002-mkbootimg-use-python3.patch \
+          "
 
 S = "${WORKDIR}/git"
 
