@@ -6,7 +6,7 @@ SECTION = "devel"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://mkbootimg;beginline=3;endline=29;md5=114b84083e657f3886bfa2c1e5de7deb"
 
-DEPENDS = "python dtc"
+DEPENDS = "python3 dtc"
 
 SRCREV = "6eac9e943de53c4aaaede3697e9226a47686fe25"
 PV = "1.5.0+git${SRCPV}"
