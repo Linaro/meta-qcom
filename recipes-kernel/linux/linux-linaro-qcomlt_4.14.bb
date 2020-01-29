@@ -4,7 +4,7 @@
 DESCRIPTION = "Linaro Qualcomm Landing team 4.14 Kernel"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-inherit pythonnative
+inherit python3native
 
 require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
