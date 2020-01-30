@@ -1,20 +1,19 @@
-From 01af05eaa8727411186b68f1712242bf27f8ae51 Mon Sep 17 00:00:00 2001
+From 0ccc5cf2257da567e9651eec66d97bebf14797f0 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 4 Jul 2019 09:57:24 +0100
-Subject: [PATCH 03/10] ucm: Add: ucm files for DB845c analog audio
+Subject: [PATCH 02/10] ucm: Add: ucm files for DB845c analog audio
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- src/conf/ucm/DB845c/DB845c.conf |   5 +
- src/conf/ucm/DB845c/HiFi        | 202 ++++++++++++++++++++++++++++++++
- src/conf/ucm/DB845c/Makefile.am |   2 +-
- 3 files changed, 208 insertions(+), 1 deletion(-)
- create mode 100644 src/conf/ucm/DB845c/HiFi
+ ucm2/DB845c/DB845c.conf |   5 +
+ ucm2/DB845c/HiFi        | 202 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 207 insertions(+)
+ create mode 100644 ucm2/DB845c/HiFi
 
-diff --git a/src/conf/ucm/DB845c/DB845c.conf b/src/conf/ucm/DB845c/DB845c.conf
-index 49c688e5..58b7ff4e 100644
---- a/src/conf/ucm/DB845c/DB845c.conf
-+++ b/src/conf/ucm/DB845c/DB845c.conf
+diff --git a/ucm2/DB845c/DB845c.conf b/ucm2/DB845c/DB845c.conf
+index 49c688e..58b7ff4 100644
+--- a/ucm2/DB845c/DB845c.conf
++++ b/ucm2/DB845c/DB845c.conf
 @@ -1,3 +1,8 @@
 +SectionUseCase."HiFi" {
 +	File "HiFi"
@@ -24,11 +23,11 @@ index 49c688e5..58b7ff4e 100644
  SectionUseCase."HDMI" {
  	File "HDMI"
  	Comment "HDMI output."
-diff --git a/src/conf/ucm/DB845c/HiFi b/src/conf/ucm/DB845c/HiFi
+diff --git a/ucm2/DB845c/HiFi b/ucm2/DB845c/HiFi
 new file mode 100644
-index 00000000..36df8c1f
+index 0000000..36df8c1
 --- /dev/null
-+++ b/src/conf/ucm/DB845c/HiFi
++++ b/ucm2/DB845c/HiFi
 @@ -0,0 +1,202 @@
 +# Use case configuration for DB845c board.
 +# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
@@ -232,16 +231,6 @@ index 00000000..36df8c1f
 +		CaptureChannels "1"
 +	}
 +}
-diff --git a/src/conf/ucm/DB845c/Makefile.am b/src/conf/ucm/DB845c/Makefile.am
-index 34b28d86..f80ab889 100644
---- a/src/conf/ucm/DB845c/Makefile.am
-+++ b/src/conf/ucm/DB845c/Makefile.am
-@@ -1,4 +1,4 @@
- alsaconfigdir = @ALSA_CONFIG_DIR@
- ucmdir = $(alsaconfigdir)/ucm/DB845c
--ucm_DATA = DB845c.conf HDMI
-+ucm_DATA = DB845c.conf HDMI HiFi
- EXTRA_DIST = $(ucm_DATA)
 -- 
-2.24.0
+2.20.1
 

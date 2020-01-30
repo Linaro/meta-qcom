@@ -1,18 +1,18 @@
-From 1fe278ce4d1f426b6f3075575fef078e00a07d3a Mon Sep 17 00:00:00 2001
+From 468099d5527dc9eaa6b7187195cfa4d6d2d31b07 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 24 Oct 2019 14:13:30 +0100
-Subject: [PATCH 08/10] ucm: DB845c: update volume controls
+Subject: [PATCH 07/10] ucm: DB845c: update volume controls
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- src/conf/ucm/DB845c/DB845c.conf | 6 ++++--
- src/conf/ucm/DB845c/HiFi        | 6 ++++--
+ ucm2/DB845c/DB845c.conf | 6 ++++--
+ ucm2/DB845c/HiFi        | 6 ++++--
  2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/src/conf/ucm/DB845c/DB845c.conf b/src/conf/ucm/DB845c/DB845c.conf
-index d3cf0b7d..79efd81e 100644
---- a/src/conf/ucm/DB845c/DB845c.conf
-+++ b/src/conf/ucm/DB845c/DB845c.conf
+diff --git a/ucm2/DB845c/DB845c.conf b/ucm2/DB845c/DB845c.conf
+index d3cf0b7..79efd81 100644
+--- a/ucm2/DB845c/DB845c.conf
++++ b/ucm2/DB845c/DB845c.conf
 @@ -17,8 +17,10 @@ SectionDefaults [
  	cset "name='RX INT7_1 MIX1 INP0' RX0"
  	cset "name='RX INT8_1 MIX1 INP0' RX0"
@@ -26,10 +26,10 @@ index d3cf0b7d..79efd81e 100644
  	cset "name='MultiMedia3 Mixer SLIMBUS_0_TX' 1"
  	cset "name='AIF1_CAP Mixer SLIM TX0' 1"
  	cset "name='CDC_IF TX0 MUX' DEC0"
-diff --git a/src/conf/ucm/DB845c/HiFi b/src/conf/ucm/DB845c/HiFi
-index 7efd93df..6f57068a 100644
---- a/src/conf/ucm/DB845c/HiFi
-+++ b/src/conf/ucm/DB845c/HiFi
+diff --git a/ucm2/DB845c/HiFi b/ucm2/DB845c/HiFi
+index 7efd93d..6f57068 100644
+--- a/ucm2/DB845c/HiFi
++++ b/ucm2/DB845c/HiFi
 @@ -39,6 +39,8 @@ SectionDevice."Speakers" {
  		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 1"
  		cset "name='COMP7 Switch' 1"
@@ -51,5 +51,5 @@ index 7efd93df..6f57068a 100644
  		cset "name='RX INT2 DEM MUX' CLSH_DSM_OUT"
  	]
 -- 
-2.24.0
+2.20.1
 

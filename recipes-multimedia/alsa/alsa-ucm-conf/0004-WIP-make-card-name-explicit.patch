@@ -1,19 +1,19 @@
-From 30669d43de97af2b6367ef3de6f8758fe08c73c5 Mon Sep 17 00:00:00 2001
+From d49db4501231b9b6a536cf3a0a949048ff6bd531 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Fri, 20 Sep 2019 13:12:05 +0100
-Subject: [PATCH 05/10] WIP: make card name explicit
+Subject: [PATCH 04/10] WIP: make card name explicit
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- src/conf/ucm/DB845c/DB845c.conf |   2 +-
- src/conf/ucm/DB845c/HDMI        |  10 +--
- src/conf/ucm/DB845c/HiFi        | 124 ++------------------------------
+ ucm2/DB845c/DB845c.conf |   2 +-
+ ucm2/DB845c/HDMI        |  10 ++--
+ ucm2/DB845c/HiFi        | 124 ++--------------------------------------
  3 files changed, 12 insertions(+), 124 deletions(-)
 
-diff --git a/src/conf/ucm/DB845c/DB845c.conf b/src/conf/ucm/DB845c/DB845c.conf
-index c4f958e0..d3cf0b7d 100644
---- a/src/conf/ucm/DB845c/DB845c.conf
-+++ b/src/conf/ucm/DB845c/DB845c.conf
+diff --git a/ucm2/DB845c/DB845c.conf b/ucm2/DB845c/DB845c.conf
+index c4f958e..d3cf0b7 100644
+--- a/ucm2/DB845c/DB845c.conf
++++ b/ucm2/DB845c/DB845c.conf
 @@ -9,7 +9,7 @@ SectionUseCase."HDMI" {
  }
  
@@ -23,10 +23,10 @@ index c4f958e0..d3cf0b7d 100644
  	cset "name='QUAT_MI2S_RX Audio Mixer MultiMedia1' 1"
  	cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 1"
  	cset "name='SLIM RX0 MUX' AIF1_PB"
-diff --git a/src/conf/ucm/DB845c/HDMI b/src/conf/ucm/DB845c/HDMI
-index 8354033d..435e6d82 100644
---- a/src/conf/ucm/DB845c/HDMI
-+++ b/src/conf/ucm/DB845c/HDMI
+diff --git a/ucm2/DB845c/HDMI b/ucm2/DB845c/HDMI
+index 8354033..435e6d8 100644
+--- a/ucm2/DB845c/HDMI
++++ b/ucm2/DB845c/HDMI
 @@ -3,17 +3,17 @@
  
  SectionVerb {
@@ -63,10 +63,10 @@ index 8354033d..435e6d82 100644
  		cset "name='QUAT_MI2S_RX Audio Mixer MultiMedia1' 0"
          ]
  
-diff --git a/src/conf/ucm/DB845c/HiFi b/src/conf/ucm/DB845c/HiFi
-index e8ede5b3..f83213c8 100644
---- a/src/conf/ucm/DB845c/HiFi
-+++ b/src/conf/ucm/DB845c/HiFi
+diff --git a/ucm2/DB845c/HiFi b/ucm2/DB845c/HiFi
+index e8ede5b..f83213c 100644
+--- a/ucm2/DB845c/HiFi
++++ b/ucm2/DB845c/HiFi
 @@ -4,7 +4,7 @@
  SectionVerb {
  
@@ -231,5 +231,5 @@ index e8ede5b3..f83213c8 100644
 -	}
 -}
 -- 
-2.24.0
+2.20.1
 

@@ -1,19 +1,19 @@
-From 5f8c3f0795f463be9594aebe0d20c6a69e5ccff8 Mon Sep 17 00:00:00 2001
+From 56a1eecb553007c08848e61c0e03de7111889563 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 19 Sep 2019 12:30:35 +0100
-Subject: [PATCH 04/10] DB845c: fix Defaults
+Subject: [PATCH 03/10] DB845c: fix Defaults
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- src/conf/ucm/DB845c/DB845c.conf | 19 +++++++++++++++++++
- src/conf/ucm/DB845c/HDMI        | 22 +++++++++++-----------
- src/conf/ucm/DB845c/HiFi        | 20 ++++----------------
+ ucm2/DB845c/DB845c.conf | 19 +++++++++++++++++++
+ ucm2/DB845c/HDMI        | 22 +++++++++++-----------
+ ucm2/DB845c/HiFi        | 20 ++++----------------
  3 files changed, 34 insertions(+), 27 deletions(-)
 
-diff --git a/src/conf/ucm/DB845c/DB845c.conf b/src/conf/ucm/DB845c/DB845c.conf
-index 58b7ff4e..c4f958e0 100644
---- a/src/conf/ucm/DB845c/DB845c.conf
-+++ b/src/conf/ucm/DB845c/DB845c.conf
+diff --git a/ucm2/DB845c/DB845c.conf b/ucm2/DB845c/DB845c.conf
+index 58b7ff4..c4f958e 100644
+--- a/ucm2/DB845c/DB845c.conf
++++ b/ucm2/DB845c/DB845c.conf
 @@ -7,3 +7,22 @@ SectionUseCase."HDMI" {
  	File "HDMI"
  	Comment "HDMI output."
@@ -37,10 +37,10 @@ index 58b7ff4e..c4f958e0 100644
 +	cset "name='DMIC MUX0' DMIC0"
 +	cset "name='DEC0 Volume' 68"
 +]
-diff --git a/src/conf/ucm/DB845c/HDMI b/src/conf/ucm/DB845c/HDMI
-index fdac94e5..8354033d 100644
---- a/src/conf/ucm/DB845c/HDMI
-+++ b/src/conf/ucm/DB845c/HDMI
+diff --git a/ucm2/DB845c/HDMI b/ucm2/DB845c/HDMI
+index fdac94e..8354033 100644
+--- a/ucm2/DB845c/HDMI
++++ b/ucm2/DB845c/HDMI
 @@ -3,17 +3,17 @@
  
  SectionVerb {
@@ -84,10 +84,10 @@ index fdac94e5..8354033d 100644
          ]
  
          Value {
-diff --git a/src/conf/ucm/DB845c/HiFi b/src/conf/ucm/DB845c/HiFi
-index 36df8c1f..e8ede5b3 100644
---- a/src/conf/ucm/DB845c/HiFi
-+++ b/src/conf/ucm/DB845c/HiFi
+diff --git a/ucm2/DB845c/HiFi b/ucm2/DB845c/HiFi
+index 36df8c1..e8ede5b 100644
+--- a/ucm2/DB845c/HiFi
++++ b/ucm2/DB845c/HiFi
 @@ -6,13 +6,7 @@ SectionVerb {
  	EnableSequence [
  		cdev "hw:0"
@@ -130,5 +130,5 @@ index 36df8c1f..e8ede5b3 100644
  		cset "name='RX INT8_1 MIX1 INP0' RX0"
  		## gain to  0dB
 -- 
-2.24.0
+2.20.1
 

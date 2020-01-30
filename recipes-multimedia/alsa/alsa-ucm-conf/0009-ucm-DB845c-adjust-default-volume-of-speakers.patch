@@ -1,18 +1,18 @@
-From a20ee1b7aa24be04bf46d6aef596e1a07ec7fb60 Mon Sep 17 00:00:00 2001
+From 97291862280a88fc60e2e192b3a99b4874680d8e Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Thu, 31 Oct 2019 10:10:15 +0000
-Subject: [PATCH 10/10] ucm: DB845c: adjust default volume of speakers
+Subject: [PATCH 09/10] ucm: DB845c: adjust default volume of speakers
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- src/conf/ucm/DB845c/DB845c.conf | 15 ++++++++++-----
- src/conf/ucm/DB845c/HiFi        |  6 ++----
+ ucm2/DB845c/DB845c.conf | 15 ++++++++++-----
+ ucm2/DB845c/HiFi        |  6 ++----
  2 files changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/src/conf/ucm/DB845c/DB845c.conf b/src/conf/ucm/DB845c/DB845c.conf
-index 5765aacd..d1bf6e3e 100644
---- a/src/conf/ucm/DB845c/DB845c.conf
-+++ b/src/conf/ucm/DB845c/DB845c.conf
+diff --git a/ucm2/DB845c/DB845c.conf b/ucm2/DB845c/DB845c.conf
+index 5765aac..d1bf6e3 100644
+--- a/ucm2/DB845c/DB845c.conf
++++ b/ucm2/DB845c/DB845c.conf
 @@ -12,14 +12,19 @@ SectionDefaults [
  	cdev "hw:DB845c"
  	cset "name='QUAT_MI2S_RX Audio Mixer MultiMedia1' 1"
@@ -38,10 +38,10 @@ index 5765aacd..d1bf6e3e 100644
  	cset "name='MultiMedia3 Mixer SLIMBUS_0_TX' 1"
  	cset "name='AIF1_CAP Mixer SLIM TX0' 1"
  	cset "name='CDC_IF TX0 MUX' DEC0"
-diff --git a/src/conf/ucm/DB845c/HiFi b/src/conf/ucm/DB845c/HiFi
-index a794523b..40f7795e 100644
---- a/src/conf/ucm/DB845c/HiFi
-+++ b/src/conf/ucm/DB845c/HiFi
+diff --git a/ucm2/DB845c/HiFi b/ucm2/DB845c/HiFi
+index a794523..40f7795 100644
+--- a/ucm2/DB845c/HiFi
++++ b/ucm2/DB845c/HiFi
 @@ -32,15 +32,13 @@ SectionDevice."Speakers" {
  		cdev "hw:DB845c"
  		cset "name='SLIM RX6 MUX' AIF1_PB"
@@ -61,5 +61,5 @@ index a794523b..40f7795e 100644
  		cset "name='SpkrLeft COMP Switch' 1"
  		cset "name='SpkrLeft BOOST Switch' 1"
 -- 
-2.24.0
+2.20.1
 

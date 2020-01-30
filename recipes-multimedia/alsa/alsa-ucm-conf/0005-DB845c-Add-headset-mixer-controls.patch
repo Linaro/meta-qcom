@@ -1,17 +1,17 @@
-From 0bb72348330959d7b736131a0a57e01a42b0ecb4 Mon Sep 17 00:00:00 2001
+From 27bdf93e1f0cd0cdcd4942dfd8cd30ba594a4718 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Fri, 18 Oct 2019 00:33:02 +0100
-Subject: [PATCH 06/10] DB845c: Add headset mixer controls
+Subject: [PATCH 05/10] DB845c: Add headset mixer controls
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- src/conf/ucm/DB845c/HiFi | 91 +++++++++++++++++++++++++++-------------
+ ucm2/DB845c/HiFi | 91 +++++++++++++++++++++++++++++++++---------------
  1 file changed, 63 insertions(+), 28 deletions(-)
 
-diff --git a/src/conf/ucm/DB845c/HiFi b/src/conf/ucm/DB845c/HiFi
-index f83213c8..7efd93df 100644
---- a/src/conf/ucm/DB845c/HiFi
-+++ b/src/conf/ucm/DB845c/HiFi
+diff --git a/ucm2/DB845c/HiFi b/ucm2/DB845c/HiFi
+index f83213c..7efd93d 100644
+--- a/ucm2/DB845c/HiFi
++++ b/ucm2/DB845c/HiFi
 @@ -5,32 +5,23 @@ SectionVerb {
  
  	EnableSequence [
@@ -148,5 +148,5 @@ index f83213c8..7efd93df 100644
 +	}
 +}
 -- 
-2.24.0
+2.20.1
 
