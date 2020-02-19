@@ -24,7 +24,6 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro-qcomlt"
 
 MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += " \
-    adsprpc \
     pd-mapper \
     qrtr \
     rmtfs \
