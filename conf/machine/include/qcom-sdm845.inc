@@ -30,6 +30,10 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += " \
     tqftpserv \
 "
 
+MACHINE_EXTRA_RRECOMMENDS += " \
+    fastrpc \
+"
+
 IMAGE_FSTYPES ?= "ext4.gz"
 IMAGE_ROOTFS_ALIGNMENT = "4096"
 
