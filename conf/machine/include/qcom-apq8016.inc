@@ -27,6 +27,10 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += " \
     rmtfs \
 "
 
+MACHINE_EXTRA_RRECOMMENDS += " \
+    fastrpc \
+"
+
 # Fastboot expects an ext4 image, which needs to be 4096 aligned
 IMAGE_FSTYPES ?= "ext4.gz"
 IMAGE_ROOTFS_ALIGNMENT = "4096"
