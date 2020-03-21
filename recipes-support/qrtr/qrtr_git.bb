@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=15329706fbfcb5fc5edcc1bc7c139da5"
 
 inherit systemd
 
-SRCREV = "cd6bedd5d00f211e6c1e3803ff2f9f53c246435e"
+SRCREV = "7bd5cf302437755b0d741c9dc1805395a9654597"
 SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
 
 PV = "0.0+${SRCPV}"
