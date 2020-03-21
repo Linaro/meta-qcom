@@ -5,19 +5,15 @@ PACKAGE_INSTALL = " \
     bluez5 \
     busybox \
     base-passwd \
-    devmem2 \
     diag \
     ethtool \
     gptfdisk \
-    iperf2 \
-    iperf3 \
     lava-test-shell \
     packagegroup-core-boot \
     pciutils \
     pd-mapper \
     qrtr \
     rmtfs \
-    tcpdump \
     tqftpserv \
     udev \
     usbutils \
