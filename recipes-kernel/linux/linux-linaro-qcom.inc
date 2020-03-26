@@ -83,10 +83,20 @@ do_configure_prepend() {
 
 # append DTB
 do_compile_append() {
-    if ! [ -e ${B}/arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} ] ; then
-        oe_runmake ${KERNEL_DEVICETREE}
-    fi
-    cp arch/${ARCH}/boot/${KERNEL_IMAGETYPE} arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup
-    cat arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} > arch/${ARCH}/boot/${KERNEL_IMAGETYPE}
-    rm -f arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup
+    set -x
+    for dt in ${KERNEL_DEVICETREE}; do
+        if ! [ -e ${B}/arch/${ARCH}/boot/dts/${dt} ] ; then
+            oe_runmake ${dt}
+        fi
+
+	# The qcom-armv8a MACHINE supports multiple device trees to build Android boot images
+	if [ "${MACHINE}" = "qcom-armv8a" ]; then
+            dt_basename=$(basename $dt)
+            cat arch/${ARCH}/boot/${KERNEL_IMAGETYPE} arch/${ARCH}/boot/dts/${dt} > arch/${ARCH}/boot/${KERNEL_IMAGETYPE}+${dt_basename}
+        else
+	    cp arch/${ARCH}/boot/${KERNEL_IMAGETYPE} arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup
+	    cat arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup arch/${ARCH}/boot/dts/${KERNEL_DEVICETREE} > arch/${ARCH}/boot/${KERNEL_IMAGETYPE}
+	    rm -f arch/${ARCH}/boot/${KERNEL_IMAGETYPE}.backup
+        fi
+    done
 }
