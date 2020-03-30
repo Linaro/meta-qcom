@@ -5,6 +5,7 @@ PACKAGE_INSTALL = " \
     bluez5 \
     busybox \
     base-passwd \
+    dhcp-client \
     diag \
     ethtool \
     gptfdisk \
