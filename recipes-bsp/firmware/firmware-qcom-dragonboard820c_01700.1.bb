@@ -18,12 +18,9 @@ do_compile() {
 
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
-    install -d ${D}${nonarch_base_libdir}/firmware/qcom/venus-4.2/
     install -d ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
     
-    install -m 0444 ./proprietary-linux/a530*.* ${D}${nonarch_base_libdir}/firmware/
-    install -m 0444 ./proprietary-linux/venus.* ${D}${nonarch_base_libdir}/firmware/qcom/venus-4.2/
-    install -m 0444 ./proprietary-linux/adsp.* ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
+    install -m 0444 ./proprietary-linux/adsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE
@@ -31,14 +28,6 @@ do_install() {
 
 FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
 INSANE_SKIP_${PN} += "arch"
-
-RPROVIDES_${PN} += "linux-firmware-qcom-adreno-a530"
-RREPLACES_${PN} += "linux-firmware-qcom-adreno-a530"
-RCONFLICTS_${PN} += "linux-firmware-qcom-adreno-a530"
-
-RPROVIDES_${PN} += "linux-firmware-qcom-venus-4.2"
-RREPLACES_${PN} += "linux-firmware-qcom-venus-4.2"
-RCONFLICTS_${PN} += "linux-firmware-qcom-venus-4.2"
 
 RPROVIDES_${PN} += "linux-firmware-qcom-license"
 RREPLACES_${PN} += "linux-firmware-qcom-license"
