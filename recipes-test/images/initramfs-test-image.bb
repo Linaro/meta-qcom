@@ -7,6 +7,11 @@ PACKAGE_INSTALL = " \
     base-passwd \
     dhcp-client \
     diag \
+    e2fsprogs \
+    e2fsprogs-e2fsck \
+    e2fsprogs-mke2fs \
+    e2fsprogs-resize2fs \
+    e2fsprogs-tune2fs \
     ethtool \
     gptfdisk \
     lava-test-shell \
