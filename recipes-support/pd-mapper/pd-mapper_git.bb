@@ -9,7 +9,7 @@ DEPENDS = "qrtr"
 
 inherit systemd
 
-SRCREV = "4236829a625ba5e90e689bc3d07e5ad15bca9733"
+SRCREV = "ab5074fdd5e4130578aa4c99b00d44527a79636f"
 SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
 
 PV = "0.0+${SRCPV}"

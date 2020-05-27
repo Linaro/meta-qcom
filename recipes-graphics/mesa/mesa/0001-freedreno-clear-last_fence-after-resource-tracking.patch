@@ -1,0 +1,94 @@
+From 3c4e3006ef3318c1afe65341a1f92cf332ce0d81 Mon Sep 17 00:00:00 2001
+From: Rob Clark <robdclark@chromium.org>
+Date: Sat, 23 May 2020 10:52:52 -0700
+Subject: [PATCH] freedreno: clear last_fence after resource tracking
+
+The resource tracking in the clear/draw_vbo/blit paths could itself
+trigger a flush.  Which would update last_fence.  So we need to clear
+last_fence *after* all the dependency tracking.
+
+Fixes: ddb7fadaf8b ("freedreno: avoid no-op flushes by re-using last-fence")
+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/2992
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ src/gallium/drivers/freedreno/a6xx/fd6_blitter.c |  8 ++++++--
+ src/gallium/drivers/freedreno/freedreno_draw.c   | 16 ++++++++++++----
+ 2 files changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/src/gallium/drivers/freedreno/a6xx/fd6_blitter.c b/src/gallium/drivers/freedreno/a6xx/fd6_blitter.c
+index f812aab37a6..21900312ae7 100644
+--- a/src/gallium/drivers/freedreno/a6xx/fd6_blitter.c
++++ b/src/gallium/drivers/freedreno/a6xx/fd6_blitter.c
+@@ -632,8 +632,6 @@ handle_rgba_blit(struct fd_context *ctx, const struct pipe_blit_info *info)
+ 	if (!can_do_blit(info))
+ 		return false;
+ 
+-	fd_fence_ref(&ctx->last_fence, NULL);
+-
+ 	batch = fd_bc_alloc_batch(&ctx->screen->batch_cache, ctx, true);
+ 
+ 	fd6_emit_restore(batch, batch->draw);
+@@ -646,6 +644,12 @@ handle_rgba_blit(struct fd_context *ctx, const struct pipe_blit_info *info)
+ 
+ 	mtx_unlock(&ctx->screen->lock);
+ 
++	/* Clearing last_fence must come after the batch dependency tracking
++	 * (resource_read()/resource_write()), as that can trigger a flush,
++	 * re-populating last_fence
++	 */
++	fd_fence_ref(&ctx->last_fence, NULL);
++
+ 	emit_setup(batch);
+ 
+ 	if ((info->src.resource->target == PIPE_BUFFER) &&
+diff --git a/src/gallium/drivers/freedreno/freedreno_draw.c b/src/gallium/drivers/freedreno/freedreno_draw.c
+index 94e2aae9e68..e2a0a1260fa 100644
+--- a/src/gallium/drivers/freedreno/freedreno_draw.c
++++ b/src/gallium/drivers/freedreno/freedreno_draw.c
+@@ -93,8 +93,6 @@ fd_draw_vbo(struct pipe_context *pctx, const struct pipe_draw_info *info)
+ 		return;
+ 	}
+ 
+-	fd_fence_ref(&ctx->last_fence, NULL);
+-
+ 	/* Upload a user index buffer. */
+ 	struct pipe_resource *indexbuf = NULL;
+ 	unsigned index_offset = 0;
+@@ -282,6 +280,12 @@ fd_draw_vbo(struct pipe_context *pctx, const struct pipe_draw_info *info)
+ 	/* and any buffers used, need to be resolved: */
+ 	batch->resolve |= buffers;
+ 
++	/* Clearing last_fence must come after the batch dependency tracking
++	 * (resource_read()/resource_written()), as that can trigger a flush,
++	 * re-populating last_fence
++	 */
++	fd_fence_ref(&ctx->last_fence, NULL);
++
+ 	DBG("%p: %x %ux%u num_draws=%u (%s/%s)", batch, buffers,
+ 		pfb->width, pfb->height, batch->num_draws,
+ 		util_format_short_name(pipe_surface_format(pfb->cbufs[0])),
+@@ -318,8 +322,6 @@ fd_clear(struct pipe_context *pctx, unsigned buffers,
+ 	if (!fd_render_condition_check(pctx))
+ 		return;
+ 
+-	fd_fence_ref(&ctx->last_fence, NULL);
+-
+ 	if (ctx->in_blit) {
+ 		fd_batch_reset(batch);
+ 		fd_context_all_dirty(ctx);
+@@ -366,6 +368,12 @@ fd_clear(struct pipe_context *pctx, unsigned buffers,
+ 
+ 	mtx_unlock(&ctx->screen->lock);
+ 
++	/* Clearing last_fence must come after the batch dependency tracking
++	 * (resource_read()/resource_written()), as that can trigger a flush,
++	 * re-populating last_fence
++	 */
++	fd_fence_ref(&ctx->last_fence, NULL);
++
+ 	DBG("%p: %x %ux%u depth=%f, stencil=%u (%s/%s)", batch, buffers,
+ 		pfb->width, pfb->height, depth, stencil,
+ 		util_format_short_name(pipe_surface_format(pfb->cbufs[0])),
+-- 
+2.27.0.rc0
+
