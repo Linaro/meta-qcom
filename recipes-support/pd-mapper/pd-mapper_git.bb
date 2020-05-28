@@ -10,7 +10,9 @@ DEPENDS = "qrtr"
 inherit systemd
 
 SRCREV = "ab5074fdd5e4130578aa4c99b00d44527a79636f"
-SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
+SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https \
+           file://0001-pd-mapper-Include-limits.h-for-PATH_MAX.patch \
+"
 
 PV = "0.0+${SRCPV}"
 
