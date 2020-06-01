@@ -1,0 +1,61 @@
+From 9353445dab6c863dd031161fa37009e4bba31821 Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Mon, 1 Jun 2020 17:20:26 +0100
+Subject: [PATCH 5/6] ucm2: Lenovo-YOGA-C630: remove cdev which is already
+ present in ucm2
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf b/ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf
+index 0bd68f0..39e91f4 100644
+--- a/ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf
++++ b/ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf
+@@ -4,7 +4,6 @@
+ SectionVerb {
+ 
+ 	EnableSequence [
+-		cdev "hw:${CardId}"
+ 		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 1"
+ 		cset "name='MultiMedia2 Mixer SLIMBUS_0_TX' 1"
+ 
+@@ -13,7 +12,6 @@ SectionVerb {
+ 	]
+ 
+ 	DisableSequence [
+-                cdev "hw:${CardId}"
+ 		<codecs/wcd934x/DefaultDisableSeq.conf>
+ 		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 0"
+ 		cset "name='MultiMedia2 Mixer SLIMBUS_0_TX' 0"
+@@ -33,13 +31,11 @@ SectionDevice."Speaker" {
+ 
+ 
+ 	EnableSequence [
+-		cdev "hw:${CardId}"
+ 		<codecs/wcd934x/SpeakerEnableSeq.conf>
+ 		<codecs/wsa881x/SpeakerEnableSeq.conf>
+ 	]
+ 
+ 	DisableSequence [
+-		cdev "hw:${CardId}"
+ 		<codecs/wsa881x/SpeakerDisableSeq.conf>
+ 		<codecs/wcd934x/SpeakerDisableSeq.conf>
+ 	]
+@@ -60,12 +56,10 @@ SectionDevice."Headphones" {
+ 	]
+ 
+ 	EnableSequence [
+-		cdev "hw:${CardId}"
+ 		<codecs/wcd934x/HeadphoneEnableSeq.conf>
+ 	]
+ 
+ 	DisableSequence [
+-		cdev "hw:${CardId}"
+ 		<codecs/wcd934x/HeadphoneDisableSeq.conf>
+ 	]
+ 
+-- 
+2.27.0.rc0
+

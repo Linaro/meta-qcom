@@ -1,0 +1,64 @@
+From 81689f1b4b8b511cc51a7dee4a3151b6fcb8cd2c Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Mon, 1 Jun 2020 15:12:58 +0100
+Subject: [PATCH 2/4] ucm2: codecs: wsa881x: add codec sequences
+
+Add default, enable/disable codec sequence for wsa881x codec
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ ucm2/codecs/wsa881x/DefaultEnableSeq.conf  |  8 ++++++++
+ ucm2/codecs/wsa881x/SpeakerDisableSeq.conf |  8 ++++++++
+ ucm2/codecs/wsa881x/SpeakerEnableSeq.conf  | 10 ++++++++++
+ 3 files changed, 26 insertions(+)
+ create mode 100644 ucm2/codecs/wsa881x/DefaultEnableSeq.conf
+ create mode 100644 ucm2/codecs/wsa881x/SpeakerDisableSeq.conf
+ create mode 100644 ucm2/codecs/wsa881x/SpeakerEnableSeq.conf
+
+diff --git a/ucm2/codecs/wsa881x/DefaultEnableSeq.conf b/ucm2/codecs/wsa881x/DefaultEnableSeq.conf
+new file mode 100644
+index 0000000..499342b
+--- /dev/null
++++ b/ucm2/codecs/wsa881x/DefaultEnableSeq.conf
+@@ -0,0 +1,8 @@
++cset "name='SpkrLeft COMP Switch' 1"
++cset "name='SpkrLeft BOOST Switch' 1"
++cset "name='SpkrLeft DAC Switch' 1"
++cset "name='SpkrLeft VISENSE Switch' 0"
++cset "name='SpkrRight COMP Switch' 1"
++cset "name='SpkrRight BOOST Switch' 1"
++cset "name='SpkrRight DAC Switch' 1"
++cset "name='SpkrRight VISENSE Switch' 0"
+diff --git a/ucm2/codecs/wsa881x/SpeakerDisableSeq.conf b/ucm2/codecs/wsa881x/SpeakerDisableSeq.conf
+new file mode 100644
+index 0000000..9614422
+--- /dev/null
++++ b/ucm2/codecs/wsa881x/SpeakerDisableSeq.conf
+@@ -0,0 +1,8 @@
++cset "name='SpkrLeft COMP Switch' 0"
++cset "name='SpkrLeft BOOST Switch' 0"
++cset "name='SpkrLeft DAC Switch' 0"
++cset "name='SpkrLeft VISENSE Switch' 0"
++cset "name='SpkrRight COMP Switch' 0"
++cset "name='SpkrRight BOOST Switch' 0"
++cset "name='SpkrRight DAC Switch' 0"
++cset "name='SpkrRight VISENSE Switch' 0"
+diff --git a/ucm2/codecs/wsa881x/SpeakerEnableSeq.conf b/ucm2/codecs/wsa881x/SpeakerEnableSeq.conf
+new file mode 100644
+index 0000000..31c27f3
+--- /dev/null
++++ b/ucm2/codecs/wsa881x/SpeakerEnableSeq.conf
+@@ -0,0 +1,10 @@
++cset "name='SpkrLeft COMP Switch' 1"
++cset "name='SpkrLeft BOOST Switch' 1"
++cset "name='SpkrLeft DAC Switch' 1"
++cset "name='SpkrLeft VISENSE Switch' 0"
++cset "name='SpkrLeft PA Volume' 12"
++cset "name='SpkrRight COMP Switch' 1"
++cset "name='SpkrRight BOOST Switch' 1"
++cset "name='SpkrRight DAC Switch' 1"
++cset "name='SpkrRight VISENSE Switch' 0"
++cset "name='SpkrRight PA Volume' 12"
+-- 
+2.27.0.rc0
+
