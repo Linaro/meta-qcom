@@ -1,0 +1,129 @@
+From b225c35639a76b07f90c4bc310b9d4c057d8ae42 Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Mon, 1 Jun 2020 15:12:59 +0100
+Subject: [PATCH 3/4] ucm2: DB845c: Add ucm for DB845c board
+
+DB845c board by default has two WSA881x speakers and HDMI
+audio connections.
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ ucm2/DB845c/DB845c.conf | 11 ++++++++++
+ ucm2/DB845c/HDMI.conf   | 33 +++++++++++++++++++++++++++++
+ ucm2/DB845c/HiFi.conf   | 46 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 90 insertions(+)
+ create mode 100644 ucm2/DB845c/DB845c.conf
+ create mode 100644 ucm2/DB845c/HDMI.conf
+ create mode 100644 ucm2/DB845c/HiFi.conf
+
+diff --git a/ucm2/DB845c/DB845c.conf b/ucm2/DB845c/DB845c.conf
+new file mode 100644
+index 0000000..bfd1ee5
+--- /dev/null
++++ b/ucm2/DB845c/DB845c.conf
+@@ -0,0 +1,11 @@
++Syntax 2
++
++SectionUseCase."HiFi" {
++	File "HiFi.conf"
++	Comment "HiFi quality Music."
++}
++
++SectionUseCase."HDMI" {
++	File "HDMI.conf"
++	Comment "HDMI output."
++}
+diff --git a/ucm2/DB845c/HDMI.conf b/ucm2/DB845c/HDMI.conf
+new file mode 100644
+index 0000000..fe1045c
+--- /dev/null
++++ b/ucm2/DB845c/HDMI.conf
+@@ -0,0 +1,33 @@
++# Use case configuration for DB845c board.
++# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
++
++SectionVerb {
++        EnableSequence [
++		cdev "hw:${CardId}"
++		cset "name='QUAT_MI2S_RX Audio Mixer MultiMedia1' 1"
++        ]
++
++        DisableSequence [
++		cdev "hw:${CardId}"
++		cset "name='QUAT_MI2S_RX Audio Mixer MultiMedia1' 0"
++	]
++       Value {
++                TQ "HiFi"
++                PlaybackPCM "hw:${CardId}"
++        }
++}
++
++SectionDevice."HDMI-stereo" {
++        #Name "HDMI-stereo"
++        Comment "HDMI Digital Stereo Output"
++
++        EnableSequence [
++        ]
++
++        DisableSequence [
++        ]
++
++        Value {
++		PlaybackPriority 200
++        }
++}
+diff --git a/ucm2/DB845c/HiFi.conf b/ucm2/DB845c/HiFi.conf
+new file mode 100644
+index 0000000..f88e8ec
+--- /dev/null
++++ b/ucm2/DB845c/HiFi.conf
+@@ -0,0 +1,46 @@
++# Use case configuration for DB845c.
++# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
++
++SectionVerb {
++
++	EnableSequence [
++		cdev "hw:${CardId}"
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 1"
++
++		<codecs/wcd934x/DefaultEnableSeq.conf>
++		<codecs/wsa881x/DefaultEnableSeq.conf>
++	]
++
++	DisableSequence [
++                cdev "hw:${CardId}"
++		<codecs/wcd934x/DefaultDisableSeq.conf>
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia2' 0"
++	]
++
++	Value {
++		TQ "HiFi"
++	}
++}
++
++SectionDevice."Speaker" {
++	Comment "Speaker playback"
++
++	EnableSequence [
++		cdev "hw:${CardId}"
++		<codecs/wcd934x/SpeakerEnableSeq.conf>
++		<codecs/wsa881x/SpeakerEnableSeq.conf>
++	]
++
++	DisableSequence [
++		cdev "hw:${CardId}"
++		<codecs/wsa881x/SpeakerDisableSeq.conf>
++		<codecs/wcd934x/SpeakerDisableSeq.conf>
++	]
++
++	Value {
++		PlaybackPriority 100
++		PlaybackPCM "hw:${CardId},1"
++                PlaybackVolume "RX1 Digital Volume"
++                PlaybackVolume "RX2 Digital Volume"
++	}
++}
+-- 
+2.27.0.rc0
+
