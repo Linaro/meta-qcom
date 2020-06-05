@@ -1,0 +1,33 @@
+From 1448e9df35c7773e197c868a9463e9edfc7b1998 Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Tue, 2 Jun 2020 10:23:54 +0100
+Subject: [PATCH 7/7] ucm2: DB845c: HDMI: update cdev to correct value
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ ucm2/DB845c/HDMI.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ucm2/DB845c/HDMI.conf b/ucm2/DB845c/HDMI.conf
+index 5a0a933..c233cef 100644
+--- a/ucm2/DB845c/HDMI.conf
++++ b/ucm2/DB845c/HDMI.conf
+@@ -11,7 +11,6 @@ SectionVerb {
+ 	]
+        Value {
+                 TQ "HiFi"
+-                PlaybackPCM "hw:${CardId}"
+         }
+ }
+ 
+@@ -26,6 +25,7 @@ SectionDevice."HDMI-stereo" {
+         ]
+ 
+         Value {
++		PlaybackPCM "hw:${CardId},0"
+ 		PlaybackPriority 200
+         }
+ }
+-- 
+2.27.0.rc0
+

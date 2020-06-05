@@ -1,0 +1,135 @@
+From 0c817e5a484960787d4cf46ba18cfcbca40ff8b2 Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Mon, 1 Jun 2020 15:13:00 +0100
+Subject: [PATCH 4/4] ucm2: Add ucm for Lenovo-YOGA-C630-13Q50 laptop
+
+This laptop has by 2 WSA Smart speakers over Soundwire and 3.5mm
+headset audio connection.
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf         | 98 +++++++++++++++++++
+ .../Lenovo-YOGA-C630-13Q50.conf               |  6 ++
+ 2 files changed, 104 insertions(+)
+ create mode 100644 ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf
+ create mode 100644 ucm2/Lenovo-YOGA-C630-13Q50/Lenovo-YOGA-C630-13Q50.conf
+
+diff --git a/ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf b/ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf
+new file mode 100644
+index 0000000..0bd68f0
+--- /dev/null
++++ b/ucm2/Lenovo-YOGA-C630-13Q50/HiFi.conf
+@@ -0,0 +1,98 @@
++# Use case configuration for LenovoYOGAC6301.
++# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
++
++SectionVerb {
++
++	EnableSequence [
++		cdev "hw:${CardId}"
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 1"
++		cset "name='MultiMedia2 Mixer SLIMBUS_0_TX' 1"
++
++		<codecs/wcd934x/DefaultEnableSeq.conf>
++		<codecs/wsa881x/DefaultEnableSeq.conf>
++	]
++
++	DisableSequence [
++                cdev "hw:${CardId}"
++		<codecs/wcd934x/DefaultDisableSeq.conf>
++		cset "name='SLIMBUS_0_RX Audio Mixer MultiMedia1' 0"
++		cset "name='MultiMedia2 Mixer SLIMBUS_0_TX' 0"
++	]
++
++	Value {
++		TQ "HiFi"
++	}
++}
++
++SectionDevice."Speaker" {
++	Comment "Speaker playback"
++
++	ConflictingDevice [
++		"Headphones"
++	]
++
++
++	EnableSequence [
++		cdev "hw:${CardId}"
++		<codecs/wcd934x/SpeakerEnableSeq.conf>
++		<codecs/wsa881x/SpeakerEnableSeq.conf>
++	]
++
++	DisableSequence [
++		cdev "hw:${CardId}"
++		<codecs/wsa881x/SpeakerDisableSeq.conf>
++		<codecs/wcd934x/SpeakerDisableSeq.conf>
++	]
++
++	Value {
++		PlaybackPriority 100
++		PlaybackPCM "hw:${CardId}"
++                PlaybackVolume "RX7 Digital Volume"
++                PlaybackVolume "RX8 Digital Volume"
++	}
++}
++
++SectionDevice."Headphones" {
++	Comment "Headphones playback"
++
++	ConflictingDevice [
++		"Speaker"
++	]
++
++	EnableSequence [
++		cdev "hw:${CardId}"
++		<codecs/wcd934x/HeadphoneEnableSeq.conf>
++	]
++
++	DisableSequence [
++		cdev "hw:${CardId}"
++		<codecs/wcd934x/HeadphoneDisableSeq.conf>
++	]
++
++	Value {
++		PlaybackPriority 200
++		PlaybackPCM "hw:${CardId}"
++                PlaybackVolume "RX1 Digital Volume"
++                PlaybackVolume "RX2 Digital Volume"
++	}
++}
++
++SectionDevice."Mic" {
++	Comment "Mic"
++
++	EnableSequence [
++		<codecs/wcd934x/HeadphoneMicEnableSeq.conf>
++	]
++
++	DisableSequence [
++		<codecs/wcd934x/HeadphoneMicDisableSeq.conf>
++		cset "name='AMIC MUX0' ZERO"
++                cset "name='ADC2 Volume' 0"
++	]
++	
++	Value {
++		CapturePriority 100
++		CapturePCM "hw:${CardId},1"
++		CaptureVolume "ADC2 Volume"
++	}
++}
+diff --git a/ucm2/Lenovo-YOGA-C630-13Q50/Lenovo-YOGA-C630-13Q50.conf b/ucm2/Lenovo-YOGA-C630-13Q50/Lenovo-YOGA-C630-13Q50.conf
+new file mode 100644
+index 0000000..114466a
+--- /dev/null
++++ b/ucm2/Lenovo-YOGA-C630-13Q50/Lenovo-YOGA-C630-13Q50.conf
+@@ -0,0 +1,6 @@
++Syntax 2
++
++SectionUseCase."HiFi" {
++	File "HiFi.conf"
++	Comment "HiFi Music."
++}
+-- 
+2.27.0.rc0
+
