@@ -13,7 +13,7 @@ LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/qcomlt-5.7"
 SRCREV ?= "ba75ed77ea9ee88706bd1b78512f4f86040feb6c"
 
-COMPATIBLE_MACHINE = "(apq8016|apq8096|sdm845)"
+COMPATIBLE_MACHINE = "(apq8016|apq8096|sdm845|sm8250)"
 
 # Wifi firmware has a recognizable arch :( 
 ERROR_QA_remove = "arch"
