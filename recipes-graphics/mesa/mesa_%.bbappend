@@ -1,7 +1,4 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
-SRC_URI_append = " \
-    file://0001-freedreno-clear-last_fence-after-resource-tracking.patch \
-"
 
 # Enable freedreno driver
 GALLIUMDRIVERS_append_apq8064 = ",freedreno"
