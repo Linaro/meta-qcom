@@ -2,7 +2,6 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
 # Enable freedreno driver
 PACKAGECONFIG_FREEDRENO = "\
-    gallium \
     freedreno \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xa', '', d)} \
 "
