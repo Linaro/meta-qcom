@@ -5,7 +5,6 @@ SRC_URI_append = " \
 
 # Enable freedreno driver
 PACKAGECONFIG_FREEDRENO = "\
-    gallium \
     freedreno \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xa', '', d)} \
 "
