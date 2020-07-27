@@ -1,0 +1,31 @@
+Index: git/meson_options.txt
+===================================================================
+--- git.orig/meson_options.txt
++++ git/meson_options.txt
+@@ -45,7 +45,7 @@ option(
+   'dri-drivers',
+   type : 'array',
+   value : ['auto'],
+-  choices : ['auto', 'i915', 'i965', 'r100', 'r200', 'nouveau', 'swrast'],
++  choices : ['', 'auto', 'i915', 'i965', 'r100', 'r200', 'nouveau', 'swrast'],
+   description : 'List of dri drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
+ )
+ option(
+@@ -65,7 +65,7 @@ option(
+   type : 'array',
+   value : ['auto'],
+   choices : [
+-    'auto', 'kmsro', 'radeonsi', 'r300', 'r600', 'nouveau', 'freedreno',
++    '', 'auto', 'kmsro', 'radeonsi', 'r300', 'r600', 'nouveau', 'freedreno',
+     'swrast', 'v3d', 'vc4', 'etnaviv', 'tegra', 'i915', 'svga', 'virgl',
+     'swr', 'panfrost', 'iris', 'lima', 'zink'
+   ],
+@@ -165,7 +165,7 @@ option(
+   'vulkan-drivers',
+   type : 'array',
+   value : ['auto'],
+-  choices : ['auto', 'amd', 'freedreno', 'intel'],
++  choices : ['', 'auto', 'amd', 'freedreno', 'intel'],
+   description : 'List of vulkan drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
+ )
+ option(
