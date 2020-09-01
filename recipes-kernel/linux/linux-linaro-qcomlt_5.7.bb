@@ -21,7 +21,7 @@ SRC_URI_append_qrb5165-rb5 = " \
 
 LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH ?= "release/qcomlt-5.7"
-SRCREV ?= "21bb88052948b35bdce926f301f2ba7970040812"
+SRCREV ?= "4af49ea41ecf17e5e6243f3ac81dfc2f84d8a3a1"
 
 COMPATIBLE_MACHINE = "(apq8016|apq8096|sdm845|sm8250)"
 
