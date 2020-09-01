@@ -1,6 +1,7 @@
 SOC_FAMILY = "sdm845"
 require conf/machine/include/soc-family.inc
-require conf/machine/include/arm/arch-armv8a.inc
+DEFAULTTUNE = "armv8-2a-crypto"
+require conf/machine/include/arm/arch-armv8-2a.inc
 
 XSERVER_OPENGL ?= " \
     xf86-video-modesetting \
