@@ -17,10 +17,6 @@ PACKAGE_INSTALL = " \
     lava-test-shell \
     packagegroup-core-boot \
     pciutils \
-    pd-mapper \
-    qrtr \
-    rmtfs \
-    tqftpserv \
     udev \
     usbutils \
     wpa-supplicant \
