@@ -9,7 +9,6 @@ SRC_URI[sha256sum] = "46953b974c5c58c7ca66db414437c0268b033ac9d28127e98d9c4e1a49
 
 DEPENDS += "mtools-native"
 
-COMPATIBLE_MACHINE = "(dragonboard-410c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 S = "${WORKDIR}/linux-board-support-package-r${PV}"
@@ -31,7 +30,7 @@ do_install() {
     ::image/modem.* ::image/mba.mbn ::image/wcnss.* ${D}${nonarch_base_libdir}/firmware/qcom/msm8916
 
     install -d ${D}${sysconfdir}/
-    install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE
+    install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
 
 FILES_${PN} += "/boot/modem_fsg"
@@ -39,7 +38,3 @@ FILES_${PN} += "${nonarch_base_libdir}/firmware/wlan/*"
 FILES_${PN} += "${nonarch_base_libdir}/firmware/qcom/msm8916/*"
 
 INSANE_SKIP_${PN} += "arch"
-
-RPROVIDES_${PN} += "linux-firmware-qcom-license"
-RREPLACES_${PN} += "linux-firmware-qcom-license"
-RCONFLICTS_${PN} += "linux-firmware-qcom-license"

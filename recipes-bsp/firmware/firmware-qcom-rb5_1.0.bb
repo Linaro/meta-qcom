@@ -18,7 +18,6 @@ ADRENO_ARCHIVE = "adreno_1.0_qrb5165_rb5.tar.gz"
 SRC_URI_NHLOS = "${NHLOS_URI}${NHLOS_ARCHIVE}"
 SRC_URI_ADRENO = "${ADRENO_URI}${ADRENO_ARCHIVE};unpack=0"
 
-COMPATIBLE_MACHINE = "(sm8250)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 # do_unpack is written in Python, so let's use do_compile here
