@@ -27,14 +27,12 @@ do_compile() {
 
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
-    install -d ${D}${nonarch_base_libdir}/firmware/qcom/venus-5.2/
     install -d ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
 
     install -m 0444 ./17-USB3-201-202-FW/K2026090.mem ${D}${nonarch_base_libdir}/firmware/
     install -m 0444 ./18-adreno-fw/a630_zap*.* ${D}${nonarch_base_libdir}/firmware/qcom/
     install -m 0444 ./20-adsp_split/firmware/adsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
     install -m 0444 ./21-cdsp_split/firmware/cdsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
-    install -m 0444 ./33-venus_split/venus.* ${D}${nonarch_base_libdir}/firmware/qcom/venus-5.2/
 
     install -d ${D}${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/
     install -m 0444 ./board-2.bin ${D}${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/
@@ -45,10 +43,6 @@ do_install() {
 
 FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
 INSANE_SKIP_${PN} += "arch"
-
-RPROVIDES_${PN} += "linux-firmware-qcom-venus-5.2"
-RREPLACES_${PN} += "linux-firmware-qcom-venus-5.2"
-RCONFLICTS_${PN} += "linux-firmware-qcom-venus-5.2"
 
 RPROVIDES_${PN} += "linux-firmware-qcom-license"
 RREPLACES_${PN} += "linux-firmware-qcom-license"

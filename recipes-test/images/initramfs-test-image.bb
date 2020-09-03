@@ -5,7 +5,7 @@ PACKAGE_INSTALL = " \
     bluez5 \
     busybox \
     base-passwd \
-    dhcp-client \
+    dhcpcd \
     diag \
     e2fsprogs \
     e2fsprogs-e2fsck \
