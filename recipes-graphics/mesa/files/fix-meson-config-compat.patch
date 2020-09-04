@@ -1,8 +1,24 @@
-Index: git/meson_options.txt
-===================================================================
---- git.orig/meson_options.txt
-+++ git/meson_options.txt
-@@ -45,7 +45,7 @@ option(
+From ae96da4146570ebe9b0a9e68ac209cda6f1fb7ff Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 2 Sep 2020 15:37:55 -0500
+Subject: [PATCH] mesa: adapt meson script to restore compatibility with
+ release one
+
+During this development cycle meson script was changed to stop accepting
+empty values. This causes issues using some build options from OE-core's
+mesa.inc. Restore this compatibility by patching in support for empty
+values.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ meson_options.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meson_options.txt b/meson_options.txt
+index 0fc28d69c93..c29e73b62ca 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -52,7 +52,7 @@ option(
    'dri-drivers',
    type : 'array',
    value : ['auto'],
@@ -11,7 +27,7 @@ Index: git/meson_options.txt
    description : 'List of dri drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
  )
  option(
-@@ -65,7 +65,7 @@ option(
+@@ -72,7 +72,7 @@ option(
    type : 'array',
    value : ['auto'],
    choices : [
@@ -20,12 +36,15 @@ Index: git/meson_options.txt
      'swrast', 'v3d', 'vc4', 'etnaviv', 'tegra', 'i915', 'svga', 'virgl',
      'swr', 'panfrost', 'iris', 'lima', 'zink'
    ],
-@@ -165,7 +165,7 @@ option(
+@@ -172,7 +172,7 @@ option(
    'vulkan-drivers',
    type : 'array',
    value : ['auto'],
--  choices : ['auto', 'amd', 'freedreno', 'intel'],
-+  choices : ['', 'auto', 'amd', 'freedreno', 'intel'],
+-  choices : ['auto', 'amd', 'freedreno', 'intel', 'swrast'],
++  choices : ['', 'auto', 'amd', 'freedreno', 'intel', 'swrast'],
    description : 'List of vulkan drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
  )
  option(
+-- 
+2.28.0
+
