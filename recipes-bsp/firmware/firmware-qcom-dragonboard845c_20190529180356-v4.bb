@@ -10,7 +10,6 @@ SRC_URI[md5sum] = "ad69855a1275547b16d94a1b5405ac62"
 SRC_URI[sha256sum] = "4289d2f2a7124b104d0274879e702aae9b1e50c42eec3747f8584c6744ef65e3"
 SRCREV = "0c01a2abc3e9855b71f0fbea2c335011104d9ec0"
 
-COMPATIBLE_MACHINE = "(dragonboard-845c)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 DEPENDS += "bash-native"
 inherit python3native
@@ -38,12 +37,8 @@ do_install() {
     install -m 0444 ./board-2.bin ${D}${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/
 
     install -d ${D}${sysconfdir}/
-    install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE
+    install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
 
 FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
 INSANE_SKIP_${PN} += "arch"
-
-RPROVIDES_${PN} += "linux-firmware-qcom-license"
-RREPLACES_${PN} += "linux-firmware-qcom-license"
-RCONFLICTS_${PN} += "linux-firmware-qcom-license"
