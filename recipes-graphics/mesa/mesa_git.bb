@@ -20,3 +20,18 @@ PV = "20.3-dev+git${SRCPV}"
 # Do not select this version by default
 DEFAULT_PREFERENCE = "-1"
 DEFAULT_PREFERENCE_sm8250 = "1"
+
+# Add package to install require files to run tests for mesa
+PACKAGES =+ "mesa-ci"
+FILES_${PN}-ci = "${bindir}/deqp-runner.sh ${datadir}/mesa/deqp-*"
+do_install_append () {
+    install -d ${D}/${datadir}/mesa
+
+    install -m 0644 ${S}/.gitlab-ci/deqp-default-skips.txt ${D}/${datadir}/mesa/
+    for f in ${S}/.gitlab-ci/deqp-freedreno-*; do
+        install -m 0644 $f ${D}/${datadir}/mesa/
+    done
+
+    install -d ${D}/${bindir}
+    install -m 0755 ${S}/.gitlab-ci/deqp-runner.sh ${D}/${bindir}/
+}
