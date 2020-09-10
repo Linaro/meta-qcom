@@ -17,7 +17,7 @@ do_compile() {
 
 do_install() {
     install -d  ${D}${nonarch_base_libdir}/firmware/
-    cp -a * ${D}${nonarch_base_libdir}/firmware/
+    cp -R --no-dereference --preserve=mode,links * ${D}${nonarch_base_libdir}/firmware/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 license.txt ${D}${sysconfdir}/
