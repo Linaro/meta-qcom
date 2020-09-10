@@ -24,4 +24,4 @@ do_install() {
 }
 
 FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
-INSANE_SKIP_${PN} += "arch"
+INSANE_SKIP_${PN} += "arch already-stripped"
