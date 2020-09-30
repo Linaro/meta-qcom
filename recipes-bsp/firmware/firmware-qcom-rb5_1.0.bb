@@ -31,6 +31,18 @@ do_install() {
     if [ -n "${ADRENO_URI}" ] ; then
         install -d  ${D}${nonarch_base_libdir}/firmware/qcom
         install -m 0444 ./lib/firmware/a650_*.* ${D}${nonarch_base_libdir}/firmware/qcom
+    else
+        install -d ${D}${nonarch_base_libdir}/firmware/qcom
+        install -d ${D}${nonarch_base_libdir}/firmware/system
+
+        install -d ${D}${systemd_system_unitdir}
+        install -m 0644 ${WORKDIR}/lib-firmware-system.service ${D}${systemd_system_unitdir}
+
+        # Symlink firmware to proper paths.
+        for img in a650_gmu.bin a650_sqe.fw a650_zap.mdt a650_zap.elf a650_zap.b00 a650_zap.b01 a650_zap.b02
+        do
+            ln -s ../system/lib/firmware/${img} ${D}${nonarch_base_libdir}/firmware/qcom
+        done
     fi
 
     if [ -n "${NHLOS_URI}" ] ; then
@@ -92,4 +104,7 @@ python () {
     uri = d.getVar("ADRENO_URI")
     if uri != None and uri != "":
         d.appendVar("SRC_URI", " ${SRC_URI_ADRENO}")
+    else:
+        d.appendVar("SRC_URI", " file://lib-firmware-system.service")
+        d.appendVar("SYSTEMD_SERVICE_" + d.getVar("PN"), " lib-firmware-system.service")
 }
