@@ -12,4 +12,4 @@ LOCALVERSION ?= "-linaro-lt-qcom"
 SRCBRANCH = "release/qcomlt-5.10"
 SRCREV = "3f30f43cd449a911c7f304078aa8464ec5eb0903"
 
-COMPATIBLE_MACHINE = "(apq8016|apq8096|sdm845|sm8250)"
+COMPATIBLE_MACHINE = "(qcom)"
