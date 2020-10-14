@@ -1,4 +1,4 @@
-From ae96da4146570ebe9b0a9e68ac209cda6f1fb7ff Mon Sep 17 00:00:00 2001
+From 61d70cfa52df2a434196875ab0c0b67d2ffe2293 Mon Sep 17 00:00:00 2001
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Date: Wed, 2 Sep 2020 15:37:55 -0500
 Subject: [PATCH] mesa: adapt meson script to restore compatibility with
@@ -15,7 +15,7 @@ Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meson_options.txt b/meson_options.txt
-index 0fc28d69c93..c29e73b62ca 100644
+index c9d9d4d13bf..e3fe51aa371 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
 @@ -52,7 +52,7 @@ option(
@@ -36,12 +36,12 @@ index 0fc28d69c93..c29e73b62ca 100644
      'swrast', 'v3d', 'vc4', 'etnaviv', 'tegra', 'i915', 'svga', 'virgl',
      'swr', 'panfrost', 'iris', 'lima', 'zink'
    ],
-@@ -172,7 +172,7 @@ option(
+@@ -179,7 +179,7 @@ option(
    'vulkan-drivers',
    type : 'array',
    value : ['auto'],
--  choices : ['auto', 'amd', 'freedreno', 'intel', 'swrast'],
-+  choices : ['', 'auto', 'amd', 'freedreno', 'intel', 'swrast'],
+-  choices : ['auto', 'amd', 'broadcom', 'freedreno', 'intel', 'swrast'],
++  choices : ['', 'auto', 'amd', 'broadcom', 'freedreno', 'intel', 'swrast'],
    description : 'List of vulkan drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
  )
  option(
