@@ -50,7 +50,7 @@ do_install() {
         install -d  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         install -m 0444 adsp.b* adsp.mdt adspr.jsn adspua.jsn ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         install -m 0444 cdsp.b* cdsp.mdt cdspr.jsn ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
-        install -m 0444 slpi.b* slpi.mdt slpir.jsn slpius.jsn ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
+        install -m 0444 slpi.b* slpi.mdt ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         install -m 0444 venus.b* venus.mdt ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
 
         install -m 0444 verinfo/Ver_Info.txt ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
@@ -72,7 +72,7 @@ do_install() {
             done
             ln -s ../../modem/image/${base}.mdt ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         done
-        for img in adspr adspua cdspr slpir slpius
+        for img in adspr adspua cdspr
         do
             ln -s ../../modem/image/${img}.jsn ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         done
