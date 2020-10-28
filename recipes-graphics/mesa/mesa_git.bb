@@ -8,11 +8,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
            file://fix-meson-config-compat.patch \
-           file://0001-src-util-disk_cache_os.c-Add-missing-headers-for-ope.patch \
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496"
 
-SRCREV = "3424e17b9a9beca85c0ef60e195eb544faea8995"
+SRCREV = "fdb1997ab5ea2533af68471cd8e9e357e3f28afa"
 #SRCREV_sm8250 = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
