@@ -12,9 +12,10 @@ require recipes-kernel/linux/linux-linaro-qcom.inc
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 SRCBRANCH ?= "integration-linux-qcomlt"
-SRCREV ?= "${AUTOREV}"
+#SRCREV ?= "${AUTOREV}"
+SRCREV = "7b0c8f86e1ef16d58c582de5a0f0331f82640096"
 
-LINUX_VERSION = "5.8-rc+"
+LINUX_VERSION = "5.10-rc+"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 # Wifi firmware has a recognizable arch :( 
