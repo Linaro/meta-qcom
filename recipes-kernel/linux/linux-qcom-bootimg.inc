@@ -33,7 +33,7 @@ do_deploy_append() {
     echo "This is not an initrd" > ${B}/initrd.img
 
     # don't build bootimg if rootfs partition is not defined
-    if [ "${QCOM_BOOTIMG_ROOTFS}" == "undefined"]; then
+    if [ "${QCOM_BOOTIMG_ROOTFS}" = "undefined" ]; then
         bbfatal "Rootfs partition must be defined"
     fi
 
