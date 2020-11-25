@@ -1,0 +1,36 @@
+From 5ee7d4623d10374107de171c796f76054c676c75 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 16 Nov 2020 10:36:43 -0800
+Subject: [PATCH] Disable use of __NR_io_getevents when not defined
+
+Architectures like riscv32 do not define this syscall, therefore return
+ENOSYS on such architectures
+
+Upstream-Status: Submitted [https://github.com/andersson/diag/pull/5]
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ router/watch.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+--- a/router/watch.c
++++ b/router/watch.c
+@@ -102,10 +102,17 @@ static long io_destroy(aio_context_t ctx
+ 	return syscall(__NR_io_destroy, ctx);
+ }
+ 
+-static long io_getevents(aio_context_t ctx, long min_nr, long nr,
+-			 struct io_event *events, struct timespec *tmo)
++static long io_getevents(__attribute__((unused)) aio_context_t ctx,
++			 __attribute__((unused)) long min_nr,
++			 __attribute__((unused)) long nr,
++			 __attribute__((unused)) struct io_event *events,
++			 __attribute__((unused)) struct timespec *tmo)
+ {
++#ifdef __NR_io_getevents
+ 	return syscall(__NR_io_getevents, ctx, min_nr, nr, events, tmo);
++#else
++	return -ENOSYS;
++#endif
+ }
+ 
+ static long io_setup(unsigned nr_reqs, aio_context_t *ctx)
