@@ -12,6 +12,3 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += " \
 MACHINE_EXTRA_RRECOMMENDS += " \
     fastrpc \
 "
-
-# Android boot image settings
-QCOM_BOOTIMG_PAGE_SIZE = "4096"
