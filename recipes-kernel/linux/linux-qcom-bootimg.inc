@@ -5,8 +5,6 @@ SD_QCOM_BOOTIMG_ROOTFS ?= "undefined"
 
 # set output file names
 KERNEL_CMDLINE = "root=${1} rw rootwait console=${ttydev},${baudrate}n8"
-KERNEL_CMDLINE_append_dragonboard-845c = " clk_ignore_unused pd_ignore_unused"
-KERNEL_CMDLINE_append_qrb5165-rb5 = " pcie_pme=nomsi"
 
 # param ${1} partition where rootfs is located
 # param ${2} output boot image file name
@@ -17,7 +15,7 @@ priv_make_image() {
               --output ${DEPLOYDIR}/${2}.img \
               --pagesize ${QCOM_BOOTIMG_PAGE_SIZE} \
               --base ${QCOM_BOOTIMG_KERNEL_BASE} \
-              --cmdline "${KERNEL_CMDLINE}"
+              --cmdline "${KERNEL_CMDLINE} ${KERNEL_CMDLINE_EXTRA}"
 }
 
 do_deploy_append() {
