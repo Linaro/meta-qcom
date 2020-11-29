@@ -18,7 +18,6 @@ PV = "20.4-dev+git${SRCPV}"
 
 # Do not select this version by default
 DEFAULT_PREFERENCE = "-1"
-DEFAULT_PREFERENCE_sm8250 = "1"
 
 # Add package to install require files to run tests for mesa
 PACKAGES =+ "mesa-ci"
