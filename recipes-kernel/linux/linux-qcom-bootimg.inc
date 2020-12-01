@@ -8,7 +8,7 @@ BOOT_IMAGE_BASE_NAME = "boot-${KERNEL_IMAGE_NAME}"
 BOOT_IMAGE_SYMLINK_NAME = "boot-${KERNEL_IMAGE_LINK_NAME}"
 SD_BOOT_IMAGE_BASE_NAME = "boot-sd${KERNEL_IMAGE_NAME}" 
 SD_BOOT_IMAGE_SYMLINK_NAME = "boot-sd-${KERNEL_IMAGE_LINK_NAME}"
-KERNEL_CMDLINE = "root=/dev/${1} rw rootwait console=${ttydev},${baudrate}n8"
+KERNEL_CMDLINE = "root=${1} rw rootwait console=${ttydev},${baudrate}n8"
 KERNEL_CMDLINE_append_dragonboard-845c = " clk_ignore_unused pd_ignore_unused"
 
 # param ${1} partition where rootfs is located
