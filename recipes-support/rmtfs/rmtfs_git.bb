@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ca25dbf5ebfc1a058bfc657c895aac2f"
 
 inherit systemd
 
-SRCREV = "3449744146b0a1b68810b81bd51fe5ef285e2388"
+SRCREV = "1cc12d3dc1f251f6d3151970621a06fdd013a1d0"
 SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
 DEPENDS = "qmic-native qrtr udev"
 
