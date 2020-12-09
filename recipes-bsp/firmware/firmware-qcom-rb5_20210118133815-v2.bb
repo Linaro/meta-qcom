@@ -15,9 +15,17 @@ SRC_URI = " \
 SRC_URI[md5sum] = "d9289f59fe4f93ce433707294c9286ca"
 SRC_URI[sha256sum] = "9d7b42916d83c8f721258175b8d7a9ed758ebe02228d36099e6ea1a2b2a556d3"
 
+DEPENDS += "qca-swiss-army-knife-native"
+
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 VENUS_FW = "vpu-1.0"
+
+do_compile() {
+    # Build board-2.bin needed by WiFi
+    ath11k-generate-board-2_json.sh ./38-bdwlan_split board-2.json
+    python3 "${STAGING_BINDIR_NATIVE}/ath10k-bdencoder" -m ath11k -c board-2.json -o board-2.bin
+}
 
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
@@ -36,7 +44,7 @@ do_install() {
     install -m 0444 ./33-venus_split/venus.b* ./33-venus_split/venus.mdt ${D}${nonarch_base_libdir}/firmware/qcom/${VENUS_FW}
 
     install -d ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/
-    install -m 0444 ./38-bdwlan_split/bdwlan.e04 ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board.bin
+    install -m 0444 ${S}/board-2.bin ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board-2.bin
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
@@ -55,3 +63,9 @@ RCONFLICTS_${PN} += "linux-firmware-qcom-adreno-a650"
 RPROVIDES_${PN} += "linux-firmware-qcom-${VENUS_FW}"
 RREPLACES_${PN} += "linux-firmware-qcom-${VENUS_FW}"
 RCONFLICTS_${PN} += "linux-firmware-qcom-${VENUS_FW}"
+
+inherit update-alternatives
+
+ALTERNATIVE_${PN} = "qca6390-board2"
+ALTERNATIVE_LINK_NAME[qca6390-board2] = "/lib/firmware/ath11k/QCA6390/hw2.0/board-2.bin"
+ALTERNATIVE_PRIORITY = "100"
