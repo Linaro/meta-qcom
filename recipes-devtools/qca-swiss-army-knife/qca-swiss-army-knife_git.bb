@@ -5,9 +5,11 @@ SECTION = "devel"
 LICENSE = "ISC"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=884c3f3a874b2a0cfa283c7db0e5d604"
 
-SRCREV = "0c01a2abc3e9855b71f0fbea2c335011104d9ec0"
+SRCREV = "5ede3cc07e9a52f115101c28f833242b772eeaab"
 SRC_URI = " \
 	git://github.com/qca/${BPN}.git;branch=master;protocol=https \
+	file://0001-ath10k-bdencoder-Switch-to-python3.patch \
+	file://0002-ath10k-bdencoder-Add-option-to-switch-to-ath11k-mode.patch \
 "
 
 PV = "0.0+${SRCPV}"

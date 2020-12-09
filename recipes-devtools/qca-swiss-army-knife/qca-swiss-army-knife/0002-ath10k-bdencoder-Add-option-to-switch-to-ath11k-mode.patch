@@ -1,0 +1,116 @@
+From 68fd447a4d1e137307927fb9c0d9e05c6559bc96 Mon Sep 17 00:00:00 2001
+From: Sven Eckelmann <sven@narfation.org>
+Date: Wed, 14 Oct 2020 17:26:19 +0200
+Subject: [PATCH 2/2] ath10k-bdencoder: Add option to switch to ath11k mode
+
+The board-2.bin also exists on ath11k but there is no encoder available at
+the moment. Just use an option to change the two positions where the ath11k
+differs from the ath10k board-2.bin
+
+Signed-off-by: Sven Eckelmann <sven@narfation.org>
+[DB: fixed firmware url]
+Signed-off-by: Dmitry Baryshkov <dbaryshkov@gmail.com>
+---
+ tools/scripts/ath10k/ath10k-bdencoder | 35 ++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 4 deletions(-)
+
+diff --git a/tools/scripts/ath10k/ath10k-bdencoder b/tools/scripts/ath10k/ath10k-bdencoder
+index 1635e87b6f5f..d613f6340bf9 100755
+--- a/tools/scripts/ath10k/ath10k-bdencoder
++++ b/tools/scripts/ath10k/ath10k-bdencoder
+@@ -34,6 +34,8 @@ MAX_BUF_LEN = 2000000
+ 
+ # the signature length also includes null byte and padding
+ ATH10K_BOARD_SIGNATURE = b"QCA-ATH10K-BOARD"
++ATH11K_BOARD_SIGNATURE = b"QCA-ATH11K-BOARD"
++BOARD_SIGNATURE = b''
+ ATH10K_BOARD_SIGNATURE_LEN = 20
+ 
+ PADDING_MAGIC = 0x6d
+@@ -44,6 +46,7 @@ TYPE_LENGTH_SIZE = 8
+ BIN_SUFFIX = '.bin'
+ 
+ ATH10K_FIRMWARE_URL = 'https://github.com/kvalo/ath10k-firmware/commit'
++ATH11K_FIRMWARE_URL = 'https://github.com/kvalo/ath11k-firmware/commit'
+ 
+ ATH10K_BD_IE_BOARD = 0
+ ATH10K_BD_IE_BOARD_EXT = 1
+@@ -311,7 +314,7 @@ class BoardContainer:
+                 allnames.append(name)
+ 
+     def _add_signature(self, buf, offset):
+-        signature = ATH10K_BOARD_SIGNATURE + b'\0'
++        signature = BOARD_SIGNATURE + b'\0'
+         length = len(signature)
+         pad_len = padding_needed(length)
+         length = length + pad_len
+@@ -343,10 +346,10 @@ class BoardContainer:
+ 
+         offset = 0
+ 
+-        fmt = '<%dsb' % (len(ATH10K_BOARD_SIGNATURE))
++        fmt = '<%dsb' % (len(BOARD_SIGNATURE))
+         (signature, null) = struct.unpack_from(fmt, buf, offset)
+ 
+-        if signature != ATH10K_BOARD_SIGNATURE or null != 0:
++        if signature != BOARD_SIGNATURE or null != 0:
+             print("invalid signature found in %s" % name)
+             return 1
+ 
+@@ -600,6 +603,11 @@ def git_get_head_id():
+ 
+ 
+ def cmd_add_mbox(args):
++    if args.mode == 10:
++        firmware_url = ATH10K_FIRMWARE_URL
++    elif args.mode == 11:
++        firmware_url = ATH11K_FIRMWARE_URL
++
+     board_filename = args.add_mbox[0]
+     mbox_filename = args.add_mbox[1]
+ 
+@@ -658,8 +666,19 @@ def cmd_add_mbox(args):
+         xclip(applied_msg)
+ 
+ 
++def mode_parse(v):
++    if v == 'ath10k':
++        return 10
++    elif v == 'ath11k':
++        return 11
++    else:
++        raise argparse.ArgumentTypeError('ath10k or ath11k expected.')
++
++
+ def main():
+-    description = '''ath10k board-N.bin files manegement tool
++    global BOARD_SIGNATURE
++
++    description = '''ath10k/ath11k board-N.bin files management tool
+ 
+ ath10k-bdencoder is for creating (--create), listing (--info) and
+ comparing (--diff, --diffstat) ath10k board-N.bin files. The
+@@ -709,12 +728,20 @@ can use --extract switch to see examples from real board-N.bin files.
+     parser.add_argument("-o", "--output", metavar="BOARD_FILE",
+                         help='name of the output file, otherwise the default is: %s' %
+                         (DEFAULT_BOARD_FILE))
++    parser.add_argument("-m", "--mode", metavar='MODE',
++                        help='select between ath10k and ath11k mode (default: ath10k)',
++                        default=10, type=mode_parse)
+ 
+     args = parser.parse_args()
+ 
+     if args.verbose:
+         logging.basicConfig(level=logging.DEBUG)
+ 
++    if args.mode == 10:
++        BOARD_SIGNATURE = ATH10K_BOARD_SIGNATURE
++    elif args.mode == 11:
++        BOARD_SIGNATURE = ATH11K_BOARD_SIGNATURE
++
+     if args.create:
+         return cmd_create(args)
+     elif args.extract:
+-- 
+2.29.2
+
