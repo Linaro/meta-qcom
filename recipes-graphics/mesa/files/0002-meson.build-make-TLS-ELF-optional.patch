@@ -1,4 +1,4 @@
-From 16012eb00fa76343b35365e96ef24806c65948e1 Mon Sep 17 00:00:00 2001
+From 86ba53b592aca0dd7928f7fe5d706db385fcf6cf Mon Sep 17 00:00:00 2001
 From: Alistair Francis <alistair@alistair23.me>
 Date: Wed, 2 Sep 2020 15:28:50 -0500
 Subject: [PATCH] meson.build: make TLS ELF optional
@@ -8,16 +8,17 @@ TLS GLX optional again" patch updated to the latest mesa.
 
 Upstream-Status: Inappropriate [configuration]
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
+
 ---
  meson.build       | 2 +-
  meson_options.txt | 6 ++++++
  2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/meson.build b/meson.build
-index e3e1dbfb116..791a42a083e 100644
+index 08a4793b63e..70962fbb3f4 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -428,7 +428,7 @@ endif
+@@ -450,7 +450,7 @@ endif
  
  # Android uses emutls for versions <= P/28. For USE_ELF_TLS we need ELF TLS.
  use_elf_tls = false
@@ -27,10 +28,10 @@ index e3e1dbfb116..791a42a083e 100644
    use_elf_tls = true
  endif
 diff --git a/meson_options.txt b/meson_options.txt
-index a0cf4abca92..d472772373e 100644
+index 6810602ead9..057e3bebe32 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -368,6 +368,12 @@ option(
+@@ -414,6 +414,12 @@ option(
    value : true,
    description : 'Enable direct rendering in GLX and EGL for DRI',
  )
@@ -43,6 +44,3 @@ index a0cf4abca92..d472772373e 100644
  option(
    'prefer-iris',
    type : 'boolean',
--- 
-2.28.0
-

@@ -1,7 +1,8 @@
-From 61d70cfa52df2a434196875ab0c0b67d2ffe2293 Mon Sep 17 00:00:00 2001
+From f0794ab48d95d570077ece0f01c4ea5d15fc8e62 Mon Sep 17 00:00:00 2001
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Date: Wed, 2 Sep 2020 15:37:55 -0500
 Subject: [PATCH] mesa: adapt meson script to restore compatibility with
+
  release one
 
 During this development cycle meson script was changed to stop accepting
@@ -10,15 +11,16 @@ mesa.inc. Restore this compatibility by patching in support for empty
 values.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 ---
  meson_options.txt | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meson_options.txt b/meson_options.txt
-index c9d9d4d13bf..e3fe51aa371 100644
+index eb8eaa84b08..77c1494ec95 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -52,7 +52,7 @@ option(
+@@ -51,7 +51,7 @@ option(
    'dri-drivers',
    type : 'array',
    value : ['auto'],
@@ -27,16 +29,16 @@ index c9d9d4d13bf..e3fe51aa371 100644
    description : 'List of dri drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
  )
  option(
-@@ -72,7 +72,7 @@ option(
+@@ -71,7 +71,7 @@ option(
    type : 'array',
    value : ['auto'],
    choices : [
 -    'auto', 'kmsro', 'radeonsi', 'r300', 'r600', 'nouveau', 'freedreno',
 +    '', 'auto', 'kmsro', 'radeonsi', 'r300', 'r600', 'nouveau', 'freedreno',
      'swrast', 'v3d', 'vc4', 'etnaviv', 'tegra', 'i915', 'svga', 'virgl',
-     'swr', 'panfrost', 'iris', 'lima', 'zink'
+     'swr', 'panfrost', 'iris', 'lima', 'zink', 'd3d12'
    ],
-@@ -179,7 +179,7 @@ option(
+@@ -184,7 +184,7 @@ option(
    'vulkan-drivers',
    type : 'array',
    value : ['auto'],
@@ -45,6 +47,3 @@ index c9d9d4d13bf..e3fe51aa371 100644
    description : 'List of vulkan drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
  )
  option(
--- 
-2.28.0
-

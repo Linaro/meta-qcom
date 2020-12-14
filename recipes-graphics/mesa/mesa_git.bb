@@ -10,10 +10,11 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496"
 
-SRCREV = "aed8d30b507568b7fc0f32afca012f8def5aca16"
+SRCREV = "533f6debb17b02ee9f92f51c19a2da9c0700bca1"
 #SRCREV_sm8250 = "${AUTOREV}"
 
 PLATFORMS_remove = "drm surfaceless"
+PACKAGECONFIG[osmesa] = "-Dosmesa=true,-Dosmesa=false"
 
 S = "${WORKDIR}/git"
 PV = "20.4-dev+git${SRCPV}"
