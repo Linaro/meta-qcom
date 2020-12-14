@@ -14,6 +14,8 @@ WantedBy=local-fs.target
 [Service]
 Type=oneshot
 RemainAfterExit=true
-# sda6 = system_a
-ExecStart=mount -t ext4 -o ro /dev/sda6 /lib/firmware/system
+# sda7:
+#  - system_b with older partition scheme
+#  - single system with newer partition cheme
+ExecStart=mount -t ext4 -o ro /dev/sda7 /lib/firmware/system
 ExecStop=umount /lib/firmware/system
