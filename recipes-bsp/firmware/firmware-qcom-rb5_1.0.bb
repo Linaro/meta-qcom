@@ -53,6 +53,9 @@ do_install() {
         install -m 0444 slpi.b* slpi.mdt ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         install -m 0444 venus.b* venus.mdt ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
 
+        install -d ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/
+        install -m 0444 bdwlan.e04 ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board.bin
+
         install -m 0444 verinfo/Ver_Info.txt ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         cd ..
     else
@@ -76,6 +79,9 @@ do_install() {
         do
             ln -s ../../modem/image/${img}.jsn ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
         done
+
+        install -d ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/
+        ln -s ../../../modem/image/bdwlan.e04 ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board.bin
     fi
 }
 
