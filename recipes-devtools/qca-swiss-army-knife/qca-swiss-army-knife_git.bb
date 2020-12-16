@@ -15,6 +15,10 @@ SRC_URI = " \
 PV = "0.0+${SRCPV}"
 S = "${WORKDIR}/git"
 
+do_configure_prepend() {
+        find ${S} -type f -exec sed -i -e '/#!\/usr\/bin\/python/c\#!\/usr\/bin\/env python3' {} \;
+}
+
 do_install () {
 	install -d ${D}/${bindir}
 	install -m 0755 tools/scripts/*/* ${D}/${bindir}
