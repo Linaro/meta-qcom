@@ -21,3 +21,5 @@ do_install () {
 }
 
 BBCLASSEXTEND = "native nativesdk"
+
+RDEPENDS_${PN} += "perl python3-core"
