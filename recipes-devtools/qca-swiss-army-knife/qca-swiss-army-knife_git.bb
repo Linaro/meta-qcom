@@ -10,6 +10,9 @@ SRC_URI = " \
 	git://github.com/qca/${BPN}.git;branch=master;protocol=https \
 	file://0001-ath10k-bdencoder-Switch-to-python3.patch \
 	file://0002-ath10k-bdencoder-Add-option-to-switch-to-ath11k-mode.patch \
+	file://0001-read-powers-port-to-python3.patch \
+	file://0002-ath10k-fwencoder-port-to-python3.patch \
+	file://0003-scripts-port-to-python3.patch \
 "
 
 PV = "0.0+${SRCPV}"

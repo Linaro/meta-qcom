@@ -1,0 +1,272 @@
+From 3d23932fd812e1ec7a989ca7e594fcf04d42c8a6 Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Thu, 17 Dec 2020 01:32:47 +0300
+Subject: [PATCH 2/3] ath10k-fwencoder: port to python3
+
+Signed-off-by: Dmitry Baryshkov <dbaryshkov@gmail.com>
+---
+ tools/scripts/ath10k/ath10k-fwencoder | 70 +++++++++++++--------------
+ 1 file changed, 35 insertions(+), 35 deletions(-)
+
+diff --git a/tools/scripts/ath10k/ath10k-fwencoder b/tools/scripts/ath10k/ath10k-fwencoder
+index 6934a694e832..bbbe0344f014 100755
+--- a/tools/scripts/ath10k/ath10k-fwencoder
++++ b/tools/scripts/ath10k/ath10k-fwencoder
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ #
+ # Copyright (c) 2012-2015 Qualcomm Atheros, Inc.
+ #
+@@ -30,7 +30,7 @@ import hashlib
+ 
+ DEFAULT_FW_API_VERSION = 4
+ 
+-ATH10K_SIGNATURE = "QCA-ATH10K"
++ATH10K_SIGNATURE = b"QCA-ATH10K"
+ MAX_LEN = 2000000
+ 
+ ATH10K_FW_IE_FW_VERSION = 0
+@@ -327,7 +327,7 @@ class Ath10kFirmwareContainer(object):
+         elif is_int(s):
+             version = s
+         else:
+-            print 'Error: Invalid HTT OP version: %s' % s
++            print('Error: Invalid HTT OP version: %s' % s)
+             return 1
+ 
+         self.htt_op_version = version
+@@ -337,7 +337,7 @@ class Ath10kFirmwareContainer(object):
+ 
+         # find value from the dict
+         try:
+-            name = [key for key, value in htt_op_version_map.iteritems()
++            name = [key for key, value in htt_op_version_map.items()
+                     if value == version][0]
+         except IndexError:
+             name = str(version)
+@@ -353,7 +353,7 @@ class Ath10kFirmwareContainer(object):
+         elif is_int(s):
+             version = s
+         else:
+-            print 'Error: Invalid WMI OP version: %s' % s
++            print('Error: Invalid WMI OP version: %s' % s)
+             return 1
+ 
+         self.wmi_op_version = version
+@@ -363,7 +363,7 @@ class Ath10kFirmwareContainer(object):
+ 
+         # find value from the dict
+         try:
+-            name = [key for key, value in wmi_op_version_map.iteritems()
++            name = [key for key, value in wmi_op_version_map.items()
+                     if value == version][0]
+         except IndexError:
+             name = str(version)
+@@ -376,7 +376,7 @@ class Ath10kFirmwareContainer(object):
+         enabled = []
+         for capa in self.features:
+             if capa not in feature_map:
+-                print "Error: '%s' not found from the feature map" % capa
++                print("Error: '%s' not found from the feature map" % capa)
+                 return 1
+ 
+             enabled.append(feature_map[capa])
+@@ -434,7 +434,7 @@ class Ath10kFirmwareContainer(object):
+         self.fw_version = fw_version
+         # reserve one byte for null
+         if len(self.fw_version) > ETHTOOL_FWVERS_LEN - 1:
+-            print 'Firmware version string too long: %d' % (len(self.fw_version))
++            print('Firmware version string too long: %d' % (len(self.fw_version)))
+             return 1
+ 
+     def get_fw_version(self):
+@@ -500,7 +500,7 @@ class Ath10kFirmwareContainer(object):
+             elif e == ATH10K_FW_IE_FW_CODE_SWAP_IMAGE:
+                 self.fw_code_swap_image = c.elements[e]
+             else:
+-                print "Unknown IE: ", e
++                print("Unknown IE: ", e)
+ 
+     def save(self, filename):
+         self.container = FirmwareContainer(ATH10K_SIGNATURE)
+@@ -585,7 +585,7 @@ def write_file(filename, buf):
+ def info(options, args):
+ 
+     if len(args) != 1:
+-        print 'Filename missing'
++        print('Filename missing')
+         return 1
+ 
+     filename = args[0]
+@@ -593,13 +593,13 @@ def info(options, args):
+     c = Ath10kFirmwareContainer()
+     c.load(filename)
+ 
+-    print c.get_summary()
++    print(c.get_summary())
+ 
+ 
+ def dump(options, args):
+ 
+     if len(args) != 1:
+-        print 'Filename missing'
++        print('Filename missing')
+         return 1
+ 
+     filename = args[0]
+@@ -607,34 +607,34 @@ def dump(options, args):
+     c = Ath10kFirmwareContainer()
+     c.load(filename)
+ 
+-    print "ath10k-fwencoder --create \\"
++    print("ath10k-fwencoder --create \\")
+ 
+     if c.get_fw_version():
+-        print "--firmware-version=%s \\" % c.get_fw_version()
++        print("--firmware-version=%s \\" % c.get_fw_version())
+ 
+     if c.get_timestamp() and options.show_timestamp:
+-        print "--timestamp=%u \\" % c.get_timestamp()
++        print("--timestamp=%u \\" % c.get_timestamp())
+ 
+     if c.get_features():
+-        print "--features=%s \\" % c.get_features()
++        print("--features=%s \\" % c.get_features())
+ 
+     if c.get_fw_image():
+         name = "athwlan.bin"
+-        print "--firmware=%s \\" % name
++        print("--firmware=%s \\" % name)
+ 
+     if c.get_otp_image():
+         name = "otp.bin"
+-        print "--otp=%s \\" % name
++        print("--otp=%s \\" % name)
+ 
+     if c.get_wmi_op_version():
+-        print '--set-wmi-op-version=%s \\' % c.get_wmi_op_version()
++        print('--set-wmi-op-version=%s \\' % c.get_wmi_op_version())
+ 
+     if c.get_htt_op_version():
+-        print '--set-htt-op-version=%s \\' % (c.get_htt_op_version())
++        print('--set-htt-op-version=%s \\' % (c.get_htt_op_version()))
+ 
+     if c.get_fw_code_swap_image():
+         name = "athwlan.codeswap.bin"
+-        print "--firmware-codeswap=%s \\" % name
++        print("--firmware-codeswap=%s \\" % name)
+ 
+     print
+ 
+@@ -642,7 +642,7 @@ def dump(options, args):
+ def extract(options, args):
+ 
+     if len(args) != 1:
+-        print 'Filename missing'
++        print('Filename missing')
+         return 1
+ 
+     filename = args[0]
+@@ -653,24 +653,24 @@ def extract(options, args):
+     if c.get_fw_image():
+         name = "athwlan.bin"
+         write_file(name, c.get_fw_image())
+-        print '%s extracted: %d B' % (name, len(c.get_fw_image()))
++        print('%s extracted: %d B' % (name, len(c.get_fw_image())))
+ 
+     if c.get_otp_image():
+         name = "otp.bin"
+         write_file(name, c.get_otp_image())
+-        print '%s extracted: %d B' % (name, len(c.get_otp_image()))
++        print('%s extracted: %d B' % (name, len(c.get_otp_image())))
+ 
+     if c.get_fw_code_swap_image():
+         name = "athwlan.codeswap.bin"
+         write_file(name, c.get_fw_code_swap_image())
+-        print '%s extracted: %d B' % (name, len(c.get_fw_code_swap_image()))
++        print('%s extracted: %d B' % (name, len(c.get_fw_code_swap_image())))
+ 
+     print
+ 
+ 
+ def modify(options, args):
+     if len(args) != 1:
+-        print 'Filename missing'
++        print('Filename missing')
+         return 1
+ 
+     filename = args[0]
+@@ -710,7 +710,7 @@ def modify(options, args):
+ 
+     file_len = c.save(filename)
+ 
+-    print '%s modified: %d B' % (filename, file_len)
++    print('%s modified: %d B' % (filename, file_len))
+ 
+ 
+ def create(options):
+@@ -752,25 +752,25 @@ def create(options):
+ 
+     file_len = c.save(output)
+ 
+-    print '%s created: %d B' % (output, file_len)
++    print('%s created: %d B' % (output, file_len))
+ 
+ 
+ def cmd_crc32(options, args):
+     if len(args) != 1:
+-        print 'Filename missing'
++        print('Filename missing')
+         return 1
+ 
+     filename = args[0]
+ 
+     f = open(filename, 'r')
+     buf = f.read()
+-    print '%08x' % (_crc32(buf))
++    print('%08x' % (_crc32(buf)))
+     f.close()
+ 
+ 
+ def cmd_diff(options, args):
+     if len(args) != 2:
+-        print 'Usage: ath10k-fwencoder --diff FILE FILE'
++        print('Usage: ath10k-fwencoder --diff FILE FILE')
+         return 1
+ 
+     filename1 = args[0]
+@@ -804,7 +804,7 @@ def cmd_diff(options, args):
+         logger.error('Failed to run wdiff: %s' % (e))
+         return 1
+ 
+-    print output
++    print(output)
+ 
+     os.close(temp1_fd)
+     os.close(temp2_fd)
+@@ -896,10 +896,10 @@ def main():
+         try:
+             return create(options)
+         except FWEncoderError as e:
+-            print 'Create failed: %s' % e
++            print('Create failed: %s' % e)
+             sys.exit(2)
+         except Exception as e:
+-            print 'Create failed: %s' % e
++            print('Create failed: %s' % e)
+             traceback.print_exc()
+             sys.exit(3)
+     elif options.dump:
+@@ -915,7 +915,7 @@ def main():
+     elif options.diff:
+         return cmd_diff(options, args)
+     else:
+-        print 'Action command missing'
++        print('Action command missing')
+         return 1
+ 
+ if __name__ == "__main__":
+-- 
+2.29.2
+
