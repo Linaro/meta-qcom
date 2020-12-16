@@ -1,0 +1,146 @@
+From 71d960adea6e5287ac80e976e58865f59328f6c4 Mon Sep 17 00:00:00 2001
+From: Sven Eckelmann <sven@narfation.org>
+Date: Wed, 14 Oct 2020 15:52:02 +0200
+Subject: [PATCH 1/2] ath10k-bdencoder: Switch to python3
+
+Python 2.x is EOL since January 2020. The first distributions already
+started to drop the interpreters from their next distribution release. Just
+add some minor changes to make it python3 compatible.
+
+Signed-off-by: Sven Eckelmann <sven@narfation.org>
+---
+ tools/scripts/ath10k/ath10k-bdencoder | 35 ++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/tools/scripts/ath10k/ath10k-bdencoder b/tools/scripts/ath10k/ath10k-bdencoder
+index 5f41a6be9446..1635e87b6f5f 100755
+--- a/tools/scripts/ath10k/ath10k-bdencoder
++++ b/tools/scripts/ath10k/ath10k-bdencoder
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ #
+ # Copyright (c) 2015 Qualcomm Atheros, Inc.
+ # Copyright (c) 2018, The Linux Foundation. All rights reserved.
+@@ -33,7 +33,7 @@ import mailbox
+ MAX_BUF_LEN = 2000000
+ 
+ # the signature length also includes null byte and padding
+-ATH10K_BOARD_SIGNATURE = "QCA-ATH10K-BOARD"
++ATH10K_BOARD_SIGNATURE = b"QCA-ATH10K-BOARD"
+ ATH10K_BOARD_SIGNATURE_LEN = 20
+ 
+ PADDING_MAGIC = 0x6d
+@@ -83,7 +83,7 @@ def add_ie(buf, offset, id, value):
+ def xclip(msg):
+     p = subprocess.Popen(['xclip', '-selection', 'clipboard'],
+                          stdin=subprocess.PIPE)
+-    p.communicate(msg)
++    p.communicate(msg.encode())
+ 
+ 
+ # to workaround annoying python feature of returning negative hex values
+@@ -105,7 +105,8 @@ class BoardName():
+     def parse_ie(buf, offset, length):
+         self = BoardName()
+         fmt = '<%ds' % length
+-        (self.name, ) = struct.unpack_from(fmt, buf, offset)
++        (name, ) = struct.unpack_from(fmt, buf, offset)
++        self.name = name.decode()
+ 
+         logging.debug('BoardName.parse_ie(): offset %d length %d self %s' %
+                       (offset, length, self))
+@@ -310,7 +311,7 @@ class BoardContainer:
+                 allnames.append(name)
+ 
+     def _add_signature(self, buf, offset):
+-        signature = ATH10K_BOARD_SIGNATURE + '\0'
++        signature = ATH10K_BOARD_SIGNATURE + b'\0'
+         length = len(signature)
+         pad_len = padding_needed(length)
+         length = length + pad_len
+@@ -321,7 +322,7 @@ class BoardContainer:
+             struct.pack_into('<B', padding, i, PADDING_MAGIC)
+ 
+         fmt = '<%ds%ds' % (len(signature), pad_len)
+-        struct.pack_into(fmt, buf, offset, signature.encode(), padding.raw)
++        struct.pack_into(fmt, buf, offset, signature, padding.raw)
+         offset += length
+ 
+         # make sure ATH10K_BOARD_SIGNATURE_LEN is correct
+@@ -445,7 +446,7 @@ def cmd_extract(args):
+         b['data'] = filename
+         mapping.append(b)
+ 
+-        f = open(filename, 'w')
++        f = open(filename, 'wb')
+         f.write(board.data.data)
+         f.close()
+ 
+@@ -483,11 +484,11 @@ def diff_boardfiles(filename1, filename2, diff):
+ 
+     container1 = BoardContainer().open(filename1)
+     (temp1_fd, temp1_pathname) = tempfile.mkstemp()
+-    os.write(temp1_fd, container1.get_summary(sort=True))
++    os.write(temp1_fd, container1.get_summary(sort=True).encode())
+ 
+     container2 = BoardContainer().open(filename2)
+     (temp2_fd, temp2_pathname) = tempfile.mkstemp()
+-    os.write(temp2_fd, container2.get_summary(sort=True))
++    os.write(temp2_fd, container2.get_summary(sort=True).encode())
+ 
+     # this function is used both with --diff and --diffstat
+     if diff:
+@@ -509,7 +510,7 @@ def diff_boardfiles(filename1, filename2, diff):
+             print('Failed to run wdiff: %s' % (e))
+             return 1
+ 
+-        result += '%s\n' % (output)
++        result += '%s\n' % (output.decode())
+ 
+     # create simple statistics about changes in board images
+ 
+@@ -577,7 +578,7 @@ def cmd_add_board(args):
+     new_filename = args.add_board[1]
+     new_names = args.add_board[2:]
+ 
+-    f = open(new_filename, 'r')
++    f = open(new_filename, 'rb')
+     new_data = f.read()
+     f.close()
+ 
+@@ -620,15 +621,15 @@ def cmd_add_mbox(args):
+             name = filename.rstrip(BIN_SUFFIX)
+             board_files[name] = part.get_payload(decode=True)
+ 
+-        print 'Found mail "%s" with %d board files' % (msg['Subject'],
+-                                                       len(board_files))
++        print('Found mail "%s" with %d board files' % (msg['Subject'],
++                                                       len(board_files)))
+ 
+         # copy the original file for diff
+         (temp_fd, temp_pathname) = tempfile.mkstemp()
+         shutil.copyfile(board_filename, temp_pathname)
+ 
+         container = BoardContainer.open(board_filename)
+-        for name, data in board_files.iteritems():
++        for name, data in board_files.items():
+             names = [name]
+             container.add_board(data, names)
+ 
+@@ -650,9 +651,9 @@ def cmd_add_mbox(args):
+ 
+         os.remove(temp_pathname)
+ 
+-        print '----------------------------------------------'
+-        print applied_msg
+-        print '----------------------------------------------'
++        print('----------------------------------------------')
++        print(applied_msg)
++        print('----------------------------------------------')
+ 
+         xclip(applied_msg)
+ 
+-- 
+2.29.2
+
