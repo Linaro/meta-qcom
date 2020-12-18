@@ -1,0 +1,34 @@
+From 26ca6eff75f78fec9efff4a69fca7103b97f1ab1 Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Thu, 17 Dec 2020 01:33:01 +0300
+Subject: [PATCH 3/3] scripts: port to python3
+
+Signed-off-by: Dmitry Baryshkov <dbaryshkov@gmail.com>
+---
+ tools/scripts/ath10k/ath10k-fw-repo | 2 +-
+ tools/scripts/ath11k/ath11k-fw-repo | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/scripts/ath10k/ath10k-fw-repo b/tools/scripts/ath10k/ath10k-fw-repo
+index 00b6d859209a..4cf044c04c5a 100755
+--- a/tools/scripts/ath10k/ath10k-fw-repo
++++ b/tools/scripts/ath10k/ath10k-fw-repo
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ #
+ # Copyright (c) 2016 Qualcomm Atheros, Inc.
+ # Copyright (c) 2018, The Linux Foundation. All rights reserved.
+diff --git a/tools/scripts/ath11k/ath11k-fw-repo b/tools/scripts/ath11k/ath11k-fw-repo
+index 1ac6023aaf12..51ca33c5dd7b 100755
+--- a/tools/scripts/ath11k/ath11k-fw-repo
++++ b/tools/scripts/ath11k/ath11k-fw-repo
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ #
+ # Copyright (c) 2016 Qualcomm Atheros, Inc.
+ # Copyright (c) 2018,2020 The Linux Foundation. All rights reserved.
+-- 
+2.29.2
+

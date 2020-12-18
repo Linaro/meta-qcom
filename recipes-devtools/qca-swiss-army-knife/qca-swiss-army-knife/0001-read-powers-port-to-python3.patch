@@ -1,0 +1,212 @@
+From 4ffa07ff681c628750ba7c66e8a97f5f57b35fa0 Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Thu, 17 Dec 2020 00:37:39 +0300
+Subject: [PATCH 1/3] read-powers: port to python3
+
+Signed-off-by: Dmitry Baryshkov <dbaryshkov@gmail.com>
+---
+ tools/scripts/ath9k/read-powers | 74 ++++++++++++++++-----------------
+ 1 file changed, 37 insertions(+), 37 deletions(-)
+
+diff --git a/tools/scripts/ath9k/read-powers b/tools/scripts/ath9k/read-powers
+index 1d430e78b695..535747db8f0b 100755
+--- a/tools/scripts/ath9k/read-powers
++++ b/tools/scripts/ath9k/read-powers
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ #
+ # Copyright (c) 2010 Atheros Communications Inc.
+ #
+@@ -117,7 +117,7 @@ def powertx_rate1 (val):
+ 	ofdm_rates["12"] = (val >> 16) & 0xff
+ 	ofdm_rates["18"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 1", val)
++	print("%010s: 0x%08x" % ("Rate 1", val))
+ 
+ def powertx_rate2 (val):
+ 	ofdm_rates["24"] = (val >> 0) & 0xff;
+@@ -125,7 +125,7 @@ def powertx_rate2 (val):
+ 	ofdm_rates["48"] = (val >> 16) & 0xff
+ 	ofdm_rates["54"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 2", val)
++	print("%010s: 0x%08x" % ("Rate 2", val))
+ 
+ def powertx_rate3 (val):
+ 	cck_rates["1L"]  = (val >> 0)  & 0xff;	
+@@ -134,7 +134,7 @@ def powertx_rate3 (val):
+ 	cck_rates["2L"]  = (val >> 16) & 0xff;
+ 	cck_rates["2S"]  = (val >> 24) & 0xff;
+ 
+-	print "%010s: 0x%08x" % ("Rate 3", val)
++	print("%010s: 0x%08x" % ("Rate 3", val))
+ 
+ def powertx_rate4 (val):
+ 	cck_rates["5.5L"] = (val >> 0)  & 0xff;
+@@ -142,7 +142,7 @@ def powertx_rate4 (val):
+ 	cck_rates["11L"]  = (val >> 16) & 0xff
+ 	cck_rates["11S"]  = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 4", val)
++	print("%010s: 0x%08x" % ("Rate 4", val))
+ 
+ def powertx_rate5 (val):
+ 	mcs_rates_ht20["0"]  = (val >> 0) & 0xff;
+@@ -165,7 +165,7 @@ def powertx_rate5 (val):
+ 
+ 	mcs_rates_ht20["5"]  = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 5", val)
++	print("%010s: 0x%08x" % ("Rate 5", val))
+ 
+ def powertx_rate6 (val):
+ 	mcs_rates_ht20["6"]  = (val >> 0)  & 0xff;
+@@ -173,7 +173,7 @@ def powertx_rate6 (val):
+ 	mcs_rates_ht20["12"] = (val >> 16) & 0xff
+ 	mcs_rates_ht20["13"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 6", val)
++	print("%010s: 0x%08x" % ("Rate 6", val))
+ 
+ def powertx_rate7 (val):
+ 	mcs_rates_ht40["0"]  = (val >> 0) & 0xff;
+@@ -196,7 +196,7 @@ def powertx_rate7 (val):
+ 
+ 	mcs_rates_ht40["5"]  = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 7", val)
++	print("%010s: 0x%08x" % ("Rate 7", val))
+ 
+ def powertx_rate8 (val):
+ 	mcs_rates_ht40["6"]  = (val >> 0) & 0xff;
+@@ -204,7 +204,7 @@ def powertx_rate8 (val):
+ 	mcs_rates_ht40["12"] = (val >> 16) & 0xff
+ 	mcs_rates_ht40["13"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 8", val)
++	print("%010s: 0x%08x" % ("Rate 8", val))
+ 
+ # What is 40 dup CCK, 40 dup OFDM, 20 ext cck, 20 ext ODFM ?
+ def powertx_rate9 (val):
+@@ -213,7 +213,7 @@ def powertx_rate9 (val):
+ 	ext_dup_rates["20 ext CCK"]  = (val >> 16) & 0xff
+ 	ext_dup_rates["20 ext OFDM"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 9", val)
++	print("%010s: 0x%08x" % ("Rate 9", val))
+ 
+ def powertx_rate10 (val):
+ 	mcs_rates_ht20["14"] = (val >> 0) & 0xff;
+@@ -221,7 +221,7 @@ def powertx_rate10 (val):
+ 	mcs_rates_ht20["20"] = (val >> 16) & 0xff
+ 	mcs_rates_ht20["21"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 10", val)
++	print("%010s: 0x%08x" % ("Rate 10", val))
+ 
+ def powertx_rate11 (val):
+ 	mcs_rates_ht20["22"] = (val >> 0) & 0xff;
+@@ -230,7 +230,7 @@ def powertx_rate11 (val):
+ 	mcs_rates_ht40["22"] = (val >> 16) & 0xff
+ 	mcs_rates_ht40["23"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 11", val)
++	print("%010s: 0x%08x" % ("Rate 11", val))
+ 
+ def powertx_rate12 (val):
+ 	mcs_rates_ht40["14"] = (val >> 0) & 0xff;
+@@ -238,7 +238,7 @@ def powertx_rate12 (val):
+ 	mcs_rates_ht40["20"] = (val >> 16) & 0xff
+ 	mcs_rates_ht40["21"] = (val >> 24) & 0xff
+ 
+-	print "%010s: 0x%08x" % ("Rate 12", val)
++	print("%010s: 0x%08x" % ("Rate 12", val))
+ 
+ registers = {
+ 	"0x00a3c0" : powertx_rate1,
+@@ -256,43 +256,43 @@ registers = {
+ 	}
+ 
+ def process_cck_rates():
+-	print "CCK Rates"
+-	print "======================"
+-	for rate, double_dbm in cck_rates.iteritems():
++	print("CCK Rates")
++	print("======================")
++	for rate, double_dbm in cck_rates.items():
+ 		dbm = "%.2f dBm" % (double_dbm / 2)
+-		print "%010s %010s" % (rate + " Mbps", dbm)
++		print("%010s %010s" % (rate + " Mbps", dbm))
+ 
+ def process_ofdm_rates():
+-	print "OFDM Rates"
+-	print "======================"
+-	for rate, double_dbm in sorted(map(lambda (k,v): (int(k,0), v), ofdm_rates.iteritems())):
++	print("OFDM Rates")
++	print("======================")
++	for rate, double_dbm in sorted(ofdm_rates.items(), key=lambda i: int(i[0], 0)):
+ 		rate_s = "%s" % rate
+ 		dbm = "%.02f dBm" % (double_dbm / 2)
+-		print "%010s %010s" % (rate_s + " Mbps", dbm)
++		print("%010s %010s" % (rate_s + " Mbps", dbm))
+ 
+ def process_mcs_ht20_rates():
+-	print "MCS20 Rates"
+-	print "======================"
+-	for rate, double_dbm in sorted(map(lambda (k,v): (int(k,0), v), mcs_rates_ht20.iteritems())):
++	print("MCS20 Rates")
++	print("======================")
++	for rate, double_dbm in sorted(mcs_rates_ht20.items(), key=lambda i: int(i[0], 0)):
+ 		rate_s = "%s" % rate
+ 		dbm = "%.02f dBm" % (double_dbm / 2)
+-		print "%010s %010s" % ("MCS" + rate_s, dbm)
++		print("%010s %010s" % ("MCS" + rate_s, dbm))
+ 
+ 
+ def process_mcs_ht40_rates():
+-	print "MCS40 Rates"
+-	print "======================"
+-	for rate, double_dbm in sorted(map(lambda (k,v): (int(k,0), v), mcs_rates_ht40.iteritems())):
++	print("MCS40 Rates")
++	print("======================")
++	for rate, double_dbm in sorted(mcs_rates_ht40.items(), key=lambda i: int(i[0], 0)):
+ 		rate_s = "%s" % rate
+ 		dbm = "%.2f dBm" % (double_dbm / 2)
+-		print "%010s %010s" % ("MCS" + rate_s, dbm)
++		print("%010s %010s" % ("MCS" + rate_s, dbm))
+ 
+ def process_ext_dup_rates():
+-	print "EXT-DUP Rates"
+-	print "=========================="
+-	for rate, double_dbm in ext_dup_rates.iteritems():
++	print("EXT-DUP Rates")
++	print("==========================")
++	for rate, double_dbm in ext_dup_rates.items():
+ 		dbm = "%.2f dBm" % (double_dbm / 2)
+-		print "%015s %010s" % (rate, dbm)
++		print("%015s %010s" % (rate, dbm))
+ 
+ def print_power_reg (reg, val):
+ 	if not reg in map(lambda x: int(x, 0), registers.keys()):
+@@ -300,12 +300,12 @@ def print_power_reg (reg, val):
+ 	registers.get("0x%06x" % reg)(val)
+ 
+ try:
+-	print "Power register"
+-	print "======================"
++	print("Power register")
++	print("======================")
+ 	for line in sys.stdin.readlines():
+-		reg, val  = map(lambda x: int(x, 0), string.split(line))
++		reg, val  = map(lambda x: int(x, 0), line.split())
+ 		print_power_reg(reg, val)
+-	print "-------------------------------------"
++	print("-------------------------------------")
+ 
+ 	process_cck_rates()
+ 	process_ofdm_rates()
+-- 
+2.29.2
+
