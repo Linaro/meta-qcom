@@ -1,0 +1,1 @@
+initramfs-test-image.bbappend
