@@ -30,7 +30,6 @@ PACKAGE_INSTALL = " \
 # Do not pollute the initrd image with rootfs features
 IMAGE_FEATURES = "debug-tweaks"
 
-export IMAGE_BASENAME = "initramfs-test-image"
 IMAGE_LINGUAS = ""
 
 LICENSE = "MIT"
