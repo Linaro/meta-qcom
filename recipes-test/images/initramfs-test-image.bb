@@ -14,6 +14,7 @@ PACKAGE_INSTALL = " \
     e2fsprogs-tune2fs \
     ethtool \
     gptfdisk \
+    iw \
     lava-test-shell \
     packagegroup-core-boot \
     pciutils \
