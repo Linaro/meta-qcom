@@ -26,7 +26,7 @@ do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
     install -d ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
 
-    install -m 0444 ./17-USB3-201-202-FW/K2026090.mem ${D}${nonarch_base_libdir}/firmware/
+    install -m 0444 ./17-USB3-201-202-FW/K2026090.mem ${D}${nonarch_base_libdir}/firmware/renesas_usb_fw.mem
     install -m 0444 ./18-adreno-fw/a630_zap*.* ${D}${nonarch_base_libdir}/firmware/qcom/
     install -m 0444 ./20-adsp_split/firmware/adsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
     install -m 0444 ./21-cdsp_split/firmware/cdsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/sdm845
