@@ -6,11 +6,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
            file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-           file://fix-meson-config-compat.patch \
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496"
 
-SRCREV = "533f6debb17b02ee9f92f51c19a2da9c0700bca1"
+SRCREV = "90de4ec12998b7c52f113afbcbd91b4b2e9aa4dd"
 #SRCREV_sm8250 = "${AUTOREV}"
 
 PLATFORMS_remove = "drm surfaceless"
