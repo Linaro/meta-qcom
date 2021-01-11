@@ -9,7 +9,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496"
 
-SRCREV = "90de4ec12998b7c52f113afbcbd91b4b2e9aa4dd"
+SRCREV = "eb2a4a7dee7c84cde44294f991ae731f88d19272"
 #SRCREV_sm8250 = "${AUTOREV}"
 
 PLATFORMS_remove = "drm surfaceless"
