@@ -32,4 +32,4 @@ PACKAGECONFIG[dri] = "-Ddri-drivers=${DRIDRIVERS}, -Ddri-drivers='', xorgproto l
 
 # Do not select this version by default
 DEFAULT_PREFERENCE = "-1"
-DEFAULT_PREFERENCE_sm8250 = "1"
+DEFAULT_PREFERENCE_sm8250 = ""
