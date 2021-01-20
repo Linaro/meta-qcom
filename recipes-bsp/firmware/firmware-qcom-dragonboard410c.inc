@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4d087ee0965cb059f1b2f9429e166f64"
 
 DEPENDS += "mtools-native"
 
-inherit allarch
+require recipes-bsp/firmware/firmware-qcom.inc
 
 S = "${WORKDIR}/linux-board-support-package-r${PV}"
 
@@ -30,7 +30,3 @@ do_install() {
 }
 
 FILES:${PN} += "/boot/modem_fsg"
-FILES:${PN} += "${nonarch_base_libdir}/firmware/wlan/*"
-FILES:${PN} += "${nonarch_base_libdir}/firmware/qcom/msm8916/*"
-
-INSANE_SKIP:${PN} += "arch"

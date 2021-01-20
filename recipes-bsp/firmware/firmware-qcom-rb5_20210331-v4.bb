@@ -22,7 +22,7 @@ PE = "1"
 
 DEPENDS += "qca-swiss-army-knife-native"
 
-inherit allarch
+require recipes-bsp/firmware/firmware-qcom.inc
 
 do_compile() {
     # Build board-2.bin needed by WiFi
@@ -44,12 +44,6 @@ do_install() {
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
-
-FILES:${PN} += "${nonarch_base_libdir}/firmware/"
-INSANE_SKIP:${PN} += "arch"
-INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-INHIBIT_PACKAGE_STRIP = "1"
-INHIBIT_DEFAULT_DEPS = "1"
 
 inherit update-alternatives
 
