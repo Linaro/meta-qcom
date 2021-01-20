@@ -9,10 +9,6 @@ require recipes-bsp/firmware/firmware-qcom.inc
 
 S = "${WORKDIR}/linux-board-support-package-r${PV}"
 
-do_compile() {
-	:
-}
-
 do_install() {
     install -d  ${D}${nonarch_base_libdir}/firmware/
 

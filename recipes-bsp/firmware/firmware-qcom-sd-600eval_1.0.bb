@@ -11,10 +11,6 @@ require recipes-bsp/firmware/firmware-qcom.inc
 
 S = "${WORKDIR}/SD_600eval-linux_proprietary_firmware-v${PV}"
 
-do_compile() {
-	:
-}
-
 do_install() {
     install -d  ${D}${nonarch_base_libdir}/firmware/
     cp -R --no-dereference --preserve=mode,links * ${D}${nonarch_base_libdir}/firmware/
