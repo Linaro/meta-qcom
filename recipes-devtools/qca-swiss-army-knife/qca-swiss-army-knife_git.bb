@@ -13,6 +13,8 @@ SRC_URI = " \
 	file://0001-read-powers-port-to-python3.patch \
 	file://0002-ath10k-fwencoder-port-to-python3.patch \
 	file://0003-scripts-port-to-python3.patch \
+	file://ath10k-generate-board-2_json.sh \
+	file://ath11k-generate-board-2_json.sh \
 "
 
 PV = "0.0+${SRCPV}"
@@ -21,6 +23,8 @@ S = "${WORKDIR}/git"
 do_install () {
 	install -d ${D}/${bindir}
 	install -m 0755 tools/scripts/*/* ${D}/${bindir}
+	install -m 0755 ${WORKDIR}/ath10k-generate-board-2_json.sh ${D}/${bindir}
+	install -m 0755 ${WORKDIR}/ath11k-generate-board-2_json.sh ${D}/${bindir}
 }
 
 BBCLASSEXTEND = "native nativesdk"
