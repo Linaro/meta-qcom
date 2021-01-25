@@ -21,6 +21,3 @@ SRCREV ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-l
 
 LINUX_VERSION = "5.11+"
 PV = "${LINUX_VERSION}+git${SRCPV}"
-
-# Wifi firmware has a recognizable arch :( 
-ERROR_QA_remove = "arch"
