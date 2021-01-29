@@ -1,0 +1,19 @@
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 29 Jan 2021 15:41:39 +0300
+Subject: ucm2/module: add snd_soc_sm8250 symlink
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Change-Id: I9818a19ef812d715d65345ea3733f635d5505c2e
+---
+ ucm2/module/snd_soc_sm8250 | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 120000 ucm2/module/snd_soc_sm8250
+
+diff --git a/ucm2/module/snd_soc_sm8250 b/ucm2/module/snd_soc_sm8250
+new file mode 120000
+index 0000000..faf64f1
+--- /dev/null
++++ b/ucm2/module/snd_soc_sm8250
+@@ -0,0 +1 @@
++../Qualcomm/sm8250
+\ No newline at end of file
