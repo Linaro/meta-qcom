@@ -1,0 +1,21 @@
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 29 Jan 2021 15:32:06 +0300
+Subject: module: add new symlink for Qualcomm/sdm845 driver
+
+Add module/snd_soc_sdm845 -> Qualcomm/sdm845 link.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Change-Id: I5325033f47ee131499ed406ec56284bbf2f58b8d
+---
+ ucm2/module/snd_soc_sdm845 | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 120000 ucm2/module/snd_soc_sdm845
+
+diff --git a/ucm2/module/snd_soc_sdm845 b/ucm2/module/snd_soc_sdm845
+new file mode 120000
+index 0000000..6800b66
+--- /dev/null
++++ b/ucm2/module/snd_soc_sdm845
+@@ -0,0 +1 @@
++../Qualcomm/sdm845
+\ No newline at end of file

@@ -1,0 +1,28 @@
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 29 Jan 2021 15:31:35 +0300
+Subject: ucm.conf: support KernelModule/CardLongName.conf paths
+
+Add support for 'ucm2/module/${KernelModule}/${CardLongName}.conf'
+paths.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Change-Id: Ib006691e4b384543f97897c03fe575f8278e66f5
+---
+ ucm2/ucm.conf | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ucm2/ucm.conf b/ucm2/ucm.conf
+index 9e78df1..a9613a2 100644
+--- a/ucm2/ucm.conf
++++ b/ucm2/ucm.conf
+@@ -53,6 +53,10 @@ If.driver {
+ 			False {
+ 				Define.KernelModulePath "class/sound/card${CardNumber}/device/driver/module"
+ 				Define.KernelModule "$${sys:$KernelModulePath}"
++				UseCasePath.modulelongname {
++					Directory "module/${var:KernelModule}"
++					File "${CardLongName}.conf"
++				}
+ 				UseCasePath.module {
+ 					Directory "module"
+ 					File "${var:KernelModule}.conf"
