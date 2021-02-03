@@ -1,0 +1,44 @@
+From 2957017f9ca01b0e1e127c04ba47e0147bff7e47 Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 5 Feb 2021 20:45:40 +0300
+Subject: [PATCH] ucm2/conf.d: add symlinks for Qualcomm cards
+
+Add ucm2/conf.d symlinks for all defined Qualcomm sound cards.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ ucm2/conf.d/DB820c/DB820c.conf            | 1 +
+ ucm2/conf.d/DB410c/DB410c.conf          | 1 +
+ ucm2/conf.d/sdm845/DB845c.conf                              | 1 +
+ 3 files changed, 3 insertions(+)
+ create mode 120000 ucm2/conf.d/DB820c/DB820c.conf
+ create mode 120000 ucm2/conf.d/DB410c/DB410c.conf
+ create mode 120000 ucm2/conf.d/sdm845/DB845c.conf
+
+diff --git a/ucm2/conf.d/DB820c/DB820c.conf b/ucm2/conf.d/DB820c/DB820c.conf
+new file mode 120000
+index 000000000000..b8ceeabaa70d
+--- /dev/null
++++ b/ucm2/conf.d/DB820c/DB820c.conf
+@@ -0,0 +1 @@
++../../Qualcomm/apq8096/apq8096.conf
+\ No newline at end of file
+diff --git a/ucm2/conf.d/DB410c/DB410c.conf b/ucm2/conf.d/DB410c/DB410c.conf
+new file mode 120000
+index 000000000000..551122e14c16
+--- /dev/null
++++ b/ucm2/conf.d/DB410c/DB410c.conf
+@@ -0,0 +1 @@
++../../Qualcomm/apq8016-sbc/apq8016-sbc.conf
+\ No newline at end of file
+diff --git a/ucm2/conf.d/sdm845/DB845c.conf b/ucm2/conf.d/sdm845/DB845c.conf
+new file mode 120000
+index 000000000000..fad79da8dd8e
+--- /dev/null
++++ b/ucm2/conf.d/sdm845/DB845c.conf
+@@ -0,0 +1 @@
++../../Qualcomm/sdm845/sdm845.conf
+\ No newline at end of file
+-- 
+2.30.0
+
