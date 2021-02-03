@@ -12,10 +12,12 @@ Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
  ucm2/Qualcomm/sm8250/HDMI.conf                     | 26 ++++++++++++
  ucm2/Qualcomm/sm8250/HiFi.conf                     | 46 ++++++++++++++++++++++
  .../Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf       | 11 ++++++
- 3 files changed, 83 insertions(+)
+ ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf | 1 +
+ 4 files changed, 84 insertions(+)
  create mode 100644 ucm2/Qualcomm/sm8250/HDMI.conf
  create mode 100644 ucm2/Qualcomm/sm8250/HiFi.conf
  create mode 100644 ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+ create mode 120000 ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
 
 diff --git a/ucm2/Qualcomm/sm8250/HDMI.conf b/ucm2/Qualcomm/sm8250/HDMI.conf
 new file mode 100644
@@ -118,3 +120,11 @@ index 0000000..2fbca31
 +	File "/Qualcomm/sm8250/HDMI.conf"
 +	Comment "HDMI output."
 +}
+diff --git a/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf b/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+new file mode 120000
+index 000000000000..9f551b74ebf2
+--- /dev/null
++++ b/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+@@ -0,0 +1 @@
++../../Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+\ No newline at end of file
