@@ -1,55 +1,104 @@
-DEPENDS += "skales-native"
+QIMG_DEPLOYDIR = "${WORKDIR}/qcom_deploy-${PN}"
 
-QCOM_BOOTIMG_ROOTFS ?= "undefined"
-SD_QCOM_BOOTIMG_ROOTFS ?= "undefined"
+python do_qcom_img_deploy() {
+    import shutil
+    import subprocess
 
-# set output file names
-KERNEL_CMDLINE = "root=${1} rw rootwait console=${ttydev},${baudrate}n8"
+    subdir = d.getVar("KERNEL_DEPLOYSUBDIR")
+    if subdir is not None:
+        qcom_deploy_dir = os.path.join(d.getVar("QIMG_DEPLOYDIR"), subdir)
+        image_dir = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), subdir)
+    else:
+        qcom_deploy_dir = d.getVar("QIMG_DEPLOYDIR")
+        image_dir = d.getVar("DEPLOY_DIR_IMAGE")
 
-# param ${1} partition where rootfs is located
-# param ${2} output boot image file name
-# param ${3} kernel imagename
-priv_make_image() {
-    ${STAGING_BINDIR_NATIVE}/skales/mkbootimg --kernel ${3} \
-              --ramdisk ${B}/initrd.img \
-              --output ${DEPLOYDIR}/${2}.img \
-              --pagesize ${QCOM_BOOTIMG_PAGE_SIZE} \
-              --base ${QCOM_BOOTIMG_KERNEL_BASE} \
-              --cmdline "${KERNEL_CMDLINE} ${KERNEL_CMDLINE_EXTRA}"
+    B = d.getVar("B")
+    D = d.getVar("D")
+    kernel_output_dir = d.getVar("KERNEL_OUTPUT_DIR")
+    kernel_imagedest = d.getVar("KERNEL_IMAGEDEST")
+    kernel = os.path.join(B, "kernel-dtb")
+    definitrd = os.path.join(B, "initrd.img")
+    mkbootimg = os.path.join(d.getVar("STAGING_BINDIR_NATIVE"), "skales", "mkbootimg")
+    kernel_image_name = d.getVar("KERNEL_IMAGE_NAME")
+    kernel_link_name = d.getVar("KERNEL_IMAGE_LINK_NAME")
+    output_img =  os.path.join(qcom_deploy_dir, "boot-%s.img" % (kernel_link_name))
+    output_sd_img =  os.path.join(qcom_deploy_dir, "boot-sd-%s.img" % (kernel_link_name))
+
+    arch = d.getVar("ARCH")
+    if arch is "arm":
+        kernel_name = "zImage"
+    elif arch is "arm64":
+        kernel_name = "Image.gz"
+    else:
+        bb.fatal("Unuspported ARCH %s" % arch)
+
+    if os.path.exists(output_img):
+        os.unlink(output_img)
+    if os.path.exists(output_sd_img):
+        os.unlink(output_sd_img)
+
+    with open(definitrd, "w") as f:
+        f.write("This is not an initrd\n")
+
+    for dtbf in d.getVar("KERNEL_DEVICETREE").split():
+        dtb = os.path.basename(dtbf)
+        dtb_name = dtb.rsplit('.', 1)[0]
+
+        def getVarDTB(name):
+            return d.getVarFlag(name, dtb_name) or d.getVar(name)
+
+        def make_image(template, rootfs):
+            output = os.path.join(qcom_deploy_dir, template % (dtb_name, kernel_image_name))
+            output_link =  os.path.join(qcom_deploy_dir, template % (dtb_name, kernel_link_name))
+            subprocess.check_call([mkbootimg,
+                "--kernel", kernel,
+                "--ramdisk", definitrd,
+                "--output", output,
+                "--pagesize", getVarDTB("QCOM_BOOTIMG_PAGE_SIZE"),
+                "--base", getVarDTB("QCOM_BOOTIMG_KERNEL_BASE"),
+                "--cmdline", "root=%s rw rootwait %s %s" % (rootfs, consoles, getVarDTB("KERNEL_CMDLINE_EXTRA") or "")])
+            if os.path.exists(output_link):
+                os.unlink(output_link)
+            os.symlink(os.path.basename(output), output_link)
+            return output
+
+        consoles = ' '.join(map(lambda c: "console=%(tty)s,%(rate)sn8" % dict(zip(("rate", "tty"), c.split(';'))), getVarDTB("SERIAL_CONSOLES").split()))
+
+        # prepare kernel image with appended dtb
+        with open(kernel, 'wb') as wfd:
+            with open(os.path.join(kernel_output_dir, kernel_name), 'rb') as rfd:
+                shutil.copyfileobj(rfd, wfd)
+            with open(os.path.join(D, kernel_imagedest, dtb), 'rb') as rfd:
+                shutil.copyfileobj(rfd, wfd)
+
+        rootfs = getVarDTB("QCOM_BOOTIMG_ROOTFS")
+        if not rootfs or rootfs is "":
+            bb.fatal("QCOM_BOOTIMG_ROOTFS is undefined")
+
+        output = make_image("boot-%s-%s.img", rootfs)
+        if not os.path.exists(output_img):
+            os.symlink(os.path.basename(output), output_img)
+
+        sd_rootfs = getVarDTB("SD_QCOM_BOOTIMG_ROOTFS")
+        if sd_rootfs:
+            output = make_image("boot-sd-%s-%s.img", sd_rootfs)
+            if not os.path.exists(output_sd_img):
+                os.symlink(os.path.basename(output), output_sd_img)
 }
 
-do_deploy_append() {
+do_qcom_img_deploy[depends] += "skales-native:do_populate_sysroot"
 
-    tmp="${SERIAL_CONSOLES}"
-    baudrate=`echo $tmp | sed 's/\;.*//'`
-    ttydev=`echo $tmp | sed -e 's/^[0-9]*\;//' -e 's/\s.*//' -e 's/\;.*//'`
+addtask qcom_img_deploy after do_populate_sysroot do_packagedata bundle_initramfs before do_deploy
 
-    # mkbootimg requires an initrd file, make fake one that will be ignored
-    # during boot
-    echo "This is not an initrd" > ${B}/initrd.img
+# Setup sstate, see deploy.bbclass
+SSTATETASKS += "do_qcom_img_deploy"
+do_qcom_img_deploy[sstate-inputdirs] = "${QIMG_DEPLOYDIR}"
+do_qcom_img_deploy[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
 
-    # don't build bootimg if rootfs partition is not defined
-    if [ "${QCOM_BOOTIMG_ROOTFS}" = "undefined" ]; then
-        bbfatal "Rootfs partition must be defined"
-    fi
-
-    for dtbf in ${KERNEL_DEVICETREE}; do
-	dtb=`normalize_dtb "$dtbf"`
-	dtb_ext=${dtb##*.}
-	dtb_base_name=`basename $dtb .$dtb_ext`
-	priv_make_image ${QCOM_BOOTIMG_ROOTFS} boot-$dtb_base_name-${KERNEL_IMAGE_NAME} ${deployDir}/Image.gz-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin
-	ln -sf boot-${dtb_base_name}-${KERNEL_IMAGE_NAME}.img ${DEPLOYDIR}/boot-${dtb_base_name}-${KERNEL_IMAGE_LINK_NAME}.img
-	if [ ! -h ${DEPLOYDIR}/boot-${KERNEL_IMAGE_LINK_NAME}.img ]; then
-	    ln -sf boot-${dtb_base_name}-${KERNEL_IMAGE_NAME}.img ${DEPLOYDIR}/boot-${KERNEL_IMAGE_LINK_NAME}.img
-	fi
-
-	# build sd boot image only for machines supporting it.
-	if [ "${SD_QCOM_BOOTIMG_ROOTFS}" != "undefined" ]; then
-	    priv_make_image ${SD_QCOM_BOOTIMG_ROOTFS} boot-sd-$dtb_base_name-${KERNEL_IMAGE_NAME} ${deployDir}/Image.gz-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin
-	    ln -sf boot-sd-${dtb_base_name}-${KERNEL_IMAGE_NAME}.img ${DEPLOYDIR}/boot-sd-${dtb_base_name}-${KERNEL_IMAGE_LINK_NAME}.img
-	    if [ ! -h ${DEPLOYDIR}/boot-sd-${KERNEL_IMAGE_LINK_NAME}.img ]; then
-		ln -sf boot-sd-${dtb_base_name}-${KERNEL_IMAGE_NAME}.img ${DEPLOYDIR}/boot-sd-${KERNEL_IMAGE_LINK_NAME}.img
-	    fi
-	fi
-    done
+python do_qcom_img_deploy_setscene () {
+    sstate_setscene(d)
 }
+addtask do_qcom_img_deploy_setscene
+do_qcom_img_deploy[dirs] = "${QIMG_DEPLOYDIR} ${B}"
+do_qcom_img_deploy[cleandirs] = "${QIMG_DEPLOYDIR}"
+do_qcom_img_deploy[stamp-extra-info] = "${MACHINE_ARCH}"

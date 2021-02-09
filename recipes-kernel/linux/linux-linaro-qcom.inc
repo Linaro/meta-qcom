@@ -80,23 +80,3 @@ do_configure_prepend() {
 	yes '' | oe_runmake -C ${S} O=${B} oldconfig
         oe_runmake -C ${S} O=${B} savedefconfig && cp ${B}/defconfig ${WORKDIR}/defconfig.saved
 }
-
-# append DTB
-do_deploy_append() {
-	for dtbf in ${KERNEL_DEVICETREE}; do
-		dtb=`normalize_dtb "$dtbf"`
-		dtb_ext=${dtb##*.}
-		dtb_base_name=`basename $dtb .$dtb_ext`
-		install -d $deployDir
-		install -m 0644 ${D}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
-		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
-			if [ "$type" = "Image.gz" ] ; then
-				cat ${deployDir}/$type \
-					$deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext \
-					> $deployDir/$type-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin
-				ln -sf $type-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin \
-					$deployDir/$type-$dtb_base_name-${KERNEL_DTB_LINK_NAME}.$dtb_ext.bin
-			fi
-		done
-	done
-}
