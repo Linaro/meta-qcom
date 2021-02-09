@@ -1,0 +1,11 @@
+[Unit]
+Description=Update LT9611UXC Firmware
+ConditionOnFirstBoot=true
+After=systemd-udev-settle.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/lt9611uxc-upgrade.sh
+
+[Install]
+WantedBy=getty.target
