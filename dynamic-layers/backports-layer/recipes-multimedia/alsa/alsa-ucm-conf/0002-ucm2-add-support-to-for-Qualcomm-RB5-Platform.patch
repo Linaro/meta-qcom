@@ -1,0 +1,130 @@
+From 382366c1f615613e088982a6c30fc90b3226ae8b Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Fri, 20 Nov 2020 12:14:31 +0000
+Subject: [PATCH 2/2] ucm2: add support to for Qualcomm RB5 Platform
+
+The Qualcomm RB5 Robotics Platform contains HDMI,
+2x WSA Smart-Speakers audio outputs along with One
+Onboard DMIC audio input.
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ ucm2/Qualcomm/sm8250/HDMI.conf                     | 26 ++++++++++++
+ ucm2/Qualcomm/sm8250/HiFi.conf                     | 46 ++++++++++++++++++++++
+ .../Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf       | 11 ++++++
+ ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf | 1 +
+ 4 files changed, 84 insertions(+)
+ create mode 100644 ucm2/Qualcomm/sm8250/HDMI.conf
+ create mode 100644 ucm2/Qualcomm/sm8250/HiFi.conf
+ create mode 100644 ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+ create mode 120000 ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+
+diff --git a/ucm2/Qualcomm/sm8250/HDMI.conf b/ucm2/Qualcomm/sm8250/HDMI.conf
+new file mode 100644
+index 0000000..a9594fd
+--- /dev/null
++++ b/ucm2/Qualcomm/sm8250/HDMI.conf
+@@ -0,0 +1,26 @@
++# Use case configuration for RB5 board.
++# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
++
++SectionVerb {
++	EnableSequence [
++		cset "name='TERT_MI2S_RX Audio Mixer MultiMedia1' 1"
++	]
++
++	DisableSequence [
++		cset "name='TERT_MI2S_RX Audio Mixer MultiMedia1' 0"
++	]
++
++	Value {
++		TQ "HiFi"
++	}
++}
++
++SectionDevice."HDMI" {
++	#Name "HDMI"
++	Comment "HDMI Digital Stereo Output"
++
++	Value {
++		PlaybackPCM "hw:${CardId}"
++		PlaybackPriority 200
++	}
++}
+diff --git a/ucm2/Qualcomm/sm8250/HiFi.conf b/ucm2/Qualcomm/sm8250/HiFi.conf
+new file mode 100644
+index 0000000..a310402
+--- /dev/null
++++ b/ucm2/Qualcomm/sm8250/HiFi.conf
+@@ -0,0 +1,46 @@
++# Use case configuration for Qualcomm RB5.
++# Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
++
++SectionVerb {
++
++	EnableSequence [
++		cset "name='WSA_CODEC_DMA_RX_0 Audio Mixer MultiMedia2' 1"
++		cset "name='MultiMedia3 Mixer VA_CODEC_DMA_TX_0' 1"
++	]
++
++	Include.wsae.File "/codecs/wsa881x/DefaultEnableSeq.conf"
++
++	DisableSequence [
++		cset "name='WSA_CODEC_DMA_RX_0 Audio Mixer MultiMedia2' 0"
++		cset "name='MultiMedia3 Mixer VA_CODEC_DMA_TX_0' 0"
++	]
++
++	Value {
++		TQ "HiFi"
++	}
++}
++
++SectionDevice."Speaker" {
++	Comment "Speaker playback"
++
++	Include.lpasswsae.File "/codecs/lpass/wsa-macro/SpeakerEnableSeq.conf"
++	Include.wsae.File "/codecs/wsa881x/SpeakerEnableSeq.conf"
++	Include.wsad.File "/codecs/wsa881x/SpeakerDisableSeq.conf"
++	Include.lpasswsad.File "/codecs/lpass/wsa-macro/SpeakerDisableSeq.conf"
++
++	Value {
++		PlaybackPriority 100
++		PlaybackPCM "hw:${CardId},1"
++	}
++}
++
++SectionDevice."Mic" {
++	Comment "Mic"
++	Include.lpassvad.File "/codecs/lpass/va-macro/DMIC0EnableSeq.conf"
++	Include.lpassvad.File "/codecs/lpass/va-macro/DMIC0DisableSeq.conf"
++
++	Value {
++		CapturePriority 100
++		CapturePCM "hw:${CardId},2"
++	}
++}
+diff --git a/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf b/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+new file mode 100644
+index 0000000..2fbca31
+--- /dev/null
++++ b/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+@@ -0,0 +1,11 @@
++Syntax 3
++
++SectionUseCase."HiFi" {
++	File "/Qualcomm/sm8250/HiFi.conf"
++	Comment "HiFi quality Music."
++}
++
++SectionUseCase."HDMI" {
++	File "/Qualcomm/sm8250/HDMI.conf"
++	Comment "HDMI output."
++}
+diff --git a/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf b/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+new file mode 120000
+index 000000000000..9f551b74ebf2
+--- /dev/null
++++ b/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+@@ -0,0 +1 @@
++../../Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf
+\ No newline at end of file

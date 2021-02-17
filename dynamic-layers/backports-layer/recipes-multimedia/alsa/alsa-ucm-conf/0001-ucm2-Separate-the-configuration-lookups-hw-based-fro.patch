@@ -1,0 +1,86 @@
+From 4cfceb1e257a91cf5c1d29f28d1305607bbf58eb Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Wed, 3 Feb 2021 17:13:01 +0100
+Subject: [PATCH] ucm2: Separate the configuration lookups (hw based) from the
+ configuration tree
+
+Introduce ucm2/conf.d/ tree with symlinks to the real hardware configurations.
+In this way, we do not rely to create the configuration paths based on
+simple driver / device identification, but we can store the configurations
+more logically to make the maintenance (code reuse, multiple changes)
+more easy.
+
+This commit keeps the older lookup paths active, but they will be
+turned off in the next release.
+
+BugLink: https://github.com/alsa-project/alsa-ucm-conf/pull/70
+BugLink: https://github.com/alsa-project/alsa-ucm-conf/pull/76
+BugLink: https://github.com/alsa-project/alsa-ucm-conf/pull/78
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ ucm2/ucm.conf | 40 +++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 35 insertions(+), 5 deletions(-)
+
+diff --git a/ucm2/ucm.conf b/ucm2/ucm.conf
+index 9e78df118f83..8577c300e46b 100644
+--- a/ucm2/ucm.conf
++++ b/ucm2/ucm.conf
+@@ -14,8 +14,9 @@
+ Syntax 3
+ 
+ Define.V1 ""		# non-empty string to enable ucm v1 paths
+-Define.V2Module yes	# empty string to disable
+-Define.V2Name yes	# empty string to disable
++Define.V2ConfD yes	# empty string to disable
++Define.V2Module yes	# non-empty string to enable module name lookups (obsolete)
++Define.V2Name yes	# non-empty string to enable driver & card name lookups (obsolete)
+ 
+ If.driver {
+ 	Condition {
+@@ -40,11 +41,40 @@ If.driver {
+ 		#
+ 		# The probed path when hw-card is found:
+ 		#
+-		#   ucm2/${KernelModule}/${KernelModule}.conf
+-		#   ucm2/${CardDriver}/${CardLongName}.conf
+-		#   ucm2/${CardDriver}/${CardDriver}.conf
++		#   ucm2/conf.d/[${CardDriver}|${KernelDriver}]/${CardLongName}.conf
++		#   ucm2/conf.d/[${CardDriver}|${KernelDriver}]/[${CardDriver}|${KernelDriver}].conf
++		#   ucm2/${KernelModule}/${KernelModule}.conf (obsolete)
++		#   ucm2/${CardDriver}/${CardLongName}.conf (obsolete)
++		#   ucm2/${CardDriver}/${CardDriver}.conf (obsolete)
+ 		#
+ 
++		If.V2ConfD {
++			Condition {
++				Type String
++				Empty "${var:V2ConfD}"
++			}
++			False {
++				Define.Driver "${CardDriver}"
++				If.nodrv {
++					Condition {
++						Type String
++						Empty "${var:Driver}"
++					}
++					True.Define {
++						KernelDriverPath "class/sound/card${CardNumber}/device/driver"
++						Driver "${sys:$KernelDriverPath}"
++					}
++				}
++				UseCasePath.confd1 {
++					Directory "conf.d/${var:Driver}"
++					File "${CardLongName}.conf"
++				}
++				UseCasePath.confd2 {
++					Directory "conf.d/${var:Driver}"
++					File "${var:Driver}.conf"
++				}
++			}
++		}
+ 		If.V2Module {
+ 			Condition {
+ 				Type String
+-- 
+2.30.0
+

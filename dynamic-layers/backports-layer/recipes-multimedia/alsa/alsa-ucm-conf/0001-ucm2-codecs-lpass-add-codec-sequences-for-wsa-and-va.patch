@@ -1,0 +1,75 @@
+From 5384a0ec52d2d8fd0bbcdab222b47d0887a058e4 Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Fri, 20 Nov 2020 12:12:48 +0000
+Subject: [PATCH 1/2] ucm2: codecs: lpass: add codec sequences for wsa and va
+ macro
+
+Add enable/disable codec sequence for Qualcomm Low Power Audio
+Subsystem (LPASS) Codec WSA and VA Macros.
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ ucm2/codecs/lpass/va-macro/DMIC0DisableSeq.conf    | 3 +++
+ ucm2/codecs/lpass/va-macro/DMIC0EnableSeq.conf     | 3 +++
+ ucm2/codecs/lpass/wsa-macro/SpeakerDisableSeq.conf | 8 ++++++++
+ ucm2/codecs/lpass/wsa-macro/SpeakerEnableSeq.conf  | 8 ++++++++
+ 4 files changed, 22 insertions(+)
+ create mode 100644 ucm2/codecs/lpass/va-macro/DMIC0DisableSeq.conf
+ create mode 100644 ucm2/codecs/lpass/va-macro/DMIC0EnableSeq.conf
+ create mode 100644 ucm2/codecs/lpass/wsa-macro/SpeakerDisableSeq.conf
+ create mode 100644 ucm2/codecs/lpass/wsa-macro/SpeakerEnableSeq.conf
+
+diff --git a/ucm2/codecs/lpass/va-macro/DMIC0DisableSeq.conf b/ucm2/codecs/lpass/va-macro/DMIC0DisableSeq.conf
+new file mode 100644
+index 0000000..ec3f45a
+--- /dev/null
++++ b/ucm2/codecs/lpass/va-macro/DMIC0DisableSeq.conf
+@@ -0,0 +1,5 @@
++DisableSequence [
++	cset "name='VA DMIC MUX0' ZERO"
++	cset "name='VA_DEC0 Volume' 0"
++	cset "name='VA_AIF1_CAP Mixer DEC0' 0"
++]
+diff --git a/ucm2/codecs/lpass/va-macro/DMIC0EnableSeq.conf b/ucm2/codecs/lpass/va-macro/DMIC0EnableSeq.conf
+new file mode 100644
+index 0000000..bd6e8f5
+--- /dev/null
++++ b/ucm2/codecs/lpass/va-macro/DMIC0EnableSeq.conf
+@@ -0,0 +1,5 @@
++EnableSequence [
++	cset "name='VA DMIC MUX0' DMIC0"
++	cset "name='VA_AIF1_CAP Mixer DEC0' 1"
++	cset "name='VA_DEC0 Volume' 100"
++]
+diff --git a/ucm2/codecs/lpass/wsa-macro/SpeakerDisableSeq.conf b/ucm2/codecs/lpass/wsa-macro/SpeakerDisableSeq.conf
+new file mode 100644
+index 0000000..1f27d4c
+--- /dev/null
++++ b/ucm2/codecs/lpass/wsa-macro/SpeakerDisableSeq.conf
+@@ -0,0 +1,10 @@
++DisableSequence [
++	cset "name='WSA_RX0 Digital Volume' 0"
++	cset "name='WSA_RX1 Digital Volume' 0"
++	cset "name='WSA_COMP1 Switch' 0"
++	cset "name='WSA_COMP2 Switch' 0"
++	cset "name='WSA_RX0 INP0' ZERO"
++	cset "name='WSA_RX1 INP0' ZERO"
++	cset "name='WSA RX0 MUX' ZERO"
++	cset "name='WSA RX1 MUX' ZERO"
++]
+diff --git a/ucm2/codecs/lpass/wsa-macro/SpeakerEnableSeq.conf b/ucm2/codecs/lpass/wsa-macro/SpeakerEnableSeq.conf
+new file mode 100644
+index 0000000..618bab4
+--- /dev/null
++++ b/ucm2/codecs/lpass/wsa-macro/SpeakerEnableSeq.conf
+@@ -0,0 +1,10 @@
++EnableSequence [
++	cset "name='WSA RX0 MUX' AIF1_PB"
++	cset "name='WSA RX1 MUX' AIF1_PB"
++	cset "name='WSA_RX0 INP0' RX0"
++	cset "name='WSA_RX1 INP0' RX1"
++	cset "name='WSA_COMP1 Switch' 1"
++	cset "name='WSA_COMP2 Switch' 1"
++	cset "name='WSA_RX0 Digital Volume' 68"
++	cset "name='WSA_RX1 Digital Volume' 68"
++]
