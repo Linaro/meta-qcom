@@ -1,13 +1,9 @@
 # Copyright (C) 2014-2019 Linaro
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-DESCRIPTION = "Linaro Qualcomm Landing team 5.7 Kernel"
-LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+require recipes-kernel/linux/linux-linaro-qcom.inc
 
 inherit python3native
-
-require recipes-kernel/linux/linux-linaro-qcom.inc
-require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 SRC_URI_append_qrb5165-rb5 = " \
     file://qrb5165-rb5.dts;subdir=git/arch/arm64/boot/dts/qcom \
@@ -19,8 +15,4 @@ SRC_URI_append_qrb5165-rb5 = " \
     file://0001-arm64-dts-qcom-sm8250-Add-support-for-SDC2.patch \
 "
 
-LOCALVERSION ?= "-linaro-lt-qcom"
-SRCBRANCH ?= "release/qcomlt-5.7"
 SRCREV ?= "4af49ea41ecf17e5e6243f3ac81dfc2f84d8a3a1"
-
-COMPATIBLE_MACHINE = "(qcom)"
