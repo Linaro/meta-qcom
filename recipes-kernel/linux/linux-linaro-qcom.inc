@@ -1,15 +1,19 @@
-# Copyright (C) 2014 Linaro
+# Copyright (C) 2014-2021 Linaro
 # Copyright (C) 2012, 2013 O.S. Systems Software LTDA.
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-DESCRIPTION ??= "Linux kernel for MSM platforms"
+DESCRIPTION ??= "Linaro Qualcomm Landing team ${PV} Kernel"
 LICENSE = "GPLv2"
+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 inherit kernel
 
-# Put a local version until we have a true SRCREV to point to
 LOCALVERSION ?= "+linaro"
 SCMVERSION ?= "y"
+
+SRCBRANCH = "release/qcomlt-${PV}"
+
+COMPATIBLE_MACHINE = "(qcom)"
 
 LINUX_LINARO_QCOM_GIT ?= "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;protocol=https"
 SRC_URI = "${LINUX_LINARO_QCOM_GIT};branch=${SRCBRANCH}"
@@ -19,6 +23,8 @@ S = "${WORKDIR}/git"
 KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
 KERNEL_DEFCONFIG_arm ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
+
+require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 kernel_conf_variable() {
 	CONF_SED_SCRIPT="$CONF_SED_SCRIPT /CONFIG_$1[ =]/d;"
