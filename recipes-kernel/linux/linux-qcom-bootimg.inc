@@ -38,7 +38,7 @@ python do_qcom_img_deploy() {
     kernel_output_dir = d.getVar("KERNEL_OUTPUT_DIR")
     kernel_imagedest = d.getVar("KERNEL_IMAGEDEST")
     kernel = os.path.join(B, "kernel-dtb")
-    definitrd = os.path.join(B, "initrd.img")
+    definitrd = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), "initramfs-rootfs-image-" + d.getVar("MACHINE") + ".cpio.gz")
     mkbootimg = os.path.join(d.getVar("STAGING_BINDIR_NATIVE"), "skales", "mkbootimg")
     kernel_image_name = d.getVar("KERNEL_IMAGE_NAME")
     kernel_link_name = d.getVar("KERNEL_IMAGE_LINK_NAME")
@@ -57,9 +57,6 @@ python do_qcom_img_deploy() {
         os.unlink(output_img)
     if os.path.exists(output_sd_img):
         os.unlink(output_sd_img)
-
-    with open(definitrd, "w") as f:
-        f.write("This is not an initrd\n")
 
     for dtbf in d.getVar("KERNEL_DEVICETREE").split():
         dtb = os.path.basename(dtbf)
@@ -113,7 +110,7 @@ python do_qcom_img_deploy() {
                 make_image("boot-sd-initramfs-%s-%s.img", sd_rootfs, initrd)
 }
 
-do_qcom_img_deploy[depends] += "skales-native:do_populate_sysroot"
+do_qcom_img_deploy[depends] += "initramfs-rootfs-image:do_image_complete skales-native:do_populate_sysroot"
 
 addtask qcom_img_deploy after do_populate_sysroot do_packagedata bundle_initramfs before do_deploy
 
