@@ -1,22 +1,15 @@
+require recipes-kernel/images/initramfs-base-image.bb
+
 DESCRIPTION = "Small ramdisk image for running tests (bootrr, etc)"
 
-PACKAGE_INSTALL = " \
-    ${ROOTFS_BOOTSTRAP_INSTALL} \
+PACKAGE_INSTALL += " \
     bluez5 \
-    busybox \
-    base-passwd \
     dhcpcd \
     diag \
-    e2fsprogs \
-    e2fsprogs-e2fsck \
-    e2fsprogs-mke2fs \
-    e2fsprogs-resize2fs \
-    e2fsprogs-tune2fs \
     ethtool \
     gptfdisk \
     iw \
     lava-test-shell \
-    packagegroup-core-boot \
     pciutils \
     pd-mapper \
     qrtr \
@@ -26,19 +19,6 @@ PACKAGE_INSTALL = " \
     usbutils \
     wpa-supplicant \
 "
-
-# Do not pollute the initrd image with rootfs features
-IMAGE_FEATURES = "debug-tweaks"
-
-IMAGE_LINGUAS = ""
-
-LICENSE = "MIT"
-
-IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
-inherit core-image
-
-IMAGE_ROOTFS_SIZE = "8192"
-IMAGE_ROOTFS_EXTRA_SPACE = "0"
 
 # Disable installation of kernel and modules via packagegroup-core-boot
 NO_RECOMMENDATIONS = "1"
