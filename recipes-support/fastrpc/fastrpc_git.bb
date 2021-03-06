@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://src/fastrpc_apps_user.c;beginline=1;endline=29;md5=f9
 SRCREV = "bc36c705c9b057ca880a423021d3c19f02edeadd"
 SRC_URI = "\
     git://git.linaro.org/landing-teams/working/qualcomm/fastrpc.git;branch=automake;protocol=https \
+    file://0001-apps_std_fopen_with_env-account-for-domain-kinds-whe.patch \
     file://adsprpcd.service \
     file://cdsprpcd.service \
     file://usr-lib-rfsa.service \
