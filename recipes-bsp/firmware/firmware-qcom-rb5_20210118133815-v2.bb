@@ -30,6 +30,8 @@ do_compile() {
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
 
+    install -m 0444 ./08-dspso/dspso.bin ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
+
     install -m 0444 ./18-adreno-fw/a650_gmu.bin ${D}${nonarch_base_libdir}/firmware/qcom
     install -m 0444 ./18-adreno-fw/a650_sqe.fw ${D}${nonarch_base_libdir}/firmware/qcom
     install -m 0444 ./18-adreno-fw/a650_zap.elf ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/a650_zap.mbn
