@@ -17,10 +17,11 @@ inherit autotools
 FILES_${PN} += " \
     ${libdir}/libadsp_default_listener.so \
     ${libdir}/libcdsp_default_listener.so \
-"
-
-FILES_${PN}-dev_remove = "${FILES_SOLIBSDEV}"
-FILES_${PN}-dev += " \
     ${libdir}/libadsprpc.so \
     ${libdir}/libcdsprpc.so \
 "
+
+FILES_${PN}-dev_remove = "${FILES_SOLIBSDEV}"
+
+# We need to include lib*dsprpc.so into fastrpc for compatibility with Hexagon SDK
+ERROR_QA_remove = "dev-so"
