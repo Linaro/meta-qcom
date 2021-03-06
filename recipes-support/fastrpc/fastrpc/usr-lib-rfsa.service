@@ -1,0 +1,16 @@
+[Unit]
+Description=Mount DSP partition to /usr/lib/rfsa
+DefaultDependencies=false
+Before=umount.target local-fs.target
+After=local-pre-fs.target
+Conflicts=umount.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=Yes
+TimeoutSec=0
+ExecStart=/usr/sbin/mount-dsp.sh
+ExecStop=/bin/umount /usr/lib/rfsa
+
+[Install]
+WantedBy=local-fs.target
