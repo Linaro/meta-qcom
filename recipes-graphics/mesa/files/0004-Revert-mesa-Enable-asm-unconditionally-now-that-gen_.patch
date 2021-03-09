@@ -1,4 +1,4 @@
-From 11171135475c8bf6fdb3784df623591140687d93 Mon Sep 17 00:00:00 2001
+From 0686afe15146bf8bbde7a0ab60147cdb8edfe76c Mon Sep 17 00:00:00 2001
 From: Alistair Francis <alistair@alistair23.me>
 Date: Wed, 2 Sep 2020 15:31:59 -0500
 Subject: [PATCH] Revert "mesa: Enable asm unconditionally, now that
@@ -9,7 +9,6 @@ This reverts commit 20294dceebc23236e33b22578245f7e6f41b6997.
 
 Upstream-Status: Inappropriate [configuration]
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
-
 ---
  Android.common.mk                   |  3 +
  Android.mk                          |  7 +++
@@ -55,12 +54,12 @@ index aa2e7f7610e..adc0db69584 100644
  MESA_ENABLE_LLVM := true
  endif
 diff --git a/meson.build b/meson.build
-index 17c328ef90d..2a1f66c8e42 100644
+index d80d795bf66..af1f63041ce 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -52,6 +52,9 @@ pre_args = [
- with_vulkan_icd_dir = get_option('vulkan-icd-dir')
+@@ -53,6 +53,9 @@ with_vulkan_icd_dir = get_option('vulkan-icd-dir')
  with_tests = get_option('build-tests')
+ with_glcpp_tests = get_option('enable-glcpp-tests')
  with_aco_tests = get_option('build-aco-tests')
 +with_valgrind = get_option('valgrind')
 +with_libunwind = get_option('libunwind')
@@ -68,7 +67,7 @@ index 17c328ef90d..2a1f66c8e42 100644
  with_glx_read_only_text = get_option('glx-read-only-text')
  with_glx_direct = get_option('glx-direct')
  with_osmesa = get_option('osmesa')
-@@ -1208,41 +1211,68 @@ dep_ws2_32 = cc.find_library('ws2_32', required : with_platform_windows)
+@@ -1210,41 +1213,68 @@ dep_ws2_32 = cc.find_library('ws2_32', required : with_platform_windows)
  
  # TODO: shared/static? Is this even worth doing?
  
@@ -171,10 +170,10 @@ index 17c328ef90d..2a1f66c8e42 100644
  endif
  
 diff --git a/meson_options.txt b/meson_options.txt
-index faaf6388752..eb8eaa84b08 100644
+index 11a4cc532b9..fbb86f3f896 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -256,6 +256,12 @@ option(
+@@ -250,6 +250,12 @@ option(
    choices : ['auto', 'true', 'false', 'enabled', 'disabled'],
    description : 'Build support for OpenGL ES 2.x and 3.x'
  )
@@ -219,3 +218,6 @@ index 16153a3c5bd..ddfd03059c5 100644
  
  ifeq ($(ARCH_X86_HAVE_SSE4_1),true)
  LOCAL_WHOLE_STATIC_LIBRARIES := \
+-- 
+2.30.1
+

@@ -9,17 +9,15 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496"
 
-SRCREV = "13f92183c7dbff9d76a83656862d0b2c2536e25d"
-#SRCREV_sm8250 = "${AUTOREV}"
+SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "ec74a1361841140c87e617eb14d4d764104fc930", d)}"
+DEFAULT_PREFERENCE = "${@oe.utils.conditional("MESA_DEV", "1", "1", "-1", d)}"
 
 PLATFORMS_remove = "drm surfaceless"
 PACKAGECONFIG[osmesa] = "-Dosmesa=true,-Dosmesa=false"
 
 S = "${WORKDIR}/git"
 PV = "20.4-dev+git${SRCPV}"
-
-# Do not select this version by default
-DEFAULT_PREFERENCE = "-1"
+ERROR_QA_remove = "version-going-backwards"
 
 # Add package to install require files to run tests for mesa
 PACKAGES =+ "mesa-ci"
@@ -28,7 +26,7 @@ do_install_append () {
     install -d ${D}/${datadir}/mesa
 
     install -m 0644 ${S}/ci-expects/default/deqp-default-skips.txt ${D}/${datadir}/mesa/
-    for f in ${S}/ci-expects/freedreno/deqp-freedreno-*; do
+    for f in ${S}/src/freedreno/ci/deqp-freedreno-*; do
         install -m 0644 $f ${D}/${datadir}/mesa/
     done
 
