@@ -9,11 +9,13 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496"
 
-SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "ec74a1361841140c87e617eb14d4d764104fc930", d)}"
+SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "dfb0e0d246ef0437eb029066c0dd48c06f62820a", d)}"
 DEFAULT_PREFERENCE = "${@oe.utils.conditional("MESA_DEV", "1", "1", "-1", d)}"
 
 PLATFORMS_remove = "drm surfaceless"
 PACKAGECONFIG[osmesa] = "-Dosmesa=true,-Dosmesa=false"
+GALLIUMDRIVERS_remove = "swrast"
+DRIDRIVERS_remove = "swrast"
 
 S = "${WORKDIR}/git"
 PV = "20.4-dev+git${SRCPV}"
@@ -25,7 +27,7 @@ FILES_${PN}-ci = "${bindir}/deqp-runner.sh ${datadir}/mesa/deqp-*"
 do_install_append () {
     install -d ${D}/${datadir}/mesa
 
-    install -m 0644 ${S}/ci-expects/default/deqp-default-skips.txt ${D}/${datadir}/mesa/
+    install -m 0644 ${S}/.gitlab-ci/deqp-default-skips.txt ${D}/${datadir}/mesa/
     for f in ${S}/src/freedreno/ci/deqp-freedreno-*; do
         install -m 0644 $f ${D}/${datadir}/mesa/
     done
