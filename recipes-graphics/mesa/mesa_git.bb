@@ -14,8 +14,9 @@ DEFAULT_PREFERENCE = "${@oe.utils.conditional("MESA_DEV", "1", "1", "-1", d)}"
 
 PLATFORMS_remove = "drm surfaceless"
 PACKAGECONFIG[osmesa] = "-Dosmesa=true,-Dosmesa=false"
-GALLIUMDRIVERS_remove = "swrast"
 DRIDRIVERS_remove = "swrast"
+DRIDRIVERS_class-native = "auto"
+DRIDRIVERS_class-nativesdk = "auto"
 
 S = "${WORKDIR}/git"
 PV = "20.4-dev+git${SRCPV}"
