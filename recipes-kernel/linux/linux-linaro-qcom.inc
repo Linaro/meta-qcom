@@ -2,7 +2,7 @@
 # Copyright (C) 2012, 2013 O.S. Systems Software LTDA.
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-DESCRIPTION = "Linux kernel for MSM platforms"
+DESCRIPTION ??= "Linux kernel for MSM platforms"
 LICENSE = "GPLv2"
 
 inherit kernel
