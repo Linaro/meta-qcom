@@ -16,6 +16,7 @@ PACKAGE_INSTALL = " \
     gptfdisk \
     iw \
     lava-test-shell \
+    libdrm-tests \
     packagegroup-core-boot \
     pciutils \
     pd-mapper \
