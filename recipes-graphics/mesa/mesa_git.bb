@@ -7,9 +7,9 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
            "
-LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496"
+LIC_FILES_CHKSUM = "file://docs/license.rst;md5=17a4ea65de7a9ab42437f3131e616a7f"
 
-SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "dfb0e0d246ef0437eb029066c0dd48c06f62820a", d)}"
+SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "a084d012a9ee71049749a6209b0a1cd637e113e1", d)}"
 DEFAULT_PREFERENCE = "${@oe.utils.conditional("MESA_DEV", "1", "1", "-1", d)}"
 
 PLATFORMS_remove = "drm surfaceless"
