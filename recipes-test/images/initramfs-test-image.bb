@@ -14,6 +14,8 @@ PACKAGE_INSTALL += " \
     e2fsprogs-tune2fs \
     ethtool \
     gptfdisk \
+    iproute2 \
+    iptables \
     iw \
     lava-test-shell \
     libdrm-tests \
