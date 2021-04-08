@@ -12,8 +12,13 @@ LIC_FILES_CHKSUM = "file://LICENSE.qcom.txt;md5=cbbe399f2c983ad51768f4561587f000
 SRC_URI = " \
     http://releases.linaro.org/96boards/rb5/qualcomm/firmware/RB5_firmware_${PV}.zip;subdir=${BP} \
 "
-SRC_URI[md5sum] = "d9289f59fe4f93ce433707294c9286ca"
-SRC_URI[sha256sum] = "9d7b42916d83c8f721258175b8d7a9ed758ebe02228d36099e6ea1a2b2a556d3"
+SRC_URI[md5sum] = "d65ec09ba18dcafe291c870e0516c290"
+SRC_URI[sha256sum] = "30e2c02be32de9f809b590f4fe76d9eb66d35f8c7d13b1f2850beb3d793192cc"
+
+# From v2 to v4 the versioning has changed, so add epoch
+# 20210118133815-v2
+# 20210331-v4
+PE = "1"
 
 DEPENDS += "qca-swiss-army-knife-native"
 
