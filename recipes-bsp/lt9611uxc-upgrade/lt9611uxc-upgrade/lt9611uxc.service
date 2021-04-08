@@ -1,6 +1,6 @@
 [Unit]
 Description=Update LT9611UXC Firmware
-ConditionOnFirstBoot=true
+ConditionFirstBoot=true
 After=systemd-udev-settle.service
 
 [Service]
