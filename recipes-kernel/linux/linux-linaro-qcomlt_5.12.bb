@@ -10,6 +10,6 @@ require recipes-kernel/linux/linux-qcom-bootimg.inc
 LOCALVERSION ?= "-linaro-lt-qcom"
 
 SRCBRANCH = "release/rb5/qcomlt-5.12"
-SRCREV = "56d9230c7e441a00b30468071557b68d0fa5ce55"
+SRCREV = "deeb40c41728645cd6971b1d7bd08281238caba0"
 
 COMPATIBLE_MACHINE = "(sm8250)"
