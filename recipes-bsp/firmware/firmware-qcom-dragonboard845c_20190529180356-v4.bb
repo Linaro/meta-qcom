@@ -7,7 +7,7 @@ SRC_URI = "https://releases.linaro.org/96boards/dragonboard845c/qualcomm/firmwar
 SRC_URI[md5sum] = "ad69855a1275547b16d94a1b5405ac62"
 SRC_URI[sha256sum] = "4289d2f2a7124b104d0274879e702aae9b1e50c42eec3747f8584c6744ef65e3"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+inherit allarch
 DEPENDS += "qca-swiss-army-knife-native"
 inherit python3native
 
