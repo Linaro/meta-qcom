@@ -21,6 +21,8 @@ do_install() {
     
     install -m 0444 ./proprietary-linux/adsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
 
+    install -m 0444 ./bootloaders-linux/adspso.bin ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
+
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
