@@ -27,7 +27,7 @@ KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 require recipes-kernel/linux/linux-qcom-bootimg.inc
 
 kernel_conf_variable() {
-	CONF_SED_SCRIPT="$CONF_SED_SCRIPT /CONFIG_$1[ =]/d;"
+	sed -e "/CONFIG_$1[ =]/d;" -i ${B}/.config
 	if test "$2" = "n"
 	then
 		echo "# CONFIG_$1 is not set" >> ${B}/.config
@@ -37,17 +37,14 @@ kernel_conf_variable() {
 }
 
 do_configure_prepend() {
-	echo "" > ${B}/.config
-	CONF_SED_SCRIPT=""
+	if [ -f '${WORKDIR}/defconfig' ]; then
+		cp '${WORKDIR}/defconfig' '${B}/.config'
+	else
+		cp '${KERNEL_DEFCONFIG}' '${B}/.config'
+	fi
 
 	kernel_conf_variable LOCALVERSION "\"${LOCALVERSION}\""
 	kernel_conf_variable LOCALVERSION_AUTO y
-
-	if [ -f '${WORKDIR}/defconfig' ]; then
-		sed -e "${CONF_SED_SCRIPT}" < '${WORKDIR}/defconfig' >> '${B}/.config'
-	else
-		sed -e "${CONF_SED_SCRIPT}" < '${KERNEL_DEFCONFIG}' >> '${B}/.config'
-	fi
 
 	if [ "${SCMVERSION}" = "y" ]; then
 		# Add GIT revision to the local version
@@ -82,7 +79,8 @@ do_configure_prepend() {
         # Now that all the fragments are located merge them.
         ( cd ${WORKDIR} && ${S}/scripts/kconfig/merge_config.sh -m -r -O ${B} ${B}/.config ${KERNEL_CONFIG_FRAGMENTS} 1>&2 )
     fi
+}
 
-	yes '' | oe_runmake -C ${S} O=${B} oldconfig
+do_configure_append() {
         oe_runmake -C ${S} O=${B} savedefconfig && cp ${B}/defconfig ${WORKDIR}/defconfig.saved
 }
