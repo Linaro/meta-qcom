@@ -17,7 +17,7 @@ SRC_URI = "${LINUX_LINARO_QCOM_GIT};branch=${SRCBRANCH}"
 S = "${WORKDIR}/git"
 
 KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
-KERNEL_DEFCONFIG_apq8064 ?= "${S}/arch/arm/configs/qcom_defconfig"
+KERNEL_DEFCONFIG_arm ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
 kernel_conf_variable() {
