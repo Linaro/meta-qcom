@@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "46953b974c5c58c7ca66db414437c0268b033ac9d28127e98d9c4e1a49
 
 DEPENDS += "mtools-native"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+inherit allarch
 
 S = "${WORKDIR}/linux-board-support-package-r${PV}"
 
