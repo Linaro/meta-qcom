@@ -1,4 +1,4 @@
-From 372820ee40ba52f03672477245fafa395dd29009 Mon Sep 17 00:00:00 2001
+From f0920dce5fd2e8b2eb28873f64b65f4a24cb440d Mon Sep 17 00:00:00 2001
 From: Alistair Francis <alistair@alistair23.me>
 Date: Wed, 2 Sep 2020 15:28:50 -0500
 Subject: [PATCH] meson.build: make TLS ELF optional
@@ -8,13 +8,14 @@ TLS GLX optional again" patch updated to the latest mesa.
 
 Upstream-Status: Inappropriate [configuration]
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
+
 ---
  meson.build       | 4 +---
  meson_options.txt | 6 ++++++
  2 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 142f3839e91..d80d795bf66 100644
+index 5f81d9702b9..e5ecf107971 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -449,9 +449,7 @@ endif
@@ -29,10 +30,10 @@ index 142f3839e91..d80d795bf66 100644
    use_elf_tls = true
  endif
 diff --git a/meson_options.txt b/meson_options.txt
-index 599a2b3fd89..11a4cc532b9 100644
+index fa6a9809e11..a3d690d5be6 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -426,6 +426,12 @@ option(
+@@ -427,6 +427,12 @@ option(
    value : true,
    description : 'Enable direct rendering in GLX and EGL for DRI',
  )
@@ -45,6 +46,3 @@ index 599a2b3fd89..11a4cc532b9 100644
  option(
    'prefer-iris',
    type : 'boolean',
--- 
-2.30.1
-

@@ -1,7 +1,7 @@
-From aae6b7833f86c3504c0c4f880da503164e25ba4a Mon Sep 17 00:00:00 2001
+From 70e9b8b37448825d56698a76dff7a9bd07a92497 Mon Sep 17 00:00:00 2001
 From: Alistair Francis <alistair@alistair23.me>
 Date: Thu, 14 Nov 2019 13:04:49 -0800
-Subject: [PATCH 1/5] meson.build: check for all linux host_os combinations
+Subject: [PATCH] meson.build: check for all linux host_os combinations
 
 Make sure that we are also looking for our host_os combinations like
 linux-musl etc. when assuming support for DRM/KMS.
@@ -14,15 +14,16 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
+
 ---
  meson.build | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 932eb136681..efc61711f4d 100644
+index cfe011f0ca4..5f81d9702b9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -153,7 +153,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+@@ -155,7 +155,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
  # Only build shared_glapi if at least one OpenGL API is enabled
  with_shared_glapi = with_shared_glapi and with_any_opengl
  
@@ -31,7 +32,7 @@ index 932eb136681..efc61711f4d 100644
  
  dri_drivers = get_option('dri-drivers')
  if dri_drivers.contains('auto')
-@@ -970,7 +970,7 @@ if cc.compiles('__uint128_t foo(void) { return 0; }',
+@@ -984,7 +984,7 @@ if cc.compiles('__uint128_t foo(void) { return 0; }',
  endif
  
  # TODO: this is very incomplete
@@ -40,6 +41,3 @@ index 932eb136681..efc61711f4d 100644
    pre_args += '-D_GNU_SOURCE'
  elif host_machine.system() == 'sunos'
    pre_args += '-D__EXTENSIONS__'
--- 
-2.30.0
-
