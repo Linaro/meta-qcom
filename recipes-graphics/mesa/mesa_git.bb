@@ -1,6 +1,6 @@
 require recipes-graphics/mesa/mesa.inc
 
-SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
+SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https;branch=main \
            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
            file://0002-meson.build-make-TLS-ELF-optional.patch \
            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
@@ -9,7 +9,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https \
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=17a4ea65de7a9ab42437f3131e616a7f"
 
-SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "a084d012a9ee71049749a6209b0a1cd637e113e1", d)}"
+SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "26677008b9a7c0ef82f2a7f4b479d3cb06097c66", d)}"
 DEFAULT_PREFERENCE = "${@oe.utils.conditional("MESA_DEV", "1", "1", "-1", d)}"
 
 PLATFORMS_remove = "drm surfaceless"
@@ -19,7 +19,7 @@ DRIDRIVERS_class-native = "auto"
 DRIDRIVERS_class-nativesdk = "auto"
 
 S = "${WORKDIR}/git"
-PV = "20.4-dev+git${SRCPV}"
+PV = "2x.x-dev+git${SRCPV}"
 ERROR_QA_remove = "version-going-backwards"
 
 # Add package to install require files to run tests for mesa
