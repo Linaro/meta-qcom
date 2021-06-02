@@ -13,7 +13,14 @@ if [ -r /sys/devices/soc0/machine ] ; then
 	esac
 fi
 
-if [ -z "$WHAT" -o ! -r "$WHAT"] ; then
+if [ -z "$WHAT" -o ! -r "$WHAT" ] ; then
+	i=0
+	while ! [ -d /dev/disk/by-partlabel ] ; do
+		i=$(( $i + 1))
+		[ $i -gt 30 ] && break;
+		sleep 1
+	done
+
 	if [ -h /dev/disk/by-partlabel/dsp_a ] ; then
 		WHAT=/dev/disk/by-partlabel/dsp_a
 	else
