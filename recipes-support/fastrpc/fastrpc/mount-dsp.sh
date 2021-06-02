@@ -5,7 +5,7 @@ set -e
 if [ -r /sys/devices/soc0/machine ] ; then
 	MACHINE=`cat /sys/devices/soc0/machine`
 	case $MACHINE in
-		SM8250|QRB5160)
+		SM8250|QRB5165)
 			WHAT=/lib/firmware/qcom/sm8250/dspso.bin
 			;;
 	esac
