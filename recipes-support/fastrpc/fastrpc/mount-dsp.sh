@@ -2,6 +2,8 @@
 
 set -e
 
+modprobe socinfo || true
+
 if [ -r /sys/devices/soc0/machine ] ; then
 	MACHINE=`cat /sys/devices/soc0/machine`
 	case $MACHINE in
