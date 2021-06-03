@@ -13,7 +13,7 @@ if [ ! -d /sys/bus/i2c/drivers/lt9611uxc ] ; then
 fi
 
 for f in /sys/bus/i2c/drivers/lt9611uxc/* ; do
-	[ -L $f ] || continue
+	[ -e $f/lt9611uxc_firmware ] || continue
 	version=`cat $f/lt9611uxc_firmware`
 	if [ "$version" -lt "43" ] ; then
 		echo > $f/lt9611uxc_firmware
