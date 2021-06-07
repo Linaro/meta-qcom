@@ -5,7 +5,7 @@ SECTION = "devel"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://src/fastrpc_apps_user.c;beginline=1;endline=29;md5=f94f3a7beba14ae2f59f817e9634f891"
 
-SRCREV = "bc36c705c9b057ca880a423021d3c19f02edeadd"
+SRCREV = "5a8320c46df8c0dbefe71d97a8273f417e8721f3"
 SRC_URI = "\
     git://git.linaro.org/landing-teams/working/qualcomm/fastrpc.git;branch=automake;protocol=https \
     file://0001-apps_std_fopen_with_env-account-for-domain-kinds-whe.patch \
