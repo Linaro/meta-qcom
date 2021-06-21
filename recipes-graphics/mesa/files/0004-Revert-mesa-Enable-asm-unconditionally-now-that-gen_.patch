@@ -1,4 +1,4 @@
-From b6477a1e7f1b7ba227721c89b612d8e3479bf541 Mon Sep 17 00:00:00 2001
+From 793a0a974e56b072699f8613978acc7d08b8857a Mon Sep 17 00:00:00 2001
 From: Alistair Francis <alistair@alistair23.me>
 Date: Wed, 2 Sep 2020 15:31:59 -0500
 Subject: [PATCH] Revert "mesa: Enable asm unconditionally, now that
@@ -37,10 +37,10 @@ index 7ef6a90a179..061de3bb147 100644
  ifeq ($(ARCH_ARM_HAVE_NEON),true)
  LOCAL_CFLAGS_arm += -DUSE_ARM_ASM
 diff --git a/Android.mk b/Android.mk
-index 07eba7b8316..25c531cb61c 100644
+index 3b5d029f804..6ec64abc87c 100644
 --- a/Android.mk
 +++ b/Android.mk
-@@ -90,6 +90,13 @@ endif
+@@ -96,6 +96,13 @@ endif
  
  $(foreach d, $(MESA_BUILD_CLASSIC) $(MESA_BUILD_GALLIUM), $(eval $(d) := true))
  
@@ -55,10 +55,10 @@ index 07eba7b8316..25c531cb61c 100644
  MESA_ENABLE_LLVM := true
  endif
 diff --git a/meson.build b/meson.build
-index 077af8eed31..664ce66d6b0 100644
+index f19e59c32fe..69a01218792 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -52,6 +52,9 @@ pre_args = [
+@@ -55,6 +55,9 @@ with_moltenvk_dir = get_option('moltenvk-dir')
  with_vulkan_icd_dir = get_option('vulkan-icd-dir')
  with_tests = get_option('build-tests')
  with_aco_tests = get_option('build-aco-tests')
@@ -68,7 +68,7 @@ index 077af8eed31..664ce66d6b0 100644
  with_glx_read_only_text = get_option('glx-read-only-text')
  with_glx_direct = get_option('glx-direct')
  with_osmesa = get_option('osmesa')
-@@ -1222,41 +1225,68 @@ dep_ws2_32 = cc.find_library('ws2_32', required : with_platform_windows)
+@@ -1236,41 +1239,68 @@ dep_ws2_32 = cc.find_library('ws2_32', required : with_platform_windows)
  
  # TODO: shared/static? Is this even worth doing?
  
@@ -171,10 +171,10 @@ index 077af8eed31..664ce66d6b0 100644
  endif
  
 diff --git a/meson_options.txt b/meson_options.txt
-index d9a6f808bc2..b83efcfe486 100644
+index f7354104c4a..648059478fc 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -257,6 +257,12 @@ option(
+@@ -263,6 +263,12 @@ option(
    choices : ['auto', 'true', 'false', 'enabled', 'disabled'],
    description : 'Build support for OpenGL ES 2.x and 3.x'
  )

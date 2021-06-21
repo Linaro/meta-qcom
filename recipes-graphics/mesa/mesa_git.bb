@@ -28,7 +28,7 @@ FILES_${PN}-ci = "${bindir}/deqp-runner.sh ${datadir}/mesa/deqp-*"
 do_install_append () {
     install -d ${D}/${datadir}/mesa
 
-    install -m 0644 ${S}/.gitlab-ci/deqp-default-skips.txt ${D}/${datadir}/mesa/
+    install -m 0644 ${S}/.gitlab-ci/deqp-all-skips.txt ${D}/${datadir}/mesa/
     for f in ${S}/src/freedreno/ci/deqp-freedreno-*; do
         install -m 0644 $f ${D}/${datadir}/mesa/
     done
