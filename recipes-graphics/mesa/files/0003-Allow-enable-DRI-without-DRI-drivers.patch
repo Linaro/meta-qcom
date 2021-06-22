@@ -1,4 +1,4 @@
-From c9ac28cabcdbcba1539498bd166d78db10f53326 Mon Sep 17 00:00:00 2001
+From 96fc2efc4d120fc2bdbc39cc0c656a939790b51e Mon Sep 17 00:00:00 2001
 From: Fabio Berton <fabio.berton@ossystems.com.br>
 Date: Wed, 12 Jun 2019 14:18:31 -0300
 Subject: [PATCH] Allow enable DRI without DRI drivers
@@ -15,10 +15,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
  2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/meson.build b/meson.build
-index e5ecf107971..077af8eed31 100644
+index 23a3cd66156..f19e59c32fe 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -186,7 +186,7 @@ with_dri_r100 = dri_drivers.contains('r100')
+@@ -189,7 +189,7 @@ with_dri_r100 = dri_drivers.contains('r100')
  with_dri_r200 = dri_drivers.contains('r200')
  with_dri_nouveau = dri_drivers.contains('nouveau')
  
@@ -28,7 +28,7 @@ index e5ecf107971..077af8eed31 100644
  gallium_drivers = get_option('gallium-drivers')
  if gallium_drivers.contains('auto')
 diff --git a/meson_options.txt b/meson_options.txt
-index a3d690d5be6..d9a6f808bc2 100644
+index 118eba3914d..f7354104c4a 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
 @@ -41,6 +41,12 @@ option(

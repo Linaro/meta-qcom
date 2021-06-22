@@ -1,4 +1,4 @@
-From efa754088b0df22d7d80636a52b20a728899b640 Mon Sep 17 00:00:00 2001
+From 994f33977973baeda1956d253827fc3953bfab55 Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Mon, 13 Jan 2020 15:23:47 -0800
 Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
