@@ -22,7 +22,7 @@ PE = "1"
 
 DEPENDS += "qca-swiss-army-knife-native"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+inherit allarch
 
 VENUS_FW = "vpu-1.0"
 
