@@ -31,3 +31,6 @@ IMAGE_ROOTFS_ALIGNMENT ?= "4096"
 # Android boot image settings
 QCOM_BOOTIMG_KERNEL_BASE ?= "0x80000000"
 QCOM_BOOTIMG_PAGE_SIZE ?= "4096"
+
+# Default serial console for QCOM devices
+SERIAL_CONSOLES ?= "115200;ttyMSM0"
