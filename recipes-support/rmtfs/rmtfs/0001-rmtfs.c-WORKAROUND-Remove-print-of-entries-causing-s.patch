@@ -1,0 +1,42 @@
+From 6788ce52d34a47ef64f42c957b0d87bcafc38c41 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Date: Thu, 29 Jul 2021 11:11:54 -0500
+Subject: [PATCH] rmtfs.c: WORKAROUND Remove print of entries causing segfault,
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The issue needs to be investigated,
+
+...
+(gdb) bt
+ #0  0x0000000000402268 in rmtfs_iovec (pkt=0xffffde2d4dc8, sock=7) at rmtfs.c:230
+ #1  handle_rmtfs (sock=sock@entry=7) at rmtfs.c:399
+ #2  0x00000000004017ec in run_rmtfs (rprocfd=3) at rmtfs.c:477
+ #3  main (argc=<optimized out>, argv=<optimized out>) at rmtfs.c:563
+...
+
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ rmtfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/rmtfs.c b/rmtfs.c
+index 25862d1..babc6f9 100644
+--- a/rmtfs.c
++++ b/rmtfs.c
+@@ -220,12 +220,12 @@ static void rmtfs_iovec(int sock, struct qrtr_packet *pkt)
+ respond:
+ 	dbgprintf("[RMTFS] iovec %d, %sforced => (%d:%d)\n", caller_id, force ? "" : "not ",
+ 							     resp.result.result, resp.result.error);
+-	for (i = 0; i < num_entries; i++) {
++/*	for (i = 0; i < num_entries; i++) {
+ 		dbgprintf("[RMTFS]       %s %d:%d 0x%x\n", is_write ? "write" : "read",
+ 							   entries[i].sector_addr,
+ 							   entries[i].num_sector,
+ 							   entries[i].phys_offset);
+-	}
++	}*/
+ 
+ 	len = qmi_encode_message(&resp_buf,
+ 				 QMI_RESPONSE, QMI_RMTFS_RW_IOVEC, txn, &resp,

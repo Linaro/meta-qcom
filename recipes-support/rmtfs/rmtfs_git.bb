@@ -8,7 +8,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ca25dbf5ebfc1a058bfc657c895aac2f"
 inherit systemd
 
 SRCREV = "293ab8babb27ac0f24247bb101fed9420c629c29"
-SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https"
+SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https \
+           file://0001-rmtfs.c-WORKAROUND-Remove-print-of-entries-causing-s.patch \
+           "
 DEPENDS = "qmic-native qrtr udev"
 
 PV = "0.2+${SRCPV}"
