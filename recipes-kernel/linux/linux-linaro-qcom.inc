@@ -20,8 +20,8 @@ SRC_URI = "${LINUX_LINARO_QCOM_GIT};branch=${SRCBRANCH}"
 
 S = "${WORKDIR}/git"
 
-KERNEL_DEFCONFIG_aarch64 ?= "${S}/arch/arm64/configs/defconfig"
-KERNEL_DEFCONFIG_arm ?= "${S}/arch/arm/configs/qcom_defconfig"
+KERNEL_DEFCONFIG:aarch64 ?= "${S}/arch/arm64/configs/defconfig"
+KERNEL_DEFCONFIG:arm ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
 require recipes-kernel/linux/linux-qcom-bootimg.inc
@@ -36,7 +36,7 @@ kernel_conf_variable() {
 	fi
 }
 
-do_configure_prepend() {
+do_configure:prepend() {
 	if [ -f '${WORKDIR}/defconfig' ]; then
 		cp '${WORKDIR}/defconfig' '${B}/.config'
 	else
@@ -81,6 +81,6 @@ do_configure_prepend() {
     fi
 }
 
-do_configure_append() {
+do_configure:append() {
         oe_runmake -C ${S} O=${B} savedefconfig && cp ${B}/defconfig ${WORKDIR}/defconfig.saved
 }

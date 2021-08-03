@@ -1,5 +1,5 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI_append_qcom = " \
+SRC_URI:append:qcom = " \
     file://android-gadget-setup.machine \
 "

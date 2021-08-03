@@ -22,16 +22,16 @@ S = "${WORKDIR}/git"
 inherit autotools systemd
 
 PACKAGES += "${PN}-systemd"
-RRECOMMENDS_${PN} += "${PN}-systemd"
+RRECOMMENDS:${PN} += "${PN}-systemd"
 
 SYSTEMD_PACKAGES = "${PN} ${PN}-systemd"
 
-SYSTEMD_SERVICE_${PN} = "usr-lib-rfsa.service"
+SYSTEMD_SERVICE:${PN} = "usr-lib-rfsa.service"
 
-SYSTEMD_SERVICE_${PN}-systemd = "adsprpcd.service cdsprpcd.service"
-SYSTEMD_AUTO_ENABLE_${PN}-systemd = "disable"
+SYSTEMD_SERVICE:${PN}-systemd = "adsprpcd.service cdsprpcd.service"
+SYSTEMD_AUTO_ENABLE:${PN}-systemd = "disable"
 
-do_install_append() {
+do_install:append() {
     install -d ${D}${libdir}/rfsa
 
     install -d ${D}${systemd_unitdir}/system
@@ -43,7 +43,7 @@ do_install_append() {
     install -m 0755 ${WORKDIR}/mount-dsp.sh ${D}${sbindir}
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${libdir}/rfsa \
     ${libdir}/libadsp_default_listener.so \
     ${libdir}/libcdsp_default_listener.so \
@@ -51,7 +51,7 @@ FILES_${PN} += " \
     ${libdir}/libcdsprpc.so \
 "
 
-FILES_${PN}-dev_remove = "${FILES_SOLIBSDEV}"
+FILES:${PN}-dev:remove = "${FILES_SOLIBSDEV}"
 
 # We need to include lib*dsprpc.so into fastrpc for compatibility with Hexagon SDK
-ERROR_QA_remove = "dev-so"
+ERROR_QA:remove = "dev-so"

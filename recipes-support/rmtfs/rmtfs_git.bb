@@ -21,5 +21,5 @@ do_install () {
     oe_runmake install DESTDIR=${D} prefix=${prefix} servicedir=${systemd_unitdir}/system
 }
 
-SYSTEMD_SERVICE_${PN} = "rmtfs.service"
-RDEPENDS_${PN} += "qrtr"
+SYSTEMD_SERVICE:${PN} = "rmtfs.service"
+RDEPENDS:${PN} += "qrtr"

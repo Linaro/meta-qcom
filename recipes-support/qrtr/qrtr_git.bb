@@ -20,4 +20,4 @@ do_install () {
     oe_runmake install DESTDIR=${D} prefix=${prefix} servicedir=${systemd_unitdir}/system
 }
 
-SYSTEMD_SERVICE_${PN} = "qrtr-ns.service"
+SYSTEMD_SERVICE:${PN} = "qrtr-ns.service"

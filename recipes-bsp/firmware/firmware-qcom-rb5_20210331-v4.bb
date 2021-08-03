@@ -57,22 +57,22 @@ do_install() {
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
 
-FILES_${PN} += "${nonarch_base_libdir}/firmware/"
-INSANE_SKIP_${PN} += "arch"
+FILES:${PN} += "${nonarch_base_libdir}/firmware/"
+INSANE_SKIP:${PN} += "arch"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_DEFAULT_DEPS = "1"
 
-RPROVIDES_${PN} += "linux-firmware-qcom-adreno-a650"
-RREPLACES_${PN} += "linux-firmware-qcom-adreno-a650"
-RCONFLICTS_${PN} += "linux-firmware-qcom-adreno-a650"
+RPROVIDES:${PN} += "linux-firmware-qcom-adreno-a650"
+RREPLACES:${PN} += "linux-firmware-qcom-adreno-a650"
+RCONFLICTS:${PN} += "linux-firmware-qcom-adreno-a650"
 
-RPROVIDES_${PN} += "linux-firmware-qcom-${VENUS_FW}"
-RREPLACES_${PN} += "linux-firmware-qcom-${VENUS_FW}"
-RCONFLICTS_${PN} += "linux-firmware-qcom-${VENUS_FW}"
+RPROVIDES:${PN} += "linux-firmware-qcom-${VENUS_FW}"
+RREPLACES:${PN} += "linux-firmware-qcom-${VENUS_FW}"
+RCONFLICTS:${PN} += "linux-firmware-qcom-${VENUS_FW}"
 
 inherit update-alternatives
 
-ALTERNATIVE_${PN} = "qca6390-board2"
+ALTERNATIVE:${PN} = "qca6390-board2"
 ALTERNATIVE_LINK_NAME[qca6390-board2] = "/lib/firmware/ath11k/QCA6390/hw2.0/board-2.bin"
 ALTERNATIVE_PRIORITY = "100"
