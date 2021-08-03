@@ -5,7 +5,7 @@ require recipes-kernel/linux/linux-linaro-qcom.inc
 
 inherit python3native
 
-SRC_URI_append_qrb5165-rb5 = " \
+SRC_URI:append:qrb5165-rb5 = " \
     file://qrb5165-rb5.dts;subdir=git/arch/arm64/boot/dts/qcom \
     file://qrb5165-rb5-enable.patch \
     file://0001-arm64-dts-qcom-sm8250-change-spmi-node-label.patch \

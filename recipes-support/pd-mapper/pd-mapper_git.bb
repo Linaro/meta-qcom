@@ -23,5 +23,5 @@ do_install () {
     oe_runmake install DESTDIR=${D} prefix=${prefix} servicedir=${systemd_unitdir}/system
 }
 
-SYSTEMD_SERVICE_${PN} = "pd-mapper.service"
-RDEPENDS_${PN} += "qrtr"
+SYSTEMD_SERVICE:${PN} = "pd-mapper.service"
+RDEPENDS:${PN} += "qrtr"

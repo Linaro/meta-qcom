@@ -35,5 +35,5 @@ do_install() {
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
 
-FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
-INSANE_SKIP_${PN} += "arch"
+FILES:${PN} += "${nonarch_base_libdir}/firmware/*"
+INSANE_SKIP:${PN} += "arch"

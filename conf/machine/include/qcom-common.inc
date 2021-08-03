@@ -1,4 +1,4 @@
-SOC_FAMILY_prepend = "qcom:"
+SOC_FAMILY:prepend = "qcom:"
 require conf/machine/include/soc-family.inc
 
 XSERVER_OPENGL ?= " \

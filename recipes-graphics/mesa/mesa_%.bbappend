@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
 # Enable freedreno driver
 PACKAGECONFIG_FREEDRENO = "\
@@ -6,4 +6,4 @@ PACKAGECONFIG_FREEDRENO = "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xa', '', d)} \
 "
 
-PACKAGECONFIG_append_qcom = "${PACKAGECONFIG_FREEDRENO}"
+PACKAGECONFIG:append:qcom = "${PACKAGECONFIG_FREEDRENO}"

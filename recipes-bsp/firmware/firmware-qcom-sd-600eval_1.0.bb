@@ -23,5 +23,5 @@ do_install() {
     install -m 0644 license.txt ${D}${sysconfdir}/
 }
 
-FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
-INSANE_SKIP_${PN} += "arch already-stripped"
+FILES:${PN} += "${nonarch_base_libdir}/firmware/*"
+INSANE_SKIP:${PN} += "arch already-stripped"

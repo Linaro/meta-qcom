@@ -29,8 +29,8 @@ do_install() {
     install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
 
-FILES_${PN} += "/boot/modem_fsg"
-FILES_${PN} += "${nonarch_base_libdir}/firmware/wlan/*"
-FILES_${PN} += "${nonarch_base_libdir}/firmware/qcom/msm8916/*"
+FILES:${PN} += "/boot/modem_fsg"
+FILES:${PN} += "${nonarch_base_libdir}/firmware/wlan/*"
+FILES:${PN} += "${nonarch_base_libdir}/firmware/qcom/msm8916/*"
 
-INSANE_SKIP_${PN} += "arch"
+INSANE_SKIP:${PN} += "arch"
