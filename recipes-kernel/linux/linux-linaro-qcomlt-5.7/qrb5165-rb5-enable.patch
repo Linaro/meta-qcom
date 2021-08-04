@@ -1,9 +1,0 @@
-Index: git/arch/arm64/boot/dts/qcom/Makefile
-===================================================================
---- git.orig/arch/arm64/boot/dts/qcom/Makefile
-+++ git/arch/arm64/boot/dts/qcom/Makefile
-@@ -26,3 +26,4 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8150-mtp.dt
- dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-mtp.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-1000.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
-+dtb-$(CONFIG_ARCH_QCOM)	+= qrb5165-rb5.dtb
