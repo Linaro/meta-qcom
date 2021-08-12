@@ -3,4 +3,4 @@
 
 require recipes-kernel/linux/linux-linaro-qcom.inc
 
-SRCREV = "473ca0b26c313e450dbcbfe1bcde238356aeb8f2"
+SRCREV = "1429722a220973e881d8cb5b5b486693457b4f11"
