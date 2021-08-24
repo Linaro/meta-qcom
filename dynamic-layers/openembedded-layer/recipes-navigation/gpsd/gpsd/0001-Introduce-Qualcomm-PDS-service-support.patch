@@ -33,7 +33,7 @@ string "any".
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- SConstruct     |  10 ++
+ SConscript     |  10 ++
  driver_pds.c   | 325 +++++++++++++++++++++++++++++++++++++++++++++++++
  driver_pds.h   |  20 +++
  drivers.c      |   5 +
@@ -43,10 +43,10 @@ Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
  create mode 100644 driver_pds.c
  create mode 100644 driver_pds.h
 
-diff --git a/SConstruct b/SConstruct
+diff --git a/SConscript b/SConstruct
 index 33e0ff326..d4ae81979 100644
---- a/SConstruct
-+++ b/SConstruct
+--- a/SConscript
++++ b/SConscript
 @@ -192,6 +192,7 @@ boolopts = (
      ("tripmate",      True,  "DeLorme TripMate support"),
      ("tsip",          True,  "Trimble TSIP support"),
@@ -70,30 +70,32 @@ index 33e0ff326..d4ae81979 100644
      # check for C11 or better, and __STDC__NO_ATOMICS__ is not defined
      # before looking for stdatomic.h
      if ((config.CheckC11() and
-@@ -1407,6 +1416,7 @@ libgpsd_sources = [
-     "driver_nmea0183.c",
-     "driver_nmea2000.c",
-     "driver_oncore.c",
-+    "driver_pds.c",
-     "driver_rtcm2.c",
-     "driver_rtcm3.c",
-     "drivers.c",
-diff --git a/driver_pds.c b/driver_pds.c
+@@ -1655,6 +1664,7 @@ libgpsd_sources = [
+     "drivers/driver_nmea0183.c",
+     "drivers/driver_nmea2000.c",
+     "drivers/driver_oncore.c",
++    "drivers/driver_pds.c",
+     "drivers/driver_rtcm2.c",
+     "drivers/driver_rtcm3.c",
+     "drivers/drivers.c",
+diff --git a/drivers/driver_pds.c b/drivers/driver_pds.c
 new file mode 100644
 index 000000000..734b40f83
 --- /dev/null
-+++ b/driver_pds.c
-@@ -0,0 +1,325 @@
++++ b/drivers/driver_pds.c
+@@ -0,0 +1,327 @@
++#include "../include/gpsd_config.h"  /* must be before all includes */
++
 +#include <sys/socket.h>
 +#include <errno.h>
 +#include <fcntl.h>
 +#include <stdlib.h>
 +#include <unistd.h>
-+#include "gpsd.h"
-+#include "libgps.h"
++#include "../include/gpsd.h"
++#include "../include/libgps.h"
 +
 +#if defined(PDS_ENABLE)
-+#include "driver_pds.h"
++#include "../include/driver_pds.h"
 +
 +#include <linux/qrtr.h>
 +
@@ -384,7 +386,7 @@ index 000000000..734b40f83
 +
 +	gpsd_switch_driver(session, "Qualcomm PDS");
 +	session->gpsdata.gps_fd = sock;
-+	session->sourcetype = source_qrtr;
++	session->sourcetype = SOURCE_QRTR;
 +	session->servicetype = service_sensor;
 +
 +	return session->gpsdata.gps_fd;
@@ -409,11 +411,11 @@ index 000000000..734b40f83
 +};
 +
 +#endif /* of defined(PDS_ENABLE) */
-diff --git a/driver_pds.h b/driver_pds.h
+diff --git a/include/driver_pds.h b/include/driver_pds.h
 new file mode 100644
 index 000000000..3b373743d
 --- /dev/null
-+++ b/driver_pds.h
++++ b/include/driver_pds.h
 @@ -0,0 +1,20 @@
 +/*
 + * PDS on QRTR.
@@ -435,10 +437,10 @@ index 000000000..3b373743d
 +
 +#endif /* of defined(PDS_ENABLE) */
 +#endif /* of ifndef _DRIVER_PDS_H_ */
-diff --git a/drivers.c b/drivers.c
+diff --git a/drivers/drivers.c b/drivers/drivers.c
 index 39e3d0a4c..7d788e1ab 100644
---- a/drivers.c
-+++ b/drivers.c
+--- a/drivers/drivers.c
++++ b/drivers/drivers.c
 @@ -1747,6 +1747,7 @@ extern const struct gps_type_t driver_greis;
  extern const struct gps_type_t driver_italk;
  extern const struct gps_type_t driver_navcom;
@@ -458,52 +460,64 @@ index 39e3d0a4c..7d788e1ab 100644
  #ifdef RTCM104V2_ENABLE
      &driver_rtcm104v2,
  #endif /* RTCM104V2_ENABLE */
-diff --git a/gpsd.h b/gpsd.h
+diff --git a/include/gpsd.h b/include/gpsd.h
 index 57e4b0553..e9f61cc71 100644
---- a/gpsd.h
-+++ b/gpsd.h
-@@ -209,6 +209,7 @@ struct gps_lexer_t {
- #define GEOSTAR_PACKET   	14
- #define NMEA2000_PACKET 	15
- #define GREIS_PACKET		16
-+#define QMI_PDS_PACKET		16
- #define MAX_GPSPACKET_TYPE	16	/* increment this as necessary */
- #define RTCM2_PACKET    	17
- #define RTCM3_PACKET    	18
-@@ -447,6 +448,7 @@ typedef enum {source_unknown,
- 	      source_usb,	/* potential GPS source, discoverable */
- 	      source_bluetooth,	/* potential GPS source, discoverable */
- 	      source_can,	/* potential GPS source, fixed CAN format */
-+	      source_qrtr,	/* potential GPS source, discoverable */
- 	      source_pty,	/* PTY: we don't require exclusive access */
- 	      source_tcp,	/* TCP/IP stream: case detected but not used */
- 	      source_udp,	/* UDP stream: case detected but not used */
-diff --git a/libgpsd_core.c b/libgpsd_core.c
+--- a/include/gpsd.h
++++ b/include/gpsd.h
+@@ -220,12 +220,13 @@ struct gps_lexer_t {
+ #define GEOSTAR_PACKET          14
+ #define NMEA2000_PACKET         15
+ #define GREIS_PACKET            16
+-#define MAX_GPSPACKET_TYPE      16      /* increment this as necessary */
+-#define RTCM2_PACKET            17
+-#define RTCM3_PACKET            18
+-#define JSON_PACKET             19
+-#define PACKET_TYPES            20      /* increment this as necessary */
+-#define SKY_PACKET              21
++#define QMI_PDS_PACKET          17
++#define MAX_GPSPACKET_TYPE      17      /* increment this as necessary */
++#define RTCM2_PACKET            18
++#define RTCM3_PACKET            19
++#define JSON_PACKET             20
++#define PACKET_TYPES            21      /* increment this as necessary */
++#define SKY_PACKET              22
+ #define TEXTUAL_PACKET_TYPE(n)  ((((n)>=NMEA_PACKET) && ((n)<=MAX_TEXTUAL_TYPE)) || (n)==JSON_PACKET)
+ #define GPS_PACKET_TYPE(n)      (((n)>=NMEA_PACKET) && ((n)<=MAX_GPSPACKET_TYPE))
+ #define LOSSLESS_PACKET_TYPE(n) (((n)>=RTCM2_PACKET) && ((n)<=RTCM3_PACKET))
+@@ -462,6 +463,7 @@ typedef enum {SOURCE_UNKNOWN,
+               SOURCE_USB,       // potential GPS source, discoverable
+               SOURCE_BLUETOOTH, // potential GPS source, discoverable
+               SOURCE_CAN,       // potential GPS source, fixed CAN format
++              SOURCE_QRTR,      // potential GPS source, discoverable
+               SOURCE_PTY,       // PTY: we don't require exclusive access
+               SOURCE_TCP,       // TCP/IP stream: case detected but not used
+               SOURCE_UDP,       // UDP stream: case detected but not used
+diff --git a/gpsd/libgpsd_core.c b/gpsd/libgpsd_core.c
 index 52bf8e5ae..a8a2ec0d3 100644
---- a/libgpsd_core.c
-+++ b/libgpsd_core.c
+--- a/gpsd/libgpsd_core.c
++++ b/gpsd/libgpsd_core.c
 @@ -39,6 +39,9 @@
  #if defined(NMEA2000_ENABLE)
- #include "driver_nmea2000.h"
+ #include "../include/driver_nmea2000.h"
  #endif /* defined(NMEA2000_ENABLE) */
 +#if defined(PDS_ENABLE)
-+#include "driver_pds.h"
++#include "../include/driver_pds.h"
 +#endif /* defined(PDS_ENABLE) */
  
+ /* pass low-level data to devices straight through */
  ssize_t gpsd_write(struct gps_device_t *session,
- 		   const char *buf,
 @@ -351,6 +354,11 @@ void gpsd_deactivate(struct gps_device_t *session)
          (void)nmea2000_close(session);
-     else
+     } else
  #endif /* of defined(NMEA2000_ENABLE) */
 +#if defined(PDS_ENABLE)
-+    if (session->sourcetype == source_qrtr)
++    if (session->sourcetype == SOURCE_QRTR)
 +	(void)qmi_pds_close(session);
 +    else
 +#endif /* of defined(PDS_ENABLE) */
          (void)gpsd_close(session);
      if (session->mode == O_OPTIMIZE)
- 	gpsd_run_device_hook(&session->context->errout,
+         gpsd_run_device_hook(&session->context->errout,
 @@ -553,6 +561,11 @@ int gpsd_open(struct gps_device_t *session)
          return nmea2000_open(session);
      }
@@ -520,11 +534,11 @@ index 52bf8e5ae..a8a2ec0d3 100644
  #ifdef NON_NMEA0183_ENABLE
      /* if it's a sensor, it must be probed */
      if ((session->servicetype == service_sensor) &&
--	(session->sourcetype != source_can)) {
-+	(session->sourcetype != source_can && session->sourcetype != source_qrtr)) {
- 	const struct gps_type_t **dp;
+-        (SOURCE_CAN != session->sourcetype)) {
++        (SOURCE_CAN != session->sourcetype && SOURCE_QRTR !=  session->sourcetype)) {
+         const struct gps_type_t **dp;
  
- 	for (dp = gpsd_drivers; *dp; dp++) {
+         for (dp = gpsd_drivers; *dp; dp++) {
 -- 
 2.27.0.rc0
 
