@@ -1,0 +1,5 @@
+START_DAEMON="true"
+GPSD_OPTIONS=""
+DEVICES="pds://0"
+USBAUTO="true"
+GPSD_SOCKET="/var/run/gpsd.sock"
