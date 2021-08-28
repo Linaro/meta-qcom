@@ -24,8 +24,6 @@ DEPENDS += "qca-swiss-army-knife-native"
 
 inherit allarch
 
-VENUS_FW = "vpu-1.0"
-
 do_compile() {
     # Build board-2.bin needed by WiFi
     ath11k-generate-board-2_json.sh ./38-bdwlan_split board-2.json
@@ -35,18 +33,10 @@ do_compile() {
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
 
-    install -m 0444 ./18-adreno-fw/a650_gmu.bin ${D}${nonarch_base_libdir}/firmware/qcom
-    install -m 0444 ./18-adreno-fw/a650_sqe.fw ${D}${nonarch_base_libdir}/firmware/qcom
-    install -m 0444 ./18-adreno-fw/a650_zap.elf ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/a650_zap.mbn
+    install -m 0444 ./08-dspso/dspso.bin ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
 
-    install -m 0444 ./20-adsp_split/adsp.mbn  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/
-    install -m 0444 ./21-cdsp_split/cdsp.mbn  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/
     install -m 0444 ./30-slpi_split/slpi.mbn  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/
-
-    install -m 0444 ./39-jsn/*.jsn  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/
-
-    install -d ${D}${nonarch_base_libdir}/firmware/qcom/${VENUS_FW}
-    install -m 0444 ./33-venus_split/venus.b* ./33-venus_split/venus.mdt ${D}${nonarch_base_libdir}/firmware/qcom/${VENUS_FW}
+    install -m 0444 ./39-jsn/slpi*.jsn  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/
 
     install -d ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/
     install -m 0444 ${S}/board-2.bin ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board-2.bin
@@ -60,14 +50,6 @@ INSANE_SKIP_${PN} += "arch"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_DEFAULT_DEPS = "1"
-
-RPROVIDES_${PN} += "linux-firmware-qcom-adreno-a650"
-RREPLACES_${PN} += "linux-firmware-qcom-adreno-a650"
-RCONFLICTS_${PN} += "linux-firmware-qcom-adreno-a650"
-
-RPROVIDES_${PN} += "linux-firmware-qcom-${VENUS_FW}"
-RREPLACES_${PN} += "linux-firmware-qcom-${VENUS_FW}"
-RCONFLICTS_${PN} += "linux-firmware-qcom-${VENUS_FW}"
 
 inherit update-alternatives
 
