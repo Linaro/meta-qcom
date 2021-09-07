@@ -1,7 +1,6 @@
 require recipes-test/images/initramfs-tiny-image.bb
 
 DESCRIPTION = "Relatively larger ramdisk image for running tests (bootrr, etc)"
-export IMAGE_BASENAME = "initramfs-test-full-image"
 
 PACKAGE_INSTALL += " \
     bluez5 \
