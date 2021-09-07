@@ -26,13 +26,16 @@ PACKAGE_INSTALL += " \
     pd-mapper \
     qrtr \
     rmtfs \
-    rt-tests \
     stress-ng \
     tqftpserv \
     usbutils \
     util-linux \
     util-linux-chrt \
     wpa-supplicant \
+"
+
+PACKAGE_INSTALL:append:libc-glibc += " \
+    rt-tests \
 "
 
 # We'd like to include extra packages provided by layers which we do not depend
