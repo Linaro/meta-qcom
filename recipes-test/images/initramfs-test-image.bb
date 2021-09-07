@@ -1,7 +1,6 @@
 require recipes-test/images/initramfs-tiny-image.bb
 
 DESCRIPTION = "Small ramdisk image for running tests (bootrr, etc)"
-export IMAGE_BASENAME = "initramfs-test-image"
 
 PACKAGE_INSTALL += " \
     bluez5 \
@@ -25,3 +24,20 @@ PACKAGE_INSTALL += " \
     usbutils \
     wpa-supplicant \
 "
+
+# We'd like to include extra packages provided by layers which we do not depend
+# on. This can be handled by .bbappends, but then image recipes including this
+# one would not get all these tools. So simulate dynamic bbappend here.
+PACKAGE_INSTALL_openembedded_layer += " \
+    cryptsetup \
+    devmem2 \
+"
+
+PACKAGE_INSTALL_networking_layer += " \
+    iperf2 \
+    iperf3 \
+    tcpdump \
+"
+
+PACKAGE_INSTALL += "${@bb.utils.contains("BBFILE_COLLECTIONS", "openembedded-layer", "${PACKAGE_INSTALL_openembedded_layer}", "", d)}"
+PACKAGE_INSTALL += "${@bb.utils.contains("BBFILE_COLLECTIONS", "networking-layer", "${PACKAGE_INSTALL_networking_layer}", "", d)}"

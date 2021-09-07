@@ -1,5 +1,17 @@
 QIMG_DEPLOYDIR = "${WORKDIR}/qcom_deploy-${PN}"
 
+# Define INITRAMFS_IMAGE to create kernel+initramfs Android boot images in
+# addition to default boot images. For example add the following line to your
+# conf/local.conf:
+#
+# INITRAMFS_IMAGE = "initramfs-kerneltest-image"
+#
+
+python __anonymous () {
+    if d.getVar('INITRAMFS_IMAGE') != '':
+        d.appendVarFlag('do_qcom_img_deploy', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+}
+
 python do_qcom_img_deploy() {
     import shutil
     import subprocess
@@ -11,6 +23,17 @@ python do_qcom_img_deploy() {
     else:
         qcom_deploy_dir = d.getVar("QIMG_DEPLOYDIR")
         image_dir = d.getVar("DEPLOY_DIR_IMAGE")
+
+    initrd = None
+    if d.getVar('INITRAMFS_IMAGE') != '':
+        initrd_image_name = d.getVar("INITRAMFS_IMAGE_NAME")
+        baseinitrd = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), initrd_image_name)
+        for img in (".cpio.gz", ".cpio.lz4", ".cpio.lzo", ".cpio.lzma", ".cpio.xz", ".cpio"):
+            if os.path.exists(baseinitrd + img):
+                initrd = baseinitrd + img
+                break
+        if not initrd:
+            bb.fatal("Could not find initramfs image %s for bundling" % d.getVar("INITRAMFS_IMAGE"))
 
     B = d.getVar("B")
     D = d.getVar("D")
@@ -47,16 +70,29 @@ python do_qcom_img_deploy() {
         def getVarDTB(name):
             return d.getVarFlag(name, dtb_name) or d.getVar(name)
 
-        def make_image(template, rootfs):
-            output = os.path.join(qcom_deploy_dir, template % (dtb_name, kernel_image_name))
-            output_link =  os.path.join(qcom_deploy_dir, template % (dtb_name, kernel_link_name))
+        def make_image_internal(output, output_link, rootfs, initrd = definitrd):
             subprocess.check_call([mkbootimg,
                 "--kernel", kernel,
-                "--ramdisk", definitrd,
+                "--ramdisk", initrd,
                 "--output", output,
                 "--pagesize", getVarDTB("QCOM_BOOTIMG_PAGE_SIZE"),
                 "--base", getVarDTB("QCOM_BOOTIMG_KERNEL_BASE"),
                 "--cmdline", "root=%s rw rootwait %s %s" % (rootfs, consoles, getVarDTB("KERNEL_CMDLINE_EXTRA") or "")])
+            if os.path.exists(output_link):
+                os.unlink(output_link)
+            os.symlink(os.path.basename(output), output_link)
+
+        def make_image(template, rootfs):
+            output = os.path.join(qcom_deploy_dir, template % (dtb_name, kernel_image_name))
+            output_link =  os.path.join(qcom_deploy_dir, template % (dtb_name, kernel_link_name))
+            make_image_internal(output, output_link, rootfs)
+            return output
+
+        def make_initramfs_image(template, rootfs, initrd, initrd_image_name):
+            output = os.path.join(qcom_deploy_dir, template % (initrd_image_name, dtb_name, kernel_image_name))
+            output_link =  os.path.join(qcom_deploy_dir, template % (initrd_image_name, dtb_name, kernel_link_name))
+            make_image_internal(output, output_link, rootfs, initrd)
+            output_link =  os.path.join(qcom_deploy_dir, template % ("initramfs", dtb_name, kernel_link_name))
             if os.path.exists(output_link):
                 os.unlink(output_link)
             os.symlink(os.path.basename(output), output_link)
@@ -79,11 +115,17 @@ python do_qcom_img_deploy() {
         if not os.path.exists(output_img):
             os.symlink(os.path.basename(output), output_img)
 
+        if initrd:
+            make_initramfs_image("boot-%s-%s-%s.img", rootfs, initrd, d.getVar("INITRAMFS_IMAGE"))
+
         sd_rootfs = getVarDTB("SD_QCOM_BOOTIMG_ROOTFS")
         if sd_rootfs:
             output = make_image("boot-sd-%s-%s.img", sd_rootfs)
             if not os.path.exists(output_sd_img):
                 os.symlink(os.path.basename(output), output_sd_img)
+
+            if initrd:
+                make_initramfs_image("boot-sd-%s-%s-%s.img", rootfs, initrd, d.getVar("INITRAMFS_IMAGE"))
 }
 
 do_qcom_img_deploy[depends] += "skales-native:do_populate_sysroot"
