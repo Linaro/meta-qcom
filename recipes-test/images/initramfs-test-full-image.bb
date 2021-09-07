@@ -1,7 +1,6 @@
 require recipes-test/images/initramfs-tiny-image.bb
 
 DESCRIPTION = "Relatively larger ramdisk image for running tests (bootrr, etc)"
-export IMAGE_BASENAME = "initramfs-test-full-image"
 
 PACKAGE_INSTALL += " \
     bluez5 \
@@ -27,7 +26,6 @@ PACKAGE_INSTALL += " \
     pd-mapper \
     qrtr \
     rmtfs \
-    rt-tests \
     stress-ng \
     tqftpserv \
     usbutils \
@@ -35,3 +33,29 @@ PACKAGE_INSTALL += " \
     util-linux-chrt \
     wpa-supplicant \
 "
+
+PACKAGE_INSTALL:append:libc-glibc += " \
+    rt-tests \
+"
+
+# We'd like to include extra packages provided by layers which we do not depend
+# on. This can be handled by .bbappends, but then image recipes including this
+# one would not get all these tools. So simulate dynamic bbappend here.
+PACKAGE_INSTALL_openembedded_layer += " \
+    crash \
+    cryptsetup \
+    devmem2 \
+    iozone3 \
+    libgpiod \
+    libgpiod-tools \
+    makedumpfile \
+"
+
+PACKAGE_INSTALL_networking_layer += " \
+    iperf2 \
+    iperf3 \
+    tcpdump \
+"
+
+PACKAGE_INSTALL += "${@bb.utils.contains("BBFILE_COLLECTIONS", "openembedded-layer", "${PACKAGE_INSTALL_openembedded_layer}", "", d)}"
+PACKAGE_INSTALL += "${@bb.utils.contains("BBFILE_COLLECTIONS", "networking-layer", "${PACKAGE_INSTALL_networking_layer}", "", d)}"
