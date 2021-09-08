@@ -1,9 +1,10 @@
 require recipes-test/images/initramfs-tiny-image.bb
 
-DESCRIPTION = "Small ramdisk image for running tests (bootrr, etc)"
+DESCRIPTION = "Relatively larger ramdisk image for running tests (bootrr, etc)"
 
 PACKAGE_INSTALL += " \
     bluez5 \
+    coreutils \
     dhcp-client \
     diag \
     e2fsprogs \
@@ -14,23 +15,40 @@ PACKAGE_INSTALL += " \
     ethtool \
     gptfdisk \
     iw \
+    kexec-tools \
     lava-test-shell \
     libdrm-tests \
+    lsof \
+    ncurses \
+    ncurses-terminfo \
+    ncurses-terminfo-base \
     pciutils \
     pd-mapper \
     qrtr \
     rmtfs \
+    stress-ng \
     tqftpserv \
     usbutils \
+    util-linux \
+    util-linux-chrt \
     wpa-supplicant \
+"
+
+PACKAGE_INSTALL:append:libc-glibc += " \
+    rt-tests \
 "
 
 # We'd like to include extra packages provided by layers which we do not depend
 # on. This can be handled by .bbappends, but then image recipes including this
 # one would not get all these tools. So simulate dynamic bbappend here.
 PACKAGE_INSTALL_openembedded_layer += " \
+    crash \
     cryptsetup \
     devmem2 \
+    iozone3 \
+    libgpiod \
+    libgpiod-tools \
+    makedumpfile \
 "
 
 PACKAGE_INSTALL_networking_layer += " \
