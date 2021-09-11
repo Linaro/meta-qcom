@@ -1,0 +1,22 @@
+From ef8073c29988c1cf46221e3062811f19e051b62d Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 2 Oct 2021 16:36:47 +0300
+Subject: [PATCH] bootrr-auto: switch to using sh
+
+There is nothing bash-specific in bootrr-auto, we can safely use /bin/sh
+instead. Verified with dash and with busybox sh.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ helpers/bootrr-auto | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/helpers/bootrr-auto b/helpers/bootrr-auto
+index 672c590..607be0a 100755
+--- a/helpers/bootrr-auto
++++ b/helpers/bootrr-auto
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/bin/sh
+ 
+ $(pwd)/helpers/bootrr-generic-tests
