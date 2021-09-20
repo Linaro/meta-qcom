@@ -15,7 +15,8 @@ PACKAGE_INSTALL += " \
     ethtool \
     gptfdisk \
     iw \
-    kexec-tools \
+    hdparm \
+    kexec \
     lava-test-shell \
     libdrm-tests \
     lsof \
@@ -45,10 +46,17 @@ PACKAGE_INSTALL_openembedded_layer += " \
     crash \
     cryptsetup \
     devmem2 \
+    dhrystone \
     iozone3 \
     libgpiod \
     libgpiod-tools \
+    lmbench \
     makedumpfile \
+    mbw \
+    sysbench \
+    tinymembench \
+    tiobench \
+    whetstone \
 "
 
 PACKAGE_INSTALL_networking_layer += " \
