@@ -1,9 +1,3 @@
-# Provide base URI of NHLOS_Binaries.zip and adreno_1.0_qrb5165_rb5.tar.gz
-# files.  Use "file://" if those files are copied into
-# recipes-bsp/firmware/files/ directory.
-# NHLOS_URI ?= "file://"
-# ADRENO_URI ?= "file://"
-
 DESCRIPTION = "QCOM Firmware for Qualcomm Robotics RB5 platform"
 
 LICENSE = "Proprietary"
