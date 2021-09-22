@@ -32,6 +32,7 @@ PACKAGE_INSTALL += " \
     usbutils \
     util-linux \
     util-linux-chrt \
+    util-linux-lsblk \
     wpa-supplicant \
 "
 
