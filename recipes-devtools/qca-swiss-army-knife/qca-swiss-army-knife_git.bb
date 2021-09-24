@@ -14,6 +14,7 @@ SRC_URI = " \
 	file://0002-ath10k-fwencoder-port-to-python3.patch \
 	file://0003-scripts-port-to-python3.patch \
 	file://ath10k-generate-board-2_json.sh \
+	file://ath10k-generate-pci-board-2_json.sh \
 	file://ath11k-generate-board-2_json.sh \
 "
 
@@ -24,6 +25,7 @@ do_install () {
 	install -d ${D}/${bindir}
 	install -m 0755 tools/scripts/*/* ${D}/${bindir}
 	install -m 0755 ${WORKDIR}/ath10k-generate-board-2_json.sh ${D}/${bindir}
+	install -m 0755 ${WORKDIR}/ath10k-generate-pci-board-2_json.sh ${D}/${bindir}
 	install -m 0755 ${WORKDIR}/ath11k-generate-board-2_json.sh ${D}/${bindir}
 }
 
