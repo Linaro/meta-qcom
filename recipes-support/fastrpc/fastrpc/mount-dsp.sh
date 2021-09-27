@@ -10,6 +10,9 @@ if [ -r /sys/devices/soc0/machine ] ; then
 		SM8250|QRB5165)
 			WHAT=/lib/firmware/qcom/sm8250/dspso.bin
 			;;
+		APQ8096)
+			WHAT=/lib/firmware/qcom/msm8996/adspso.bin
+			;;
 	esac
 fi
 
