@@ -13,6 +13,8 @@ PACKAGE_INSTALL += " \
     e2fsprogs-resize2fs \
     e2fsprogs-tune2fs \
     ethtool \
+    fastrpc \
+    firmware-qcom-${MACHINE} \
     gptfdisk \
     iw \
     hdparm \
