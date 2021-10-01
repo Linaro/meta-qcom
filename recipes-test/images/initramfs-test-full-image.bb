@@ -4,6 +4,7 @@ DESCRIPTION = "Relatively larger ramdisk image for running tests (bootrr, etc)"
 
 PACKAGE_INSTALL += " \
     bluez5 \
+    bootrr \
     coreutils \
     dhcpcd \
     diag \
