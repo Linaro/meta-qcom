@@ -2,7 +2,13 @@ require recipes-test/images/initramfs-tiny-image.bb
 
 DESCRIPTION = "Relatively larger ramdisk image for running tests (bootrr, etc)"
 
+# Support adb in full featured rootfs
+IMAGE_FEATURES += "enable-adbd"
+
+inherit image-adbd
+
 PACKAGE_INSTALL += " \
+    android-tools \
     bluez5 \
     coreutils \
     dhcpcd \
