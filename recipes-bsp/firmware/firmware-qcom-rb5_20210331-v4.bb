@@ -16,6 +16,8 @@ PE = "1"
 
 DEPENDS += "qca-swiss-army-knife-native"
 
+FW_QCOM_NAME = "sm8250"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 
 do_compile() {
@@ -44,3 +46,8 @@ inherit update-alternatives
 ALTERNATIVE:${PN} = "qca6390-board2"
 ALTERNATIVE_LINK_NAME[qca6390-board2] = "/lib/firmware/ath11k/QCA6390/hw2.0/board-2.bin"
 ALTERNATIVE_PRIORITY = "100"
+
+SPLIT_FIRMWARE_PACKAGES = " \
+    ${PN}-dspso \
+    linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
+"
