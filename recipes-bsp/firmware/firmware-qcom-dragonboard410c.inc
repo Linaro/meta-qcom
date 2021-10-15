@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4d087ee0965cb059f1b2f9429e166f64"
 
 DEPENDS += "mtools-native pil-squasher-native"
 
+FW_QCOM_NAME = "msm8916"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 
 S = "${WORKDIR}/linux-board-support-package-r${PV}"
@@ -32,3 +34,10 @@ do_install() {
 }
 
 FILES:${PN} += "/boot/modem_fsg"
+
+SPLIT_FIRMWARE_PACKAGES = " \
+    linux-firmware-qcom-${FW_QCOM_NAME}-modem \
+    linux-firmware-qcom-${FW_QCOM_NAME}-modem-split \
+    linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
+    linux-firmware-qcom-${FW_QCOM_NAME}-wifi-split \
+"
