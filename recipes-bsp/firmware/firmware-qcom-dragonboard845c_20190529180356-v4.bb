@@ -11,7 +11,7 @@ FW_QCOM_NAME = "sdm845"
 
 require recipes-bsp/firmware/firmware-qcom.inc
 
-DEPENDS += "qca-swiss-army-knife-native"
+DEPENDS += "qca-swiss-army-knife-native pil-squasher-native"
 inherit python3native
 
 do_compile() {
@@ -31,6 +31,11 @@ do_install() {
     install -m 0444 ./20-adsp_split/firmware/adsp*.* ${D}${FW_QCOM_PATH}
     install -m 0444 ./21-cdsp_split/firmware/cdsp*.* ${D}${FW_QCOM_PATH}
 
+    install -m 0444 ./39-jsn/slpi*.jsn  ${D}${FW_QCOM_PATH}
+
+    pil-squasher ${D}${FW_QCOM_PATH}/slpi.mbn \
+                 ./30-slpi_split/slpi.mdt
+
     install -d ${D}${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/
     install -m 0444 ./board-2.bin ${D}${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/
 
@@ -44,6 +49,7 @@ SPLIT_FIRMWARE_PACKAGES = " \
     linux-firmware-qcom-${FW_QCOM_NAME}-audio-split \
     linux-firmware-qcom-${FW_QCOM_NAME}-compute-split \
     linux-firmware-qcom-${FW_QCOM_NAME}-modem-split \
+    linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
 "
 
 FILES:linux-firmware-qcom-adreno-a630-split = "${FW_QCOM_BASE_PATH}/a630_zap.*"
