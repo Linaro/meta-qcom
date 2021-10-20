@@ -34,3 +34,8 @@ QCOM_BOOTIMG_PAGE_SIZE ?= "4096"
 
 # Default serial console for QCOM devices
 SERIAL_CONSOLES ?= "115200;ttyMSM0"
+
+# Increase INITRAMFS_MAXSIZE to 384 MiB to cover initramfs-kerneltest-full
+# image.  All our boards (except db410c) have 2GiB and db410c has 1GiB of RAM,
+# so this image would fit.
+INITRAMFS_MAXSIZE = "393216"
