@@ -7,6 +7,8 @@ SRC_URI = "https://releases.linaro.org/96boards/dragonboard820c/qualcomm/firmwar
 SRC_URI[md5sum] = "587138c5e677342db9a88d5c8747ec6c"
 SRC_URI[sha256sum] = "6ee9c461b2b5dd2d3bd705bb5ea3f44b319ecb909b2772f305ce12439e089cd9"
 
+FW_QCOM_NAME = "msm8996"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 
 DEPENDS += "pil-squasher-native  qca-swiss-army-knife-native"
@@ -41,3 +43,9 @@ inherit update-alternatives
 ALTERNATIVE:${PN} = "qca6174-board2"
 ALTERNATIVE_LINK_NAME[qca6174-board2] = "/lib/firmware/ath10k/QCA6174/hw3.0/board-2.bin"
 ALTERNATIVE_PRIORITY = "100"
+
+SPLIT_FIRMWARE_PACKAGES = " \
+    ${PN}-dspso \
+    linux-firmware-qcom-${FW_QCOM_NAME}-audio \
+    linux-firmware-qcom-${FW_QCOM_NAME}-audio-split \
+"
