@@ -19,15 +19,15 @@ do_install() {
 
     cp -r ./proprietary-linux/wlan ${D}${nonarch_base_libdir}/firmware/
 
-    install -d  ${D}${nonarch_base_libdir}/firmware/qcom/msm8916
+    install -d  ${D}${FW_QCOM_PATH}
     MTOOLS_SKIP_CHECK=1 mcopy -i ./bootloaders-linux/NON-HLOS.bin \
-    ::image/modem.* ::image/mba.mbn ::image/wcnss.* ${D}${nonarch_base_libdir}/firmware/qcom/msm8916
+    ::image/modem.* ::image/mba.mbn ::image/wcnss.* ${D}${FW_QCOM_PATH}
 
-    pil-squasher ${D}${nonarch_base_libdir}/firmware/qcom/msm8916/modem.mbn \
-                 ${D}${nonarch_base_libdir}/firmware/qcom/msm8916/modem.mdt
+    pil-squasher ${D}${FW_QCOM_PATH}/modem.mbn \
+                 ${D}${FW_QCOM_PATH}/modem.mdt
 
-    pil-squasher ${D}${nonarch_base_libdir}/firmware/qcom/msm8916/wcnss.mbn \
-                 ${D}${nonarch_base_libdir}/firmware/qcom/msm8916/wcnss.mdt
+    pil-squasher ${D}${FW_QCOM_PATH}/wcnss.mbn \
+                 ${D}${FW_QCOM_PATH}/wcnss.mdt
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
