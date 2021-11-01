@@ -24,12 +24,12 @@ do_compile() {
 
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
-    install -d ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
+    install -d ${D}${FW_QCOM_PATH}/
     
-    install -m 0444 ./proprietary-linux/adsp*.* ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
-    pil-squasher ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/adsp.mbn ./proprietary-linux/adsp.mdt
+    install -m 0444 ./proprietary-linux/adsp*.* ${D}${FW_QCOM_PATH}/
+    pil-squasher ${D}${FW_QCOM_PATH}/adsp.mbn ./proprietary-linux/adsp.mdt
 
-    install -m 0444 ./bootloaders-linux/adspso.bin ${D}${nonarch_base_libdir}/firmware/qcom/msm8996/
+    install -m 0444 ./bootloaders-linux/adspso.bin ${D}${FW_QCOM_PATH}/
 
     install -d ${D}${nonarch_base_libdir}/firmware/ath10k/QCA6174/hw3.0/
     install -m 0444 ${S}/board-2.bin ${D}${nonarch_base_libdir}/firmware/ath10k/QCA6174/hw3.0/board-2.bin
