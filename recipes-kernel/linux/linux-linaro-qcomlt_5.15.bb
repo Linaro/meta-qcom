@@ -3,7 +3,8 @@
 
 require recipes-kernel/linux/linux-linaro-qcom.inc
 
-SRCBRANCH = "release/sa8155p-adp/qcomlt-5.15"
-SRCREV = "3290018e72cdf6a1b90e672710ad2a6dda9fffd6"
+# SRCBRANCH set to "release/qcomlt-5.15" in linux-linaro-qcom.inc
+SRCREV = "b65f90c953f42781cdfe1858b8fbfb209fab3940"
 
-COMPATIBLE_MACHINE = "(sa8155p)"
+SRCBRANCH:sa8155p = "release/sa8155p-adp/qcomlt-5.15"
+SRCREV:sa8155p = "3290018e72cdf6a1b90e672710ad2a6dda9fffd6"
