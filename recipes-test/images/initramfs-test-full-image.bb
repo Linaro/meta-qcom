@@ -37,7 +37,7 @@ PACKAGE_INSTALL += " \
     wpa-supplicant \
 "
 
-PACKAGE_INSTALL:append:libc-glibc += " \
+PACKAGE_INSTALL:append:libc-glibc = " \
     rt-tests \
 "
 
