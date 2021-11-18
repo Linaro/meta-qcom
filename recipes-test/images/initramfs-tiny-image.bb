@@ -33,3 +33,16 @@ local_autologin () {
     sed -i -e 's/^\(ExecStart *=.*getty \)/\1--autologin root /' ${LOCAL_GETTY}
 }
 ROOTFS_POSTPROCESS_COMMAND += "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'local_autologin;', '', d)}"
+
+# We'd like to include extra packages provided by layers which we do not depend
+# on. This can be handled by .bbappends, but then image recipes including this
+# one would not get all these tools. So simulate dynamic bbappend here.
+#
+# To use it define PACKAGE_INSTALL_foo-layer variable containing the list of
+# packages to be installed if (and only if) layer foo-layer is enabled.
+python() {
+    for layer in d.getVar("BBFILE_COLLECTIONS", True).split():
+        extra = d.getVar("PACKAGE_INSTALL_%s" % layer)
+        if extra:
+            d.appendVar("PACKAGE_INSTALL", " " + extra)
+}
