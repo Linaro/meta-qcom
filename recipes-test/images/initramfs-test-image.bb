@@ -28,16 +28,13 @@ PACKAGE_INSTALL += " \
 # We'd like to include extra packages provided by layers which we do not depend
 # on. This can be handled by .bbappends, but then image recipes including this
 # one would not get all these tools. So simulate dynamic bbappend here.
-PACKAGE_INSTALL_openembedded_layer += " \
+PACKAGE_INSTALL_openembedded-layer += " \
     cryptsetup \
     devmem2 \
 "
 
-PACKAGE_INSTALL_networking_layer += " \
+PACKAGE_INSTALL_networking-layer += " \
     iperf2 \
     iperf3 \
     tcpdump \
 "
-
-PACKAGE_INSTALL += "${@bb.utils.contains("BBFILE_COLLECTIONS", "openembedded-layer", "${PACKAGE_INSTALL_openembedded_layer}", "", d)}"
-PACKAGE_INSTALL += "${@bb.utils.contains("BBFILE_COLLECTIONS", "networking-layer", "${PACKAGE_INSTALL_networking_layer}", "", d)}"

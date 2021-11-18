@@ -24,7 +24,7 @@ PACKAGE_INSTALL:append:libc-glibc = " \
 # We'd like to include extra packages provided by layers which we do not depend
 # on. This can be handled by .bbappends, but then image recipes including this
 # one would not get all these tools. So simulate dynamic bbappend here.
-PACKAGE_INSTALL_openembedded_layer += " \
+PACKAGE_INSTALL_openembedded-layer += " \
     crash \
     dhrystone \
     iozone3 \
