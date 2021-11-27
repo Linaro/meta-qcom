@@ -144,3 +144,6 @@ addtask do_qcom_img_deploy_setscene
 do_qcom_img_deploy[dirs] = "${QIMG_DEPLOYDIR} ${B}"
 do_qcom_img_deploy[cleandirs] = "${QIMG_DEPLOYDIR}"
 do_qcom_img_deploy[stamp-extra-info] = "${MACHINE_ARCH}"
+
+# We do not need kernel image in /boot, these images are flashed into separate partition.
+RDEPENDS:${KERNEL_PACKAGE_NAME}-base = ""
