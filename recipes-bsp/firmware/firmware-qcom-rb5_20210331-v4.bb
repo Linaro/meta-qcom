@@ -27,12 +27,12 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
+    install -d ${D}${FW_QCOM_PATH}
 
-    install -m 0444 ./08-dspso/dspso.bin ${D}${nonarch_base_libdir}/firmware/qcom/sm8250
+    install -m 0444 ./08-dspso/dspso.bin ${D}${FW_QCOM_PATH}
 
-    install -m 0444 ./30-slpi_split/slpi.mbn  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/
-    install -m 0444 ./39-jsn/slpi*.jsn  ${D}${nonarch_base_libdir}/firmware/qcom/sm8250/
+    install -m 0444 ./30-slpi_split/slpi.mbn  ${D}${FW_QCOM_PATH}/
+    install -m 0444 ./39-jsn/slpi*.jsn  ${D}${FW_QCOM_PATH}/
 
     install -d ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/
     install -m 0444 ${S}/board-2.bin ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board-2.bin
