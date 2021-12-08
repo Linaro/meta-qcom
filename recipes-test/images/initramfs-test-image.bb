@@ -37,6 +37,7 @@ PACKAGE_INSTALL_networking-layer += " \
     connman \
     iperf2 \
     iperf3 \
+    openssh \
     phytool \
     tcpdump \
 "
