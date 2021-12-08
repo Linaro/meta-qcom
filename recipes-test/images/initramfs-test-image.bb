@@ -34,7 +34,9 @@ PACKAGE_INSTALL_openembedded-layer += " \
 "
 
 PACKAGE_INSTALL_networking-layer += " \
+    connman \
     iperf2 \
     iperf3 \
+    phytool \
     tcpdump \
 "
