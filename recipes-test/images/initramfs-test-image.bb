@@ -6,6 +6,7 @@ PACKAGE_INSTALL += " \
     bluez5 \
     dhcpcd \
     diag \
+    dropbear \
     e2fsprogs \
     e2fsprogs-e2fsck \
     e2fsprogs-mke2fs \
@@ -20,6 +21,7 @@ PACKAGE_INSTALL += " \
     pd-mapper \
     qrtr \
     rmtfs \
+    strace \
     tqftpserv \
     usbutils \
     wpa-supplicant \
@@ -36,5 +38,6 @@ PACKAGE_INSTALL_openembedded-layer += " \
 PACKAGE_INSTALL_networking-layer += " \
     iperf2 \
     iperf3 \
+    phytool \
     tcpdump \
 "
