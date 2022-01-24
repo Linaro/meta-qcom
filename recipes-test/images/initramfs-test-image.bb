@@ -3,6 +3,10 @@ require recipes-test/images/initramfs-tiny-image.bb
 DESCRIPTION = "Small ramdisk image for running tests (bootrr, etc)"
 
 PACKAGE_INSTALL += " \
+    alsa-utils-alsaucm \
+    alsa-utils-amixer \
+    alsa-utils-aplay \
+    alsa-utils-speakertest \
     bluez5 \
     dhcpcd \
     diag \
