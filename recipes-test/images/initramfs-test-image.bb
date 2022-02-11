@@ -31,6 +31,7 @@ PACKAGE_INSTALL += " \
     tqftpserv \
     usbutils \
     wpa-supplicant \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'kmscube', '', d)} \
 "
 
 # We'd like to include extra packages provided by layers which we do not depend
