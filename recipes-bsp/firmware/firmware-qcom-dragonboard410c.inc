@@ -45,10 +45,12 @@ do_install() {
 }
 
 FILES:${PN} += "/boot/modem_fsg"
+FILES:${PN}-split = "${FW_QCOM_BASE_PATH}/msm8916/*.mdt ${FW_QCOM_BASE_PATH}/msm8916/*.b*"
 
 SPLIT_FIRMWARE_PACKAGES = " \
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \
     linux-firmware-qcom-${FW_QCOM_NAME}-modem-split \
     linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
     linux-firmware-qcom-${FW_QCOM_NAME}-wifi-split \
+    ${PN}-split \
 "
