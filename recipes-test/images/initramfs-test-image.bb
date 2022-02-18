@@ -17,6 +17,7 @@ PACKAGE_INSTALL += " \
     iw \
     lava-test-shell \
     libdrm-tests \
+    lrzsz \
     pciutils \
     pd-mapper \
     qrtr \
