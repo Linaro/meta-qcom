@@ -55,4 +55,7 @@ SPLIT_FIRMWARE_PACKAGES = " \
     ${PN}-dspso \
     linux-firmware-qcom-${FW_QCOM_NAME}-audio \
     linux-firmware-qcom-${FW_QCOM_NAME}-audio-split \
+    ${PN}-split \
 "
+
+FILES:${PN}-split = "${FW_QCOM_BASE_PATH}/msm8996/*.mdt ${FW_QCOM_BASE_PATH}/msm8996/*.b*"
