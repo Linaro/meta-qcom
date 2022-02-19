@@ -2,6 +2,7 @@ DESCRIPTION = "Ramdisk image for pivoting into rootfs"
 
 PACKAGE_INSTALL = " \
     base-passwd \
+    initramfs-module-copy-modules \
     initramfs-module-rootfs \
     initramfs-module-udev \
     ${VIRTUAL-RUNTIME_base-utils} \
