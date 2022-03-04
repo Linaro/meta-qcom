@@ -6,5 +6,6 @@ require recipes-kernel/linux/linux-linaro-qcom.inc
 # SRCBRANCH set to "release/qcomlt-5.15" in linux-linaro-qcom.inc
 SRCREV = "9bc25b368335b6d3d59be44db0c4818bdfbfa546"
 
-SRCBRANCH:sa8155p = "release/sa8155p-adp/qcomlt-5.15"
-SRCREV:sa8155p = "3290018e72cdf6a1b90e672710ad2a6dda9fffd6"
+# SRCBRANCH set to adp stable release branch
+SRCBRANCH:sa8155p = "release/sa8155p-adp/v5.15.y"
+SRCREV:sa8155p = "0250bf9019f7f6fe5e8e5fdb956643af630cfa94"
