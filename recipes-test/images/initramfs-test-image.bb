@@ -3,6 +3,10 @@ require recipes-test/images/initramfs-tiny-image.bb
 DESCRIPTION = "Small ramdisk image for running tests (bootrr, etc)"
 
 PACKAGE_INSTALL += " \
+    alsa-utils-alsaucm \
+    alsa-utils-amixer \
+    alsa-utils-aplay \
+    alsa-utils-speakertest \
     bluez5 \
     dhcpcd \
     diag \
@@ -13,6 +17,7 @@ PACKAGE_INSTALL += " \
     e2fsprogs-resize2fs \
     e2fsprogs-tune2fs \
     ethtool \
+    fastrpc \
     gptfdisk \
     iw \
     lava-test-shell \
@@ -26,6 +31,7 @@ PACKAGE_INSTALL += " \
     tqftpserv \
     usbutils \
     wpa-supplicant \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'kmscube', '', d)} \
 "
 
 # We'd like to include extra packages provided by layers which we do not depend
