@@ -3,7 +3,7 @@
 # Released under the MIT license (see COPYING.MIT for the terms)
 
 DESCRIPTION ??= "Linaro Qualcomm Landing team ${PV} Kernel"
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 inherit kernel

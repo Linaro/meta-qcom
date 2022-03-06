@@ -1,7 +1,7 @@
 SUMMARY = "Lava test shell helpers"
 SECTION = "test"
 
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 SRCREV = "dcf554ef9b89c74d028734c74edea1ef5e777d33"
