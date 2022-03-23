@@ -21,3 +21,6 @@ inherit core-image
 
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_ROOTFS_EXTRA_SPACE = "0"
+
+# Exclude all kernel images from the rootfs
+PACKAGE_EXCLUDE = "kernel-image-*"
