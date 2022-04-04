@@ -5,7 +5,7 @@ SECTION = "devel"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://pil-squasher.c;beginline=1;endline=30;md5=632a4253d26470c9301255e9a3dc31a0"
 
-SRCREV = "170b62d29faa7c1f54fc2a7718e4d0c912384ec1"
+SRCREV = "843950ff8445cb02ee543ec751ab42112d39a8e0"
 SRC_URI = " \
 	git://github.com/andersson/${BPN}.git;branch=master;protocol=https \
 "
