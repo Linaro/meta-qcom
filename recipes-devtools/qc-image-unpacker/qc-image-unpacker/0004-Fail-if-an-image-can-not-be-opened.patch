@@ -1,0 +1,63 @@
+From 9358721f0eed626d744437170b29dd6a18276ade Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 10 Nov 2021 01:29:29 +0300
+Subject: [PATCH 4/4] Fail if an image can not be opened
+
+In order to be sure that the images are really processed, fail if an
+image can not be opened.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ src/qc_image_unpacker.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/src/qc_image_unpacker.c b/src/qc_image_unpacker.c
+index faddf6b1dd21..bf5507bc011a 100644
+--- a/src/qc_image_unpacker.c
++++ b/src/qc_image_unpacker.c
+@@ -138,36 +138,36 @@ int main(int argc, char **argv) {
+      */
+     if ((size_t)fileSz < sizeof(u4)) {
+       LOGMSG(l_ERROR, "Invalid input size - skipping '%s'", pFiles.files[f]);
+-      goto next_file;
++      exit(EXIT_FAILURE);
+     }
+ 
+     if (meta_image_detect(buf, (size_t)fileSz)) {
+       LOGMSG(l_DEBUG, "Meta image header found");
+       if (!meta_image_extract(buf, (size_t)fileSz, pFiles.files[f], pRunArgs.outputDir)) {
+         LOGMSG(l_ERROR, "Skipping '%s'", pFiles.files[f]);
+-        goto next_file;
++        exit(EXIT_FAILURE);
+       }
+     } else if (packed_image_detect(buf, (size_t)fileSz)) {
+       LOGMSG(l_DEBUG, "packed image header found");
+       if (!packed_image_extract(buf, (size_t)fileSz, pFiles.files[f], pRunArgs.outputDir)) {
+         LOGMSG(l_ERROR, "Skipping '%s'", pFiles.files[f]);
+-        goto next_file;
++        exit(EXIT_FAILURE);
+       }
+     } else if (bootldr_image_detect(buf, (size_t)fileSz)) {
+       LOGMSG(l_DEBUG, "bootldr image header found");
+       if (!bootldr_image_extract(buf, (size_t)fileSz, pFiles.files[f], pRunArgs.outputDir)) {
+         LOGMSG(l_ERROR, "Skipping '%s'", pFiles.files[f]);
+-        goto next_file;
++        exit(EXIT_FAILURE);
+       }
+     } else {
+       LOGMSG(l_ERROR, "Invalid magic header 0x%x - skipping '%s'", *(u4*)buf,
+              pFiles.files[f]);
+-      goto next_file;
++      exit(EXIT_FAILURE);
+     }
+ 
+     processedImgs++;
+ 
+-  next_file:
++  //next_file:
+     // Clean-up
+     munmap(buf, fileSz);
+     buf = NULL;
+-- 
+2.35.1
+
