@@ -1,11 +1,19 @@
 DESCRIPTION = "Tiny ramdisk image with firmware files"
 
-PACKAGE_INSTALL = " \
+# Do not install anything by default
+PACKAGE_INSTALL = ""
+
+PACKAGE_INSTALL:qcom-armv8a = " \
     packagegroup-firmware-dragonboard410c \
     packagegroup-firmware-dragonboard820c \
     packagegroup-firmware-dragonboard845c \
     packagegroup-firmware-rb5 \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'wireless-regdb-static', '', d)} \
+"
+
+PACKAGE_INSTALL:qcom-armv7a = " \
+    packagegroup-firmware-ifc6410 \
+    firmware-qcom-nexus7-2013 \
 "
 
 IMAGE_LINGUAS = ""
