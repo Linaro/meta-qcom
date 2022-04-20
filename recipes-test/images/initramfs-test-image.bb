@@ -19,6 +19,7 @@ PACKAGE_INSTALL += " \
     ethtool \
     fastrpc \
     gptfdisk \
+    i2c-tools \
     iw \
     lava-test-shell \
     libdrm-tests \
@@ -30,6 +31,8 @@ PACKAGE_INSTALL += " \
     strace \
     tqftpserv \
     usbutils \
+    util-linux-lscpu \
+    util-linux-taskset \
     wpa-supplicant \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'kmscube', '', d)} \
 "
@@ -38,8 +41,11 @@ PACKAGE_INSTALL += " \
 # on. This can be handled by .bbappends, but then image recipes including this
 # one would not get all these tools. So simulate dynamic bbappend here.
 PACKAGE_INSTALL_openembedded-layer += " \
+    cpufrequtils \
     cryptsetup \
     devmem2 \
+    lmsensors-config-libsensors \
+    lmsensors-sensors \
 "
 
 PACKAGE_INSTALL_networking-layer += " \
