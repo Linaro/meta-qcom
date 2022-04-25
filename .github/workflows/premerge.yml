@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        machine: [dragonboard-410c, dragonboard-845c, qrb5165-rb5, qcom-armv8a, sdx55-mtp, sa8155p-adp]
+        machine: [dragonboard-410c, dragonboard-845c, qrb5165-rb5, qcom-armv8a, sdx55-mtp, sa8155p-adp, qcom-armv7a]
         tclibc: [glibc, musl]
     steps:
     - name: Set up Python
