@@ -44,7 +44,7 @@ do_install() {
 inherit update-alternatives
 
 ALTERNATIVE:${PN} = "qca6390-board2"
-ALTERNATIVE_LINK_NAME[qca6390-board2] = "/lib/firmware/ath11k/QCA6390/hw2.0/board-2.bin"
+ALTERNATIVE_LINK_NAME[qca6390-board2] = "${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board-2.bin"
 ALTERNATIVE_PRIORITY = "100"
 
 SPLIT_FIRMWARE_PACKAGES = " \
