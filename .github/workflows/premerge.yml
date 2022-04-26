@@ -1,7 +1,7 @@
 name: PR build test
 
 on:
-  pull_request:
+  pull_request_target:
 
 env:
   POKY_URL: http://git.yoctoproject.org/git/poky
@@ -30,6 +30,7 @@ jobs:
       env:
         MACHINE: ${{ matrix.machine }}
         TCLIBC: ${{ matrix.tclibc }}
+        PR: ${{ github.event.pull_request.number }}
       run: |
         cat << EOF > tux.json
         {
@@ -41,7 +42,7 @@ jobs:
               },
               {
                 "url": "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY",
-                "ref": "$GITHUB_REF"
+                "ref": "refs/pull/$PR/merge"
               }
             ]
           },
