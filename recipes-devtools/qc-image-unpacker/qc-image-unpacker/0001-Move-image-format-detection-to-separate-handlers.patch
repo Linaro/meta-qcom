@@ -1,0 +1,140 @@
+From 6b8c83b622984360e4b130e8dd9206c0bca5bffb Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 10 Nov 2021 01:13:00 +0300
+Subject: [PATCH 1/4] Move image format detection to separate handlers
+
+In preparation to adding another file format, separate header checks
+into foo_image_detect() functions, to keep all the details away from the
+main file.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ src/meta_image.c        | 12 ++++++++++++
+ src/meta_image.h        |  1 +
+ src/packed_image.c      | 12 ++++++++++++
+ src/packed_image.h      |  1 +
+ src/qc_image_unpacker.c | 16 ++++++++--------
+ 5 files changed, 34 insertions(+), 8 deletions(-)
+
+diff --git a/src/meta_image.c b/src/meta_image.c
+index eecf87871a44..300b3fecd796 100644
+--- a/src/meta_image.c
++++ b/src/meta_image.c
+@@ -25,6 +25,18 @@
+ #include "common.h"
+ #include "utils.h"
+ 
++bool meta_image_detect(u1 *buf, size_t bufSz)
++{
++    meta_header_t *pMetaHeader;
++
++    if (bufSz < sizeof(meta_header_t))
++      return false;
++
++    pMetaHeader = (meta_header_t *)buf;
++
++    return pMetaHeader->magic == META_IMG_MAGIC;
++}
++
+ bool meta_image_extract(u1 *buf, size_t bufSz, char *filePath, char *outputDir) {
+   meta_header_t *pMetaHeader;
+   meta_img_header_entry_t *pImgHeaderEntry;
+diff --git a/src/meta_image.h b/src/meta_image.h
+index 67c1b6d7835f..2bae503f89df 100644
+--- a/src/meta_image.h
++++ b/src/meta_image.h
+@@ -44,6 +44,7 @@ typedef struct meta_img_header_entry {
+   u4 size;
+ } meta_img_header_entry_t;
+ 
++bool meta_image_detect(u1 *, size_t);
+ bool meta_image_extract(u1 *, size_t, char *, char *);
+ 
+ #endif
+diff --git a/src/packed_image.c b/src/packed_image.c
+index 4117b14f81a0..585772a2cfac 100644
+--- a/src/packed_image.c
++++ b/src/packed_image.c
+@@ -25,6 +25,18 @@
+ #include "common.h"
+ #include "utils.h"
+ 
++bool packed_image_detect(u1 *buf, size_t bufSz)
++{
++    packed_header_t *pPackedHeader;
++
++    if (bufSz < sizeof(packed_header_t))
++      return false;
++
++    pPackedHeader = (packed_header_t *)buf;
++
++    return pPackedHeader->magic == PACKED_IMG_MAGIC;
++}
++
+ static bool process_fbpt(u1 *buf, size_t bufSz) {
+   fbpt_header_t *pFBPT = (fbpt_header_t *)buf;
+   if (pFBPT->signature != FBPT_SIGNATURE) {
+diff --git a/src/packed_image.h b/src/packed_image.h
+index f66ce2cf22f2..fba081dc1426 100644
+--- a/src/packed_image.h
++++ b/src/packed_image.h
+@@ -110,6 +110,7 @@ typedef struct fbpt_entry {
+   char pad[2];   // Usually is 0x3030
+ } fbpt_entry_t;  // sizeof == 124
+ 
++bool packed_image_detect(u1 *, size_t);
+ bool packed_image_extract(u1 *, size_t, char *, char *);
+ 
+ #endif
+diff --git a/src/qc_image_unpacker.c b/src/qc_image_unpacker.c
+index 4fbe8fa6ad6e..44d737803ea0 100644
+--- a/src/qc_image_unpacker.c
++++ b/src/qc_image_unpacker.c
+@@ -122,8 +122,6 @@ int main(int argc, char **argv) {
+     off_t fileSz = 0;
+     int srcfd = -1;
+     u1 *buf = NULL;
+-    meta_header_t *pMetaHeader;
+-    packed_header_t *pPackedHeader;
+ 
+     LOGMSG(l_DEBUG, "Processing '%s'", pFiles.files[f]);
+ 
+@@ -133,27 +131,29 @@ int main(int argc, char **argv) {
+       continue;
+     }
+ 
+-    if ((size_t)fileSz < sizeof(meta_header_t) && (size_t)fileSz < sizeof(packed_header_t)) {
++    /*
++     * Check only if we have something to detect here.
++     * Individual _image_detect() functions check header size.
++     */
++    if ((size_t)fileSz < sizeof(u4)) {
+       LOGMSG(l_ERROR, "Invalid input size - skipping '%s'", pFiles.files[f]);
+       goto next_file;
+     }
+ 
+-    pMetaHeader = (meta_header_t *)buf;
+-    pPackedHeader = (packed_header_t *)buf;
+-    if (pMetaHeader->magic == META_IMG_MAGIC) {
++    if (meta_image_detect(buf, (size_t)fileSz)) {
+       LOGMSG(l_DEBUG, "Meta image header found");
+       if (!meta_image_extract(buf, (size_t)fileSz, pFiles.files[f], pRunArgs.outputDir)) {
+         LOGMSG(l_ERROR, "Skipping '%s'", pFiles.files[f]);
+         goto next_file;
+       }
+-    } else if (pPackedHeader->magic == PACKED_IMG_MAGIC) {
++    } else if (packed_image_detect(buf, (size_t)fileSz)) {
+       LOGMSG(l_DEBUG, "packed image header found");
+       if (!packed_image_extract(buf, (size_t)fileSz, pFiles.files[f], pRunArgs.outputDir)) {
+         LOGMSG(l_ERROR, "Skipping '%s'", pFiles.files[f]);
+         goto next_file;
+       }
+     } else {
+-      LOGMSG(l_ERROR, "Invalid magic header 0x%x - skipping '%s'", pMetaHeader->magic,
++      LOGMSG(l_ERROR, "Invalid magic header 0x%x - skipping '%s'", *(u4*)buf,
+              pFiles.files[f]);
+       goto next_file;
+     }
+-- 
+2.35.1
+
