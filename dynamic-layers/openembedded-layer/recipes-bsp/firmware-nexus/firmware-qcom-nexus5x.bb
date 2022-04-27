@@ -9,4 +9,4 @@ CHECKSUM_vendor = "bb4176a6"
 
 SRC_URI[vendor.sha256sum] = "eaba58f7219eb477697869454138d151b38a1589db1ab40cec1b4525774fe869"
 
-require recipes-bsp/firmware-nexus/firmware-qcom-pixel.inc
+require firmware-qcom-pixel.inc
