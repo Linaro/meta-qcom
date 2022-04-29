@@ -46,6 +46,7 @@ PACKAGE_INSTALL_openembedded-layer += " \
     devmem2 \
     lmsensors-config-libsensors \
     lmsensors-sensors \
+    read-edid \
 "
 
 PACKAGE_INSTALL_networking-layer += " \
