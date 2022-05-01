@@ -7,6 +7,7 @@ PACKAGE_INSTALL += " \
     alsa-utils-amixer \
     alsa-utils-aplay \
     alsa-utils-speakertest \
+    cmake \
     bluez5 \
     dhcpcd \
     diag \
@@ -18,12 +19,14 @@ PACKAGE_INSTALL += " \
     e2fsprogs-tune2fs \
     ethtool \
     fastrpc \
+    git \
     gptfdisk \
     i2c-tools \
     iw \
     lava-test-shell \
     libdrm-tests \
     lrzsz \
+    make \
     pciutils \
     pd-mapper \
     qrtr \
