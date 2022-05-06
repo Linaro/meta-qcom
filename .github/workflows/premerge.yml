@@ -3,70 +3,12 @@ name: PR build test
 on:
   pull_request_target:
 
-env:
-  POKY_URL: http://git.yoctoproject.org/git/poky
-  DISTRO: poky
-  HOST: ubuntu-20.04
-  IMAGES: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
-
 jobs:
-  meta-qcom-premerge-build-test:
-    name: ${{ matrix.machine }}/${{ matrix.tclibc }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        machine: [dragonboard-410c, qcom-armv8a, sdx55-mtp]
-        tclibc: [glibc, musl]
-    steps:
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.x"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade tuxsuite
-    - name: Setup tux definition
-      env:
-        MACHINE: ${{ matrix.machine }}
-        TCLIBC: ${{ matrix.tclibc }}
-        PR: ${{ github.event.pull_request.number }}
-      run: |
-        cat << EOF > tux.json
-        {
-          "sources": {
-            "git_trees": [
-              {
-                "url": "$POKY_URL",
-                "branch": "$GITHUB_BASE_REF"
-              },
-              {
-                "url": "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY",
-                "ref": "refs/pull/$PR/merge"
-              }
-            ]
-          },
-          "container": "$HOST",
-          "envsetup": "poky/oe-init-build-env",
-          "distro": "$DISTRO",
-          "machine": "$MACHINE",
-          "target": "$IMAGES",
-          "bblayers_conf": [
-            "BBLAYERS += '../meta-qcom/'"
-          ],
-          "artifacts": [
-            "\$DEPLOY_DIR"
-          ],
-            "environment": {
-          },
-          "local_conf": [
-            "INHERIT += 'buildstats buildstats-summary'",
-            "TCLIBC := '$TCLIBC'"
-          ]
-        }
-        EOF
-    - name: Run build
-      run: |
-        tuxsuite bake submit tux.json
-      env:
-        TUXSUITE_TOKEN: ${{ secrets.TUXSUITE_TOKEN }}
+  build:
+    uses: ndechesne/meta-qcom/.github/workflows/premerge-template.yml@master
+    with:
+      host: ubuntu-20.04
+      images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
+      machines: >-
+        ['dragonboard-410c', 'qcom-armv8a', 'sdx55-mtp']
+    secrets: inherit
