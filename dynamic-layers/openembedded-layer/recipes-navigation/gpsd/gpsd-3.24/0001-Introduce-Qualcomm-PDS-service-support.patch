@@ -1,0 +1,640 @@
+From 0f0a1495b3b2ae9da09ea1a05510492bae05a928 Mon Sep 17 00:00:00 2001
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+Date: Wed, 4 Apr 2018 04:29:09 +0000
+Subject: [PATCH] Introduce Qualcomm PDS service support
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The Qualcomm PDS service provides location data on a wide range of
+Qualcomm platforms. It used QMI encoded messages sent over a shared
+memory link, implemented in Linux as AF_QIPCRTR.
+
+A special service is available on port -2 on the local node in the
+network, which provides functionality to the node address and port of
+registered services by id. As the driver is opened this mechanism is
+used to search for a registered PDS service in the system.
+
+As the PDS driver is activated two messages are sent to the PDS service,
+the first one configures which events the service will send to the
+client (in our case NMEA reports) and the second starts the transmission
+of these packets. Similarly when the driver is deactivated a stop
+request is sent to the service.
+
+Between the start and stop request the PDS service will send NMEA
+messages to the PDS client at a rate of 1 Hz, the NMEA string is
+extracted from the QMI encoded message and handed to the nmea_parse()
+function.
+
+The PDS driver is selected by the url pds://<host>, where host is either
+a numerical identifier of the node in the AF_QIPCRTR network or the
+string "any".
+
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ SConscript           |  11 ++
+ drivers/driver_pds.c | 406 +++++++++++++++++++++++++++++++++++++++++++
+ drivers/drivers.c    |   5 +
+ gpsd/libgpsd_core.c  |  16 +-
+ include/driver_pds.h |  20 +++
+ include/gpsd.h       |   9 +
+ man/gpsd.adoc        |   8 +
+ 7 files changed, 474 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/driver_pds.c
+ create mode 100644 include/driver_pds.h
+
+diff --git a/SConscript b/SConscript
+index e3fed4c27..cae23de9c 100644
+--- a/SConscript
++++ b/SConscript
+@@ -315,6 +315,8 @@ boolopts = (
+     ("tripmate",      True,  "DeLorme TripMate support"),
+     ("tsip",          True,  "Trimble TSIP support"),
+     ("ublox",         True,  "u-blox Protocol support"),
++    ("pds",           sys.platform.startswith('linux'),
++     "Qualcomm PDS support"),
+     # Non-GPS protocols
+     ("aivdm",         True,  "AIVDM support"),
+     ("gpsclock",      True,  "Furuno GPSClock support"),
+@@ -1156,6 +1158,14 @@ if not cleaning and not helping:
+         announce("You do not have kernel CANbus available.")
+         config.env["nmea2000"] = False
+ 
++    if config.CheckHeader(["linux/qrtr.h"]):
++        confdefs.append("#define HAVE_LINUX_QRTR_H 1\n")
++        announce("You have kernel QRTR available.")
++    else:
++        confdefs.append("/* #undef HAVE_LINUX_QRTR_H */\n")
++        announce("You do not have kernel QRTR available.")
++        env["pds"] = False
++
+     # check for C11 or better, and __STDC__NO_ATOMICS__ is not defined
+     # before looking for stdatomic.h
+     if ((config.CheckC11() and
+@@ -1684,6 +1694,7 @@ libgpsd_sources = [
+     "drivers/driver_nmea0183.c",
+     "drivers/driver_nmea2000.c",
+     "drivers/driver_oncore.c",
++    "drivers/driver_pds.c",
+     "drivers/driver_rtcm2.c",
+     "drivers/driver_rtcm3.c",
+     "drivers/drivers.c",
+diff --git a/drivers/driver_pds.c b/drivers/driver_pds.c
+new file mode 100644
+index 000000000..2ac77ec17
+--- /dev/null
++++ b/drivers/driver_pds.c
+@@ -0,0 +1,406 @@
++/*
++ * Qualcomm PDS Interface driver.
++ *
++ * Tested in Dragonboard410c (APQ8016) PDS service.
++ *
++ * This file is Copyright 2020 by Linaro Limited
++ * SPDX-License-Identifier: BSD-2-clause
++ */
++
++#include "../include/gpsd_config.h"  /* must be before all includes */
++
++#include <sys/socket.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include "../include/gpsd.h"
++
++#if defined(PDS_ENABLE)
++#include "../include/driver_pds.h"
++
++#include <linux/qrtr.h>
++
++#define QMI_PDS_MAX		16
++#define QMI_PDS_SERVICE_ID	0x10
++#define QMI_PDS_VERSION		0x2
++#define QMI_PDS_PATH_STARTS	6
++
++struct qmi_header {
++	uint8_t type;
++	uint16_t txn;
++	uint16_t msg;
++	uint16_t len;
++} __attribute__((__packed__));
++
++struct qmi_tlv {
++	uint8_t key;
++	uint16_t len;
++	uint8_t value[];
++} __attribute__((__packed__));
++
++static struct gps_device_t *pds_devices[QMI_PDS_MAX];
++
++#define QMI_REQUEST			0
++#define QMI_INDICATION			4
++
++#define QMI_LOC_REG_EVENTS		0x21
++#define QMI_TLV_EVENT_MASK		1
++#define QMI_EVENT_MASK_NMEA		4
++
++#define QMI_LOC_START			0x22
++#define QMI_LOC_STOP			0x23
++#define QMI_TLV_SESSION_ID		1
++
++#define QMI_LOC_EVENT_NMEA		0x26
++#define QMI_TLV_NMEA			1
++
++static ssize_t qmi_pds_connect(struct gps_device_t *session)
++{
++	struct sockaddr_qrtr sq;
++	socklen_t sl = sizeof(sq);
++	struct qrtr_ctrl_pkt pkt;
++	char *hostname;
++	char *endptr;
++	int ret;
++
++	session->lexer.outbuflen = 0;
++
++	hostname = session->gpsdata.dev.path + QMI_PDS_PATH_STARTS;
++	if (!strcmp(hostname, "any")) {
++		session->driver.pds.hostid = -1;
++	} else {
++		session->driver.pds.hostid = (int)strtol(hostname, &endptr, 10);
++		if (endptr == hostname) {
++			GPSD_LOG(LOG_ERROR, &session->context->errout,
++				 "QRTR open: Invalid node id.\n");
++			return -1;
++		}
++	}
++
++	ret = recvfrom(session->gpsdata.gps_fd, &pkt, sizeof(pkt), 0,
++		       (struct sockaddr *)&sq, &sl);
++	if (ret < 0) {
++		GPSD_LOG(LOG_ERROR, &session->context->errout,
++			 "QRTR connect: Unable to receive lookup request.\n");
++		return -1;
++	}
++
++	if (sl != sizeof(sq) || sq.sq_port != QRTR_PORT_CTRL) {
++		GPSD_LOG(LOG_INFO, &session->context->errout,
++			 "QRTR connect: Received message is not ctrl message, ignoring.\n");
++		return 1;
++	}
++
++	if (pkt.cmd != QRTR_TYPE_NEW_SERVER)
++		return 1;
++
++	/* All fields zero indicates end of lookup response */
++	if (!pkt.server.service && !pkt.server.instance &&
++	    !pkt.server.node && !pkt.server.port) {
++		GPSD_LOG(LOG_ERROR, &session->context->errout,
++			 "QRTR connect: End of lookup, No PDS service found for %s.\n",
++			 session->gpsdata.dev.path);
++		return -1;
++	}
++
++	/* Filter results based on specified node */
++	if (session->driver.pds.hostid != -1 &&
++			session->driver.pds.hostid != (int)pkt.server.node)
++		return 1;
++
++	session->driver.pds.pds_node = pkt.server.node;
++	session->driver.pds.pds_port = pkt.server.port;
++
++	GPSD_LOG(LOG_INF, &session->context->errout,
++		 "QRTR open: Found PDS at %d %d.\n",
++		 session->driver.pds.pds_node,
++		 session->driver.pds.pds_port);
++
++	sq.sq_family = AF_QIPCRTR;
++	sq.sq_node = session->driver.pds.pds_node;
++	sq.sq_port = session->driver.pds.pds_port;
++	ret = connect(session->gpsdata.gps_fd, (struct sockaddr *)&sq, sizeof(sq));
++	if (ret < 0) {
++		GPSD_LOG(LOG_ERROR, &session->context->errout,
++			 "QRTR connect: Failed to connect socket to PDS Service.\n");
++		return -1;
++	}
++
++	session->driver.pds.ready = 1;
++	session->device_type->event_hook(session, event_reactivate);
++	return 1;
++}
++
++static ssize_t qmi_pds_get_packet(struct gps_device_t *session)
++{
++	struct sockaddr_qrtr sq;
++	socklen_t sl = sizeof(sq);
++	struct qmi_header *hdr;
++	struct qmi_tlv *tlv;
++	size_t buflen = sizeof(session->lexer.inbuffer);
++	size_t offset;
++	void *buf = session->lexer.inbuffer;
++	int ret;
++
++	ret = recvfrom(session->gpsdata.gps_fd, buf, buflen, 0,
++		       (struct sockaddr *)&sq, &sl);
++	if (ret < 0 && errno == EAGAIN) {
++		session->lexer.outbuflen = 0;
++		return 1;
++	} else if (ret < 0) {
++		GPSD_LOG(LOG_ERROR, &session->context->errout,
++			 "QRTR get: Unable to receive packet.\n");
++		return -1;
++	}
++
++	/* TODO: Validate sq to be our peer */
++
++	hdr = buf;
++	if (hdr->type != QMI_INDICATION ||
++	    hdr->msg != QMI_LOC_EVENT_NMEA) {
++		session->lexer.outbuflen = 0;
++		return ret;
++	}
++
++	offset = sizeof(*hdr);
++	while (offset < (size_t)ret) {
++		tlv = (struct qmi_tlv *)((char*)buf + offset);
++
++		if (offset + sizeof(*tlv) + tlv->len > (size_t)ret)
++			break;
++
++		if (tlv->key == QMI_TLV_NMEA) {
++			memcpy(session->lexer.outbuffer, tlv->value, tlv->len);
++			session->lexer.type = NMEA_PACKET;
++			session->lexer.outbuffer[tlv->len] = 0;
++			session->lexer.outbuflen = tlv->len;
++			break;
++		}
++
++		offset += tlv->len;
++	}
++
++	return ret;
++}
++
++static ssize_t qmi_pds_get(struct gps_device_t *session)
++{
++	if (!session->driver.pds.ready)
++		return qmi_pds_connect(session);
++	else
++		return qmi_pds_get_packet(session);
++}
++
++static void qmi_pds_event_hook(struct gps_device_t *session, event_t event)
++{
++	struct qmi_header *hdr;
++	struct qmi_tlv *tlv;
++	static int txn_id;
++	char buf[128];
++	char *ptr;
++	int sock = session->gpsdata.gps_fd;
++	int ret;
++
++	switch (event) {
++	case event_deactivate:
++		if (!session->driver.pds.ready)
++			return;
++
++		ptr = buf;
++		hdr = (struct qmi_header *)ptr;
++		hdr->type = QMI_REQUEST;
++		hdr->txn = txn_id++;
++		hdr->msg = QMI_LOC_STOP;
++		hdr->len = sizeof(*tlv) + sizeof(uint8_t);
++		ptr += sizeof(*hdr);
++
++		tlv = (struct qmi_tlv *)ptr;
++		tlv->key = QMI_TLV_SESSION_ID;
++		tlv->len = sizeof(uint8_t);
++		*(uint8_t*)tlv->value = 1;
++		ptr += sizeof(*tlv) + sizeof(uint8_t);
++
++		ret = send(sock, buf, ptr - buf, 0);
++		if (ret < 0) {
++			GPSD_LOG(LOG_ERROR, &session->context->errout,
++				 "QRTR event_hook: failed to send STOP request.\n");
++			return;
++		}
++		break;
++	case event_reactivate:
++		if (!session->driver.pds.ready)
++			return;
++
++		ptr = buf;
++		hdr = (struct qmi_header *)ptr;
++		hdr->type = QMI_REQUEST;
++		hdr->txn = txn_id++;
++		hdr->msg = QMI_LOC_REG_EVENTS;
++		hdr->len = sizeof(*tlv) + sizeof(uint64_t);
++		ptr += sizeof(*hdr);
++
++		tlv = (struct qmi_tlv *)ptr;
++		tlv->key = QMI_TLV_EVENT_MASK;
++		tlv->len = sizeof(uint64_t);
++		*(uint64_t*)tlv->value = QMI_EVENT_MASK_NMEA;
++		ptr += sizeof(*tlv) + sizeof(uint64_t);
++
++		ret = send(sock, buf, ptr - buf, 0);
++		if (ret < 0) {
++			GPSD_LOG(LOG_ERROR, &session->context->errout,
++				 "QRTR event_hook: failed to send REG_EVENTS request.\n");
++			return;
++		}
++
++		ptr = buf;
++		hdr = (struct qmi_header *)ptr;
++		hdr->type = QMI_REQUEST;
++		hdr->txn = txn_id++;
++		hdr->msg = QMI_LOC_START;
++		hdr->len = sizeof(*tlv) + sizeof(uint8_t);
++		ptr += sizeof(*hdr);
++
++		tlv = (struct qmi_tlv *)(buf + sizeof(*hdr));
++		tlv->key = QMI_TLV_SESSION_ID;
++		tlv->len = sizeof(uint8_t);
++		*(uint8_t*)tlv->value = 1;
++		ptr += sizeof(*tlv) + sizeof(uint8_t);
++
++		ret = send(sock, buf, ptr - buf, 0);
++		if (ret < 0) {
++			GPSD_LOG(LOG_ERROR, &session->context->errout,
++				 "QRTR event_hook: failed to send START request.\n");
++			return;
++		}
++		break;
++	default:
++		break;
++	}
++}
++
++static ssize_t qmi_control_send(struct gps_device_t *session,
++                                   char *buf, size_t buflen)
++{
++    /* do not write if -b (readonly) option set */
++    if (session->context->readonly)
++        return true;
++
++    session->msgbuflen = buflen;
++    (void)memcpy(session->msgbuf, buf, buflen);
++    return gpsd_write(session, session->msgbuf, session->msgbuflen);
++}
++
++int qmi_pds_open(struct gps_device_t *session)
++{
++	struct sockaddr_qrtr sq_ctrl;
++	socklen_t sl = sizeof(sq_ctrl);
++	struct qrtr_ctrl_pkt pkt;
++	int flags;
++	int sock;
++	int ret;
++	int i;
++
++	if (session->gpsdata.dev.path == NULL ||
++	    strlen(session->gpsdata.dev.path) < QMI_PDS_PATH_STARTS) {
++		GPSD_LOG(LOG_ERROR, &session->context->errout,
++		"QRTR open: Invalid PDS path.\n");
++		return -1;
++	}
++
++	for (i = 0; i < QMI_PDS_MAX; i++) {
++		if (pds_devices[i] == NULL)
++			continue;
++
++		if (strcmp(pds_devices[i]->gpsdata.dev.path,
++				session->gpsdata.dev.path) == 0) {
++			GPSD_LOG(LOG_ERROR, &session->context->errout,
++				"QRTR open: Invalid PDS path already specified.\n");
++			return -1;
++		}
++	}
++
++	for (i = 0; i < QMI_PDS_MAX; i++) {
++		if (pds_devices[i] == NULL)
++			break;
++	}
++	if (i == QMI_PDS_MAX) {
++		GPSD_LOG(LOG_ERROR, &session->context->errout,
++			"QRTR open: Limit of PDS devices reached.\n");
++		return -1;
++	}
++	pds_devices[i] = session;
++
++	sock = socket(AF_QIPCRTR, SOCK_DGRAM, 0);
++	if (BAD_SOCKET(sock)) {
++	        GPSD_LOG(LOG_ERROR, &session->context->errout,
++			 "QRTR open: Unable to get QRTR socket.\n");
++		return -1;
++	}
++	flags = fcntl(sock, F_GETFL, 0);
++	flags |= O_NONBLOCK;
++	fcntl(sock, F_SETFL, flags);
++
++	ret = getsockname(sock, (struct sockaddr *)&sq_ctrl, &sl);
++	if (ret < 0 || sq_ctrl.sq_family != AF_QIPCRTR || sl != sizeof(sq_ctrl)) {
++	        GPSD_LOG(LOG_ERROR, &session->context->errout,
++			 "QRTR open: Unable to acquire local address.\n");
++		close(sock);
++		return -1;
++	}
++
++	memset(&pkt, 0, sizeof(pkt));
++	pkt.cmd = QRTR_TYPE_NEW_LOOKUP;
++	pkt.server.service = QMI_PDS_SERVICE_ID;
++	pkt.server.instance = QMI_PDS_VERSION;
++
++	sq_ctrl.sq_port = QRTR_PORT_CTRL;
++	ret = sendto(sock, &pkt, sizeof(pkt), 0, (struct sockaddr *)&sq_ctrl, sizeof(sq_ctrl));
++	if (ret < 0) {
++	        GPSD_LOG(LOG_ERROR, &session->context->errout,
++			 "QRTR open: Unable to send lookup request.\n");
++		close(sock);
++		return -1;
++	}
++
++	gpsd_switch_driver(session, "Qualcomm PDS");
++	session->gpsdata.gps_fd = sock;
++	session->sourcetype = SOURCE_QRTR;
++	session->servicetype = SERVICE_SENSOR;
++
++	return session->gpsdata.gps_fd;
++}
++
++void qmi_pds_close(struct gps_device_t *session)
++{
++	int i;
++
++	if (!BAD_SOCKET(session->gpsdata.gps_fd)) {
++		close(session->gpsdata.gps_fd);
++		INVALIDATE_SOCKET(session->gpsdata.gps_fd);
++	}
++
++	for (i = 0; i < QMI_PDS_MAX; i++) {
++		if (pds_devices[i] == NULL)
++			continue;
++
++		if (strcmp(pds_devices[i]->gpsdata.dev.path,
++				session->gpsdata.dev.path) == 0) {
++			pds_devices[i] = NULL;
++			break;
++		}
++	}
++}
++
++const struct gps_type_t driver_pds = {
++    .type_name      = "Qualcomm PDS",       /* full name of type */
++    .packet_type    = NMEA_PACKET,	/* associated lexer packet type */
++    .flags	    = DRIVER_STICKY,	/* remember this */
++    .channels       = 12,		/* not an actual GPS at all */
++    .get_packet     = qmi_pds_get,	/* how to get a packet */
++    .parse_packet   = generic_parse_input,	/* how to interpret a packet */
++    .event_hook	    = qmi_pds_event_hook,
++    .control_send   = qmi_control_send,
++};
++
++#endif /* of defined(PDS_ENABLE) */
+diff --git a/drivers/drivers.c b/drivers/drivers.c
+index 5c7c67b30..47a292423 100644
+--- a/drivers/drivers.c
++++ b/drivers/drivers.c
+@@ -1694,6 +1694,7 @@ extern const struct gps_type_t driver_greis;
+ extern const struct gps_type_t driver_italk;
+ extern const struct gps_type_t driver_navcom;
+ extern const struct gps_type_t driver_nmea2000;
++extern const struct gps_type_t driver_pds;
+ extern const struct gps_type_t driver_oncore;
+ extern const struct gps_type_t driver_sirf;
+ extern const struct gps_type_t driver_skytraq;
+@@ -1787,6 +1788,10 @@ static const struct gps_type_t *gpsd_driver_array[] = {
+     &driver_nmea2000,
+ #endif  // NMEA2000_ENABLE
+ 
++#ifdef PDS_ENABLE
++    &driver_pds,
++#endif /* PDS_ENABLE */
++
+ #ifdef RTCM104V2_ENABLE
+     &driver_rtcm104v2,
+ #endif  // RTCM104V2_ENABLE
+diff --git a/gpsd/libgpsd_core.c b/gpsd/libgpsd_core.c
+index 60a7c2e2f..ceebb1a2a 100644
+--- a/gpsd/libgpsd_core.c
++++ b/gpsd/libgpsd_core.c
+@@ -39,6 +39,9 @@
+ #if defined(NMEA2000_ENABLE)
+     #include "../include/driver_nmea2000.h"
+ #endif  // defined(NMEA2000_ENABLE)
++#if defined(PDS_ENABLE)
++#include "../include/driver_pds.h"
++#endif /* defined(PDS_ENABLE) */
+ 
+ // pass low-level data to devices straight through
+ ssize_t gpsd_write(struct gps_device_t *session,
+@@ -358,6 +361,11 @@ void gpsd_deactivate(struct gps_device_t *session)
+         (void)nmea2000_close(session);
+     } else
+ #endif  // NMEA2000_ENABLE
++#if defined(PDS_ENABLE)
++    if (SOURCE_QRTR == session->sourcetype)
++	(void)qmi_pds_close(session);
++    else
++#endif /* of defined(PDS_ENABLE) */
+     {
+         // could be serial, udp://, tcp://, etc.
+         gpsd_close(session);
+@@ -629,6 +637,11 @@ int gpsd_open(struct gps_device_t *session)
+ #endif  // defined(NMEA2000_ENABLE)
+     /* fall through to plain serial open.
+      * could be a naked /dev/ppsX */
++#if defined(PDS_ENABLE)
++    if (str_starts_with(session->gpsdata.dev.path, "pds://")) {
++	    return qmi_pds_open(session);
++    }
++#endif /* defined(PDS_ENABLE) */
+     return gpsd_serial_open(session);
+ }
+ 
+@@ -656,7 +669,8 @@ int gpsd_activate(struct gps_device_t *session, const int mode)
+ #ifdef NON_NMEA0183_ENABLE
+     // if it's a sensor, it must be probed
+     if ((SERVICE_SENSOR == session->servicetype) &&
+-        (SOURCE_CAN != session->sourcetype)) {
++        (SOURCE_CAN != session->sourcetype) && 
++        (SOURCE_QRTR != session->sourcetype)) {
+         const struct gps_type_t **dp;
+ 
+         for (dp = gpsd_drivers; *dp; dp++) {
+diff --git a/include/driver_pds.h b/include/driver_pds.h
+new file mode 100644
+index 000000000..3b373743d
+--- /dev/null
++++ b/include/driver_pds.h
+@@ -0,0 +1,20 @@
++/*
++ * PDS on QRTR.
++ *
++ * The entry points for driver_pds
++ *
++ * This file is Copyright (c) 2018 by the GPSD project
++ * SPDX-License-Identifier: BSD-2-clause
++ */
++
++#ifndef _DRIVER_PDS_H_
++#define _DRIVER_PDS_H_
++
++#if defined(PDS_ENABLE)
++
++int qmi_pds_open(struct gps_device_t *session);
++
++void qmi_pds_close(struct gps_device_t *session);
++
++#endif /* of defined(PDS_ENABLE) */
++#endif /* of ifndef _DRIVER_PDS_H_ */
+diff --git a/include/gpsd.h b/include/gpsd.h
+index 110c5601f..b55f1913c 100644
+--- a/include/gpsd.h
++++ b/include/gpsd.h
+@@ -464,6 +464,7 @@ typedef enum {SOURCE_UNKNOWN,
+               SOURCE_USB,       // potential GPS source, discoverable
+               SOURCE_BLUETOOTH, // potential GPS source, discoverable
+               SOURCE_CAN,       // potential GPS source, fixed CAN format
++              SOURCE_QRTR,	// potential GPS source, discoverable
+               SOURCE_PTY,       // PTY: we don't require exclusive access
+               SOURCE_TCP,       // TCP/IP stream: case detected but not used
+               SOURCE_UDP,       // UDP stream: case detected but not used
+@@ -800,6 +801,14 @@ struct gps_device_t {
+             char ais_channel;
+         } aivdm;
+ #endif /* AIVDM_ENABLE */
++#ifdef PDS_ENABLE
++       struct {
++           int ready;
++           int hostid;
++           unsigned int pds_node;
++           unsigned int pds_port;
++       } pds;
++#endif /* PDS_ENABLE */
+     } driver;
+ 
+     /*
+diff --git a/man/gpsd.adoc b/man/gpsd.adoc
+index 348c6b2b0..61013a8c3 100644
+--- a/man/gpsd.adoc
++++ b/man/gpsd.adoc
+@@ -242,6 +242,14 @@ NMEA2000 CAN data::
+   there is more than one unit on the CAN bus that provides GPS data,
+   *gpsd* chooses the unit from which a GPS message is first seen. Example:
+   *nmea2000://can0*.
++PDS service data::
++  URI with the prefix "pds://", followed by "any" or host id
++  a numerical identifier of the PDS node. Only Linux socket PDS interfaces
++  are supported. The daemon will open a AF_QIPCRTR socket sending/listening for
++  UDP datagrams arriving in form of the QRTR encoded messages for setup and after
++  QMI encoded messages containing GPS NMEA data.
++  If "any" is send the PDS driver chooses the first PDS service
++  found. Example: *pds://any* or *pds://0*.
+ 
+ (The "ais:://" source type supported in some older versions of the
+ daemon has been retired in favor of the more general "tcp://".)
+-- 
+2.33.0
+
