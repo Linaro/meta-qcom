@@ -14,17 +14,9 @@ SRC_URI[sha256sum] = "30e2c02be32de9f809b590f4fe76d9eb66d35f8c7d13b1f2850beb3d79
 # 20210331-v4
 PE = "1"
 
-DEPENDS += "qca-swiss-army-knife-native"
-
 FW_QCOM_NAME = "sm8250"
 
 require recipes-bsp/firmware/firmware-qcom.inc
-
-do_compile() {
-    # Build board-2.bin needed by WiFi
-    ath11k-generate-board-2_json.sh ./38-bdwlan_split board-2.json
-    python3 "${STAGING_BINDIR_NATIVE}/ath10k-bdencoder" -m ath11k -c board-2.json -o board-2.bin
-}
 
 do_install() {
     install -d ${D}${FW_QCOM_PATH}
@@ -34,18 +26,9 @@ do_install() {
     install -m 0444 ./30-slpi_split/slpi.mbn  ${D}${FW_QCOM_PATH}/
     install -m 0444 ./39-jsn/slpi*.jsn  ${D}${FW_QCOM_PATH}/
 
-    install -d ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/
-    install -m 0444 ${S}/board-2.bin ${D}${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board-2.bin
-
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
-
-inherit update-alternatives
-
-ALTERNATIVE:${PN} = "qca6390-board2"
-ALTERNATIVE_LINK_NAME[qca6390-board2] = "${nonarch_base_libdir}/firmware/ath11k/QCA6390/hw2.0/board-2.bin"
-ALTERNATIVE_PRIORITY = "100"
 
 SPLIT_FIRMWARE_PACKAGES = " \
     ${PN}-dspso \
