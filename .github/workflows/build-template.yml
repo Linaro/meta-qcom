@@ -10,6 +10,15 @@ on:
       machines:
         required: true
         type: string
+      url:
+        required: true
+        type: string
+      branch:
+        required: true
+        type: string
+      ref:
+        required: true
+        type: string
     secrets:
       TUXSUITE_TOKEN:
         required: true
@@ -39,9 +48,11 @@ jobs:
       env:
         MACHINE: ${{ matrix.machine }}
         TCLIBC: ${{ matrix.tclibc }}
-        PR: ${{ github.event.pull_request.number }}
+        REF: ${{ inputs.ref }}
         IMAGES: ${{ inputs.images }}
         HOST: ${{ inputs.host }}
+        BRANCH: ${{ inputs.branch }}
+        URL: ${{ inputs.url }}
       run: |
         cat << EOF > tux.json
         {
@@ -49,11 +60,11 @@ jobs:
             "git_trees": [
               {
                 "url": "$POKY_URL",
-                "branch": "$GITHUB_BASE_REF"
+                "branch": "$BRANCH"
               },
               {
-                "url": "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY",
-                "ref": "refs/pull/$PR/merge"
+                "url": "$URL",
+                "ref": "$REF"
               }
             ]
           },
