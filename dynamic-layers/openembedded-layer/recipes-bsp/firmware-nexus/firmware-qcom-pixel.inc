@@ -65,5 +65,12 @@ do_install() {
 
     install -m 0644 license.txt ${D}${FW_QCOM_PATH}
 
+    # Remove duplicates
+    rm -f ${D}${FW_QCOM_PATH}/leia_pfp_470.fw
+    rm -f ${D}${FW_QCOM_PATH}/leia_pm4_470.fw
+    rm -f ${D}${FW_QCOM_PATH}/a420_pfp.fw
+    rm -f ${D}${FW_QCOM_PATH}/a420_pm4.fw
+    rm -f ${D}${FW_QCOM_PATH}/a530v3_gpmu.fw2
+
     [ -z "${EXTRA_DEVICE_NAME}" ] || ln -sr ${D}${FW_QCOM_PATH} ${D}${FW_QCOM_BASE_PATH}/${EXTRA_DEVICE_NAME}
 }
