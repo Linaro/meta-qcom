@@ -1,7 +1,11 @@
-name: PR build
+name: Push build
 
 on:
-  pull_request_target:
+  push:
+    branches:
+      - master
+      - honister
+      - dunfell
 
 jobs:
   build:
@@ -11,7 +15,7 @@ jobs:
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
       machines: >-
         ['dragonboard-410c', 'qcom-armv8a', 'sdx55-mtp']
-      ref: refs/pull/${{github.event.pull_request.number}}/merge
-      branch: ${{github.base_ref}}
+      ref: ${{github.sha}}
+      branch: ${{github.ref_name}}
       url: ${{github.server_url}}/${{github.repository}}
     secrets: inherit
