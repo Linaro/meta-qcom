@@ -10,6 +10,8 @@ SRC_URI = "\
 
 S = "${WORKDIR}/git"
 
+PV = "0.0+git${SRCPV}"
+
 do_install() {
 	oe_runmake install 'DESTDIR=${D}'
 }
