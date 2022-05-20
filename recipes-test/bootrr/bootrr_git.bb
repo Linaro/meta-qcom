@@ -12,6 +12,8 @@ S = "${WORKDIR}/git"
 
 PV = "0.0+git${SRCPV}"
 
+inherit allarch
+
 do_install() {
 	oe_runmake install 'DESTDIR=${D}'
 }
