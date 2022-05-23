@@ -8,6 +8,7 @@ PACKAGE_INSTALL += " \
     alsa-utils-aplay \
     alsa-utils-speakertest \
     bluez5 \
+    bootrr \
     dhcpcd \
     diag \
     dropbear \
