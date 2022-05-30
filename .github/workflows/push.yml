@@ -3,9 +3,7 @@ name: Push build
 on:
   push:
     branches:
-      - master
-      - honister
-      - dunfell
+      - kirkstone
 
 jobs:
   build:
