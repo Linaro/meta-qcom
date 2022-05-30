@@ -3,6 +3,7 @@ DESCRIPTION = "Tiny ramdisk image with all Nexus and Pixel devices firmware file
 # We do not use kernel image or kernel modules in the image, so remove the
 # dependency on the kernel
 KERNELDEPMODDEPEND = ""
+KERNEL_DEPLOY_DEPEND = ""
 
 # Firmware support for newer Nexus and Pixel devices depends on simg2img, which
 # is provided by the meta-oe only. So they are split into the bbappend in
