@@ -3,6 +3,7 @@ DESCRIPTION = "Tiny ramdisk image with firmware files"
 # We do not use kernel image or kernel modules in the image, so remove the
 # dependency on the kernel
 KERNELDEPMODDEPEND = ""
+KERNEL_DEPLOY_DEPEND = ""
 
 # Do not install anything by default
 PACKAGE_INSTALL = ""
