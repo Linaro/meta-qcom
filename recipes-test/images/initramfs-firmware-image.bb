@@ -16,6 +16,12 @@ PACKAGE_INSTALL:qcom-armv8a = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'wireless-regdb-static', '', d)} \
 "
 
+BAD_RECOMMENDATIONS = " \
+    firmware-qcom-dragonboard820c-dspso \
+    firmware-qcom-dragonboard845c-dspso \
+    firmware-qcom-rb5-dspso \
+"
+
 PACKAGE_INSTALL:qcom-armv7a = " \
     packagegroup-firmware-ifc6410 \
     firmware-qcom-nexus7-2013 \
