@@ -26,16 +26,12 @@ on:
 env:
   POKY_URL: http://git.yoctoproject.org/git/poky
   DISTRO: poky
+  TCLIBC: glibc musl
 
 jobs:
-  meta-qcom-premerge-build-test:
-    name: ${{ matrix.machine }}/${{ matrix.tclibc }}
+  build:
+    name: ${{github.event_name}} - ${{github.ref}}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        machine: ${{ fromJson(inputs.machines) }}
-        tclibc: [glibc, musl]
     steps:
     - name: Set up Python
       uses: actions/setup-python@v3
@@ -44,51 +40,60 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade tuxsuite
-    - name: Setup tux definition
-      env:
-        MACHINE: ${{ matrix.machine }}
-        TCLIBC: ${{ matrix.tclibc }}
-        REF: ${{ inputs.ref }}
-        IMAGES: ${{ inputs.images }}
-        HOST: ${{ inputs.host }}
-        BRANCH: ${{ inputs.branch }}
-        URL: ${{ inputs.url }}
+    - name: Setup tux plan
       run: |
-        cat << EOF > tux.json
-        {
-          "sources": {
-            "git_trees": [
-              {
-                "url": "$POKY_URL",
-                "branch": "$BRANCH"
-              },
-              {
-                "url": "$URL",
-                "ref": "$REF"
-              }
-            ]
-          },
-          "container": "$HOST",
-          "envsetup": "poky/oe-init-build-env",
-          "distro": "$DISTRO",
-          "machine": "$MACHINE",
-          "target": "$IMAGES",
-          "bblayers_conf": [
-            "BBLAYERS += '../meta-qcom/'"
-          ],
-          "artifacts": [
-            "\$DEPLOY_DIR"
-          ],
-            "environment": {
-          },
-          "local_conf": [
-            "INHERIT += 'buildstats buildstats-summary'",
-            "TCLIBC := '$TCLIBC'"
-          ]
-        }
+        cat << EOF > plan.yaml
+        name: CI for ${{github.repository}}
+        description: ${{github.workflow}} - ${{github.ref}}
+        version: 1
+
+        common: &commondata
+          container: ${{inputs.host}}
+          envsetup: poky/oe-init-build-env
+          sources:
+            git_trees:
+              - branch: ${{inputs.branch}}
+                url: $POKY_URL
+              - ref: ${{inputs.ref}}
+                url: ${{inputs.url}}
+          distro: $DISTRO
+          target: ${{inputs.images}}
+          bblayers_conf:
+            - BBLAYERS += '../meta-qcom/'
+          artifacts:
+            - \$DEPLOY_DIR
         EOF
+
+        for tclibc in ${TCLIBC}; do
+        cat << EOF >> plan.yaml
+        ${tclibc}: &${tclibc}
+          local_conf:
+            - INHERIT += 'buildstats buildstats-summary'
+            - INHERIT:remove = 'rm_work'
+            - TCLIBC := '${tclibc}'
+
+        EOF
+        done
+
+        cat << EOF >> plan.yaml
+        jobs:
+        EOF
+
+        for tclibc in ${TCLIBC}; do
+        cat << EOF >> plan.yaml
+        - name: ${tclibc}
+          bakes:
+        EOF
+        for machine in ${{inputs.machines}}; do
+        cat << EOF >> plan.yaml
+            - { <<: [*commondata, *${tclibc}], machine: ${machine}, name: ${machine}-${tclibc} }
+        EOF
+        done
+        done
+        echo "Ready to submit this Tux Plan:"
+        cat plan.yaml
     - name: Run build
       run: |
-        tuxsuite bake submit tux.json
+        tuxsuite plan plan.yaml
       env:
         TUXSUITE_TOKEN: ${{ secrets.TUXSUITE_TOKEN }}
