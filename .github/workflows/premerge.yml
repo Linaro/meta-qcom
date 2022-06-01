@@ -9,8 +9,7 @@ jobs:
     with:
       host: ubuntu-20.04
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
-      machines: >-
-        ['dragonboard-410c', 'dragonboard-845c', 'qrb5165-rb5', 'qcom-armv8a', 'sa8155p-adp']
+      machines: dragonboard-410c dragonboard-845c qrb5165-rb5 qcom-armv8a sa8155p-adp
       ref: refs/pull/${{github.event.pull_request.number}}/merge
       branch: ${{github.base_ref}}
       url: ${{github.server_url}}/${{github.repository}}
