@@ -13,8 +13,7 @@ jobs:
     with:
       host: ubuntu-20.04
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
-      machines: >-
-        ['dragonboard-410c', 'qcom-armv8a', 'sdx55-mtp']
+      machines: dragonboard-410c qcom-armv8a sdx55-mtp
       ref: ${{github.sha}}
       branch: ${{github.ref_name}}
       url: ${{github.server_url}}/${{github.repository}}
