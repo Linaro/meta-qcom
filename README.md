@@ -7,7 +7,7 @@ OpenEmbedded/Yocto Project layer for Qualcomm based platforms.
 This layer depends on:
 
 ```
-URI: https://github.com/openembedded/oe-core.git
+URI: https://github.com/openembedded/openembedded-core.git
 layers: meta
 branch: master
 revision: HEAD
