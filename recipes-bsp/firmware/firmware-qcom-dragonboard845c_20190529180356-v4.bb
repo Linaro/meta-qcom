@@ -11,14 +11,7 @@ FW_QCOM_NAME = "sdm845"
 
 require recipes-bsp/firmware/firmware-qcom.inc
 
-DEPENDS += "qca-swiss-army-knife-native pil-squasher-native"
-inherit python3native
-
-do_compile() {
-    # Build board-2.bin needed by WiFi
-    ath10k-generate-board-2_json.sh ./38-bdwlan_split board-2.json
-    python3 "${STAGING_BINDIR_NATIVE}/ath10k-bdencoder" -c board-2.json -o board-2.bin
-}
+DEPENDS += "pil-squasher-native"
 
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
@@ -35,9 +28,6 @@ do_install() {
 
     pil-squasher ${D}${FW_QCOM_PATH}/slpi.mbn \
                  ./30-slpi_split/slpi.mdt
-
-    install -d ${D}${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/
-    install -m 0444 ./board-2.bin ${D}${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
