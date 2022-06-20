@@ -8,4 +8,4 @@ SRCREV = "9bc25b368335b6d3d59be44db0c4818bdfbfa546"
 
 # SRCBRANCH set to adp stable release branch
 SRCBRANCH:sa8155p = "release/sa8155p-adp/v5.15.y"
-SRCREV:sa8155p = "8858667d191132c5f71b4436ef2c7c29a140fc16"
+SRCREV:sa8155p = "f721c52e0d32f1f4f765dbddf125cae331f75bf7"
