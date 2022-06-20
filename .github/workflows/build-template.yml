@@ -19,6 +19,9 @@ on:
       ref:
         required: true
         type: string
+      ref_type:
+        type: string
+        default: ref
     secrets:
       TUXSUITE_TOKEN:
         required: true
@@ -54,7 +57,7 @@ jobs:
             git_trees:
               - branch: ${{inputs.branch}}
                 url: $POKY_URL
-              - ref: ${{inputs.ref}}
+              - ${{inputs.ref_type}}: ${{inputs.ref}}
                 url: ${{inputs.url}}
           distro: $DISTRO
           target: ${{inputs.images}}
