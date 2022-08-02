@@ -11,8 +11,6 @@ XSERVER ?= " \
     xserver-xorg-module-libint10 \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${XSERVER_OPENGL}', 'xf86-video-fbdev', d)} \
     xf86-input-evdev \
-    xf86-input-mouse \
-    xf86-input-keyboard \
 "
 
 PREFERRED_PROVIDER_virtual/egl ?= "mesa"
