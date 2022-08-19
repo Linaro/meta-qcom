@@ -27,7 +27,7 @@ on:
         required: true
 
 env:
-  POKY_URL: http://git.yoctoproject.org/git/poky
+  POKY_URL: https://git.yoctoproject.org/poky
   DISTRO: poky
   TCLIBC: glibc musl
 
