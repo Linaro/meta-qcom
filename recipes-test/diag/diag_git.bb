@@ -3,12 +3,10 @@ HOMEPAGE = "https://github.com/andersson/diag"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f6832ae4af693c6f31ffd931e25ef580"
 
-SRC_URI = "git://github.com/andersson/diag.git;branch=master;protocol=https \
-           file://0001-Disable-use-of-__NR_io_getevents-when-not-defined.patch \
-           "
+SRC_URI = "git://github.com/andersson/diag.git;branch=master;protocol=https"
 
 PV = "0.0+git${SRCPV}"
-SRCREV = "cc5dc0dec3f584d4a500fa36b983e6e77a98e478"
+SRCREV = "d06e599d197790c9e84ac41a51bf124a69768c4f"
 
 S = "${WORKDIR}/git"
 
