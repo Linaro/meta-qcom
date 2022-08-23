@@ -15,6 +15,7 @@ jobs:
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
       machines: dragonboard-410c dragonboard-845c qrb5165-rb5 qcom-armv8a sa8155p-adp
       ref: ${{github.sha}}
+      ref_type: sha
       branch: ${{github.ref_name}}
       url: ${{github.server_url}}/${{github.repository}}
     secrets: inherit
