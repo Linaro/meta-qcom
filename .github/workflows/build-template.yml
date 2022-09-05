@@ -63,8 +63,7 @@ jobs:
           target: ${{inputs.images}}
           bblayers_conf:
             - BBLAYERS += '../$(echo ${{github.repository}} | cut -d'/' -f2)/'
-          artifacts:
-            - \$DEPLOY_DIR
+          artifacts: []
         EOF
 
         for tclibc in ${TCLIBC}; do
