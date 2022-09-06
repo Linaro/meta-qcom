@@ -29,6 +29,7 @@ do_extract() {
 
     radio="${S}/vendor/${VENDOR}/${FW_QCOM_NAME}/proprietary/radio.img"
     if [ -r "${radio}" ] ; then
+        rm -rf "${radio}_images"
         qc_image_unpacker -i "${radio}" -f || exit 1
 
         if ! [ -r "${radio}_images"/modem ] ; then
