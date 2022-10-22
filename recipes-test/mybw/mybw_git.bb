@@ -4,7 +4,9 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-3-Clause-Clear;md5=7a434440b651f4a472ca93716d01033a"
 
 SRCREV = "f4bdeee1266c273e308d0651522bb59afb5b8211"
-SRC_URI = "git://github.com/andersson/mybw;protocol=https;branch=main"
+SRC_URI = "git://github.com/andersson/mybw;protocol=https;branch=main \
+           file://0001-makefile-Allow-CFLAGS-LDFLAGS-from-environment.patch \
+           "
 
 S = "${WORKDIR}/git"
 
@@ -19,3 +21,4 @@ do_install () {
 	install -m 0755 mybw ${D}${bindir}/mybw
 }
 
+LDFLAGS += "-lgcc"

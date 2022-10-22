@@ -1,0 +1,31 @@
+From bde677567226a8b7a6c773f863d3f820eca26000 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 22 Oct 2022 16:13:47 -0700
+Subject: [PATCH] makefile: Allow CFLAGS/LDFLAGS from environment.
+
+This helps in cross-compilation where the flags passed from environment
+will matter much e.g. ABI, architecture etc.
+
+Upstream-Status: Submitted [https://github.com/andersson/mybw/pull/1]
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index dfbba09..28a96bc 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ OUT := mybw
+ 
+-CFLAGS := -O2 -Wall -fno-builtin
+-LDFLAGS := -static -static-libgcc
++CFLAGS += -O2 -Wall -fno-builtin
++LDFLAGS += -static -static-libgcc
+ 
+ SRCS := mybw.c
+ OBJS := $(SRCS:.c=.o)
+-- 
+2.38.1
+
