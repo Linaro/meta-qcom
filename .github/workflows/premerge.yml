@@ -21,4 +21,5 @@ jobs:
       local_repo: ${{github.repository}}
       local_ref: refs/pull/${{github.event.pull_request.number}}/merge
       branch: qcom/${{github.base_ref}}
-    secrets: inherit
+    secrets:
+      TUXSUITE_TOKEN: ${{ secrets.TUXSUITE_TOKEN }}
