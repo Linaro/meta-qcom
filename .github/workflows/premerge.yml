@@ -14,3 +14,11 @@ jobs:
       branch: ${{github.base_ref}}
       url: ${{github.server_url}}/${{github.repository}}
     secrets: inherit
+
+  rpb:
+    uses: 96boards/oe-rpb-manifest/.github/workflows/build-template.yml@qcom/master
+    with:
+      local_repo: ${{github.repository}}
+      local_ref: refs/pull/${{github.event.pull_request.number}}/merge
+      branch: qcom/${{github.base_ref}}
+    secrets: inherit
