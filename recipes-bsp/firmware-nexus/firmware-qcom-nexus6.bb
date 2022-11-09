@@ -7,6 +7,8 @@ CHECKSUM_qcom = "b5a5aacc"
 
 SRC_URI[qcom.sha256sum] = "811ccc3c8bd4b832a26fc36aac5a46af7000d849c7217032e1d0819bfb2000dc"
 
+RDEPENDS:${PN} += "linux-firmware-qcom-adreno-a4xx"
+
 require recipes-bsp/firmware-nexus/firmware-qcom-nexus.inc
 
 do_install:append() {

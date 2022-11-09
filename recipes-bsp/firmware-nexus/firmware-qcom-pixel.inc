@@ -57,20 +57,16 @@ do_install() {
         ls ${B}/$fw*.mbn && install -m 0644 ${B}/$fw*.mbn ${D}${FW_QCOM_PATH}
     done
 
-    ls ${B}/firmware/cpp*.fw && install -m 0644 ${B}/firmware/cpp*.fw ${D}${FW_QCOM_PATH}
-    ls ${B}/firmware/leia*.fw && install -m 0644 ${B}/firmware/leia*.fw ${D}${FW_QCOM_PATH}
     ls ${B}/firmware/*.jsn && install -m 0644 ${B}/firmware/*.jsn ${D}${FW_QCOM_PATH}
 
-    install -m 0644 ${B}/firmware/a[0-9]*.fw* ${D}${FW_QCOM_PATH}
+    ls ${B}/firmware/a[0-9]*_gmu.bin && install -m 0644 ${B}/firmware/a[0-9]*_gmu.bin ${D}${FW_QCOM_PATH}
     ls ${B}/a[0-9]*.mbn && install -m 0644 ${B}/a[0-9]*.mbn ${D}${FW_QCOM_PATH}
 
     install -m 0644 license.txt ${D}${FW_QCOM_PATH}
 
     # Remove duplicates
-    rm -f ${D}${FW_QCOM_PATH}/leia_pfp_470.fw
-    rm -f ${D}${FW_QCOM_PATH}/leia_pm4_470.fw
-    rm -f ${D}${FW_QCOM_PATH}/a420_pfp.fw
-    rm -f ${D}${FW_QCOM_PATH}/a420_pm4.fw
-    rm -f ${D}${FW_QCOM_PATH}/a530v3_gpmu.fw2
+    rm -f ${D}${FW_QCOM_PATH}/a630_gmu.bin
+    rm -f ${D}${FW_QCOM_PATH}/a650_gmu.bin
+
     [ -z "${EXTRA_DEVICE_SUBDIR}" ] || ln -sr ${D}${FW_QCOM_PATH} ${D}${FW_QCOM_BASE_PATH}/${EXTRA_DEVICE_SUBDIR}
 }
