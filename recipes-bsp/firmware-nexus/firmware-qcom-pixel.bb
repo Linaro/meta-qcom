@@ -1,7 +1,8 @@
 DESCRIPTION = "QCOM Firmware for Google Pixel / Pixel XL"
 
 FW_QCOM_NAME = "sailfish"
-EXTRA_DEVICE_NAME = "marlin"
+FW_QCOM_SUBDIR = "msm8996/Google/${FW_QCOM_NAME}"
+EXTRA_DEVICE_SUBDIR = "msm8996/Google/marlin"
 AOSP_BUILD = "qp1a.191005.007.a3"
 CHECKSUM_vendor = "a1615a0f"
 

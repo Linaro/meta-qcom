@@ -1,7 +1,8 @@
 DESCRIPTION = "QCOM Firmware for Google Pixel 3a / 3a XL"
 
 FW_QCOM_NAME = "sargo"
-EXTRA_DEVICE_NAME = "bonito"
+FW_QCOM_SUBDIR = "sdm670/Google/${FW_QCOM_NAME}"
+EXTRA_DEVICE_SUBDIR = "sdm670/Google/bonito"
 AOSP_BUILD = "sp2a.220405.003"
 CHECKSUM_vendor = "85defed7"
 

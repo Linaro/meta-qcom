@@ -3,6 +3,7 @@ DESCRIPTION = "QCOM Firmware for LGE Google Nexus 6P"
 LIC_FILES_CHKSUM = "file://license.txt;md5=ab57c77a2230b7254cd6be1f1c0d6806"
 
 FW_QCOM_NAME = "angler"
+FW_QCOM_SUBDIR = "msm8994/Huawei/${FW_QCOM_NAME}"
 VENDOR = "huawei"
 AOSP_BUILD = "opm7.181205.001"
 CHECKSUM_vendor = "52ed73ce"

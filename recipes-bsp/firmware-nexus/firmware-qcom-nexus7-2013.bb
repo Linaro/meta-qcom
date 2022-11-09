@@ -1,6 +1,7 @@
 DESCRIPTION = "QCOM Firmware for Asus Google Nexus 7 (2013)"
 
 FW_QCOM_NAME = "flo"
+FW_QCOM_SUBDIR = "apq8064/Asus/${FW_QCOM_NAME}"
 AOSP_BUILD = "mob30x"
 CHECKSUM_qcom = "43963492"
 

@@ -1,6 +1,7 @@
 DESCRIPTION = "QCOM Firmware for Motorola Google Nexus 6"
 
 FW_QCOM_NAME = "shamu"
+FW_QCOM_SUBDIR = "apq8084/Motorola/${FW_QCOM_NAME}"
 AOSP_BUILD = "ngi77b"
 CHECKSUM_qcom = "b5a5aacc"
 

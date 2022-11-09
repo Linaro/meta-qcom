@@ -2,7 +2,7 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM ?= "file://license.txt;md5=63a79fa5adc049f2e411b1f700cf0f19"
 
 VENDOR ?= "google_devices"
-EXTRA_DEVICE_NAME ??= ""
+EXTRA_DEVICE_SUBDIR ??= ""
 
 SRC_URI = "https://dl.google.com/dl/android/aosp/${VENDOR}-${FW_QCOM_NAME}-${AOSP_BUILD}-${CHECKSUM_vendor}.tgz;name=vendor"
 
@@ -72,6 +72,5 @@ do_install() {
     rm -f ${D}${FW_QCOM_PATH}/a420_pfp.fw
     rm -f ${D}${FW_QCOM_PATH}/a420_pm4.fw
     rm -f ${D}${FW_QCOM_PATH}/a530v3_gpmu.fw2
-
-    [ -z "${EXTRA_DEVICE_NAME}" ] || ln -sr ${D}${FW_QCOM_PATH} ${D}${FW_QCOM_BASE_PATH}/${EXTRA_DEVICE_NAME}
+    [ -z "${EXTRA_DEVICE_SUBDIR}" ] || ln -sr ${D}${FW_QCOM_PATH} ${D}${FW_QCOM_BASE_PATH}/${EXTRA_DEVICE_SUBDIR}
 }

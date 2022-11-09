@@ -1,7 +1,8 @@
 DESCRIPTION = "QCOM Firmware for Google Pixel 4 / 4 XL"
 
 FW_QCOM_NAME = "flame"
-EXTRA_DEVICE_NAME = "coral"
+FW_QCOM_SUBDIR = "sm8150/Google/${FW_QCOM_NAME}"
+EXTRA_DEVICE_SUBDIR = "sm8150/Google/coral"
 AOSP_BUILD = "sp2a.220405.003"
 CHECKSUM_vendor = "ead1b1a8"
 

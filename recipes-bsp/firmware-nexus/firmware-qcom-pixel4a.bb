@@ -1,6 +1,7 @@
 DESCRIPTION = "QCOM Firmware for Google Pixel 4a"
 
 FW_QCOM_NAME = "sunfish"
+FW_QCOM_SUBDIR = "sdm730/Google/${FW_QCOM_NAME}"
 AOSP_BUILD = "sp2a.220405.003"
 CHECKSUM_vendor = "5acbf701"
 

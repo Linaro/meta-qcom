@@ -1,6 +1,7 @@
 DESCRIPTION = "QCOM Firmware for LGE Google Nexus 5"
 
 FW_QCOM_NAME = "hammerhead"
+FW_QCOM_SUBDIR = "msm8974/LGE/${FW_QCOM_NAME}"
 AOSP_BUILD = "m4b30z"
 CHECKSUM_qcom = "d6c0fe26"
 

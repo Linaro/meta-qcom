@@ -1,6 +1,7 @@
 DESCRIPTION = "QCOM Firmware for Google Pixel 5"
 
 FW_QCOM_NAME = "redfin"
+FW_QCOM_SUBDIR = "sm7250/Google/${FW_QCOM_NAME}"
 AOSP_BUILD = "sp2a.220405.003"
 CHECKSUM_vendor = "2ab4bdce"
 

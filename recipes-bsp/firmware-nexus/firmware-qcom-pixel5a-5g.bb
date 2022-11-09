@@ -1,6 +1,7 @@
 DESCRIPTION = "QCOM Firmware for Google Pixel 5a 5G"
 
 FW_QCOM_NAME = "barbet"
+FW_QCOM_SUBDIR = "sm7250/Google/${FW_QCOM_NAME}"
 AOSP_BUILD = "sp2a.220405.003"
 CHECKSUM_vendor = "c3cdaef9"
 

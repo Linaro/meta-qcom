@@ -1,7 +1,8 @@
 DESCRIPTION = "QCOM Firmware for Google Pixel 3 / 3 XL"
 
 FW_QCOM_NAME = "blueline"
-EXTRA_DEVICE_NAME = "crosshatch"
+FW_QCOM_SUBDIR = "sdm845/Google/${FW_QCOM_NAME}"
+EXTRA_DEVICE_SUBDIR = "sdm845/Google/crosshatch"
 AOSP_BUILD = "sp1a.210812.016.c1"
 CHECKSUM_vendor = "0b9f3bc0"
 
