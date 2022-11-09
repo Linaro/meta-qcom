@@ -10,7 +10,7 @@ PV = "${AOSP_BUILD}"
 
 require recipes-bsp/firmware/firmware-qcom.inc
 
-DEPENDS += "pil-squasher-native android-tools-native e2fsprogs-native qc-image-unpacker-native mtools-native"
+DEPENDS += "pil-squasher-native rust-android-sparse-native e2fsprogs-native qc-image-unpacker-native mtools-native"
 
 # extract the license file
 do_extract() {
