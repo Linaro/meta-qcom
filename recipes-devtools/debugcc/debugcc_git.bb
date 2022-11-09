@@ -7,6 +7,10 @@ LIC_FILES_CHKSUM = "file://debugcc.c;beginline=5;endline=29;md5=5598b6b886a3af94
 
 SRC_URI = "\
     git://github.com/andersson/debugcc.git;branch=master;protocol=https \
+    file://msm8996/0001-debugcc-preserve-xo_div4-contents.patch \
+    file://msm8996/0002-msm8996-add-support-for-MSM8996-platform.patch \
+    file://msm8996/0003-debugcc-allow-customizing-the-measurement-process.patch \
+    file://msm8996/0004-msm8996-add-support-for-CPU-clocks.patch \
 "
 
 SRCREV = "79d8caba44135b7470dddaee3cfb93bd73b89c5e"
