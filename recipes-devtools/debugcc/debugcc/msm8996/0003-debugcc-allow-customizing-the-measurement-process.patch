@@ -68,7 +68,7 @@ index b609d0c75f5e..e19462fcf13f 100644
  	xo_div4 = readl(gcc->base + gcc->xo_div4_reg);
  	writel(xo_div4 | 1, gcc->base + gcc->xo_div4_reg);
 @@ -238,7 +251,7 @@ static void list_clocks(const struct debugcc_platform *platform)
- 		printf("%s\n", clk->name);
+ 	}
  }
  
 -static int mmap_mux(int devmem, struct debug_mux *mux)
