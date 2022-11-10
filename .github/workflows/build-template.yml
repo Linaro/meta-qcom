@@ -62,7 +62,7 @@ jobs:
           distro: $DISTRO
           target: ${{inputs.images}}
           bblayers_conf:
-            - BBLAYERS += '../$(echo ${{github.repository}} | cut -d'/' -f2)/'
+            - BBLAYERS += '../$(echo ${{github.repository}} | cut -d'/' -f2)'
           artifacts: []
         EOF
 
