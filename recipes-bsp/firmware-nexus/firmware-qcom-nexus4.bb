@@ -20,6 +20,14 @@ RDEPENDS:${PN} += "linux-firmware-qcom-adreno-a3xx"
 
 do_install:append() {
     install -d ${D}${FW_QCOM_PATH}
+
+    install -m 0644 dsps.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 q6.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 vidc.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 wcnss.mbn ${D}${FW_QCOM_PATH}
+
+    install -m 0644 vendor/qcom/${FW_QCOM_NAME}/proprietary/vidc_1080p.fw ${D}${FW_QCOM_PATH}
+
     install -m 0644 ${WORKDIR}/git/WCNSS_cfg.dat ${D}${FW_QCOM_PATH}
     install -m 0644 ${WORKDIR}/git/WCNSS_qcom_wlan_nv.bin ${D}${FW_QCOM_PATH}
 }

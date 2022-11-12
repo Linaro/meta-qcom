@@ -24,16 +24,5 @@ do_compile() {
 
 do_install() {
     install -d ${D}${FW_QCOM_PATH}
-    install -m 0644 ${B}/*.mbn ${D}${FW_QCOM_PATH}
-    install -m 0644 ${S}/vendor/qcom/${FW_QCOM_NAME}/proprietary/*.fw ${D}${FW_QCOM_PATH}
-
-    # Remove duplicates
-    rm -f ${D}${FW_QCOM_PATH}/a300_pfp.fw
-    rm -f ${D}${FW_QCOM_PATH}/a300_pm4.fw
-    rm -f ${D}${FW_QCOM_PATH}/a330_pfp.fw
-    rm -f ${D}${FW_QCOM_PATH}/a330_pm4.fw
-    rm -f ${D}${FW_QCOM_PATH}/a420_pfp.fw
-    rm -f ${D}${FW_QCOM_PATH}/a420_pm4.fw
-
     install -m 0644 license.txt ${D}${FW_QCOM_PATH}
 }
