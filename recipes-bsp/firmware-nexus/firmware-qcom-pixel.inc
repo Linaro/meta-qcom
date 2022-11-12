@@ -53,7 +53,7 @@ do_compile() {
 
 do_install() {
     install -d ${D}${FW_QCOM_PATH}
-    for fw in adsp cdsp cpe ipa_fws modem slpi venus ; do
+    for fw in adsp cdsp ipa_fws modem slpi venus ; do
         ls ${B}/$fw*.mbn && install -m 0644 ${B}/$fw*.mbn ${D}${FW_QCOM_PATH}
     done
 
