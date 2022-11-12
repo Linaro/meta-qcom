@@ -12,11 +12,18 @@ require recipes-bsp/firmware/firmware-qcom.inc
 
 DEPENDS += "pil-squasher-native rust-android-sparse-native e2fsprogs-native qc-image-unpacker-native mtools-native"
 
+VENDOR_IMG_SPARSE ?= "1"
+
 # extract the license file
 do_extract() {
     head -n 280 ${WORKDIR}/extract-${VENDOR}-${FW_QCOM_NAME}.sh | tail -n +16 > ${S}/license.txt
     tail -n +315 ${WORKDIR}/extract-${VENDOR}-${FW_QCOM_NAME}.sh | tar xzfv - -C ${S}
-    simg2img ${S}/vendor/${VENDOR}/${FW_QCOM_NAME}/proprietary/vendor.img ${B}/vendor.img
+    if [ "${VENDOR_IMG_SPARSE}" = "1" ] ; then
+        simg2img ${S}/vendor/${VENDOR}/${FW_QCOM_NAME}/proprietary/vendor.img ${B}/vendor.img
+    else
+        rm -f ${B}/vendor.img
+        ln -sr ${S}/vendor/${VENDOR}/${FW_QCOM_NAME}/proprietary/vendor.img ${B}/vendor.img
+    fi
 
     # FIXME: also extract fastrpc shell
     mkdir -p ${B}/firmware
