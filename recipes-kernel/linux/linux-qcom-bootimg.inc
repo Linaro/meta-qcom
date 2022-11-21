@@ -48,9 +48,9 @@ python do_qcom_img_deploy() {
     output_sd_img =  os.path.join(qcom_deploy_dir, "boot-sd-%s.img" % (kernel_link_name))
 
     arch = d.getVar("ARCH")
-    if arch is "arm":
+    if arch == "arm":
         kernel_name = "zImage"
-    elif arch is "arm64":
+    elif arch == "arm64":
         kernel_name = "Image.gz"
     else:
         bb.fatal("Unuspported ARCH %s" % arch)
@@ -108,7 +108,7 @@ python do_qcom_img_deploy() {
                 shutil.copyfileobj(rfd, wfd)
 
         rootfs = getVarDTB("QCOM_BOOTIMG_ROOTFS")
-        if not rootfs or rootfs is "":
+        if not rootfs:
             bb.fatal("QCOM_BOOTIMG_ROOTFS is undefined")
 
         output = make_image("boot-%s-%s.img", rootfs)
