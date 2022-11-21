@@ -1,6 +1,7 @@
 DESCRIPTION = "QCOM Firmware for Asus Google Nexus 7 (2013)"
 
 FW_QCOM_NAME = "flo"
+FW_QCOM_SUBDIR = "apq8064/Asus/${FW_QCOM_NAME}"
 AOSP_BUILD = "mob30x"
 CHECKSUM_qcom = "43963492"
 
@@ -16,7 +17,15 @@ PV:append = "+git${SRCPV}"
 
 do_install:append() {
     install -d ${D}${FW_QCOM_PATH}
-    install -m 0644 vendor/qcom/flo/proprietary/vidcfw.elf ${D}${FW_QCOM_PATH}
+
+    install -m 0644 dsps.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 gss.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 q6.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 vidc.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 wcnss.mbn ${D}${FW_QCOM_PATH}
+
+    install -m 0644 vendor/qcom/${FW_QCOM_NAME}/proprietary/vidcfw.elf ${D}${FW_QCOM_PATH}
+    install -m 0644 vendor/qcom/${FW_QCOM_NAME}/proprietary/vidc_1080p.fw ${D}${FW_QCOM_PATH}
 
     install -m 0644 ${WORKDIR}/git/WCNSS_cfg.dat ${D}${FW_QCOM_PATH}
     install -m 0644 ${WORKDIR}/git/WCNSS_qcom_wlan_nv_deb.bin ${D}${FW_QCOM_PATH}

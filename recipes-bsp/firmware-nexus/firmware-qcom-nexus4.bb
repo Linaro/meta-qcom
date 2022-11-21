@@ -4,6 +4,7 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://license.txt;md5=0d238870f50c84250a14191d17aaf1d5"
 
 FW_QCOM_NAME = "mako"
+FW_QCOM_SUBDIR = "apq8064/LGE/${FW_QCOM_NAME}"
 AOSP_BUILD = "lmy48t"
 CHECKSUM_qcom = "8c489b7e"
 
@@ -19,6 +20,14 @@ RDEPENDS:${PN} += "linux-firmware-qcom-adreno-a3xx"
 
 do_install:append() {
     install -d ${D}${FW_QCOM_PATH}
+
+    install -m 0644 dsps.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 q6.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 vidc.mbn ${D}${FW_QCOM_PATH}
+    install -m 0644 wcnss.mbn ${D}${FW_QCOM_PATH}
+
+    install -m 0644 vendor/qcom/${FW_QCOM_NAME}/proprietary/vidc_1080p.fw ${D}${FW_QCOM_PATH}
+
     install -m 0644 ${WORKDIR}/git/WCNSS_cfg.dat ${D}${FW_QCOM_PATH}
     install -m 0644 ${WORKDIR}/git/WCNSS_qcom_wlan_nv.bin ${D}${FW_QCOM_PATH}
 }
