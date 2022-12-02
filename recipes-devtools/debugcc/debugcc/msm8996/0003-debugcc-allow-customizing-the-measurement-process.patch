@@ -1,0 +1,122 @@
+From 5522765415b6a2e4033981ad71c0298a7bc28fd0 Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 23 Sep 2022 17:57:15 +0300
+Subject: [PATCH 3/4] debugcc: allow customizing the measurement process
+
+MSM8996 requires additional setup to measure CPU clocks. Add hooks to
+customize the mux enable/disable and measurement process.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ debugcc.c | 29 ++++++++++++++++++++++++-----
+ debugcc.h |  8 ++++++++
+ 2 files changed, 32 insertions(+), 5 deletions(-)
+
+diff --git a/debugcc.c b/debugcc.c
+index b609d0c75f5e..e19462fcf13f 100644
+--- a/debugcc.c
++++ b/debugcc.c
+@@ -84,7 +84,7 @@ static unsigned int measure_ticks(struct debug_mux *gcc, unsigned int ticks)
+ 	return val;
+ }
+ 
+-static void mux_enable(struct debug_mux *mux, int selector)
++static void mux_prepare_enable(struct debug_mux *mux, int selector)
+ {
+ 	uint32_t val;
+ 
+@@ -100,15 +100,28 @@ static void mux_enable(struct debug_mux *mux, int selector)
+ 		writel(val, mux->base + mux->div_reg);
+ 	}
+ 
++	mux_enable(mux);
++}
++
++void mux_enable(struct debug_mux *mux)
++{
++	uint32_t val;
++
+ 	val = readl(mux->base + mux->enable_reg);
+ 	val |= mux->enable_mask;
+ 	writel(val, mux->base + mux->enable_reg);
++
++	if (mux->premeasure)
++		mux->premeasure(mux);
+ }
+ 
+-static void mux_disable(struct debug_mux *mux)
++void mux_disable(struct debug_mux *mux)
+ {
+ 	uint32_t val;
+ 
++	if (mux->postmeasure)
++		mux->postmeasure(mux);
++
+ 	val = readl(mux->base + mux->enable_reg);
+ 	val &= ~mux->enable_mask;
+ 	writel(val, mux->base + mux->enable_reg);
+@@ -142,9 +155,9 @@ static void measure(const struct measure_clk *clk)
+ 	}
+ 
+ 	if (clk->leaf)
+-		mux_enable(clk->leaf, clk->leaf_mux);
++		mux_prepare_enable(clk->leaf, clk->leaf_mux);
+ 
+-	mux_enable(clk->primary, clk->mux);
++	mux_prepare_enable(clk->primary, clk->mux);
+ 
+ 	xo_div4 = readl(gcc->base + gcc->xo_div4_reg);
+ 	writel(xo_div4 | 1, gcc->base + gcc->xo_div4_reg);
+@@ -238,7 +251,7 @@ static void list_clocks(const struct debugcc_platform *platform)
+ 	}
+ }
+ 
+-static int mmap_mux(int devmem, struct debug_mux *mux)
++int mmap_mux(int devmem, struct debug_mux *mux)
+ {
+ 	/* Do nothing if this mux has already been mapped */
+ 	if (!mux || mux->base)
+@@ -346,6 +359,12 @@ int main(int argc, char **argv)
+ 	if (devmem < 0)
+ 		err(1, "failed to open /dev/mem");
+ 
++	if (platform->premap) {
++		ret = platform->premap(devmem);
++		if (ret < 0)
++			exit (1);
++	}
++
+ 	ret = mmap_hardware(devmem, platform);
+ 	if (ret < 0)
+ 		exit(1);
+diff --git a/debugcc.h b/debugcc.h
+index 3bcf80f70397..ffadfb642da7 100644
+--- a/debugcc.h
++++ b/debugcc.h
+@@ -56,6 +56,9 @@ struct debug_mux {
+ 
+ 	unsigned int ahb_reg;
+ 	unsigned int ahb_mask;
++
++	void (*premeasure)(struct debug_mux *mux);
++	void (*postmeasure)(struct debug_mux *mux);
+ };
+ 
+ struct measure_clk {
+@@ -72,8 +75,13 @@ struct measure_clk {
+ struct debugcc_platform {
+ 	const char *name;
+ 	const struct measure_clk *clocks;
++	int (*premap)(int devmem);
+ };
+ 
++int mmap_mux(int devmem, struct debug_mux *mux);
++void mux_enable(struct debug_mux *mux);
++void mux_disable(struct debug_mux *mux);
++
+ extern struct debugcc_platform msm8936_debugcc;
+ extern struct debugcc_platform msm8996_debugcc;
+ extern struct debugcc_platform qcs404_debugcc;
+-- 
+2.35.1
+

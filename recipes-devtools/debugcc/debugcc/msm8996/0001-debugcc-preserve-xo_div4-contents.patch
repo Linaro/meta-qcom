@@ -1,0 +1,45 @@
+From b41b1451173a202d1edbf51bfd9267526140a5b3 Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 21 Sep 2022 23:02:19 +0300
+Subject: [PATCH 1/4] debugcc: preserve xo_div4 contents
+
+Preserve the contents of the xo_div4 register. Downstream kernel
+preserves the contents of the register. Writing just 1 makes the msm8996
+report the value divided by 4 rather than the actual clock frequency.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ debugcc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/debugcc.c b/debugcc.c
+index 04e7956e0f5c..041ab8a10491 100644
+--- a/debugcc.c
++++ b/debugcc.c
+@@ -133,6 +133,7 @@ static void measure(const struct measure_clk *clk)
+ 	unsigned long raw_count_short;
+ 	unsigned long raw_count_full;
+ 	struct debug_mux *gcc = clk->primary;
++	unsigned long xo_div4;
+ 
+ 	if (!leaf_enabled(gcc, clk->leaf)) {
+ 		printf("%50s: skipping\n", clk->name);
+@@ -144,12 +145,13 @@ static void measure(const struct measure_clk *clk)
+ 
+ 	mux_enable(clk->primary, clk->mux);
+ 
+-	writel(1, gcc->base + gcc->xo_div4_reg);
++	xo_div4 = readl(gcc->base + gcc->xo_div4_reg);
++	writel(xo_div4 | 1, gcc->base + gcc->xo_div4_reg);
+ 
+ 	raw_count_short = measure_ticks(gcc, 0x1000);
+ 	raw_count_full = measure_ticks(gcc, 0x10000);
+ 
+-	writel(0, gcc->base + gcc->xo_div4_reg);
++	writel(xo_div4, gcc->base + gcc->xo_div4_reg);
+ 
+ 	if (raw_count_full == raw_count_short) {
+ 		printf("%50s: off\n", clk->name);
+-- 
+2.35.1
+
