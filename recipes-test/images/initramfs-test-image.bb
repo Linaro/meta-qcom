@@ -51,7 +51,9 @@ PACKAGE_INSTALL_openembedded-layer += " \
     devmem2 \
     lmsensors-config-libsensors \
     lmsensors-sensors \
+    media-ctl \
     read-edid \
+    yavta \
 "
 
 PACKAGE_INSTALL_networking-layer += " \
