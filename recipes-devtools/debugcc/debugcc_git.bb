@@ -17,6 +17,7 @@ SRC_URI = "\
     file://msm8996/0004-msm8996-add-support-for-CPU-clocks.patch \
 \
     file://0001-msm8996-add-block-names.patch \
+    file://0001-Add-DEBUGCC-entries-for-SM8550.patch \
 "
 
 SRCREV = "79d8caba44135b7470dddaee3cfb93bd73b89c5e"
