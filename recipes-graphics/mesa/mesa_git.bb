@@ -7,7 +7,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https;branch=main
            "
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=17a4ea65de7a9ab42437f3131e616a7f"
 
-SRCREV = "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "26677008b9a7c0ef82f2a7f4b479d3cb06097c66", d)}"
+SRCREV := "${@oe.utils.conditional("MESA_DEV", "1", "${AUTOREV}", "26677008b9a7c0ef82f2a7f4b479d3cb06097c66", d)}"
 DEFAULT_PREFERENCE = "${@oe.utils.conditional("MESA_DEV", "1", "1", "-1", d)}"
 
 PLATFORMS:remove = "drm surfaceless"
