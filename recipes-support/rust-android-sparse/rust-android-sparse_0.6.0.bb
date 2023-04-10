@@ -5,7 +5,7 @@ inherit cargo cargo-update-recipe-crates
 # how to get android-sparse could be as easy as but default to a git checkout:
 SRC_URI += "crate://crates.io/android-sparse/0.6.0"
 S= "${CARGO_VENDORING_DIRECTORY}/android-sparse-${PV}"
-SRC_URI[android-sparse.sha256sum] = "9c76c5759b0af9dea95a769ff5fe140cec5afb5fa65019817f3731b3232afe44"
+SRC_URI[android-sparse-0.6.0.sha256sum] = "9c76c5759b0af9dea95a769ff5fe140cec5afb5fa65019817f3731b3232afe44"
 
 require rust-android-sparse-crates.inc
 
