@@ -15,7 +15,6 @@ do_extract() {
     tail -n +315 ${WORKDIR}/extract-qcom-${FW_QCOM_NAME}.sh | tar xzfv - -C ${S}
 }
 addtask extract after do_unpack before do_patch
-do_extract[deptask] = "do_populate_sysroot"
 
 do_compile() {
     for fw in ${S}/vendor/qcom/${FW_QCOM_NAME}/proprietary/*.mdt ; do

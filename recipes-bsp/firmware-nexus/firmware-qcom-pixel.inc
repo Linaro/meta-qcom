@@ -10,7 +10,7 @@ PV = "${AOSP_BUILD}"
 
 require recipes-bsp/firmware/firmware-qcom.inc
 
-DEPENDS += "pil-squasher-native rust-android-sparse-native e2fsprogs-native qc-image-unpacker-native mtools-native"
+DEPENDS += "pil-squasher-native"
 
 VENDOR_IMG_SPARSE ?= "1"
 
@@ -50,7 +50,7 @@ do_extract() {
     fi
 }
 addtask extract after do_unpack before do_patch
-do_extract[deptask] = "do_populate_sysroot"
+do_extract[depends] += "rust-android-sparse-native:do_populate_sysroot e2fsprogs-native:do_populate_sysroot qc-image-unpacker-native:do_populate_sysroot mtools-native:do_populate_sysroot"
 
 do_compile() {
     for fw in ${B}/firmware/*.mdt ; do
