@@ -1,7 +1,9 @@
 FACTORY_NAME ?= "${FW_QCOM_NAME}"
 SRC_URI += "https://dl.google.com/dl/android/aosp/${FACTORY_NAME}-${AOSP_BUILD}-factory-${CHECKSUM_factory}.zip;name=factory"
 
-DEPENDS += "pil-squasher-native qc-image-unpacker-native mtools-native"
+DEPENDS += "pil-squasher-native qc-image-unpacker-native"
+
+do_extract[depends] += "mtools-native:do_populate_sysroot"
 
 do_extract:append() {
     mkdir -p ${B}/radio
