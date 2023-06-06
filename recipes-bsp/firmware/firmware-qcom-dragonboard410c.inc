@@ -12,9 +12,6 @@ require recipes-bsp/firmware/firmware-qcom.inc
 S = "${WORKDIR}/linux-board-support-package-r${PV}"
 
 do_install() {
-    install -d  ${D}/boot
-    cp ./efs-seed/fs_image_linux.tar.gz.mbn.img ${D}/boot/modem_fsg
-
     install -d ${D}${FW_QCOM_PATH}
 
     install -m 0644 ./proprietary-linux/wlan/prima/WCNSS_qcom_wlan_nv.bin \
