@@ -7,6 +7,12 @@ modprobe socinfo || true
 if [ -r /sys/devices/soc0/machine ] ; then
 	MACHINE=`cat /sys/devices/soc0/machine`
 	case $MACHINE in
+		QRB2210)
+			WHAT=/lib/firmware/qcom/qrb2210/dspso.bin
+			;;
+		QRB4210)
+			WHAT=/lib/firmware/qcom/qrb4210/dspso.bin
+			;;
 		SM8250|QRB5165)
 			WHAT=/lib/firmware/qcom/sm8250/dspso.bin
 			;;

@@ -32,7 +32,7 @@ FILES:linux-firmware-qcom-${FW_QCOM_NAME}-q6 = "${FW_QCOM_PATH}/q6.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-sensors = "${FW_QCOM_PATH}/slpi.mbn ${FW_QCOM_PATH}/slpi*.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-sensors-split = "${FW_QCOM_PATH}/slpi.mdt ${FW_QCOM_PATH}/slpi.b*"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-venus = "${FW_QCOM_PATH}/venus.mbn ${FW_QCOM_PATH}/vidc*"
-FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi = "${FW_QCOM_PATH}/wcnss.mbn"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi = "${FW_QCOM_PATH}/wcnss.mbn ${FW_QCOM_PATH}/wlanmdsp.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi-split = "${FW_QCOM_PATH}/wcnss.mdt ${FW_QCOM_PATH}/wcnss.b*"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-zap-shader = "${FW_QCOM_PATH}/*_zap.mbn"
 
