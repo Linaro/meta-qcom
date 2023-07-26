@@ -3,6 +3,7 @@ SUMMARY = "Firmware packages for the SM8150-HDK (aka HDK855) board"
 inherit packagegroup
 
 RRECOMMENDS:${PN} += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'linux-firmware-qcom-adreno-a640 linux-firmware-qcom-sm8150-adreno', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'linux-firmware-qca', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'linux-firmware-ath11k', '', d)} \
     firmware-qcom-sm8150-hdk \
