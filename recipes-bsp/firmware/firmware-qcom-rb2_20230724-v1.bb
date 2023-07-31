@@ -43,9 +43,9 @@ RDEPENDS_linux-firmware-qcom-${FW_QCOM_NAME}-wifi += "linux-firmware-ath10k-wlan
 
 SPLIT_FIRMWARE_PACKAGES = " \
     ${PN}-dspso \
+    linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
     linux-firmware-qcom-${FW_QCOM_NAME}-audio \
     linux-firmware-qcom-${FW_QCOM_NAME}-compute \
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \
     linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
-    linux-firmware-qcom-${FW_QCOM_NAME}-zap-shader \
 "

@@ -48,10 +48,10 @@ do_install() {
 
 SPLIT_FIRMWARE_PACKAGES = " \
     ${PN}-dspso \
+    linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
     linux-firmware-qcom-${FW_QCOM_NAME}-audio \
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \
     linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
-    linux-firmware-qcom-${FW_QCOM_NAME}-zap-shader \
     linux-firmware-ath10k-wlanmdsp-rb12 \
     linux-firmware-qcom-venus-6.0 \
 "
