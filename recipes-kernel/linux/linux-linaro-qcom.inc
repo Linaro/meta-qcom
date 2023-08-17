@@ -15,7 +15,7 @@ SRCBRANCH = "release/qcomlt-${PV}"
 
 COMPATIBLE_MACHINE = "(qcom)"
 
-LINUX_LINARO_QCOM_GIT ?= "git://git.linaro.org/landing-teams/working/qualcomm/kernel.git;protocol=https"
+LINUX_LINARO_QCOM_GIT ?= "git://git.codelinaro.org/linaro/qcomlt/kernel.git;protocol=https"
 SRC_URI = "${LINUX_LINARO_QCOM_GIT};branch=${SRCBRANCH}"
 
 S = "${WORKDIR}/git"
