@@ -20,14 +20,18 @@ RRECOMMENDS:${PN} += "${@ ' '.join(filter(lambda p: not p.endswith('-split'), d.
 
 # Default settings for several split packages
 FILES:${PN}-dspso += "${FW_QCOM_BASE_PATH}/*/*dspso.bin"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-adreno = "${FW_QCOM_PATH}/*_zap.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-audio = "${FW_QCOM_PATH}/adsp.mbn ${FW_QCOM_PATH}/adsp*.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-audio-split = "${FW_QCOM_PATH}/adsp.mdt ${FW_QCOM_PATH}/adsp.b*"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute = "${FW_QCOM_PATH}/cdsp.mbn ${FW_QCOM_PATH}/cdsp*.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute-split = "${FW_QCOM_PATH}/cdsp.mdt ${FW_QCOM_PATH}/cdsp.b*"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-dsps = "${FW_QCOM_PATH}/dsps.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-modem = "${FW_QCOM_PATH}/mba.mbn ${FW_QCOM_PATH}/modem.mbn ${FW_QCOM_PATH}/modem*.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-modem-split = "${FW_QCOM_PATH}/modem.mdt ${FW_QCOM_PATH}/modem.b*"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-q6 = "${FW_QCOM_PATH}/q6.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-sensors = "${FW_QCOM_PATH}/slpi.mbn ${FW_QCOM_PATH}/slpi*.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-sensors-split = "${FW_QCOM_PATH}/slpi.mdt ${FW_QCOM_PATH}/slpi.b*"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-venus = "${FW_QCOM_PATH}/venus.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi = "${FW_QCOM_PATH}/wcnss.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi-split = "${FW_QCOM_PATH}/wcnss.mdt ${FW_QCOM_PATH}/wcnss.b*"
 
