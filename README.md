@@ -32,7 +32,7 @@ for the implementation details.
 If you want to contribute changes, you can send Github pull requests at
 https://github.com/Linaro/meta-qcom/pulls.
 
-You can discuss about this layer, on `#linaro` on FreeNode IRC network.
+You can discuss about this layer, on `#linaro` on Libera Chat IRC network.
 
 ## Reporting issues
 
