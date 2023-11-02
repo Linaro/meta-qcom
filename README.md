@@ -27,6 +27,12 @@ in the build (e.g. it is used in BBLAYERS) then additional recipes from
 meta-qcom are added to the metadata. You can refer to meta-qcom/conf/layer.conf
 for the implementation details.
 
+## Device support
+
+All contemporary boards are supported by a single qcom-armv8a machine. Please
+use it instead of using the per-board configuration file. In order to enable
+support for the particular device extend the qcom-armv8a.conf file .
+
 ## Contributing
 
 If you want to contribute changes, you can send Github pull requests at
