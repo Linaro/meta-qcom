@@ -83,12 +83,12 @@ jobs:
 
         for tclibc in ${TCLIBC}; do
         cat << EOF >> plan.yaml
-        - name: ${tclibc}
-          bakes:
+          - name: ${tclibc}
+            bakes:
         EOF
         for machine in ${{inputs.machines}}; do
         cat << EOF >> plan.yaml
-            - { <<: [*commondata, *${tclibc}], machine: ${machine}, name: ${machine}-${tclibc} }
+              - { <<: [*commondata, *${tclibc}], machine: ${machine}, name: ${machine}-${tclibc} }
         EOF
         done
         done
