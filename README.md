@@ -1,5 +1,8 @@
 # meta-qcom
 
+![latest build](https://github.com/linaro/meta-qcom/actions/workflows/push.yml/badge.svg)
+![daily builds](https://github.com/linaro/meta-qcom/actions/workflows/daily.yml/badge.svg)
+
 ## Introduction
 
 OpenEmbedded/Yocto Project layer for Qualcomm based platforms.
