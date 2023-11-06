@@ -20,9 +20,6 @@ do_install() {
     install -m 0444 ./08-dspso/dspso.bin ${D}${FW_QCOM_PATH}
 
     install -m 0444 ./17-USB3-201-202-FW/K2026090.mem ${D}${nonarch_base_libdir}/firmware/renesas_usb_fw.mem
-    install -m 0444 ./18-adreno-fw/a630_zap*.* ${D}${nonarch_base_libdir}/firmware/qcom/
-    install -m 0444 ./20-adsp_split/firmware/adsp*.* ${D}${FW_QCOM_PATH}
-    install -m 0444 ./21-cdsp_split/firmware/cdsp*.* ${D}${FW_QCOM_PATH}
 
     install -m 0444 ./39-jsn/slpi*.jsn  ${D}${FW_QCOM_PATH}
 
@@ -35,11 +32,5 @@ do_install() {
 
 SPLIT_FIRMWARE_PACKAGES = " \
     ${PN}-dspso \
-    linux-firmware-qcom-adreno-a630-split \
-    linux-firmware-qcom-${FW_QCOM_NAME}-audio-split \
-    linux-firmware-qcom-${FW_QCOM_NAME}-compute-split \
-    linux-firmware-qcom-${FW_QCOM_NAME}-modem-split \
     linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
 "
-
-FILES:linux-firmware-qcom-adreno-a630-split = "${FW_QCOM_BASE_PATH}/a630_zap.*"
