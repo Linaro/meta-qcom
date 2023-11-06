@@ -17,27 +17,12 @@ do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
     install -d ${D}${FW_QCOM_PATH}/
     
-    # Install only split parts, squashed images and .jsn are now part of linux-firmware
-    install -m 0444 ./proprietary-linux/adsp.mdt ${D}${FW_QCOM_PATH}/
-    install -m 0444 ./proprietary-linux/adsp.b* ${D}${FW_QCOM_PATH}/
-
     install -m 0444 ./bootloaders-linux/adspso.bin ${D}${FW_QCOM_PATH}/
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
-
-    # compat for Linux kernel <= 5.15
-    install -d ${D}${FW_QCOM_BASE_PATH}/msm8996
-    for file in adsp.mbn adspr.jsn adspua.jsn ${D}${FW_QCOM_PATH}/*.mdt ${D}${FW_QCOM_PATH}/*.b*
-    do
-        ln -s ../apq8096/$(basename $file) ${D}${FW_QCOM_BASE_PATH}/msm8996/
-    done
 }
 
 SPLIT_FIRMWARE_PACKAGES = " \
     ${PN}-dspso \
-    linux-firmware-qcom-${FW_QCOM_NAME}-audio-split \
-    ${PN}-split \
 "
-
-FILES:${PN}-split = "${FW_QCOM_BASE_PATH}/msm8996/*.mdt ${FW_QCOM_BASE_PATH}/msm8996/*.b*"
