@@ -23,14 +23,10 @@ do_install() {
 
     install -m 0444 ./08-dspso/dspso.bin ${D}${FW_QCOM_PATH}
 
-    install -m 0444 ./30-slpi_split/slpi.mbn  ${D}${FW_QCOM_PATH}/
-    install -m 0444 ./39-jsn/slpi*.jsn  ${D}${FW_QCOM_PATH}/
-
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
 
 SPLIT_FIRMWARE_PACKAGES = " \
     ${PN}-dspso \
-    linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
 "
