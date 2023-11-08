@@ -24,7 +24,7 @@ KERNEL_DEFCONFIG:aarch64 ?= "${S}/arch/arm64/configs/defconfig"
 KERNEL_DEFCONFIG:arm ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
-require recipes-kernel/linux/linux-qcom-bootimg.inc
+inherit linux-qcom-bootimg
 
 kernel_conf_variable() {
 	sed -e "/CONFIG_$1[ =]/d;" -i ${B}/.config

@@ -30,6 +30,7 @@ env:
   POKY_URL: https://git.yoctoproject.org/poky
   DISTRO: poky
   TCLIBC: glibc musl
+  KERNELS: linaro-qcomlt yocto
 
 jobs:
   build:
@@ -67,31 +68,41 @@ jobs:
         EOF
 
         for tclibc in ${TCLIBC}; do
+        for kernel in ${KERNELS}; do
         cat << EOF >> plan.yaml
-        ${tclibc}: &${tclibc}
+        ${tclibc}-${kernel}: &${tclibc}-${kernel}
           local_conf:
             - INHERIT += 'buildstats buildstats-summary'
             - INHERIT:remove = 'rm_work'
             - TCLIBC := '${tclibc}'
+            - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
 
         EOF
+        done
         done
 
         cat << EOF >> plan.yaml
         jobs:
         EOF
 
+        # FIXME: loop over kernels instead of hardcoding them, need to support armv7a and modem first
         for tclibc in ${TCLIBC}; do
         cat << EOF >> plan.yaml
-        - name: ${tclibc}
-          bakes:
+          - name: ${tclibc}
+            bakes:
         EOF
         for machine in ${{inputs.machines}}; do
         cat << EOF >> plan.yaml
-            - { <<: [*commondata, *${tclibc}], machine: ${machine}, name: ${machine}-${tclibc} }
+              - { <<: [*commondata, *${tclibc}-linaro-qcomlt], machine: ${machine}, name: ${machine}-${tclibc} }
         EOF
+        if [ "${machine}" = "qcom-armv8a" -a "${{inputs.branch}}" = "master" ] ; then
+        cat << EOF >> plan.yaml
+              - { <<: [*commondata, *${tclibc}-yocto], machine: qcom-armv8a, name: qcom-armv8a-${tclibc}-yocto }
+        EOF
+        fi
         done
         done
+
         echo "Ready to submit this Tux Plan:"
         cat plan.yaml
     - name: Run build
