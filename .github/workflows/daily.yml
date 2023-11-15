@@ -10,7 +10,7 @@ jobs:
     with:
       host: ubuntu-20.04
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-rootfs-image cryptodev-module
-      machines: qcom-armv8a sdx55-mtp qcom-armv7a
+      machines: qcom-armv8a qcom-armv7a-modem qcom-armv7a
       ref_type: branch
       ref: master
       branch: master
@@ -22,7 +22,7 @@ jobs:
     with:
       host: ubuntu-20.04
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-rootfs-image cryptodev-module
-      machines: qcom-armv8a sdx55-mtp qcom-armv7a
+      machines: qcom-armv8a qcom-armv7a-modem qcom-armv7a
       ref_type: branch
       ref: kirkstone
       branch: kirkstone
