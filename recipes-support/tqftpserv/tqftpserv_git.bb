@@ -9,16 +9,13 @@ DEPENDS = "qrtr"
 
 inherit systemd
 
-SRCREV = "fe53d2a810abe0e1ee7cc0bb20fd520dc6605ecb"
+SRCREV = "de42697a2466cc5ee267ffe36ab4e8494f005fb0"
 SRC_URI = "git://github.com/andersson/${BPN}.git;branch=master;protocol=https \
-           file://0001-include-limits.h-for-PATH_MAX.patch \
 "
 
 PV = "0.0+${SRCPV}"
 
 S = "${WORKDIR}/git"
-
-EXTRA_OEMAKE = "prefix=${prefix} bindir=${bindir} libdir=${libdir} includedir=${includedir} LDFLAGS='${LDFLAGS} -Wl,-lqrtr' CFLAGS='${CFLAGS}'"
 
 do_install () {
     oe_runmake install DESTDIR=${D} prefix=${prefix} servicedir=${systemd_unitdir}/system
