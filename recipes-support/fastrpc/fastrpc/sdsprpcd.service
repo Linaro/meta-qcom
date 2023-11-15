@@ -1,0 +1,9 @@
+[Unit]
+Description=sDSP RPC daemon
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/sdsprpcd
+
+[Install]
+WantedBy=multi-user.target
