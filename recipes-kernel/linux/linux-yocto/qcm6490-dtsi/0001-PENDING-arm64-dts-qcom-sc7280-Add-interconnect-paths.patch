@@ -1,0 +1,31 @@
+From 0fd82fdf7e1a5d6bb1924129849ed351806e1a3d Mon Sep 17 00:00:00 2001
+From: Manish Pandey <quic_mapa@quicinc.com>
+Date: Fri, 3 Nov 2023 10:11:01 +0530
+Subject: [PATCH] PENDING: arm64: dts: qcom: sc7280: Add interconnect paths to
+ UFSHC
+
+QCOM UFS host controller requires interconnect path configuration
+for proper working. So add them for SC7280 SoC.
+
+Signed-off-by: Manish Pandey <quic_mapa@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 19705df517dd..1217de1d3266 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -3341,6 +3341,7 @@ ufs_mem_hc: ufs@1d84000 {
+ 
+ 			interconnects = <&aggre1_noc MASTER_UFS_MEM 0 &mc_virt SLAVE_EBI1 0>,
+ 					<&gem_noc MASTER_APPSS_PROC 0 &cnoc2 SLAVE_UFS_MEM_CFG 0>;
++			interconnect-names = "ufs-ddr", "cpu-ufs";
+ 
+ 			clocks = <&gcc GCC_UFS_PHY_AXI_CLK>,
+ 				 <&gcc GCC_AGGRE_UFS_PHY_AXI_CLK>,
+-- 
+2.25.1
+
