@@ -26,4 +26,6 @@ SRC_URI:append:qcom = " \
     file://workarounds/0001-QCLINUX-arm64-dts-qcom-qcm6490-disable-sdhc1-for-ufs.patch \
     file://workarounds/0001-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
     file://workarounds/0002-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
+    file://workarounds/0001-PENDING-arm64-dts-qcm6490-Remove-voltage-voting-for-.patch \
+    file://workarounds/0002-PENDING-arm64-dts-qcm6490-rb3-Remove-voltage-voting-.patch \
 "

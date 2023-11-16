@@ -1,0 +1,51 @@
+From 9939a54d773c0a42acbb20a339176ace57585e7a Mon Sep 17 00:00:00 2001
+From: Umang Chheda <quic_uchheda@quicinc.com>
+Date: Wed, 11 Oct 2023 20:57:16 +0530
+Subject: [PATCH 1/2] PENDING: arm64: dts: qcm6490: Remove voltage voting for
+ USB rails
+
+USB driver does not vote for voltage on hsphy and ssphy
+rails. Due to which the initial voltage set by bootloader
+is overridden by regulator framework with min voltage specified
+on regulator registration.
+
+Fix this temporarily by removing voltage voting support, which
+will prevent regulator framework overriding the voltage set by
+bootloader.
+
+This commit will be reverted once voltage voting support is added
+in USB driver.
+
+Signed-off-by: Umang Chheda <quic_uchheda@quicinc.com>
+Signed-off-by: Salendarsingh Gaud <quic_sgaud@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+index 970dbceeea17..bd638812ade2 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
++++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+@@ -372,3 +372,17 @@ &vreg_l9b_1p2 {
+ 	regulator-allow-set-load;
+ 	regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM RPMH_REGULATOR_MODE_HPM>;
+ };
++
++&vreg_l1b_0p8 {
++	/delete-property/regulator-min-microvolt;
++	/delete-property/regulator-max-microvolt;
++	regulator-allow-set-load;
++	regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM RPMH_REGULATOR_MODE_HPM>;
++};
++
++&vreg_l10c_0p8 {
++	/delete-property/regulator-min-microvolt;
++	/delete-property/regulator-max-microvolt;
++	regulator-allow-set-load;
++	regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM RPMH_REGULATOR_MODE_HPM>;
++};
+-- 
+2.25.1
+
