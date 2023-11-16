@@ -1,0 +1,29 @@
+From a0fc2104e8484205228819b1aa498fbd51c86ba0 Mon Sep 17 00:00:00 2001
+From: Naina Mehta <quic_nainmeht@quicinc.com>
+Date: Tue, 17 Oct 2023 13:29:51 +0530
+Subject: [PATCH 1/2] PENDING: dt-bindings: arm: qcom: Add QCM6490 RB3 board
+
+Document the qcom,qcm6490-rb3 board based off qcm6490 SoC.
+
+Signed-off-by: Naina Mehta <quic_nainmeht@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
+index fcc301d8c4b5..6481bd03b0de 100644
+--- a/Documentation/devicetree/bindings/arm/qcom.yaml
++++ b/Documentation/devicetree/bindings/arm/qcom.yaml
+@@ -387,6 +387,7 @@ properties:
+           - enum:
+               - fairphone,fp5
+               - qcom,qcm6490-idp
++              - qcom,qcm6490-rb3
+           - const: qcom,qcm6490
+ 
+       - description: Qualcomm Technologies, Inc. Distributed Unit 1000 platform
+-- 
+2.25.1
+
