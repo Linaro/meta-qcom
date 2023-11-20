@@ -1,0 +1,35 @@
+From 8a67d7619a576a3f95be7d27910c89bb801f6d03 Mon Sep 17 00:00:00 2001
+From: Taniya Das <quic_tdas@quicinc.com>
+Date: Wed, 1 Nov 2023 10:30:17 +0530
+Subject: [PATCH 1/2] PENDING: dt-bindings: clock: Add "qcom,adsp-skip-pll"
+ property
+
+Add support for "qcom,adsp-skip-pll" so as to avoid configuring the
+LPASS PLL.
+
+Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ .../devicetree/bindings/clock/qcom,sc7280-lpasscorecc.yaml   | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sc7280-lpasscorecc.yaml b/Documentation/devicetree/bindings/clock/qcom,sc7280-lpasscorecc.yaml
+index 447cdc447a0c..5587d4ca82a6 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sc7280-lpasscorecc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sc7280-lpasscorecc.yaml
+@@ -49,6 +49,11 @@ properties:
+       peripheral loader.
+     type: boolean
+ 
++  qcom,adsp-skip-pll:
++    description:
++      Indicates if the LPASS PLL configuration would be skipped.
++    type: boolean
++
+ required:
+   - compatible
+   - reg
+-- 
+2.25.1
+
