@@ -21,4 +21,6 @@ SRC_URI:append:qcom = " \
     file://qcm6490-board-dts/0002-PENDING-arm64-dts-qcom-Add-qcm6490-rb3-support.patch \
     file://qcm6490-board-dts/0001-PENDING-arm64-dts-qcom-qcm6490-Add-UFS-nodes-for-IDP.patch \
     file://qcm6490-board-dts/0002-PENDING-arm64-dts-qcom-Add-UFS-nodes-for-qcm6490-rb3.patch \
+    file://workarounds/0001-QCLINUX-arm64-dts-qcom-Add-board-id-and-msm-id-for-Q.patch \
+    file://workarounds/0002-QCLINUX-arm64-dts-qcom-Add-board-id-and-msm-id-for-q.patch \
 "
