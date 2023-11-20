@@ -24,4 +24,6 @@ SRC_URI:append:qcom = " \
     file://workarounds/0001-QCLINUX-arm64-dts-qcom-Add-board-id-and-msm-id-for-Q.patch \
     file://workarounds/0002-QCLINUX-arm64-dts-qcom-Add-board-id-and-msm-id-for-q.patch \
     file://workarounds/0001-QCLINUX-arm64-dts-qcom-qcm6490-disable-sdhc1-for-ufs.patch \
+    file://workarounds/0001-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
+    file://workarounds/0002-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
 "

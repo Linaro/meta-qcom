@@ -1,0 +1,46 @@
+From 362bfa9478feab614cde2e8c8daa47357cb5576f Mon Sep 17 00:00:00 2001
+From: Umang Chheda <quic_uchheda@quicinc.com>
+Date: Wed, 11 Oct 2023 20:32:47 +0530
+Subject: [PATCH 1/2] PENDING: arm64: dts: qcom: Remove voltage vote support
+ for UFS for IDP
+
+UFS rails have different voltage requirement for UFS2.x v/s UFS3.x.
+Bootloader sets the proper voltage based on UFS type. There can be
+case where the voltage set by bootloader is overridden by HLOS client.
+
+To prevent above issue, Add change to remove voltage voting support
+for UFS rails.
+
+Signed-off-by: Umang Chheda <quic_uchheda@quicinc.com>
+Signed-off-by: Salendarsingh Gaud <quic_sgaud@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+index 004fdb1ffd58..c1845ef64112 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
++++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+@@ -354,3 +354,17 @@ &usb_1_qmpphy {
+ 
+ 	status = "okay";
+ };
++
++&vreg_l7b_2p9 {
++	/delete-property/regulator-min-microvolt;
++	/delete-property/regulator-max-microvolt;
++	regulator-allow-set-load;
++	regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM RPMH_REGULATOR_MODE_HPM>;
++};
++
++&vreg_l9b_1p2 {
++	/delete-property/regulator-min-microvolt;
++	/delete-property/regulator-max-microvolt;
++	regulator-allow-set-load;
++	regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM RPMH_REGULATOR_MODE_HPM>;
++};
+-- 
+2.25.1
+
