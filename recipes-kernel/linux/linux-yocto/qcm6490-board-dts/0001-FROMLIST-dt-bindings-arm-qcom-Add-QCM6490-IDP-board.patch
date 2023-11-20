@@ -1,0 +1,31 @@
+From 4cd742fb7632a39176bc2a2006e1cb1d01efe473 Mon Sep 17 00:00:00 2001
+From: Komal Bajaj <quic_kbajaj@quicinc.com>
+Date: Wed, 27 Sep 2023 10:53:52 +0530
+Subject: [PATCH] FROMLIST: dt-bindings: arm: qcom: Add QCM6490 IDP board
+
+Document the qcom,qcm6490-idp board based off qcm6490 SoC.
+
+Signed-off-by: Komal Bajaj <quic_kbajaj@quicinc.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Salendarsingh Gaud <quic_sgaud@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Submitted [https://lore.kernel.org/linux-arm-msm/20231003175456.14774-2-quic_kbajaj@quicinc.com/]
+---
+ Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
+index 5d2cbddb6ab8..fcc301d8c4b5 100644
+--- a/Documentation/devicetree/bindings/arm/qcom.yaml
++++ b/Documentation/devicetree/bindings/arm/qcom.yaml
+@@ -386,6 +386,7 @@ properties:
+       - items:
+           - enum:
+               - fairphone,fp5
++              - qcom,qcm6490-idp
+           - const: qcom,qcm6490
+ 
+       - description: Qualcomm Technologies, Inc. Distributed Unit 1000 platform
+-- 
+2.25.1
+

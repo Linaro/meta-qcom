@@ -16,4 +16,5 @@ SRC_URI:append:qcom = " \
     file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcm6490-Update-the-protected-clock.patch \
     file://qcm6490-dtsi/0001-PENDING-dt-bindings-pinctrl-qcom-sc7280-pinctrl-add-.patch \
     file://qcm6490-dtsi/0002-PENDING-arm64-dts-qcom-qcm6490-Add-gpio-reserved-ran.patch \
+    file://qcm6490-board-dts/0001-FROMLIST-dt-bindings-arm-qcom-Add-QCM6490-IDP-board.patch \
 "
