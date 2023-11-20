@@ -13,4 +13,5 @@ SRC_URI:append:qcom = " \
     file://qcm6490-dtsi/0003-FROMLIST-arm64-dts-qcom-Add-qcm6490-dts-file.patch \
     file://qcm6490-dtsi/0001-FROMLIST-arm64-dts-qcom-sc7280-Add-UFS-nodes-for-sc7.patch \
     file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcom-sc7280-Add-interconnect-paths.patch \
+    file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcm6490-Update-the-protected-clock.patch \
 "
