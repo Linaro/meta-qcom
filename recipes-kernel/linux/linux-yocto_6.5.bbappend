@@ -19,4 +19,6 @@ SRC_URI:append:qcom = " \
     file://qcm6490-board-dts/0001-FROMLIST-dt-bindings-arm-qcom-Add-QCM6490-IDP-board.patch \
     file://qcm6490-board-dts/0001-PENDING-dt-bindings-arm-qcom-Add-QCM6490-RB3-board.patch \
     file://qcm6490-board-dts/0002-PENDING-arm64-dts-qcom-Add-qcm6490-rb3-support.patch \
+    file://qcm6490-board-dts/0001-PENDING-arm64-dts-qcom-qcm6490-Add-UFS-nodes-for-IDP.patch \
+    file://qcm6490-board-dts/0002-PENDING-arm64-dts-qcom-Add-UFS-nodes-for-qcm6490-rb3.patch \
 "
