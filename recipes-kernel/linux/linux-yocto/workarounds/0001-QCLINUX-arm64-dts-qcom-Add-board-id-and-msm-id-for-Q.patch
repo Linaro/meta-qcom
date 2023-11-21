@@ -1,0 +1,36 @@
+From 0ae6d4e1b904b06ceb0690e65fa267c8f21f4136 Mon Sep 17 00:00:00 2001
+From: Komal Bajaj <quic_kbajaj@quicinc.com>
+Date: Wed, 11 Oct 2023 12:11:35 +0530
+Subject: [PATCH 1/2] QCLINUX: arm64: dts: qcom: Add board-id and msm-id for
+ QCM6490 IDP
+
+Add board-id and msm-id for QCM6490-idp for now. This is only a
+workaround, that shall be replaced by the compatible string
+check approach to pick the correct DTB.
+
+Signed-off-by: Komal Bajaj <quic_kbajaj@quicinc.com>
+Signed-off-by: Salendarsingh Gaud <quic_sgaud@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+index 7d609317af82..004fdb1ffd58 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
++++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+@@ -16,6 +16,10 @@ / {
+ 	model = "Qualcomm Technologies, Inc. QCM6490 IDP";
+ 	compatible = "qcom,qcm6490-idp", "qcom,qcm6490";
+ 
++	/* This will be deprecated soon */
++	qcom,msm-id = <497 0x10000>, <498 0x10000>, <475 0x10000>, <515 0x10000>;
++	qcom,board-id = <34 0>, <34 1>;
++
+ 	aliases {
+ 		serial0 = &uart5;
+ 	};
+-- 
+2.25.1
+

@@ -1,0 +1,59 @@
+From 96ef94902f0ce507d21cefb3ffaf841640556cff Mon Sep 17 00:00:00 2001
+From: Taniya Das <quic_tdas@quicinc.com>
+Date: Tue, 31 Oct 2023 23:56:38 +0530
+Subject: [PATCH 2/2] PENDING: clk: qcom: lpassaudiocc: Add support to skip PLL
+ configuration
+
+On certain targets the PLL configuration should be skipped, thus add a
+device property to support the same.
+
+Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ drivers/clk/qcom/lpassaudiocc-sc7280.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/clk/qcom/lpassaudiocc-sc7280.c b/drivers/clk/qcom/lpassaudiocc-sc7280.c
+index 134eb1529ede..5322ff53a3e1 100644
+--- a/drivers/clk/qcom/lpassaudiocc-sc7280.c
++++ b/drivers/clk/qcom/lpassaudiocc-sc7280.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+  * Copyright (c) 2021, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2023, Qualcomm Innovation Center, Inc. All rights reserved.
+  */
+ 
+ #include <linux/clk-provider.h>
+@@ -765,11 +766,13 @@ static int lpass_audio_cc_sc7280_probe(struct platform_device *pdev)
+ 		goto exit;
+ 	}
+ 
+-	clk_zonda_pll_configure(&lpass_audio_cc_pll, regmap, &lpass_audio_cc_pll_config);
++	if (!of_property_read_bool(pdev->dev.of_node, "qcom,adsp-skip-pll")) {
++		clk_zonda_pll_configure(&lpass_audio_cc_pll, regmap, &lpass_audio_cc_pll_config);
+ 
+-	/* PLL settings */
+-	regmap_write(regmap, 0x4, 0x3b);
+-	regmap_write(regmap, 0x8, 0xff05);
++		/* PLL settings */
++		regmap_write(regmap, 0x4, 0x3b);
++		regmap_write(regmap, 0x8, 0xff05);
++	}
+ 
+ 	ret = qcom_cc_really_probe(pdev, &lpass_audio_cc_sc7280_desc, regmap);
+ 	if (ret) {
+@@ -777,6 +780,9 @@ static int lpass_audio_cc_sc7280_probe(struct platform_device *pdev)
+ 		goto exit;
+ 	}
+ 
++	lpass_audio_cc_sc7280_regmap_config.name = "lpassaudio_cc_reset";
++	lpass_audio_cc_sc7280_regmap_config.max_register = 0xc8;
++
+ 	ret = qcom_cc_probe_by_index(pdev, 1, &lpass_audio_cc_reset_sc7280_desc);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Failed to register LPASS AUDIO CC Resets\n");
+-- 
+2.25.1
+

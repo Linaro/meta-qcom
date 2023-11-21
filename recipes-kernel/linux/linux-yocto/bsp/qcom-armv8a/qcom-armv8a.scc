@@ -5,6 +5,7 @@ kconf hardware qcom.cfg
 include qcom-msm8916.scc
 include qcom-msm8996.scc
 include qcom-qcm2290.scc
+include qcom-qcm6490.scc
 include qcom-sdm845.scc
 include qcom-sm6115.scc
 include qcom-sm8250.scc
