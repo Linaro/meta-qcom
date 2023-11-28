@@ -1,0 +1,66 @@
+From e3316d8e314678931c80d2a1b70ffd53f759dc6f Mon Sep 17 00:00:00 2001
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Date: Wed, 2 Sep 2020 09:03:29 +0530
+Subject: [PATCH 2/3] arm64: dts: qcom: Add Bluetooth support on RB5
+
+Add Bluetooth support on RB5 using the onboard QCA6391 WLAN+BT chipset.
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Upstream-Status: Inappropriate
+---
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+index b781f33d6d2f..586ac20ff956 100644
+--- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
++++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+@@ -22,6 +22,7 @@ / {
+ 
+ 	aliases {
+ 		serial0 = &uart12;
++		serial1 = &uart6;
+ 		sdhc2 = &sdhc_2;
+ 	};
+ 
+@@ -1232,6 +1233,17 @@ &tlmm {
+ 		"HST_WLAN_UART_TX",
+ 		"HST_WLAN_UART_RX";
+ 
++	bt_en_state: bt-default-state {
++		bt-en {
++			pins = "gpio21";
++			function = "gpio";
++
++			drive-strength = <16>;
++			output-low;
++			bias-pull-up;
++		};
++	};
++
+ 	lt9611_irq_pin: lt9611-irq-state {
+ 		pins = "gpio63";
+ 		function = "gpio";
+@@ -1276,6 +1288,18 @@ wlan-en {
+ 	};
+ };
+ 
++&uart6 {
++	status = "okay";
++	bluetooth {
++		compatible = "qcom,qca6390-bt";
++		pinctrl-names = "default";
++		pinctrl-0 = <&bt_en_state>;
++
++		power-domains = <&qca639x>;
++		enable-gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>;
++	};
++};
++
+ &uart12 {
+ 	status = "okay";
+ };
+-- 
+2.39.2
+

@@ -7,6 +7,9 @@ SRC_URI:append:qcom = " \
     file://qca6390-driver/0003-mfd-qcom-qca639x-switch-to-platform-config-data.patch \
     file://qca6390-driver/0004-mfd-qcom-qca639x-change-qca639x-to-use-gpios-rather-.patch \
     file://qca6390-driver/0005-mfd-qcom-qca639x-Add-support-for-WCN6855.patch \
+    file://qca6390-dts/0001-arm64-dts-qcom-qrb5165-rb5-add-qca639x-power-domain.patch \
+    file://qca6390-dts/0002-arm64-dts-qcom-Add-Bluetooth-support-on-RB5.patch \
+    file://qca6390-dts/0003-arm64-dtb-qcom-qrb5165-rb5-add-power-domain-to-pcie0.patch \
     file://generic-drivers/0001-FROMLIST-dma-heap-Add-proper-kref-handling-on-dma-bu.patch \
     file://generic-drivers/0002-FROMLIST-dma-heap-Provide-accessors-so-that-in-kerne.patch \
     file://qcm6490-drivers/0001-FROMGIT-phy-qcom-qmp-ufs-Add-Phy-Configuration-suppo.patch \
