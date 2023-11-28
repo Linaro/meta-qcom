@@ -2,6 +2,11 @@
 SRC_URI:append:qcom = " \
     file://0001-arm64-dts-qcom-qrb2210-rb1-Swap-UART-index.patch \
     file://0001-arm64-dts-qcom-qcm2290-temporarily-disable-cluster-i.patch \
+    file://qca6390-driver/0001-dt-bindings-mfd-qcom-qca639x-add-binding-for-QCA639x.patch \
+    file://qca6390-driver/0002-mfd-qca639x-add-support-for-QCA639x-powerup-sequence.patch \
+    file://qca6390-driver/0003-mfd-qcom-qca639x-switch-to-platform-config-data.patch \
+    file://qca6390-driver/0004-mfd-qcom-qca639x-change-qca639x-to-use-gpios-rather-.patch \
+    file://qca6390-driver/0005-mfd-qcom-qca639x-Add-support-for-WCN6855.patch \
     file://generic-drivers/0001-FROMLIST-dma-heap-Add-proper-kref-handling-on-dma-bu.patch \
     file://generic-drivers/0002-FROMLIST-dma-heap-Provide-accessors-so-that-in-kerne.patch \
     file://qcm6490-drivers/0001-FROMGIT-phy-qcom-qmp-ufs-Add-Phy-Configuration-suppo.patch \
