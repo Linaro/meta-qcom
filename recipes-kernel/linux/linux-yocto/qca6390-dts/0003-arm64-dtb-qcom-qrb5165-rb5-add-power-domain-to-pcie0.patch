@@ -1,0 +1,35 @@
+From 0e2a4a6117aeffeb6150e0a23d90c6748ab809bf Mon Sep 17 00:00:00 2001
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 20 Dec 2020 03:17:50 +0300
+Subject: [PATCH 3/3] arm64: dtb: qcom: qrb5165-rb5: add power domain to pcie0
+ phy
+
+If QCA6391 chip (connected to PCIe0) is not powered at the PCIe probe
+time, PCIe0 bus probe will timeout and the device will not be detected.
+To ease device power up support, use qca639x as pcie0 phy power-domain.
+This allows us to make sure that QCA6391 chip is powered on before PCIe0
+probe happens.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Upstream-Status: Inappropriate
+---
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+index 586ac20ff956..c86b020d525e 100644
+--- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
++++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+@@ -704,6 +704,9 @@ &pcie0_phy {
+ 	status = "okay";
+ 	vdda-phy-supply = <&vreg_l5a_0p88>;
+ 	vdda-pll-supply = <&vreg_l9a_1p2>;
++
++	/* Power on QCA639x chip, otherwise PCIe bus timeouts */
++	power-domains = <&qca639x>;
+ };
+ 
+ &pcie1 {
+-- 
+2.39.2
+

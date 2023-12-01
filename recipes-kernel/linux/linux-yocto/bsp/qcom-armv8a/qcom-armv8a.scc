@@ -9,6 +9,7 @@ include qcom-qcm6490.scc
 include qcom-sdm845.scc
 include qcom-sm6115.scc
 include qcom-sm8250.scc
+include qcom-sm8450.scc
 
 include features/i2c/i2c.scc
 include features/hrt/hrt.scc
