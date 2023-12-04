@@ -10,6 +10,7 @@ LICENSE = "CLOSED"
 FW_QCOM_NAME = "sda660"
 
 FW_QCOM_LIST = "\
+    a508_zap.mbn a512_zap.mbn \
     adsp.mbn \
     cdsp.mbn \
     mba.mbn modem.mbn modemuw.jsn \
@@ -18,8 +19,10 @@ FW_QCOM_LIST = "\
 
 require recipes-bsp/firmware/firmware-qcom.inc
 require recipes-bsp/firmware/firmware-qcom-nhlos.inc
+require recipes-bsp/firmware/firmware-qcom-adreno.inc
 
 SPLIT_FIRMWARE_PACKAGES = "\
+    linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
     linux-firmware-qcom-${FW_QCOM_NAME}-audio \
     linux-firmware-qcom-${FW_QCOM_NAME}-compute \
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \

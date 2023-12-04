@@ -7,6 +7,7 @@ RRECOMMENDS:${PN} += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'linux-firmware-qca', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'linux-firmware-ath11k', '', d)} \
     firmware-qcom-sm8350-hdk \
+    linux-firmware-qcom-sm8350-adreno \
     linux-firmware-qcom-sm8350-audio \
     linux-firmware-qcom-sm8350-compute \
     linux-firmware-qcom-sm8350-modem \
