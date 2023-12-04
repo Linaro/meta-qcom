@@ -39,7 +39,7 @@ python do_qcom_img_deploy() {
     B = d.getVar("B")
     D = d.getVar("D")
     kernel_output_dir = d.getVar("KERNEL_OUTPUT_DIR")
-    kernel_imagedest = d.getVar("KERNEL_IMAGEDEST")
+    kernel_dtbdest = d.getVar("KERNEL_DTBDEST")
     kernel = os.path.join(B, "kernel-dtb")
     definitrd = os.path.join(B, "initrd.img")
     mkbootimg = os.path.join(d.getVar("STAGING_BINDIR_NATIVE"), "skales", "mkbootimg")
@@ -105,7 +105,7 @@ python do_qcom_img_deploy() {
         with open(kernel, 'wb') as wfd:
             with open(os.path.join(kernel_output_dir, kernel_name), 'rb') as rfd:
                 shutil.copyfileobj(rfd, wfd)
-            with open(os.path.join(D, kernel_imagedest, dtb), 'rb') as rfd:
+            with open(os.path.join(D, kernel_dtbdest, dtb), 'rb') as rfd:
                 shutil.copyfileobj(rfd, wfd)
 
         rootfs = getVarDTB("QCOM_BOOTIMG_ROOTFS")
