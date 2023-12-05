@@ -37,3 +37,19 @@ SERIAL_CONSOLES ?= "115200;ttyMSM0"
 # image.  All our boards (except db410c) have 2GiB and db410c has 1GiB of RAM,
 # so this image would fit.
 INITRAMFS_MAXSIZE = "393216"
+
+# Use systemd-boot as the EFI bootloader
+EFI_PROVIDER = "systemd-boot"
+
+# Install packages at root of ESP
+EFI_PREFIX = ""
+
+# Location of Kernel and dtb inside ESP
+EFILINUXDIR ?= "${EFI_PREFIX}EFI/Linux"
+EFIDTBDIR ?= "${EFI_PREFIX}dtb"
+
+# Unified Kernel Image (UKI) name
+EFILINUXIMG ?= "linux-${MACHINE}.efi"
+
+# Place dtb at EFIDTDIR to seamlessly package
+KERNEL_DTBDEST = "${EFIDTBDIR}"

@@ -39,7 +39,7 @@ python do_qcom_img_deploy() {
     B = d.getVar("B")
     D = d.getVar("D")
     kernel_output_dir = d.getVar("KERNEL_OUTPUT_DIR")
-    kernel_imagedest = d.getVar("KERNEL_IMAGEDEST")
+    kernel_dtbdest = d.getVar("KERNEL_DTBDEST")
     kernel = os.path.join(B, "kernel-dtb")
     definitrd = os.path.join(B, "initrd.img")
     mkbootimg = os.path.join(d.getVar("STAGING_BINDIR_NATIVE"), "skales", "mkbootimg")
@@ -105,7 +105,7 @@ python do_qcom_img_deploy() {
         with open(kernel, 'wb') as wfd:
             with open(os.path.join(kernel_output_dir, kernel_name), 'rb') as rfd:
                 shutil.copyfileobj(rfd, wfd)
-            with open(os.path.join(D, kernel_imagedest, dtb), 'rb') as rfd:
+            with open(os.path.join(D, kernel_dtbdest, dtb), 'rb') as rfd:
                 shutil.copyfileobj(rfd, wfd)
 
         rootfs = getVarDTB("QCOM_BOOTIMG_ROOTFS")
@@ -132,7 +132,7 @@ python do_qcom_img_deploy() {
 do_qcom_img_deploy[depends] += "skales-native:do_populate_sysroot"
 do_qcom_img_deploy[vardeps] = "QCOM_BOOTIMG_PAGE_SIZE QCOM_BOOTIMG_KERNEL_BASE KERNEL_CMDLINE_EXTRA QCOM_BOOTIMG_ROOTFS"
 
-addtask qcom_img_deploy after do_populate_sysroot do_packagedata bundle_initramfs before do_deploy
+addtask qcom_img_deploy after do_populate_sysroot do_packagedata do_bundle_initramfs before do_deploy
 
 # Setup sstate, see deploy.bbclass
 SSTATETASKS += "do_qcom_img_deploy"
