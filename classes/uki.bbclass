@@ -18,7 +18,6 @@ inherit python3native
 do_install[depends] += " \
     systemd-boot:do_deploy \
     "
-do_install[depends] += "${@ '${INITRAMFS_IMAGE}:do_image_complete' if d.getVar('INITRAMFS_IMAGE') else ''}"
 do_uki[dirs] = "${B}"
 do_install[postfuncs] += "do_uki"
 
@@ -30,18 +29,6 @@ python do_uki() {
     ukify_cmd = ("ukify build")
 
     deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
-
-    # Ramdisk
-    if d.getVar('INITRAMFS_IMAGE'):
-        initrd_image = d.getVar('INITRAMFS_IMAGE') + "-" + d.getVar('MACHINE')
-        baseinitrd = os.path.join(d.getVar('INITRAMFS_DEPLOY_DIR_IMAGE'), initrd_image)
-        for img in (".cpio.gz", ".cpio.lz4", ".cpio.lzo", ".cpio.lzma", ".cpio.xz", ".cpio"):
-            if os.path.exists(baseinitrd + img):
-                initrd = baseinitrd + img
-                break
-        if not initrd:
-            bb.fatal("initrd= must be specified to create unified kernel image.")
-        ukify_cmd += " --initrd=%s" % initrd
 
     # Kernel Image.
     # Note: systemd-boot can't handle compressed kernel image.
