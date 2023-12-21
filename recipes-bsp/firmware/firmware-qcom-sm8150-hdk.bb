@@ -9,7 +9,7 @@ LICENSE = "CLOSED"
 FW_QCOM_NAME = "sm8150"
 
 FW_QCOM_LIST = "\
-    a640_zap.mbn a640_gmu.bin \
+    a640_zap.mbn \
     adsp.mbn adspr.jsn adspua.jsn \
     cdsp.mbn cdspr.jsn \
     modem.mbn modemuw.jsn \
@@ -29,5 +29,11 @@ SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-adreno-a640 \
 "
 
-FILES:linux-firmware-qcom-adreno-a640 += "${FW_QCOM_PATH}/a640_gmu.bin"
+do_install:append() {
+    if [ -n "${ADRENO_URI}" ] ; then
+        install -m 0644 ${WORKDIR}/adreno/${ADRENO_PATH}/a640_gmu.bin ${D}${FW_QCOM_BASE_PATH}
+    fi
+}
+
+FILES:linux-firmware-qcom-adreno-a640 += "${FW_QCOM_BASE_PATH}/a640_gmu.bin"
 RDEPENDS:linux-firmware-qcom-adreno-a640 += "linux-firmware-qcom-adreno-a630"
