@@ -25,7 +25,6 @@ KERNEL_DEFCONFIG:arm ?= "${S}/arch/arm/configs/qcom_defconfig"
 KERNEL_CONFIG_FRAGMENTS += "${S}/kernel/configs/distro.config"
 
 inherit linux-qcom-bootimg
-inherit ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'uki', '', d)}
 
 kernel_conf_variable() {
 	sed -e "/CONFIG_$1[ =]/d;" -i ${B}/.config
