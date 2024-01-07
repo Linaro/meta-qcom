@@ -1,0 +1,69 @@
+From fa35757ae0a5a88bd1b7df8578ee9dac9d147c64 Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Fri, 25 Aug 2023 17:38:27 +0200
+Subject: [PATCH 5/9] interconnect: qcom: qcm2290: Hook up MAS_APPS_PROC's bus
+ clock
+
+This single node has its own clock which seems to be responsible for
+transactions between CPUSS (CPU + some stuff) and the GNOC. See [1]
+for reference.
+
+Define it and hook it up.
+
+[1] https://android.googlesource.com/kernel/msm-extra/devicetree/+/02f8c342b23c20a5cf967df649814be37a08227c%5E%21/#F0
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Link: https://lore.kernel.org/r/20230726-topic-icc_coeff-v4-5-c04b60caa467@linaro.org
+Signed-off-by: Georgi Djakov <djakov@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git fa35757ae0a5]
+---
+ drivers/interconnect/qcom/icc-rpm-clocks.c | 6 ++++++
+ drivers/interconnect/qcom/icc-rpm.h        | 1 +
+ drivers/interconnect/qcom/qcm2290.c        | 3 +++
+ 3 files changed, 10 insertions(+)
+
+diff --git a/drivers/interconnect/qcom/icc-rpm-clocks.c b/drivers/interconnect/qcom/icc-rpm-clocks.c
+index 63c82a91bbc7..ac1677de7dfd 100644
+--- a/drivers/interconnect/qcom/icc-rpm-clocks.c
++++ b/drivers/interconnect/qcom/icc-rpm-clocks.c
+@@ -25,6 +25,12 @@ const struct rpm_clk_resource bimc_clk = {
+ };
+ EXPORT_SYMBOL_GPL(bimc_clk);
+ 
++const struct rpm_clk_resource mem_1_clk = {
++	.resource_type = QCOM_SMD_RPM_MEM_CLK,
++	.clock_id = 1,
++};
++EXPORT_SYMBOL_GPL(mem_1_clk);
++
+ const struct rpm_clk_resource bus_0_clk = {
+ 	.resource_type = QCOM_SMD_RPM_BUS_CLK,
+ 	.clock_id = 0,
+diff --git a/drivers/interconnect/qcom/icc-rpm.h b/drivers/interconnect/qcom/icc-rpm.h
+index 4abf99ce2690..a13768cfd231 100644
+--- a/drivers/interconnect/qcom/icc-rpm.h
++++ b/drivers/interconnect/qcom/icc-rpm.h
+@@ -152,6 +152,7 @@ extern const struct rpm_clk_resource bimc_clk;
+ extern const struct rpm_clk_resource bus_0_clk;
+ extern const struct rpm_clk_resource bus_1_clk;
+ extern const struct rpm_clk_resource bus_2_clk;
++extern const struct rpm_clk_resource mem_1_clk;
+ extern const struct rpm_clk_resource mmaxi_0_clk;
+ extern const struct rpm_clk_resource mmaxi_1_clk;
+ extern const struct rpm_clk_resource qup_clk;
+diff --git a/drivers/interconnect/qcom/qcm2290.c b/drivers/interconnect/qcom/qcm2290.c
+index 5bc4b7516608..026e4c82d6d4 100644
+--- a/drivers/interconnect/qcom/qcm2290.c
++++ b/drivers/interconnect/qcom/qcm2290.c
+@@ -112,6 +112,9 @@ static struct qcom_icc_node mas_appss_proc = {
+ 	.qos.qos_mode = NOC_QOS_MODE_FIXED,
+ 	.qos.prio_level = 0,
+ 	.qos.areq_prio = 0,
++	.bus_clk_desc = &mem_1_clk,
++	.ab_coeff = 159,
++	.ib_coeff = 96,
+ 	.mas_rpm_id = 0,
+ 	.slv_rpm_id = -1,
+ 	.num_links = ARRAY_SIZE(mas_appss_proc_links),
+-- 
+2.39.2
+

@@ -1,0 +1,53 @@
+From 3d1bd03aa758d8766f3d7e3cae8aa24d9fe0bf09 Mon Sep 17 00:00:00 2001
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Date: Tue, 21 Nov 2023 13:20:18 +0200
+Subject: [PATCH 3/3] arm64: dts: qcom: sm6115: Enable USB3 SS phy
+
+There is no reason to limit USB3 controller to USB2 functionality,
+moreover it fixes a contradiction with the selected super-speed
+mode on RB2 board. Additionally specify the OTG function in the SoC
+specific description.
+
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Upstream-Status: Pending
+---
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 1 -
+ arch/arm64/boot/dts/qcom/sm6115.dtsi     | 3 ++-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+index 97344508c94f..549f36276269 100644
+--- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
++++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+@@ -608,7 +608,6 @@ &usb {
+ };
+ 
+ &usb_dwc3 {
+-	maximum-speed = "super-speed";
+ 	dr_mode = "host";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+index ca49e8c7f6e6..3680dc203263 100644
+--- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+@@ -1607,7 +1607,6 @@ &bimc SLAVE_EBI_CH0 RPM_ALWAYS_TAG>,
+ 			interconnect-names = "usb-ddr",
+ 					     "apps-usb";
+ 
+-			qcom,select-utmi-as-pipe-clk;
+ 			status = "disabled";
+ 
+ 			usb_dwc3: usb@4e00000 {
+@@ -1622,6 +1621,8 @@ usb_dwc3: usb@4e00000 {
+ 				snps,has-lpm-erratum;
+ 				snps,hird-threshold = /bits/ 8 <0x10>;
+ 				snps,usb3_lpm_capable;
++				maximum-speed = "super-speed";
++				dr_mode = "otg";
+ 			};
+ 		};
+ 
+-- 
+2.39.2
+

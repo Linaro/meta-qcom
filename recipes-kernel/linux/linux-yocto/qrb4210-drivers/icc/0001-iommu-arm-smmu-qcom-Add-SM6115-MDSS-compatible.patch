@@ -1,0 +1,30 @@
+From 3b744008c1d08c25c9066206b8f4c3fb0006e9d0 Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Wed, 29 Nov 2023 15:44:02 +0100
+Subject: [PATCH] iommu/arm-smmu-qcom: Add SM6115 MDSS compatible
+
+Add the SM6115 MDSS compatible to clients compatible list, as it also
+needs the workarounds.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Upstream-Status: Pending
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index fdabb4b3f7c0..db7c4c71dec1 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -254,6 +254,7 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
+ 	{ .compatible = "qcom,sc8280xp-mdss" },
+ 	{ .compatible = "qcom,sdm845-mdss" },
+ 	{ .compatible = "qcom,sdm845-mss-pil" },
++	{ .compatible = "qcom,sm6115-mdss" },
+ 	{ .compatible = "qcom,sm6350-mdss" },
+ 	{ .compatible = "qcom,sm6375-mdss" },
+ 	{ .compatible = "qcom,sm8150-mdss" },
+-- 
+2.39.2
+

@@ -1,0 +1,43 @@
+From 550064a85ba564cfb508a995f45e39a6ad0e26ed Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Fri, 25 Aug 2023 17:38:29 +0200
+Subject: [PATCH 7/9] interconnect: qcom: qcm2290: Update EBI channel
+ configuration
+
+QCM2290 can support two memory configurations: single-channel, 32-bit
+wide LPDDR3 @ up to 933MHz (bus clock) or dual-channel, 16-bit wide
+LPDDR4X @ up to 1804 MHz. The interconnect driver in its current form
+seems to gravitate towards the first one, however there are no LPDDR3-
+equipped boards upstream and we still don't have a great way to discern
+the DDR generations on the kernel side.
+
+To make DDR scaling possible on the only currently-supported 2290
+board, stick with the LPDDR4X config by default. The side effect on any
+potential LPDDR3 board would be that the requested bus clock rate is
+too high (but still capped to the firmware-configured FMAX).
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Link: https://lore.kernel.org/r/20230726-topic-icc_coeff-v4-7-c04b60caa467@linaro.org
+Signed-off-by: Georgi Djakov <djakov@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 550064a85ba5]
+---
+ drivers/interconnect/qcom/qcm2290.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/interconnect/qcom/qcm2290.c b/drivers/interconnect/qcom/qcm2290.c
+index 7abc0c449220..b88cf9a022e0 100644
+--- a/drivers/interconnect/qcom/qcm2290.c
++++ b/drivers/interconnect/qcom/qcm2290.c
+@@ -678,7 +678,8 @@ static struct qcom_icc_node mas_gfx3d = {
+ static struct qcom_icc_node slv_ebi1 = {
+ 	.name = "slv_ebi1",
+ 	.id = QCM2290_SLAVE_EBI1,
+-	.buswidth = 8,
++	.buswidth = 4,
++	.channels = 2,
+ 	.mas_rpm_id = -1,
+ 	.slv_rpm_id = 0,
+ };
+-- 
+2.39.2
+
