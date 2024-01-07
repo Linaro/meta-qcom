@@ -9,6 +9,8 @@ SRC_URI:append:qcom = " \
     file://qca6390-dts/0001-arm64-dts-qcom-qrb5165-rb5-add-qca639x-power-domain.patch \
     file://qca6390-dts/0002-arm64-dts-qcom-Add-Bluetooth-support-on-RB5.patch \
     file://qca6390-dts/0003-arm64-dtb-qcom-qrb5165-rb5-add-power-domain-to-pcie0.patch \
+    file://generic-drivers/mpm/0001-dt-bindings-interrupt-controller-mpm-Pass-MSG-RAM-sl.patch \
+    file://generic-drivers/mpm/0002-irqchip-irq-qcom-mpm-Support-passing-a-slice-of-SRAM.patch \
     file://qrb2210-drivers/0001_dt_bindings_display_msm_qcm2290_mdss_use_the_non_deprecated_dsi_compat.patch \
     file://qrb2210-drivers/0002_dt_bindings_display_msm_add_reg_bus_and_rotator_interconnects.patch \
     file://qrb2210-drivers/0003_dt_bindings_interconnect_qcom_msm8998_bwmon_add_qcm2290_bwmon_instance.patch \
@@ -25,6 +27,7 @@ SRC_URI:append:qcom = " \
     file://qrb2210-dts/features/0010_arm64_dts_qcom_qrb2210_rb1_set_up_hdmi.patch \
     file://qrb2210-dts/features/0011_arm64_dts_qcom_qrb2210_rb1_enable_can_bus_controller.patch \
     file://qrb2210-dts/features/0012_arm64_dts_qcom_qrb2210_rb1_add_wifi_variant_property.patch \
+    file://qrb2210-dts/0001-arm64-dts-qcom-qcm2290-Hook-up-MPM.patch \
     file://generic-drivers/0001-FROMLIST-dma-heap-Add-proper-kref-handling-on-dma-bu.patch \
     file://generic-drivers/0002-FROMLIST-dma-heap-Provide-accessors-so-that-in-kerne.patch \
     file://qcm6490-drivers/0001-FROMGIT-phy-qcom-qmp-ufs-Add-Phy-Configuration-suppo.patch \
