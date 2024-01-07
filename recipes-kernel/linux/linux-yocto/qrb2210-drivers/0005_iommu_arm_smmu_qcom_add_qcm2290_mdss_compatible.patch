@@ -1,0 +1,28 @@
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: iommu/arm-smmu-qcom: Add QCM2290 MDSS compatible
+Date: Wed, 29 Nov 2023 15:44:02 +0100
+
+Add the QCM2290 MDSS compatible to clients compatible list, as it also
+needs the workarounds.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Upstream-Status: Backport [https://git.kernel.org/will/c/28af105cb650]
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index 549ae4dba3a6..aea5e85b20ff 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -245,6 +245,7 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
+ 	{ .compatible = "qcom,adreno" },
+ 	{ .compatible = "qcom,mdp4" },
+ 	{ .compatible = "qcom,mdss" },
++	{ .compatible = "qcom,qcm2290-mdss" },
+ 	{ .compatible = "qcom,sc7180-mdss" },
+ 	{ .compatible = "qcom,sc7180-mss-pil" },
+ 	{ .compatible = "qcom,sc7280-mdss" },
+-- 
+2.43.0

@@ -1,0 +1,27 @@
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: dt-bindings: interconnect: qcom,msm8998-bwmon: Add QCM2290 bwmon instance
+Date: Wed, 29 Nov 2023 15:44:00 +0100
+
+QCM2290 has a single BWMONv4 intance for CPU. Document it.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Upstream-Status: Submitted [https://lore.kernel.org/linux-arm-msm/20231125-topic-rb1_feat-v3-3-4cbb567743bb@linaro.org/]
+---
+ Documentation/devicetree/bindings/interconnect/qcom,msm8998-bwmon.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/interconnect/qcom,msm8998-bwmon.yaml b/Documentation/devicetree/bindings/interconnect/qcom,msm8998-bwmon.yaml
+index 7cb8df757477..a88cea732370 100644
+--- a/Documentation/devicetree/bindings/interconnect/qcom,msm8998-bwmon.yaml
++++ b/Documentation/devicetree/bindings/interconnect/qcom,msm8998-bwmon.yaml
+@@ -25,6 +25,7 @@ properties:
+       - const: qcom,msm8998-bwmon       # BWMON v4
+       - items:
+           - enum:
++              - qcom,qcm2290-cpu-bwmon
+               - qcom,sc7180-cpu-bwmon
+               - qcom,sc7280-cpu-bwmon
+               - qcom,sc8280xp-cpu-bwmon
+-- 
+2.43.0

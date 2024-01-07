@@ -1,0 +1,54 @@
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arm64: dts: qcom: qrb2210-rb1: Enable CAN bus controller
+Date: Wed, 29 Nov 2023 15:44:08 +0100
+
+Enable the Microchip mcp2518fd hosted on the SPI5 bus.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 252bc7ad359478dba8d77bce9502f2cc7bb547a3]
+---
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
+index ac6584164058..ac597eb3fe9d 100644
+--- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
++++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
+@@ -23,6 +23,14 @@ chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
++	clocks {
++		clk40M: can-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <40000000>;
++			#clock-cells = <0>;
++		};
++	};
++
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 		label = "gpio-keys";
+@@ -449,6 +457,20 @@ &sdhc_2 {
+ 	status = "okay";
+ };
+ 
++&spi5 {
++	status = "okay";
++
++	can@0 {
++		compatible = "microchip,mcp2518fd";
++		reg = <0>;
++		interrupts-extended = <&tlmm 39 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&clk40M>;
++		spi-max-frequency = <10000000>;
++		vdd-supply = <&vdc_5v>;
++		xceiver-supply = <&vdc_5v>;
++	};
++};
++
+ &tlmm {
+ 	lt9611_rst_pin: lt9611-rst-state {
+ 		pins = "gpio41";
+-- 
+2.43.0

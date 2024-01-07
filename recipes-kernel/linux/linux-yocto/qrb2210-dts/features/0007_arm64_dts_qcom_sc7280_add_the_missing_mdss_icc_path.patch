@@ -1,0 +1,45 @@
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arm64: dts: qcom: sc7280: Add the missing MDSS icc path
+Date: Wed, 29 Nov 2023 15:44:04 +0100
+
+MDSS, aside from the MDP-MEM path, also requires the CPU-DISP_CFG one.
+Failing to provide it may result in register accesses failing and that's
+never good.
+
+Add the missing path.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git c657056d99878c8a8ea84d5d4a9101bcb90b47f2]
+---
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 04bf85b0399a..41d327b1f1b6 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -15,6 +15,7 @@
+ #include <dt-bindings/dma/qcom-gpi.h>
+ #include <dt-bindings/firmware/qcom,scm.h>
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interconnect/qcom,icc.h>
+ #include <dt-bindings/interconnect/qcom,osm-l3.h>
+ #include <dt-bindings/interconnect/qcom,sc7280.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+@@ -3958,8 +3959,12 @@ mdss: display-subsystem@ae00000 {
+ 			interrupt-controller;
+ 			#interrupt-cells = <1>;
+ 
+-			interconnects = <&mmss_noc MASTER_MDP0 0 &mc_virt SLAVE_EBI1 0>;
+-			interconnect-names = "mdp0-mem";
++			interconnects = <&mmss_noc MASTER_MDP0 QCOM_ICC_TAG_ALWAYS
++					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
++					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
++					 &cnoc2 SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ALWAYS>;
++			interconnect-names = "mdp0-mem",
++					     "cpu-cfg";
+ 
+ 			iommus = <&apps_smmu 0x900 0x402>;
+ 
+-- 
+2.43.0
