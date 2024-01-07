@@ -9,6 +9,10 @@ SRC_URI:append:qcom = " \
     file://qca6390-dts/0001-arm64-dts-qcom-qrb5165-rb5-add-qca639x-power-domain.patch \
     file://qca6390-dts/0002-arm64-dts-qcom-Add-Bluetooth-support-on-RB5.patch \
     file://qca6390-dts/0003-arm64-dtb-qcom-qrb5165-rb5-add-power-domain-to-pcie0.patch \
+    file://qrb2210-dts/sans-icc/0003_arm64_dts_qcom_qrb2210_rb1_enable_remote_processors.patch \
+    file://qrb2210-dts/sans-icc/0004_arm64_dts_qcom_qrb2210_rb1_add_gpio_leds.patch \
+    file://qrb2210-dts/sans-icc/0005_arm64_dts_qcom_qrb2210_rb1_hook_up_usb3.patch \
+    file://qrb2210-dts/sans-icc/0001-arm64-dts-qcom-qrb2210-rb1-use-USB-host-mode.patch \
     file://generic-drivers/0001-FROMLIST-dma-heap-Add-proper-kref-handling-on-dma-bu.patch \
     file://generic-drivers/0002-FROMLIST-dma-heap-Provide-accessors-so-that-in-kerne.patch \
     file://qcm6490-drivers/0001-FROMGIT-phy-qcom-qmp-ufs-Add-Phy-Configuration-suppo.patch \
