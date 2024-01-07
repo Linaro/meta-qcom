@@ -11,8 +11,12 @@ SRC_URI:append:qcom = " \
     file://qca6390-dts/0003-arm64-dtb-qcom-qrb5165-rb5-add-power-domain-to-pcie0.patch \
     file://generic-drivers/mpm/0001-dt-bindings-interrupt-controller-mpm-Pass-MSG-RAM-sl.patch \
     file://generic-drivers/mpm/0002-irqchip-irq-qcom-mpm-Support-passing-a-slice-of-SRAM.patch \
+    file://generic-drivers/mdss-icc/0002_dt_bindings_display_msm_add_reg_bus_and_rotator_interconnects.patch \
+    file://generic-drivers/mdss-icc/0001_drm_msm_mdss_switch_mdss_to_use_devm_of_icc_get.patch \
+    file://generic-drivers/mdss-icc/0002_drm_msm_mdss_rename_path_references_to_mdp_path.patch \
+    file://generic-drivers/mdss-icc/0003_drm_msm_mdss_inline_msm_mdss_icc_request_bw.patch \
+    file://generic-drivers/mdss-icc/0004_drm_msm_mdss_handle_the_reg_bus_icc_path.patch \
     file://qrb2210-drivers/0001_dt_bindings_display_msm_qcm2290_mdss_use_the_non_deprecated_dsi_compat.patch \
-    file://qrb2210-drivers/0002_dt_bindings_display_msm_add_reg_bus_and_rotator_interconnects.patch \
     file://qrb2210-drivers/0003_dt_bindings_interconnect_qcom_msm8998_bwmon_add_qcm2290_bwmon_instance.patch \
     file://qrb2210-drivers/0004_dt_bindings_firmware_qcom_scm_allow_interconnect_for_everyone.patch \
     file://qrb2210-drivers/0005_iommu_arm_smmu_qcom_add_qcm2290_mdss_compatible.patch \
