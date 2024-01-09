@@ -54,9 +54,9 @@ index 2ea3117438c3..9478ce84d1c5 100644
 --- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
 +++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
 @@ -8,6 +8,7 @@
- #include <dt-bindings/clock/qcom,mmcc-msm8996.h>
  #include <dt-bindings/clock/qcom,rpmcc.h>
  #include <dt-bindings/interconnect/qcom,msm8996.h>
+ #include <dt-bindings/interconnect/qcom,msm8996-cbf.h>
 +#include <dt-bindings/firmware/qcom,scm.h>
  #include <dt-bindings/gpio/gpio.h>
  #include <dt-bindings/power/qcom-rpmpd.h>
@@ -100,9 +100,9 @@ index 06df931d8cad..63b6300844a9 100644
  #include <dt-bindings/clock/qcom,rpmh.h>
  #include <dt-bindings/clock/qcom,videocc-sc7180.h>
 +#include <dt-bindings/firmware/qcom,scm.h>
+ #include <dt-bindings/interconnect/qcom,icc.h>
  #include <dt-bindings/interconnect/qcom,osm-l3.h>
  #include <dt-bindings/interconnect/qcom,sc7180.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
 @@ -620,7 +621,7 @@ rmtfs_mem: memory@94600000 {
  			no-map;
  

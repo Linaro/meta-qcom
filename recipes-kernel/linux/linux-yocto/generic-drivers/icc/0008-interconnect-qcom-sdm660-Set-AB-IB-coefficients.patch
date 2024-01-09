@@ -1,0 +1,55 @@
+From a4a9251760185af9ca7ff1592a05a0eabfe0cd00 Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Fri, 25 Aug 2023 17:38:30 +0200
+Subject: [PATCH 8/9] interconnect: qcom: sdm660: Set AB/IB coefficients
+
+Some buses and nodes need additional manual adjustments atop the usual
+calculations. Fill in the missing coefficients.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Link: https://lore.kernel.org/r/20230726-topic-icc_coeff-v4-8-c04b60caa467@linaro.org
+Signed-off-by: Georgi Djakov <djakov@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git a4a925176018]
+---
+ drivers/interconnect/qcom/sdm660.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/interconnect/qcom/sdm660.c b/drivers/interconnect/qcom/sdm660.c
+index 36962f7bd7bb..7392bebba334 100644
+--- a/drivers/interconnect/qcom/sdm660.c
++++ b/drivers/interconnect/qcom/sdm660.c
+@@ -602,6 +602,7 @@ static struct qcom_icc_node mas_mdp_p0 = {
+ 	.name = "mas_mdp_p0",
+ 	.id = SDM660_MASTER_MDP_P0,
+ 	.buswidth = 16,
++	.ib_coeff = 50,
+ 	.mas_rpm_id = 8,
+ 	.slv_rpm_id = -1,
+ 	.qos.ap_owned = true,
+@@ -621,6 +622,7 @@ static struct qcom_icc_node mas_mdp_p1 = {
+ 	.name = "mas_mdp_p1",
+ 	.id = SDM660_MASTER_MDP_P1,
+ 	.buswidth = 16,
++	.ib_coeff = 50,
+ 	.mas_rpm_id = 61,
+ 	.slv_rpm_id = -1,
+ 	.qos.ap_owned = true,
+@@ -1540,6 +1542,7 @@ static const struct qcom_icc_desc sdm660_bimc = {
+ 	.num_nodes = ARRAY_SIZE(sdm660_bimc_nodes),
+ 	.bus_clk_desc = &bimc_clk,
+ 	.regmap_cfg = &sdm660_bimc_regmap_config,
++	.ab_coeff = 153,
+ };
+ 
+ static struct qcom_icc_node * const sdm660_cnoc_nodes[] = {
+@@ -1659,6 +1662,7 @@ static const struct qcom_icc_desc sdm660_mnoc = {
+ 	.intf_clocks = mm_intf_clocks,
+ 	.num_intf_clocks = ARRAY_SIZE(mm_intf_clocks),
+ 	.regmap_cfg = &sdm660_mnoc_regmap_config,
++	.ab_coeff = 153,
+ };
+ 
+ static struct qcom_icc_node * const sdm660_snoc_nodes[] = {
+-- 
+2.39.2
+

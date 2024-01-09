@@ -1,0 +1,47 @@
+From 8657ed471196f4dc8e7917453a39363e0014840c Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Fri, 25 Aug 2023 17:38:28 +0200
+Subject: [PATCH 6/9] interconnect: qcom: qcm2290: Set AB coefficients
+
+Some buses need additional manual adjustments atop the usual
+calculations. Fill in the missing coefficients.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Link: https://lore.kernel.org/r/20230726-topic-icc_coeff-v4-6-c04b60caa467@linaro.org
+Signed-off-by: Georgi Djakov <djakov@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 8657ed471196]
+---
+ drivers/interconnect/qcom/qcm2290.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/interconnect/qcom/qcm2290.c b/drivers/interconnect/qcom/qcm2290.c
+index 026e4c82d6d4..7abc0c449220 100644
+--- a/drivers/interconnect/qcom/qcm2290.c
++++ b/drivers/interconnect/qcom/qcm2290.c
+@@ -1202,6 +1202,7 @@ static const struct qcom_icc_desc qcm2290_bimc = {
+ 	.keep_alive = true,
+ 	/* M_REG_BASE() in vendor msm_bus_bimc_adhoc driver */
+ 	.qos_offset = 0x8000,
++	.ab_coeff = 153,
+ };
+ 
+ static struct qcom_icc_node * const qcm2290_cnoc_nodes[] = {
+@@ -1332,6 +1333,7 @@ static const struct qcom_icc_desc qcm2290_mmnrt_virt = {
+ 	.regmap_cfg = &qcm2290_snoc_regmap_config,
+ 	.keep_alive = true,
+ 	.qos_offset = 0x15000,
++	.ab_coeff = 142,
+ };
+ 
+ static struct qcom_icc_node * const qcm2290_mmrt_virt_nodes[] = {
+@@ -1348,6 +1350,7 @@ static const struct qcom_icc_desc qcm2290_mmrt_virt = {
+ 	.regmap_cfg = &qcm2290_snoc_regmap_config,
+ 	.keep_alive = true,
+ 	.qos_offset = 0x15000,
++	.ab_coeff = 139,
+ };
+ 
+ static const struct of_device_id qcm2290_noc_of_match[] = {
+-- 
+2.39.2
+

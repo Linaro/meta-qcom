@@ -1,0 +1,30 @@
+From 89293aa2737299d021d42fef649bdcd191953a0b Mon Sep 17 00:00:00 2001
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Date: Tue, 21 Nov 2023 13:22:49 +0200
+Subject: [PATCH 2/3] arm64: dts: qcom: qrb4210-rb2: Select USB3 host mode by
+ default
+
+The USB3 controller mode is selected by on-board DIP switches, and
+by default it is set to the host mode, specify the selection.
+
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Upstream-Status: Pending
+---
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+index 7c19f874fa71..97344508c94f 100644
+--- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
++++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+@@ -609,6 +609,7 @@ &usb {
+ 
+ &usb_dwc3 {
+ 	maximum-speed = "super-speed";
++	dr_mode = "host";
+ };
+ 
+ &usb_hsphy {
+-- 
+2.39.2
+

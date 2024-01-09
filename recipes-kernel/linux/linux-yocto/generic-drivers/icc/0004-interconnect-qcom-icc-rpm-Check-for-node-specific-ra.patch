@@ -1,0 +1,82 @@
+From ba3f826639782587b70a684dae79d39f6d3c433e Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Fri, 25 Aug 2023 17:38:26 +0200
+Subject: [PATCH 4/9] interconnect: qcom: icc-rpm: Check for node-specific rate
+ coefficients
+
+Some nodes may have different coefficients than the general values for
+bus they're attached to. Check for that and use them if present. See
+[1], [2] for reference.
+
+[1] https://github.com/sonyxperiadev/kernel/commit/7456d9779af9ad6bb9c7ee6f33d5c5a8d3648e24
+[2] https://github.com/artem/android_kernel_sony_msm8996/commit/bf7a8985dcaf0eab5bc2562d2d6775e7e29c0f30
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Link: https://lore.kernel.org/r/20230726-topic-icc_coeff-v4-4-c04b60caa467@linaro.org
+Signed-off-by: Georgi Djakov <djakov@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git ba3f82663978]
+---
+ drivers/interconnect/qcom/icc-rpm.c | 14 ++++++++++----
+ drivers/interconnect/qcom/icc-rpm.h |  4 ++++
+ 2 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/interconnect/qcom/icc-rpm.c b/drivers/interconnect/qcom/icc-rpm.c
+index 1d3af4e9ead8..9c40314e03b5 100644
+--- a/drivers/interconnect/qcom/icc-rpm.c
++++ b/drivers/interconnect/qcom/icc-rpm.c
+@@ -300,14 +300,14 @@ static u64 qcom_icc_calc_rate(struct qcom_icc_provider *qp, struct qcom_icc_node
+ 	else
+ 		agg_avg_rate = qn->sum_avg[ctx];
+ 
+-	if (qp->ab_coeff) {
+-		agg_avg_rate = agg_avg_rate * qp->ab_coeff;
++	if (qn->ab_coeff) {
++		agg_avg_rate = agg_avg_rate * qn->ab_coeff;
+ 		agg_avg_rate = div_u64(agg_avg_rate, 100);
+ 	}
+ 
+-	if (qp->ib_coeff) {
++	if (qn->ib_coeff) {
+ 		agg_peak_rate = qn->max_peak[ctx] * 100;
+-		agg_peak_rate = div_u64(qn->max_peak[ctx], qp->ib_coeff);
++		agg_peak_rate = div_u64(qn->max_peak[ctx], qn->ib_coeff);
+ 	} else {
+ 		agg_peak_rate = qn->max_peak[ctx];
+ 	}
+@@ -563,6 +563,12 @@ int qnoc_probe(struct platform_device *pdev)
+ 	for (i = 0; i < num_nodes; i++) {
+ 		size_t j;
+ 
++		if (!qnodes[i]->ab_coeff)
++			qnodes[i]->ab_coeff = qp->ab_coeff;
++
++		if (!qnodes[i]->ib_coeff)
++			qnodes[i]->ib_coeff = qp->ib_coeff;
++
+ 		node = icc_node_create(qnodes[i]->id);
+ 		if (IS_ERR(node)) {
+ 			ret = PTR_ERR(node);
+diff --git a/drivers/interconnect/qcom/icc-rpm.h b/drivers/interconnect/qcom/icc-rpm.h
+index 725e0d4840e4..4abf99ce2690 100644
+--- a/drivers/interconnect/qcom/icc-rpm.h
++++ b/drivers/interconnect/qcom/icc-rpm.h
+@@ -103,6 +103,8 @@ struct qcom_icc_qos {
+  * @mas_rpm_id:	RPM id for devices that are bus masters
+  * @slv_rpm_id:	RPM id for devices that are bus slaves
+  * @qos: NoC QoS setting parameters
++ * @ab_coeff: a percentage-based coefficient for compensating the AB calculations
++ * @ib_coeff: an inverse-percentage-based coefficient for compensating the IB calculations
+  * @bus_clk_rate: a pointer to an array containing bus clock rates in Hz
+  */
+ struct qcom_icc_node {
+@@ -118,6 +120,8 @@ struct qcom_icc_node {
+ 	int mas_rpm_id;
+ 	int slv_rpm_id;
+ 	struct qcom_icc_qos qos;
++	u16 ab_coeff;
++	u16 ib_coeff;
+ 	u32 bus_clk_rate[QCOM_SMD_RPM_STATE_NUM];
+ };
+ 
+-- 
+2.39.2
+

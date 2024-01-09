@@ -1,0 +1,42 @@
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: dt-bindings: firmware: qcom,scm: Allow interconnect for everyone
+Date: Wed, 29 Nov 2023 15:44:01 +0100
+
+Every Qualcomm SoC physically has a "CRYPTO0<->DDR" interconnect lane.
+Allow this property to be present, no matter the SoC.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 56fdc35ef067c8dffee22038dd3a84bb3fa6d2a4]
+---
+ Documentation/devicetree/bindings/firmware/qcom,scm.yaml | 15 ---------------
+ 1 file changed, 15 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
+index 0613a37a851a..f3a87a8426d0 100644
+--- a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
++++ b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
+@@ -178,21 +178,6 @@ allOf:
+           minItems: 3
+           maxItems: 3
+ 
+-  # Interconnects
+-  - if:
+-      not:
+-        properties:
+-          compatible:
+-            contains:
+-              enum:
+-                - qcom,scm-qdu1000
+-                - qcom,scm-sc8280xp
+-                - qcom,scm-sm8450
+-                - qcom,scm-sm8550
+-    then:
+-      properties:
+-        interconnects: false
+-
+   # Interrupts
+   - if:
+       not:
+-- 
+2.43.0

@@ -1,0 +1,126 @@
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arm64: dts: qcom: qrb2210-rb1: Set up HDMI
+Date: Wed, 29 Nov 2023 15:44:07 +0100
+
+Add the required nodes to support display output via the HDMI port.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 616eda24edd48b8b56516886c51d211fbfd2679b]
+---
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 86 ++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
+index 94885b9c21c8..ac6584164058 100644
+--- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
++++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
+@@ -40,6 +40,17 @@ key-volume-up {
+ 		};
+ 	};
+ 
++	hdmi-connector {
++		compatible = "hdmi-connector";
++		type = "a";
++
++		port {
++			hdmi_con: endpoint {
++				remote-endpoint = <&lt9611_out>;
++			};
++		};
++	};
++
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+@@ -158,6 +169,68 @@ vph_pwr: regulator-vph-pwr {
+ 	};
+ };
+ 
++&gpi_dma0 {
++	status = "okay";
++};
++
++&i2c2 {
++	clock-frequency = <400000>;
++	status = "okay";
++
++	lt9611_codec: hdmi-bridge@2b {
++		compatible = "lontium,lt9611uxc";
++		reg = <0x2b>;
++		interrupts-extended = <&tlmm 46 IRQ_TYPE_EDGE_FALLING>;
++		reset-gpios = <&tlmm 41 GPIO_ACTIVE_HIGH>;
++
++		vdd-supply = <&vreg_hdmi_out_1p2>;
++		vcc-supply = <&lt9611_3v3>;
++
++		pinctrl-0 = <&lt9611_irq_pin &lt9611_rst_pin>;
++		pinctrl-names = "default";
++		#sound-dai-cells = <1>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				lt9611_a: endpoint {
++					remote-endpoint = <&mdss_dsi0_out>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				lt9611_out: endpoint {
++					remote-endpoint = <&hdmi_con>;
++				};
++			};
++		};
++	};
++};
++
++&mdss {
++	status = "okay";
++};
++
++&mdss_dsi0 {
++	vdda-supply = <&pm2250_l5>;
++	status = "okay";
++};
++
++&mdss_dsi0_out {
++	remote-endpoint = <&lt9611_a>;
++	data-lanes = <0 1 2 3>;
++};
++
++&mdss_dsi0_phy {
++	status = "okay";
++};
++
+ &pm2250_resin {
+ 	linux,code = <KEY_VOLUMEDOWN>;
+ 	status = "okay";
+@@ -377,6 +450,19 @@ &sdhc_2 {
+ };
+ 
+ &tlmm {
++	lt9611_rst_pin: lt9611-rst-state {
++		pins = "gpio41";
++		function = "gpio";
++		input-disable;
++		output-high;
++	};
++
++	lt9611_irq_pin: lt9611-irq-state {
++		pins = "gpio46";
++		function = "gpio";
++		bias-disable;
++	};
++
+ 	sd_det_in_on: sd-det-in-on-state {
+ 		pins = "gpio88";
+ 		function = "gpio";
+-- 
+2.43.0

@@ -1,0 +1,99 @@
+From 919791d82d3b878094e9edc39b0d9a4eafcc0860 Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Fri, 25 Aug 2023 17:38:25 +0200
+Subject: [PATCH 3/9] interconnect: qcom: icc-rpm: Let nodes drive their own
+ bus clock
+
+If this hardware couldn't get messier, some nodes are supposed to drive
+their own bus clock.. Presumably to connect to some intermediate
+interface between the node itself and the bus it's (supposed to be)
+connected to.
+
+Expand the node struct with the necessary data and hook up the
+allocations & calculations.
+
+Note that the node-specific AB/IB coefficients contribute (by design)
+to both the node-level and the bus-level aggregation.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Link: https://lore.kernel.org/r/20230726-topic-icc_coeff-v4-3-c04b60caa467@linaro.org
+Signed-off-by: Georgi Djakov <djakov@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 919791d82d3b]
+---
+ drivers/interconnect/qcom/icc-rpm.c | 27 +++++++++++++++++++++++++++
+ drivers/interconnect/qcom/icc-rpm.h |  4 ++++
+ 2 files changed, 31 insertions(+)
+
+diff --git a/drivers/interconnect/qcom/icc-rpm.c b/drivers/interconnect/qcom/icc-rpm.c
+index 8c1bfd65d774..1d3af4e9ead8 100644
+--- a/drivers/interconnect/qcom/icc-rpm.c
++++ b/drivers/interconnect/qcom/icc-rpm.c
+@@ -414,6 +414,33 @@ static int qcom_icc_set(struct icc_node *src, struct icc_node *dst)
+ 		qp->bus_clk_rate[QCOM_SMD_RPM_SLEEP_STATE] = sleep_rate;
+ 	}
+ 
++	/* Handle the node-specific clock */
++	if (!src_qn->bus_clk_desc)
++		return 0;
++
++	active_rate = qcom_icc_calc_rate(qp, src_qn, QCOM_SMD_RPM_ACTIVE_STATE);
++	sleep_rate = qcom_icc_calc_rate(qp, src_qn, QCOM_SMD_RPM_SLEEP_STATE);
++
++	if (active_rate != src_qn->bus_clk_rate[QCOM_SMD_RPM_ACTIVE_STATE]) {
++		ret = qcom_icc_rpm_set_bus_rate(src_qn->bus_clk_desc, QCOM_SMD_RPM_ACTIVE_STATE,
++						active_rate);
++		if (ret)
++			return ret;
++
++		/* Cache the rate after we've successfully committed it to RPM */
++		src_qn->bus_clk_rate[QCOM_SMD_RPM_ACTIVE_STATE] = active_rate;
++	}
++
++	if (sleep_rate != src_qn->bus_clk_rate[QCOM_SMD_RPM_SLEEP_STATE]) {
++		ret = qcom_icc_rpm_set_bus_rate(src_qn->bus_clk_desc, QCOM_SMD_RPM_SLEEP_STATE,
++						sleep_rate);
++		if (ret)
++			return ret;
++
++		/* Cache the rate after we've successfully committed it to RPM */
++		src_qn->bus_clk_rate[QCOM_SMD_RPM_SLEEP_STATE] = sleep_rate;
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/interconnect/qcom/icc-rpm.h b/drivers/interconnect/qcom/icc-rpm.h
+index 5e7d6a4fd2f3..725e0d4840e4 100644
+--- a/drivers/interconnect/qcom/icc-rpm.h
++++ b/drivers/interconnect/qcom/icc-rpm.h
+@@ -97,11 +97,13 @@ struct qcom_icc_qos {
+  * @num_links: the total number of @links
+  * @channels: number of channels at this node (e.g. DDR channels)
+  * @buswidth: width of the interconnect between a node and the bus (bytes)
++ * @bus_clk_desc: a pointer to a rpm_clk_resource description of bus clocks
+  * @sum_avg: current sum aggregate value of all avg bw requests
+  * @max_peak: current max aggregate value of all peak bw requests
+  * @mas_rpm_id:	RPM id for devices that are bus masters
+  * @slv_rpm_id:	RPM id for devices that are bus slaves
+  * @qos: NoC QoS setting parameters
++ * @bus_clk_rate: a pointer to an array containing bus clock rates in Hz
+  */
+ struct qcom_icc_node {
+ 	unsigned char *name;
+@@ -110,11 +112,13 @@ struct qcom_icc_node {
+ 	u16 num_links;
+ 	u16 channels;
+ 	u16 buswidth;
++	const struct rpm_clk_resource *bus_clk_desc;
+ 	u64 sum_avg[QCOM_SMD_RPM_STATE_NUM];
+ 	u64 max_peak[QCOM_SMD_RPM_STATE_NUM];
+ 	int mas_rpm_id;
+ 	int slv_rpm_id;
+ 	struct qcom_icc_qos qos;
++	u32 bus_clk_rate[QCOM_SMD_RPM_STATE_NUM];
+ };
+ 
+ struct qcom_icc_desc {
+-- 
+2.39.2
+

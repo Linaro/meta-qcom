@@ -1,0 +1,72 @@
+From d974d3afa058b6857c95e860493542807d4a2eec Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Wed, 5 Apr 2023 12:48:34 +0200
+Subject: [PATCH 1/2] dt-bindings: interrupt-controller: mpm: Pass MSG RAM
+ slice through phandle
+
+Due to the wild nature of the Qualcomm RPM Message RAM, we can't really
+use 'reg' to point to the MPM's slice of Message RAM without cutting into
+an already-defined RPM MSG RAM node used for GLINK and SMEM.
+
+Document passing the register space as a slice of SRAM through the
+qcom,rpm-msg-ram property. This also makes 'reg' deprecated.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git d974d3afa058]
+---
+ .../bindings/interrupt-controller/qcom,mpm.yaml      | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/qcom,mpm.yaml b/Documentation/devicetree/bindings/interrupt-controller/qcom,mpm.yaml
+index 6a206111d4e0..ec957949a440 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/qcom,mpm.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/qcom,mpm.yaml
+@@ -29,6 +29,12 @@ properties:
+     maxItems: 1
+     description:
+       Specifies the base address and size of vMPM registers in RPM MSG RAM.
++    deprecated: true
++
++  qcom,rpm-msg-ram:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Phandle to the APSS MPM slice of the RPM Message RAM
+ 
+   interrupts:
+     maxItems: 1
+@@ -67,23 +73,22 @@ properties:
+ 
+ required:
+   - compatible
+-  - reg
+   - interrupts
+   - mboxes
+   - interrupt-controller
+   - '#interrupt-cells'
+   - qcom,mpm-pin-count
+   - qcom,mpm-pin-map
++  - qcom,rpm-msg-ram
+ 
+ additionalProperties: false
+ 
+ examples:
+   - |
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+-    mpm: interrupt-controller@45f01b8 {
++    mpm: interrupt-controller {
+         compatible = "qcom,mpm";
+         interrupts = <GIC_SPI 197 IRQ_TYPE_EDGE_RISING>;
+-        reg = <0x45f01b8 0x1000>;
+         mboxes = <&apcs_glb 1>;
+         interrupt-controller;
+         #interrupt-cells = <2>;
+@@ -96,5 +101,6 @@ examples:
+                            <86 183>,
+                            <90 260>,
+                            <91 260>;
++        qcom,rpm-msg-ram = <&apss_mpm>;
+         #power-domain-cells = <0>;
+     };
+-- 
+2.39.2
+
