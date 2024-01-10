@@ -66,9 +66,9 @@ python do_uki() {
     ukify_cmd += " --stub %s" % stub
 
     # Custom UKI name
-    output_dir = d.getVar('D') + "/" +  d.getVar('EFILINUXDIR')
+    output_dir = d.getVar('D') + "/" +  d.getVar('EFI_UKI_PATH')
     os.makedirs(output_dir, exist_ok=True)
-    output = output_dir + "/" + d.getVar('EFILINUXIMG')
+    output = output_dir + "/" + d.getVar('EFI_LINUX_IMG')
     ukify_cmd += " --output=%s" % output
 
     # Set env to determine where bitbake should look for dynamic libraries
@@ -86,5 +86,5 @@ python () {
 }
 
 FILES:${KERNEL_PACKAGE_NAME}-uki = " \
-    /${EFILINUXDIR}/${EFILINUXIMG} \
+    /${EFI_UKI_PATH}/${EFI_LINUX_IMG} \
 "
