@@ -27,6 +27,7 @@ FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute = "${FW_QCOM_PATH}/cdsp.mbn ${
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute-split = "${FW_QCOM_PATH}/cdsp.mdt ${FW_QCOM_PATH}/cdsp.b*"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-dsps = "${FW_QCOM_PATH}/dsps.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-gss = "${FW_QCOM_PATH}/gss.mbn"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-ipa = "${FW_QCOM_PATH}/ipa_fws.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-modem = "${FW_QCOM_PATH}/mba.mbn ${FW_QCOM_PATH}/modem.mbn ${FW_QCOM_PATH}/modem*.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-modem-split = "${FW_QCOM_PATH}/modem.mdt ${FW_QCOM_PATH}/modem.b*"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-q6 = "${FW_QCOM_PATH}/q6.mbn"
