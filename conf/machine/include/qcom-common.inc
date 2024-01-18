@@ -44,12 +44,14 @@ EFI_PROVIDER = "systemd-boot"
 # Install packages at root of ESP
 EFI_PREFIX = ""
 
-# Location of Kernel and dtb inside ESP
-EFILINUXDIR ?= "${EFI_PREFIX}EFI/Linux"
-EFIDTBDIR ?= "${EFI_PREFIX}dtb"
+# Location of dtb inside ESP
+EFI_DTB_DIR ?= "${EFI_PREFIX}dtb"
 
 # Unified Kernel Image (UKI) name
-EFILINUXIMG ?= "linux-${MACHINE}.efi"
+EFI_LINUX_IMG ?= "linux-${MACHINE}.efi"
 
 # Place dtb at EFIDTDIR to seamlessly package
-KERNEL_DTBDEST = "${EFIDTBDIR}"
+KERNEL_DTBDEST = "${EFI_DTB_DIR}"
+
+# UKI generation needs uncompressed Kernel image
+KERNEL_IMAGETYPES:append = " Image"

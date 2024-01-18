@@ -4,7 +4,7 @@ COMPATIBLE_HOST = '(x86_64.*|arm.*|aarch64.*)-(linux.*)'
 
 PACKAGE_INSTALL = " \
     kernel-devicetree \
-    kernel-uki \
+    linux-qcom-uki \
     systemd-boot \
     systemd-bootconf \
 "
