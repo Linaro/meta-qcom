@@ -1,0 +1,47 @@
+From f7de6f81ae7a37628a15dd3166ae869e7ca85ab0 Mon Sep 17 00:00:00 2001
+From: Atul Dhudase <quic_adhudase@quicinc.com>
+Date: Thu, 18 Jan 2024 14:56:11 +0530
+Subject: [PATCH] PENDING: arm64: dts: qcom: qcm6490: disable qcom watchdog
+
+Disable qcom watchdog for qcm6490 boards. With hypervisor enabled on
+qcm6490, accessing watchdog registers results into an external abort
+because hypervisor will trap that address and won't allow the access.
+
+Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
+Upstream-Status: Pending
+---
+ arch/arm64/boot/dts/qcom/qcm6490.dtsi | 4 ++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi  | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490.dtsi b/arch/arm64/boot/dts/qcom/qcm6490.dtsi
+index e05e0f3b4b12..838402affa1c 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcm6490.dtsi
+@@ -137,6 +137,10 @@ &video_mem {
+ 	reg = <0x0 0x8a700000 0x0 0x500000>;
+ };
+ 
++&watchdog {
++	status = "disabled";
++};
++
+ &wifi {
+ 	memory-region = <&wlan_fw_mem>;
+ };
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 9e849983c60b..1885b7df2527 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -5268,7 +5268,7 @@ msi-controller@17a40000 {
+ 			};
+ 		};
+ 
+-		watchdog@17c10000 {
++		watchdog: watchdog@17c10000 {
+ 			compatible = "qcom,apss-wdt-sc7280", "qcom,kpss-wdt";
+ 			reg = <0 0x17c10000 0 0x1000>;
+ 			clocks = <&sleep_clk>;
+-- 
+2.25.1
+
