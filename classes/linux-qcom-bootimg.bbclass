@@ -27,8 +27,7 @@ python do_qcom_img_deploy() {
     initrd = None
     if d.getVar('INITRAMFS_IMAGE') != '':
         initrd_image_name = d.getVar("INITRAMFS_IMAGE_NAME")
-        initrd_image_suffix = d.getVar("IMAGE_NAME_SUFFIX")
-        baseinitrd = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), initrd_image_name + initrd_image_suffix)
+        baseinitrd = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), initrd_image_name)
         for img in (".cpio.gz", ".cpio.lz4", ".cpio.lzo", ".cpio.lzma", ".cpio.xz", ".cpio"):
             if os.path.exists(baseinitrd + img):
                 initrd = baseinitrd + img
