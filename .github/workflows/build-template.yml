@@ -35,7 +35,7 @@ env:
 jobs:
   build:
     name: ${{github.event_name}} - ${{github.ref}}
-    runs-on: ubuntu-latest
+    runs-on: debian-bookworm
     steps:
     - name: Set up Python
       uses: actions/setup-python@v3
@@ -76,6 +76,7 @@ jobs:
             - INHERIT:remove = 'rm_work'
             - TCLIBC := '${tclibc}'
             - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
+            - INITRAMFS_IMAGE ?= 'initramfs-rootfs-image'
 
         EOF
         done
