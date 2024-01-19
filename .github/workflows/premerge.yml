@@ -7,7 +7,7 @@ jobs:
   build:
     uses: ./.github/workflows/build-template.yml
     with:
-      host: ubuntu-20.04
+      host: debian-bookworm
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-rootfs-image cryptodev-module
       machines: qcom-armv8a qcom-armv7a-modem qcom-armv7a
       ref: refs/pull/${{github.event.pull_request.number}}/merge
