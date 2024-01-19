@@ -76,6 +76,7 @@ jobs:
             - INHERIT:remove = 'rm_work'
             - TCLIBC := '${tclibc}'
             - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
+            - INITRAMFS_IMAGE ?= 'initramfs-rootfs-image'
 
         EOF
         done
