@@ -12,6 +12,7 @@ FW_QCOM_LIST = "\
     a640_zap.mbn \
     adsp.mbn adspr.jsn adspua.jsn \
     cdsp.mbn cdspr.jsn \
+    ipa_fws.mbn \
     modem.mbn modemuw.jsn \
     slpi.mbn slpir.jsn \
 "
@@ -24,6 +25,7 @@ SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
     linux-firmware-qcom-${FW_QCOM_NAME}-audio \
     linux-firmware-qcom-${FW_QCOM_NAME}-compute \
+    linux-firmware-qcom-${FW_QCOM_NAME}-ipa \
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \
     linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
     linux-firmware-qcom-adreno-a640 \

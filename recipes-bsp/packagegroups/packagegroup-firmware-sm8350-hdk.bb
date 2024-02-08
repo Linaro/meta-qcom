@@ -10,6 +10,7 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-sm8350-adreno \
     linux-firmware-qcom-sm8350-audio \
     linux-firmware-qcom-sm8350-compute \
+    linux-firmware-qcom-sm8350-ipa \
     linux-firmware-qcom-sm8350-modem \
     linux-firmware-qcom-sm8350-sensors \
     linux-firmware-qcom-vpu-2.0 \

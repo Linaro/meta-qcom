@@ -9,6 +9,7 @@ RRECOMMENDS:${PN} += " \
     firmware-qcom-sm8150-hdk \
     linux-firmware-qcom-sm8150-audio \
     linux-firmware-qcom-sm8150-compute \
+    linux-firmware-qcom-sm8150-ipa \
     linux-firmware-qcom-sm8150-modem \
     linux-firmware-qcom-sm8150-sensors \
 "
