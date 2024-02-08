@@ -1,5 +1,5 @@
 # do not override KBRANCH and SRCREV_machine, use default ones.
-COMPATIBLE_MACHINE:qcom = "qcom-armv8a"
+COMPATIBLE_MACHINE:qcom = "qcom-armv8a|qcom-armv7a"
 
 FILESEXTRAPATHS:prepend:qcom := "${THISDIR}/${PN}:"
 
