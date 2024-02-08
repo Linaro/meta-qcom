@@ -48,7 +48,6 @@ SRC_URI:append:qcom = " \
     file://qrb4210-dts/0002-arm64-dts-qcom-qrb4210-rb2-Enable-bluetooth.patch \
     file://qrb4210-dts/0001-arm64-dts-qcom-sm6115-Hook-up-interconnects.patch \
     file://qrb4210-dts/0001-arm64-dts-qcom-qrb4210-rb2-Enable-MPSS-and-Wi-Fi.patch \
-    file://qrb4210-dts/usb/0001-arm64-dts-qcom-qrb4210-rb2-don-t-force-usb-periphera.patch \
     file://qrb4210-dts/usb/0002-arm64-dts-qcom-qrb4210-rb2-Select-USB3-host-mode-by-.patch \
     file://qrb4210-dts/usb/0003-arm64-dts-qcom-sm6115-Enable-USB3-SS-phy.patch \
     file://generic-drivers/0001-FROMLIST-dma-heap-Add-proper-kref-handling-on-dma-bu.patch \
@@ -65,7 +64,6 @@ SRC_URI:append:qcom = " \
     file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcm6490-Update-the-protected-clock.patch \
     file://qcm6490-dtsi/0001-PENDING-dt-bindings-pinctrl-qcom-sc7280-pinctrl-add-.patch \
     file://qcm6490-dtsi/0002-PENDING-arm64-dts-qcom-qcm6490-Add-gpio-reserved-ran.patch \
-    file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcom-qcm6490-disable-qcom-watchdog.patch \
     file://qcm6490-board-dts/0001-FROMLIST-dt-bindings-arm-qcom-Add-QCM6490-IDP-board.patch \
     file://qcm6490-board-dts/0001-PENDING-dt-bindings-arm-qcom-Add-QCM6490-RB3-board.patch \
     file://qcm6490-board-dts/0002-PENDING-arm64-dts-qcom-Add-qcm6490-rb3-support.patch \
