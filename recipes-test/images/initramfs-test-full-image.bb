@@ -33,6 +33,7 @@ PACKAGE_INSTALL_openembedded-layer += " \
     gpsd-machine-conf \
     gps-utils \
     iozone3 \
+    libcamera \
     libgpiod \
     libgpiod-tools \
     lmbench \
