@@ -11,6 +11,7 @@ include qcom-armv7a.scc
 
 #include features/bluetooth/bluetooth.scc
 include features/cgroups/cgroups.scc
+include features/fuse/fuse.scc
 include features/transparent-hugepage/transparent-hugepage.cfg
 include features/usb-net/usb-net.scc
 
