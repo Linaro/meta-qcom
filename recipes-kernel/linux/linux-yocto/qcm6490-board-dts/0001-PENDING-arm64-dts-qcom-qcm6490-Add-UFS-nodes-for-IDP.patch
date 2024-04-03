@@ -1,4 +1,4 @@
-From 4aed09eb7fca388f4ebf0dbd7b732a70cac6f6c6 Mon Sep 17 00:00:00 2001
+From b51bcd8342aaaffa4d08fd3474b1512f9992886e Mon Sep 17 00:00:00 2001
 From: Manish Pandey <quic_mapa@quicinc.com>
 Date: Tue, 17 Oct 2023 23:46:10 +0530
 Subject: [PATCH 1/2] PENDING: arm64: dts: qcom: qcm6490: Add UFS nodes for IDP
@@ -16,16 +16,16 @@ Upstream-Status: Pending
  1 file changed, 19 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
-index 9b1bf7d1c98d..7d609317af82 100644
+index 3baea71e0248..424cd9c2b092 100644
 --- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
 +++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
-@@ -303,6 +303,25 @@ &uart5 {
+@@ -463,6 +463,25 @@ &uart5 {
  	status = "okay";
  };
  
 +&ufs_mem_hc {
 +	reset-gpios = <&tlmm 175 GPIO_ACTIVE_LOW>;
-+	vcc-supply = <&vreg_l7b_2p9>;
++	vcc-supply = <&vreg_l7b_2p952>;
 +	vcc-max-microamp = <800000>;
 +	vccq-supply = <&vreg_l9b_1p2>;
 +	vccq-max-microamp = <900000>;
@@ -36,7 +36,7 @@ index 9b1bf7d1c98d..7d609317af82 100644
 +};
 +
 +&ufs_mem_phy {
-+	vdda-phy-supply = <&vreg_l10c_0p8>;
++	vdda-phy-supply = <&vreg_l10c_0p88>;
 +	vdda-pll-supply = <&vreg_l6b_1p2>;
 +
 +	status = "okay";
