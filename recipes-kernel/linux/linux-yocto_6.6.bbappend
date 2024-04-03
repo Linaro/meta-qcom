@@ -60,4 +60,6 @@ SRC_URI:append:qcom = " \
     file://qcm6490-board-dts/0002-UPSTREAM-dt-bindings-arm-qcom-Add-QCM6490-IDP-and-QC.patch \
     file://qcm6490-board-dts/0003-UPSTREAM-arm64-dts-qcom-Add-base-qcm6490-id.patch \
     file://qcm6490-board-dts/0004-UPSTREAM-arm64-dts-qcom-Add-base-qcs6490-rb3gen2-boa.patch \
+    file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-qcs6490-rb3gen2-Correct-the-.patch \
+    file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Correct-the-volt.patch \
 "
