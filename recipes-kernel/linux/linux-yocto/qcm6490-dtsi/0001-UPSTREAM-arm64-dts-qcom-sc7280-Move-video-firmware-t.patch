@@ -1,0 +1,82 @@
+From 65d0e0ecf6725459457162b33d02333888bfa25e Mon Sep 17 00:00:00 2001
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Fri, 1 Dec 2023 10:33:19 +0100
+Subject: [PATCH] UPSTREAM: arm64: dts: qcom: sc7280: Move video-firmware to
+ chrome-common
+
+If the video-firmware node is present, the venus driver assumes we're on
+a system that doesn't use TZ for starting venus, like on ChromeOS
+devices.
+
+Move the video-firmware node to chrome-common.dtsi so we can use venus
+on a non-ChromeOS devices. We also need to move the secure SID 0x2184
+for iommu since (on some boards) we cannot touch that.
+
+At the same time also disable the venus node by default in the dtsi,
+like it's done on other SoCs.
+
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+Link: https://lore.kernel.org/r/20231201-sc7280-venus-pas-v3-2-bc132dc5fc30@fairphone.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 82066cdb17608abc95192632fd5c702be8e57ab5]
+---
+ arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 11 +++++++++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               |  9 +++------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+index 5d462ae14ba1..459ff877df54 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+@@ -104,6 +104,17 @@ &scm {
+ 	dma-coherent;
+ };
+ 
++&venus {
++	iommus = <&apps_smmu 0x2180 0x20>,
++		 <&apps_smmu 0x2184 0x20>;
++
++	status = "okay";
++
++	video-firmware {
++		iommus = <&apps_smmu 0x21a2 0x0>;
++	};
++};
++
+ &watchdog {
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index cbd0f4176daa..1c136ad878ed 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -3725,10 +3725,11 @@ venus: video-codec@aa00000 {
+ 					<&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>;
+ 			interconnect-names = "cpu-cfg", "video-mem";
+ 
+-			iommus = <&apps_smmu 0x2180 0x20>,
+-				 <&apps_smmu 0x2184 0x20>;
++			iommus = <&apps_smmu 0x2180 0x20>;
+ 			memory-region = <&video_mem>;
+ 
++			status = "disabled";
++
+ 			video-decoder {
+ 				compatible = "venus-decoder";
+ 			};
+@@ -3737,10 +3738,6 @@ video-encoder {
+ 				compatible = "venus-encoder";
+ 			};
+ 
+-			video-firmware {
+-				iommus = <&apps_smmu 0x21a2 0x0>;
+-			};
+-
+ 			venus_opp_table: opp-table {
+ 				compatible = "operating-points-v2";
+ 
+-- 
+2.25.1
+

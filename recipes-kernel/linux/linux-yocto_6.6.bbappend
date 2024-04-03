@@ -55,6 +55,7 @@ SRC_URI:append:qcom = " \
     file://qcm6490-drivers/0001-FROMGIT-phy-qcom-qmp-ufs-Add-Phy-Configuration-suppo.patch \
     file://qcm6490-dtsi/0001-FROMLIST-arm64-dts-qcom-sc7280-Add-UFS-nodes-for-sc7.patch \
     file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcom-sc7280-Add-interconnect-paths.patch \
+    file://qcm6490-dtsi/0001-UPSTREAM-arm64-dts-qcom-sc7280-Move-video-firmware-t.patch \
     file://qcm6490-dtsi/0001-UPSTREAM-arm64-dts-qcom-Use-QCOM_SCM_VMID-defines-fo.patch \
     file://qcm6490-board-dts/0001-UPSTREAM-dt-bindings-arm-qcom-Add-QCM6490-Fairphone-.patch \
     file://qcm6490-board-dts/0002-UPSTREAM-dt-bindings-arm-qcom-Add-QCM6490-IDP-and-QC.patch \
