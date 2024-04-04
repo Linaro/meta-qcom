@@ -53,10 +53,16 @@ SRC_URI:append:qcom = " \
     file://generic-drivers/0001-FROMLIST-dma-heap-Add-proper-kref-handling-on-dma-bu.patch \
     file://generic-drivers/0002-FROMLIST-dma-heap-Provide-accessors-so-that-in-kerne.patch \
     file://qcm6490-drivers/0001-FROMGIT-phy-qcom-qmp-ufs-Add-Phy-Configuration-suppo.patch \
+    file://qcm6490-drivers/0001-UPSTREAM-remoteproc-qcom_q6v5_pas-Add-SC7280-ADSP-CD.patch \
     file://qcm6490-dtsi/0001-FROMLIST-arm64-dts-qcom-sc7280-Add-UFS-nodes-for-sc7.patch \
     file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcom-sc7280-Add-interconnect-paths.patch \
     file://qcm6490-dtsi/0001-UPSTREAM-arm64-dts-qcom-sc7280-Move-video-firmware-t.patch \
     file://qcm6490-dtsi/0001-UPSTREAM-arm64-dts-qcom-Use-QCOM_SCM_VMID-defines-fo.patch \
+    file://qcm6490-dtsi/0001-UPSTREAM-dt-bindings-remoteproc-qcom-sc7180-pas-Fix-.patch \
+    file://qcm6490-dtsi/0002-UPSTREAM-dt-bindings-remoteproc-qcom-sc7180-pas-Add-.patch \
+    file://qcm6490-dtsi/0003-UPSTREAM-arm64-dts-qcom-sc7280-Use-WPSS-PAS-instead-.patch \
+    file://qcm6490-dtsi/0004-UPSTREAM-arm64-dts-qcom-sc7280-Remove-unused-second-.patch \
+    file://qcm6490-dtsi/0005-UPSTREAM-arm64-dts-qcom-sc7280-Rename-reserved-memor.patch \
     file://qcm6490-board-dts/0001-UPSTREAM-dt-bindings-arm-qcom-Add-QCM6490-Fairphone-.patch \
     file://qcm6490-board-dts/0002-UPSTREAM-dt-bindings-arm-qcom-Add-QCM6490-IDP-and-QC.patch \
     file://qcm6490-board-dts/0003-UPSTREAM-arm64-dts-qcom-Add-base-qcm6490-id.patch \
@@ -68,6 +74,9 @@ SRC_URI:append:qcom = " \
     file://qcm6490-board-dts/0003-BACKPORT-FROMLIST-arm64-dts-qcom-qcs6490-rb3gen2-Upd.patch \
     file://qcm6490-board-dts/0001-PENDING-arm64-dts-qcom-qcm6490-Add-UFS-nodes-for-IDP.patch \
     file://qcm6490-board-dts/0002-PENDING-arm64-dts-qcom-Add-UFS-nodes-for-qcs6490-rb3.patch \
+    file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-sc7280-move-MPSS-and-WPSS-me.patch \
+    file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-sc7280-Add-ADSP-node.patch \
+    file://qcm6490-board-dts/0003-UPSTREAM-arm64-dts-qcom-sc7280-Add-CDSP-node.patch \
     file://workarounds/0001-QCLINUX-arm64-dts-qcom-qcm6490-disable-sdhc1-for-ufs.patch \
     file://workarounds/0001-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
     file://workarounds/0002-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
