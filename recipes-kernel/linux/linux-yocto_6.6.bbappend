@@ -77,6 +77,9 @@ SRC_URI:append:qcom = " \
     file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-sc7280-move-MPSS-and-WPSS-me.patch \
     file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-sc7280-Add-ADSP-node.patch \
     file://qcm6490-board-dts/0003-UPSTREAM-arm64-dts-qcom-sc7280-Add-CDSP-node.patch \
+    file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-qcs6490-rb3gen2-Enable-adsp-.patch \
+    file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcs6490-rb3gen2-Enable-vario.patch \
+    file://qcm6490-board-dts/0003-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Enable-various-r.patch \
     file://workarounds/0001-QCLINUX-arm64-dts-qcom-qcm6490-disable-sdhc1-for-ufs.patch \
     file://workarounds/0001-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
     file://workarounds/0002-PENDING-arm64-dts-qcom-Remove-voltage-vote-support-f.patch \
