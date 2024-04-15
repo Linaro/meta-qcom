@@ -39,3 +39,4 @@ do_install:append() {
 
 FILES:linux-firmware-qcom-adreno-a640 += "${FW_QCOM_BASE_PATH}/a640_gmu.bin"
 RDEPENDS:linux-firmware-qcom-adreno-a640 += "linux-firmware-qcom-adreno-a630"
+RDEPENDS:linux-firmware-qcom-adreno-a640:remove = "${PN}"
