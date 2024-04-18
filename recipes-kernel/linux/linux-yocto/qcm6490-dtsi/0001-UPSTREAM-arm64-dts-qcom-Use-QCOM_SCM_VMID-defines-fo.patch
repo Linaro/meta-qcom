@@ -1,19 +1,18 @@
-From e2392806ad7d9cfdbcb456cb08ba4f19f4601d2f Mon Sep 17 00:00:00 2001
+From d325de87af27d2f369fa04fa0a2367600280f322 Mon Sep 17 00:00:00 2001
 From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Thu, 5 Oct 2023 16:47:31 +0530
-Subject: [PATCH 2/3] FROMLIST: arm64: dts: qcom: Use QCOM_SCM_VMID defines for
+Date: Fri, 18 Aug 2023 10:06:09 +0200
+Subject: [PATCH] UPSTREAM: arm64: dts: qcom: Use QCOM_SCM_VMID defines for
  qcom,vmid
 
 Since we have those defines available in a header, let's use them
 everywhere where qcom,vmid property is used.
 
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Komal Bajaj <quic_kbajaj@quicinc.com>
-Signed-off-by: Salendarsingh Gaud <quic_sgaud@quicinc.com>
-Signed-off-by: Atul Dhudase <quic_adhudase@quicinc.com>
-Upstream-Status: Submitted [https://lore.kernel.org/linux-arm-msm/20230818-qcom-vmid-defines-v1-1-45b610c96b13@fairphone.com/]
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Link: https://lore.kernel.org/r/20230818-qcom-vmid-defines-v1-1-45b610c96b13@fairphone.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 018c949b32df9f17f52bf0e70f976719811db233]
 ---
  arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi          | 2 +-
  arch/arm64/boot/dts/qcom/msm8996.dtsi                        | 3 ++-
@@ -37,7 +36,7 @@ Upstream-Status: Submitted [https://lore.kernel.org/linux-arm-msm/20230818-qcom-
  19 files changed, 31 insertions(+), 19 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi b/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi
-index 3c5719640fab..1a55f84bbb90 100644
+index 06f8ff624181..8fda25167181 100644
 --- a/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi
 +++ b/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi
 @@ -115,7 +115,7 @@ rmtfs@f6c00000 {
@@ -50,10 +49,10 @@ index 3c5719640fab..1a55f84bbb90 100644
  
  		/delete-node/ mba@91500000;
 diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-index 2ea3117438c3..9478ce84d1c5 100644
+index 4d87cba47c76..fa8ec92ce490 100644
 --- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
 +++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-@@ -8,6 +8,7 @@
+@@ -9,6 +9,7 @@
  #include <dt-bindings/clock/qcom,rpmcc.h>
  #include <dt-bindings/interconnect/qcom,msm8996.h>
  #include <dt-bindings/interconnect/qcom,msm8996-cbf.h>
@@ -61,7 +60,7 @@ index 2ea3117438c3..9478ce84d1c5 100644
  #include <dt-bindings/gpio/gpio.h>
  #include <dt-bindings/power/qcom-rpmpd.h>
  #include <dt-bindings/soc/qcom,apr.h>
-@@ -431,7 +432,7 @@ rmtfs_mem: rmtfs {
+@@ -551,7 +552,7 @@ rmtfs_mem: rmtfs {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -71,7 +70,7 @@ index 2ea3117438c3..9478ce84d1c5 100644
  
  		mpss_mem: mpss@88800000 {
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-index ed764d02819f..f3e1dc5f67e3 100644
+index f91c58c844af..c9ee2d995087 100644
 --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
 +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
 @@ -6,6 +6,7 @@
@@ -92,7 +91,7 @@ index ed764d02819f..f3e1dc5f67e3 100644
  
  		spss_mem: memory@8ab00000 {
 diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 06df931d8cad..63b6300844a9 100644
+index 810e529e5f2e..65b077179acc 100644
 --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
 @@ -11,6 +11,7 @@
@@ -103,7 +102,7 @@ index 06df931d8cad..63b6300844a9 100644
  #include <dt-bindings/interconnect/qcom,icc.h>
  #include <dt-bindings/interconnect/qcom,osm-l3.h>
  #include <dt-bindings/interconnect/qcom,sc7180.h>
-@@ -620,7 +621,7 @@ rmtfs_mem: memory@94600000 {
+@@ -687,7 +688,7 @@ rmtfs_mem: memory@94600000 {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -113,7 +112,7 @@ index 06df931d8cad..63b6300844a9 100644
  	};
  
 diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 925428a5f6ae..042908048d09 100644
+index 9531167c498e..cbd0f4176daa 100644
 --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
 @@ -13,6 +13,7 @@
@@ -122,9 +121,9 @@ index 925428a5f6ae..042908048d09 100644
  #include <dt-bindings/dma/qcom-gpi.h>
 +#include <dt-bindings/firmware/qcom,scm.h>
  #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interconnect/qcom,icc.h>
  #include <dt-bindings/interconnect/qcom,osm-l3.h>
- #include <dt-bindings/interconnect/qcom,sc7280.h>
-@@ -156,7 +157,7 @@ rmtfs_mem: memory@9c900000 {
+@@ -157,7 +158,7 @@ rmtfs_mem: memory@9c900000 {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -134,7 +133,7 @@ index 925428a5f6ae..042908048d09 100644
  	};
  
 diff --git a/arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dts b/arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dts
-index fe3b366e1435..3f459d685f26 100644
+index abc66613ccaa..3ea07d094b60 100644
 --- a/arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dts
 +++ b/arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dts
 @@ -6,6 +6,7 @@
@@ -145,7 +144,7 @@ index fe3b366e1435..3f459d685f26 100644
  #include <dt-bindings/gpio/gpio.h>
  #include <dt-bindings/input/gpio-keys.h>
  #include <dt-bindings/input/input.h>
-@@ -52,7 +53,7 @@ rmtfs_mem: rmtfs-region@85500000 {
+@@ -130,7 +131,7 @@ rmtfs_mem: rmtfs-region@85500000 {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -155,7 +154,7 @@ index fe3b366e1435..3f459d685f26 100644
  
  		wlan_mem: wlan-region@8bc00000 {
 diff --git a/arch/arm64/boot/dts/qcom/sc8180x-primus.dts b/arch/arm64/boot/dts/qcom/sc8180x-primus.dts
-index fc038474cb71..8e06df27a344 100644
+index ae008c3b0aed..a40ef23a2a4f 100644
 --- a/arch/arm64/boot/dts/qcom/sc8180x-primus.dts
 +++ b/arch/arm64/boot/dts/qcom/sc8180x-primus.dts
 @@ -6,6 +6,7 @@
@@ -166,7 +165,7 @@ index fc038474cb71..8e06df27a344 100644
  #include <dt-bindings/gpio/gpio.h>
  #include <dt-bindings/input/gpio-keys.h>
  #include <dt-bindings/input/input.h>
-@@ -57,7 +58,7 @@ rmtfs_mem: rmtfs-region@85500000 {
+@@ -135,7 +136,7 @@ rmtfs_mem: rmtfs-region@85500000 {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -176,7 +175,7 @@ index fc038474cb71..8e06df27a344 100644
  
  		wlan_mem: wlan-region@8bc00000 {
 diff --git a/arch/arm64/boot/dts/qcom/sdm630.dtsi b/arch/arm64/boot/dts/qcom/sdm630.dtsi
-index 759b3a5964cc..691cddd02897 100644
+index ec6003212c4d..c17719086085 100644
 --- a/arch/arm64/boot/dts/qcom/sdm630.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sdm630.dtsi
 @@ -8,6 +8,7 @@
@@ -187,7 +186,7 @@ index 759b3a5964cc..691cddd02897 100644
  #include <dt-bindings/interconnect/qcom,sdm660.h>
  #include <dt-bindings/power/qcom-rpmpd.h>
  #include <dt-bindings/gpio/gpio.h>
-@@ -385,7 +386,7 @@ rmtfs_mem: memory@85e00000 {
+@@ -453,7 +454,7 @@ rmtfs_mem: memory@85e00000 {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -249,7 +248,7 @@ index 6db12abaa88d..e386b504e978 100644
  	};
  
 diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 89520a9fe1e3..862d1cf6c63c 100644
+index 234d7875cd8e..6d4f86d92fec 100644
 --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
 @@ -813,7 +813,7 @@ rmtfs_mem: rmtfs@88f00000 {
@@ -262,7 +261,7 @@ index 89520a9fe1e3..862d1cf6c63c 100644
  
  		qseecom_mem: qseecom@8ab00000 {
 diff --git a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-index e3dc49951523..45951810fa82 100644
+index 18171c5d8a38..136e273d09a7 100644
 --- a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
 +++ b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
 @@ -8,6 +8,7 @@
@@ -283,7 +282,7 @@ index e3dc49951523..45951810fa82 100644
  	};
  
 diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-index 06c53000bb74..ef072f0413d4 100644
+index 26b6d84548a5..7e78bf2c6a6c 100644
 --- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
 @@ -5,6 +5,7 @@
@@ -304,7 +303,7 @@ index 06c53000bb74..ef072f0413d4 100644
  
  		camera_mem: memory@8b700000 {
 diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index c236967725c1..ff92901f587e 100644
+index 5ed464c37422..a72f3c470089 100644
 --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
 @@ -10,6 +10,7 @@
@@ -315,7 +314,7 @@ index c236967725c1..ff92901f587e 100644
  #include <dt-bindings/gpio/gpio.h>
  #include <dt-bindings/interconnect/qcom,sm8350.h>
  #include <dt-bindings/mailbox/qcom-ipcc.h>
-@@ -492,7 +493,7 @@ rmtfs_mem: memory@9b800000 {
+@@ -503,7 +504,7 @@ rmtfs_mem: memory@9b800000 {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -338,7 +337,7 @@ index 001fb2723fbb..8b29fcf483a3 100644
  
  		ramoops@ffc00000 {
 diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-index 42b23ba7a573..e1b768d6ad3b 100644
+index 91d856e5b06b..35067d441a28 100644
 --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
 @@ -10,6 +10,7 @@
@@ -349,7 +348,7 @@ index 42b23ba7a573..e1b768d6ad3b 100644
  #include <dt-bindings/gpio/gpio.h>
  #include <dt-bindings/mailbox/qcom-ipcc.h>
  #include <dt-bindings/phy/phy-qcom-qmp.h>
-@@ -538,7 +539,7 @@ rmtfs_mem: memory@9fd00000 {
+@@ -540,7 +541,7 @@ rmtfs_mem: memory@9fd00000 {
  			no-map;
  
  			qcom,client-id = <1>;
@@ -359,7 +358,7 @@ index 42b23ba7a573..e1b768d6ad3b 100644
  
  		xbl_sc_mem2: memory@a6e00000 {
 diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
-index 6e8aba256931..681abf91e8a7 100644
+index 076715ef09d5..c0d781b30a90 100644
 --- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
 @@ -10,6 +10,7 @@
@@ -370,7 +369,7 @@ index 6e8aba256931..681abf91e8a7 100644
  #include <dt-bindings/gpio/gpio.h>
  #include <dt-bindings/interrupt-controller/arm-gic.h>
  #include <dt-bindings/interconnect/qcom,sm8550-rpmh.h>
-@@ -569,7 +570,7 @@ rmtfs_mem: rmtfs-region@d4a80000 {
+@@ -580,7 +581,7 @@ rmtfs_mem: rmtfs-region@d4a80000 {
  			no-map;
  
  			qcom,client-id = <1>;
