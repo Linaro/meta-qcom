@@ -66,6 +66,10 @@ do_install() {
 
     ls ${B}/firmware/*.jsn && install -m 0644 ${B}/firmware/*.jsn ${D}${FW_QCOM_PATH}
 
+    ls ${B}/firmware/bdwlan* && install -m 0644 ${B}/firmware/bdwlan* ${D}${FW_QCOM_PATH}
+    ls ${B}/firmware/mba.mbn && install -m 0644 ${B}/firmware/mba.mbn ${D}${FW_QCOM_PATH}
+    ls ${B}/firmware/wlanmdsp.mbn && install -m 0644 ${B}/firmware/wlanmdsp.mbn ${D}${FW_QCOM_PATH}
+
     ls ${B}/firmware/a[0-9]*_gmu.bin && install -m 0644 ${B}/firmware/a[0-9]*_gmu.bin ${D}${FW_QCOM_PATH}
     ls ${B}/a[0-9]*.mbn && install -m 0644 ${B}/a[0-9]*.mbn ${D}${FW_QCOM_PATH}
 

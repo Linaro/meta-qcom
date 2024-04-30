@@ -3,11 +3,11 @@ HOMEPAGE = "https://github.com/andersson/pil-squasher.git"
 SECTION = "devel"
 
 LICENSE = "BSD-3-Clause"
-LIC_FILES_CHKSUM = "file://pil-squasher.c;beginline=1;endline=30;md5=632a4253d26470c9301255e9a3dc31a0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=aac743f09c3b727c9fa920ed48cc946d"
 
-SRCREV = "e8573feaad506f5f41227d8abd905312426607c1"
+SRCREV = "e25efba9b3abb16643262e9a9e3eb330c48cf9a5"
 SRC_URI = " \
-	git://github.com/andersson/${BPN}.git;branch=master;protocol=https \
+	git://github.com/linux-msm/${BPN}.git;branch=master;protocol=https \
 "
 
 PV = "0.0+${SRCPV}"
