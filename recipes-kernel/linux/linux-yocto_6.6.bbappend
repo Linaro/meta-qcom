@@ -1,6 +1,7 @@
 
 SRC_URI:append:qcom = " \
     file://0001-arm64-dts-qcom-qcm2290-temporarily-disable-cluster-i.patch \
+    file://0001-ASoC-codecs-wsa881x-set-clk_stop_mode1-flag.patch \
     file://qca6390-driver/0001-dt-bindings-mfd-qcom-qca639x-add-binding-for-QCA639x.patch \
     file://qca6390-driver/0002-mfd-qca639x-add-support-for-QCA639x-powerup-sequence.patch \
     file://qca6390-driver/0003-mfd-qcom-qca639x-switch-to-platform-config-data.patch \
