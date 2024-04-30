@@ -4,4 +4,4 @@
 require recipes-kernel/linux/linux-linaro-qcom.inc
 
 SRCBRANCH = "release/qcomlt-6.0"
-SRCREV = "759763eb59da99b2f2ff9089b5fcb955d508959c"
+SRCREV = "bd24454d4c9347c08e96124f52f80466a0cf015c"
