@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    uses: ndechesne/meta-qcom/.github/workflows/build-template.yml@master
+    uses: Linaro/meta-qcom/.github/workflows/build-template.yml@master
     with:
       host: ubuntu-20.04
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-rootfs-image cryptodev-module
