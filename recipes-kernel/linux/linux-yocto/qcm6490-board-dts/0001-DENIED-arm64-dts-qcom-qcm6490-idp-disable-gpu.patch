@@ -1,0 +1,32 @@
+From fe56e57b5ef4b50e75613e553e2f7609aa1ef1db Mon Sep 17 00:00:00 2001
+From: Vinod Polimera <vpolimer@qti.qualcomm.com>
+Date: Fri, 10 May 2024 11:41:59 +0530
+Subject: [PATCH] DENIED: arm64: dts: qcom: qcm6490-idp: disable gpu
+
+Disable GPU to avoid adreno errors during display commit as there is
+no plan to enable GPU rendering in near future on QCM6490 IDP board.
+
+Signed-off-by: Srihitha Tangudu <quic_tangudu@quicinc.com>
+Upstream-Status: Denied [https://lore.kernel.org/all/99a9a562-9f6f-411c-be1c-0a28fc2524dd@quicinc.com/]
+---
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+index 62cdee7a8156..4b898b441a0b 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
++++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+@@ -438,6 +438,10 @@ vreg_bob_3p296: bob {
+ 	};
+ };
+ 
++&gpu {
++	status = "disabled";
++};
++
+ &mdss {
+ 	status = "okay";
+ };
+-- 
+2.34.1
+
