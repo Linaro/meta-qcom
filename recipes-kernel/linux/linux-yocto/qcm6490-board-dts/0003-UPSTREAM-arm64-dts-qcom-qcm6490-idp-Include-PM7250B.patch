@@ -1,0 +1,38 @@
+From e6e1fb2661b989451293f4365b1d6ccb8cd74280 Mon Sep 17 00:00:00 2001
+From: Umang Chheda <quic_uchheda@quicinc.com>
+Date: Thu, 25 Jan 2024 17:23:00 +0530
+Subject: [PATCH 3/3] UPSTREAM: arm64: dts: qcom: qcm6490-idp: Include PM7250B
+
+Include PM7250B PMIC for qcm6490-idp.
+
+Signed-off-by: Umang Chheda <quic_uchheda@quicinc.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Link: https://lore.kernel.org/r/20240125115300.3496783-1-quic_uchheda@quicinc.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git d967cc9cf37ea2a6c7cdb9779113f10d2910bb4c]
+---
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+index 67c8215af285..976923610958 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
++++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+@@ -5,9 +5,14 @@
+ 
+ /dts-v1/;
+ 
++/* PM7250B is configured to use SID8/9 */
++#define PM7250B_SID 8
++#define PM7250B_SID1 9
++
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+ #include "sc7280.dtsi"
++#include "pm7250b.dtsi"
+ #include "pm7325.dtsi"
+ #include "pm8350c.dtsi"
+ #include "pmk8350.dtsi"
+-- 
+2.34.1
+

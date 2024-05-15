@@ -67,6 +67,9 @@ SRC_URI:append:qcom = " \
     file://qcm6490-board-dts/0004-UPSTREAM-arm64-dts-qcom-Add-base-qcs6490-rb3gen2-boa.patch \
     file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-qcs6490-rb3gen2-Correct-the-.patch \
     file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Correct-the-volt.patch \
+    file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-pm7250b-make-SID-configurabl.patch \
+    file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Add-definition-f.patch \
+    file://qcm6490-board-dts/0003-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Include-PM7250B.patch \
     file://qcm6490-board-dts/0001-FROMLIST-arm64-dts-qcom-qcm6490-idp-Update-protected.patch \
     file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcs6490-rb3gen2-Declare-GCC-.patch \
     file://qcm6490-board-dts/0003-BACKPORT-FROMLIST-arm64-dts-qcom-qcs6490-rb3gen2-Upd.patch \
