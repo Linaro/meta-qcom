@@ -1,0 +1,143 @@
+From 97e813b982bd7a1ea716e4846befe7e6b14e77f3 Mon Sep 17 00:00:00 2001
+From: Ritesh Kumar <quic_riteshk@quicinc.com>
+Date: Thu, 15 Feb 2024 16:09:29 +0530
+Subject: [PATCH] UPSTREAM: arm64: dts: qcom: qcm6490-idp: add display and
+ panel
+
+Enable Display Subsystem with Novatek NT36672E Panel
+on qcm6490 idp platform.
+
+Signed-off-by: Ritesh Kumar <quic_riteshk@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Link: https://lore.kernel.org/r/20240215103929.19357-3-quic_riteshk@quicinc.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 629c635eafbaf18260c8083360745c71674640d2]
+---
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts | 92 ++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+index 976923610958..62cdee7a8156 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
++++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+@@ -10,6 +10,7 @@
+ #define PM7250B_SID1 9
+ 
+ #include <dt-bindings/leds/common.h>
++#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+ #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+ #include "sc7280.dtsi"
+ #include "pm7250b.dtsi"
+@@ -32,10 +33,29 @@ aliases {
+ 		serial0 = &uart5;
+ 	};
+ 
++	pm8350c_pwm_backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pm8350c_pwm 3 65535>;
++		enable-gpios = <&pm8350c_gpios 7 GPIO_ACTIVE_HIGH>;
++		pinctrl-0 = <&pmic_lcd_bl_en>;
++		pinctrl-names = "default";
++	};
++
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
++	lcd_disp_bias: regulator-lcd-disp-bias {
++		compatible = "regulator-fixed";
++		regulator-name = "lcd_disp_bias";
++		regulator-min-microvolt = <5500000>;
++		regulator-max-microvolt = <5500000>;
++		gpio = <&pm7250b_gpios 2 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++		pinctrl-0 = <&lcd_disp_bias_en>;
++		pinctrl-names = "default";
++	};
++
+ 	reserved-memory {
+ 		xbl_mem: xbl@80700000 {
+ 			reg = <0x0 0x80700000 0x0 0x100000>;
+@@ -418,7 +438,79 @@ vreg_bob_3p296: bob {
+ 	};
+ };
+ 
++&mdss {
++	status = "okay";
++};
++
++&mdss_dsi {
++	vdda-supply = <&vreg_l6b_1p2>;
++	status = "okay";
++
++	panel@0 {
++		compatible = "novatek,nt36672e";
++		reg = <0>;
++
++		reset-gpios = <&tlmm 44 GPIO_ACTIVE_HIGH>;
++
++		vddi-supply = <&vreg_l8c_1p62>;
++		avdd-supply = <&lcd_disp_bias>;
++		avee-supply = <&lcd_disp_bias>;
++
++		backlight = <&pm8350c_pwm_backlight>;
++
++		port {
++			panel0_in: endpoint {
++				remote-endpoint = <&mdss_dsi0_out>;
++			};
++		};
++	};
++};
++
++&mdss_dsi0_out {
++	remote-endpoint = <&panel0_in>;
++	data-lanes = <0 1 2 3>;
++};
++
++&mdss_dsi_phy {
++	vdds-supply = <&vreg_l10c_0p88>;
++	status = "okay";
++};
++
++&pm7250b_gpios {
++	lcd_disp_bias_en: lcd-disp-bias-en-state {
++		pins = "gpio2";
++		function = "func1";
++		bias-disable;
++		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
++		input-disable;
++		output-enable;
++		power-source = <0>;
++	};
++};
++
++&pm8350c_gpios {
++	pmic_lcd_bl_en: pmic-lcd-bl-en-state {
++		pins = "gpio7";
++		function = "normal";
++		bias-disable;
++		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
++		output-low;
++		power-source = <0>;
++	};
++
++	pmic_lcd_bl_pwm: pmic-lcd-bl-pwm-state {
++		pins = "gpio8";
++		function = "func1";
++		bias-disable;
++		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
++		output-low;
++		power-source = <0>;
++	};
++};
++
+ &pm8350c_pwm {
++	pinctrl-0 = <&pmic_lcd_bl_pwm>;
++	pinctrl-names = "default";
+ 	status = "okay";
+ 
+ 	multi-led {
+-- 
+2.34.1
+
