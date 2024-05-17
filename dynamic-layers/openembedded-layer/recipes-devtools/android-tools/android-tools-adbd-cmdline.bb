@@ -9,7 +9,7 @@ SRC_URI = " \
 
 do_install() {
     install -d ${D}${systemd_unitdir}/system/android-tools-adbd.service.d
-    install -m 0644 ${WORKDIR}/50-adbd-cmdline.conf ${D}${systemd_unitdir}/system/android-tools-adbd.service.d
+    install -m 0644 ${UNPACKDIR}/50-adbd-cmdline.conf ${D}${systemd_unitdir}/system/android-tools-adbd.service.d
 }
 
 FILES:${PN} += " \
