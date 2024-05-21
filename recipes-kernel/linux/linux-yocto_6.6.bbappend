@@ -54,6 +54,9 @@ SRC_URI:append:qcom = " \
     file://generic-drivers/0001-FROMLIST-dma-heap-Add-proper-kref-handling-on-dma-bu.patch \
     file://generic-drivers/0002-FROMLIST-dma-heap-Provide-accessors-so-that-in-kerne.patch \
     file://qcm6490-drivers/0001-FROMGIT-phy-qcom-qmp-ufs-Add-Phy-Configuration-suppo.patch \
+    file://qcm6490-drivers/0001-UPSTREAM-dt-bindings-display-panel-Add-Novatek-NT366.patch \
+    file://qcm6490-drivers/0002-UPSTREAM-drm-panel-Add-support-for-Novatek-NT36672E-.patch \
+    file://qcm6490-drivers/0003-UPSTREAM-drm-panel-novatek-nt36672e-Include-linux-of.patch \
     file://qcm6490-dtsi/0001-FROMLIST-arm64-dts-qcom-sc7280-Add-UFS-nodes-for-sc7.patch \
     file://qcm6490-dtsi/0001-PENDING-arm64-dts-qcom-sc7280-Add-interconnect-paths.patch \
     file://qcm6490-dtsi/0001-UPSTREAM-arm64-dts-qcom-sc7280-Move-video-firmware-t.patch \
@@ -64,6 +67,11 @@ SRC_URI:append:qcom = " \
     file://qcm6490-board-dts/0004-UPSTREAM-arm64-dts-qcom-Add-base-qcs6490-rb3gen2-boa.patch \
     file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-qcs6490-rb3gen2-Correct-the-.patch \
     file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Correct-the-volt.patch \
+    file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-pm7250b-make-SID-configurabl.patch \
+    file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Add-definition-f.patch \
+    file://qcm6490-board-dts/0003-UPSTREAM-arm64-dts-qcom-qcm6490-idp-Include-PM7250B.patch \
+    file://qcm6490-board-dts/0001-UPSTREAM-arm64-dts-qcom-qcm6490-idp-add-display-and-.patch \
+    file://qcm6490-board-dts/0001-DENIED-arm64-dts-qcom-qcm6490-idp-disable-gpu.patch \
     file://qcm6490-board-dts/0001-FROMLIST-arm64-dts-qcom-qcm6490-idp-Update-protected.patch \
     file://qcm6490-board-dts/0002-UPSTREAM-arm64-dts-qcom-qcs6490-rb3gen2-Declare-GCC-.patch \
     file://qcm6490-board-dts/0003-BACKPORT-FROMLIST-arm64-dts-qcom-qcs6490-rb3gen2-Upd.patch \
