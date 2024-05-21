@@ -36,6 +36,44 @@ All contemporary boards are supported by a single qcom-armv8a machine. Please
 use it instead of using the per-board configuration file. In order to enable
 support for the particular device extend the qcom-armv8a.conf file .
 
+
+## Quick build
+
+If you're new to the Yocto Project, you might want to read the ![Yocto Project
+Quick Build](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html) 
+document in order to setup your Yocto Project build environment. 
+
+From inside ```poky``` folder, clone this repository:
+
+```
+git clone git://git.yoctoproject.org/meta-qcom
+```
+
+Now, from inside ```poky``` folder initialize your build folder:
+
+```
+source oe-init-build-env build/qcom-armv8a
+```
+
+The script will cd into the newly created ```build/qcom-armv8a``` folder.
+From within this folder, add meta-qcom layer:
+
+```
+bitbake-layers add-layer ../../meta-qcom
+```
+
+Change ```MACHINE``` variable into ```conf/local.conf``` to:
+
+```
+MACHINE ?= "qcom-armv8a"
+```
+
+Finally, build your image:
+
+```
+bitbake core-image-minimal
+```
+
 ## Contributing
 
 If you want to contribute changes, you can send Github pull requests at
