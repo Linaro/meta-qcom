@@ -19,7 +19,7 @@ inherit meson systemd
 
 do_install:append () {
 	install -d ${D}${systemd_system_unitdir}
-	sed 's:@bindir@:${bindir}:' < ${WORKDIR}/qbootclt-bless-boot.service.in > ${D}${systemd_system_unitdir}/qbootclt-bless-boot.service
+	sed 's:@bindir@:${bindir}:' < ${UNPACKDIR}/qbootclt-bless-boot.service.in > ${D}${systemd_system_unitdir}/qbootclt-bless-boot.service
 }
 
 SYSTEMD_SERVICE:${PN} = "qbootclt-bless-boot.service"
