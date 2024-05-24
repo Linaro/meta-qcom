@@ -85,7 +85,7 @@ new file mode 100644
 index 000000000..2ac77ec17
 --- /dev/null
 +++ b/drivers/driver_pds.c
-@@ -0,0 +1,406 @@
+@@ -0,0 +1,407 @@
 +/*
 + * Qualcomm PDS Interface driver.
 + *
@@ -101,6 +101,7 @@ index 000000000..2ac77ec17
 +#include <errno.h>
 +#include <fcntl.h>
 +#include <stdlib.h>
++#include <string.h>
 +#include <unistd.h>
 +#include "../include/gpsd.h"
 +
