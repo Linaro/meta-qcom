@@ -11,7 +11,8 @@ SRC_URI[sha256sum] = "9885f915ebd4986432340cf1d03b8fd2bfdd97ad6a4a7466200fddbe41
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/sources"
+UNPACKDIR = "${S}"
 
 do_deploy() {
     install -D -p -m644 ${S}/*.mbn ${DEPLOYDIR}
