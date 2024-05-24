@@ -1,4 +1,7 @@
 DEPENDS += "cabextract-native"
+
+S = "${UNPACKDIR}"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 
 WOA_FW_URL = "https://github.com/WOA-Project/Qualcomm-Reference-Drivers/raw/master/${WOA_SUBDIR}/${PV}"
@@ -11,7 +14,7 @@ FILES:linux-firmware-qcom-${FW_QCOM_NAME}-sensors += "${FW_QCOM_PATH}/qcslpi*.mb
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-venus += "${FW_QCOM_PATH}/qcvss*.mbn"
 
 do_compile:append() {
-    for file in ${WORKDIR}/*cab ; do
+    for file in ${UNPACKDIR}/*cab ; do
         cabextract $file || exit 1
     done
 }
@@ -22,5 +25,5 @@ do_install:append() {
     install -m 0644 ${B}/*.mbn ${D}${FW_QCOM_PATH}
     ls ${B}/*.elf && install -m 0644 ${B}/*.elf ${D}${FW_QCOM_PATH}
 
-    install -m 0644 ${WORKDIR}/*.jsn ${D}${FW_QCOM_PATH}
+    install -m 0644 ${UNPACKDIR}/*.jsn ${D}${FW_QCOM_PATH}
 }

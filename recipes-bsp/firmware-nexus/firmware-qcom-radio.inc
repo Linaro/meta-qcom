@@ -7,7 +7,7 @@ do_extract[depends] += "mtools-native:do_populate_sysroot"
 
 do_extract:append() {
     mkdir -p ${B}/radio
-    radio="${WORKDIR}/${FACTORY_NAME}-${AOSP_BUILD}/radio-*img"
+    radio="${UNPACKDIR}/${FACTORY_NAME}-${AOSP_BUILD}/radio-*img"
     if [ "${RADIO_VFAT}" = "1" ] ; then
         mcopy -i $radio ::/image/* ${B}/radio
     else

@@ -8,6 +8,8 @@ SRC_URI = "https://dl.google.com/dl/android/aosp/${VENDOR}-${FW_QCOM_NAME}-${AOS
 
 PV = "${AOSP_BUILD}"
 
+S = "${UNPACKDIR}"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 
 DEPENDS += "pil-squasher-native"
@@ -16,8 +18,8 @@ VENDOR_IMG_SPARSE ?= "1"
 
 # extract the license file
 do_extract() {
-    head -n 280 ${WORKDIR}/extract-${VENDOR}-${FW_QCOM_NAME}.sh | tail -n +16 > ${S}/license.txt
-    tail -n +315 ${WORKDIR}/extract-${VENDOR}-${FW_QCOM_NAME}.sh | tar xzfv - -C ${S}
+    head -n 280 ${UNPACKDIR}/extract-${VENDOR}-${FW_QCOM_NAME}.sh | tail -n +16 > ${S}/license.txt
+    tail -n +315 ${UNPACKDIR}/extract-${VENDOR}-${FW_QCOM_NAME}.sh | tar xzfv - -C ${S}
     if [ "${VENDOR_IMG_SPARSE}" = "1" ] ; then
         simg2img ${S}/vendor/${VENDOR}/${FW_QCOM_NAME}/proprietary/vendor.img ${B}/vendor.img
     else

@@ -10,7 +10,7 @@ ADRENO_URI ??= ""
 SRC_URI += "${@['', '${ADRENO_URI};subdir=adreno;name=adreno'][d.getVar('ADRENO_URI') != ''] }"
 
 # the file is unpacked to this dir, clean it up
-do_unpack[cleandirs] = "${WORKDIR}/adreno"
+do_unpack[cleandirs] = "${UNPACKDIR}/adreno"
 
 DEPENDS += "pil-squasher-native"
 
@@ -28,12 +28,12 @@ python () {
 
 do_compile:append() {
     if [ -n "${ADRENO_URI}" ] ; then
-        for fw in ${WORKDIR}/adreno/${ADRENO_PATH}/*_zap.mdt ; do
+        for fw in ${UNPACKDIR}/adreno/${ADRENO_PATH}/*_zap.mdt ; do
             pil-squasher ${B}/`basename $fw mdt`mbn $fw || exit 1
         done
         for fw in ${FW_QCOM_LIST} ; do
-            if [ -r ${WORKDIR}/adreno/${ADRENO_PATH}/$fw ] ; then
-                cp ${WORKDIR}/adreno/${ADRENO_PATH}/$fw ${B}/
+            if [ -r ${UNPACKDIR}/adreno/${ADRENO_PATH}/$fw ] ; then
+                cp ${UNPACKDIR}/adreno/${ADRENO_PATH}/$fw ${B}/
             fi
         done
     fi

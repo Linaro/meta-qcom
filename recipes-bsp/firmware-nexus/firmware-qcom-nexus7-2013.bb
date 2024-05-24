@@ -27,7 +27,7 @@ do_install:append() {
     install -m 0644 vendor/qcom/${FW_QCOM_NAME}/proprietary/vidcfw.elf ${D}${FW_QCOM_PATH}
     install -m 0644 vendor/qcom/${FW_QCOM_NAME}/proprietary/vidc_1080p.fw ${D}${FW_QCOM_PATH}
 
-    install -m 0644 ${WORKDIR}/git/WCNSS_cfg.dat ${D}${FW_QCOM_PATH}
-    install -m 0644 ${WORKDIR}/git/WCNSS_qcom_wlan_nv_deb.bin ${D}${FW_QCOM_PATH}
-    install -m 0644 ${WORKDIR}/git/WCNSS_qcom_wlan_nv_flo.bin ${D}${FW_QCOM_PATH}/WCNSS_qcom_wlan_nv.bin
+    install -m 0644 ${UNPACKDIR}/git/WCNSS_cfg.dat ${D}${FW_QCOM_PATH}
+    install -m 0644 ${UNPACKDIR}/git/WCNSS_qcom_wlan_nv_deb.bin ${D}${FW_QCOM_PATH}
+    install -m 0644 ${UNPACKDIR}/git/WCNSS_qcom_wlan_nv_flo.bin ${D}${FW_QCOM_PATH}/WCNSS_qcom_wlan_nv.bin
 }

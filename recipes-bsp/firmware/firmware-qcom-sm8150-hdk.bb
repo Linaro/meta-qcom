@@ -33,7 +33,7 @@ SPLIT_FIRMWARE_PACKAGES = "\
 
 do_install:append() {
     if [ -n "${ADRENO_URI}" ] ; then
-        install -m 0644 ${WORKDIR}/adreno/${ADRENO_PATH}/a640_gmu.bin ${D}${FW_QCOM_BASE_PATH}
+        install -m 0644 ${UNPACKDIR}/adreno/${ADRENO_PATH}/a640_gmu.bin ${D}${FW_QCOM_BASE_PATH}
     fi
 }
 
