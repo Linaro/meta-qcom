@@ -5,14 +5,16 @@ SRC_URI = "https://dl.google.com/dl/android/aosp/qcom-${FW_QCOM_NAME}-${AOSP_BUI
 
 PV = "${AOSP_BUILD}"
 
+S = "${UNPACKDIR}"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 
 DEPENDS += "pil-squasher-native"
 
 # extract the license file
 do_extract() {
-    head -n 280 ${WORKDIR}/extract-qcom-${FW_QCOM_NAME}.sh | tail -n +16 > ${S}/license.txt
-    tail -n +315 ${WORKDIR}/extract-qcom-${FW_QCOM_NAME}.sh | tar xzfv - -C ${S}
+    head -n 280 ${UNPACKDIR}/extract-qcom-${FW_QCOM_NAME}.sh | tail -n +16 > ${S}/license.txt
+    tail -n +315 ${UNPACKDIR}/extract-qcom-${FW_QCOM_NAME}.sh | tar xzfv - -C ${S}
 }
 addtask extract after do_unpack before do_patch
 

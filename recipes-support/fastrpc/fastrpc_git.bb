@@ -36,13 +36,13 @@ do_install:append() {
     install -d ${D}${libdir}/rfsa
 
     install -d ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/usr-lib-rfsa.service ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/adsprpcd.service ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/cdsprpcd.service ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/sdsprpcd.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${UNPACKDIR}/usr-lib-rfsa.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${UNPACKDIR}/adsprpcd.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${UNPACKDIR}/cdsprpcd.service ${D}${systemd_unitdir}/system
+    install -m 0644 ${UNPACKDIR}/sdsprpcd.service ${D}${systemd_unitdir}/system
 
     install -d ${D}${sbindir}
-    install -m 0755 ${WORKDIR}/mount-dsp.sh ${D}${sbindir}
+    install -m 0755 ${UNPACKDIR}/mount-dsp.sh ${D}${sbindir}
 }
 
 FILES:${PN} += " \

@@ -21,7 +21,7 @@ handle_nonhlos_image() {
     done
 }
 
-# If the URL is the file:// URI, the whole local path will be duplicated in the WORKDIR.
+# If the URL is the file:// URI, the whole local path will be duplicated in the UNPACKDIR.
 # Otherwise we just need the last (filename) part of the path.
 def get_nhlos_path(path):
     from urllib.parse import urlparse
@@ -34,7 +34,7 @@ def get_nhlos_path(path):
 
 do_compile:prepend() {
     if [ -n "${NHLOS_URI}" ] ; then
-        handle_nonhlos_image ${WORKDIR}/${@get_nhlos_path(d.getVar("NHLOS_URI"))}
+        handle_nonhlos_image ${UNPACKDIR}/${@get_nhlos_path(d.getVar("NHLOS_URI"))}
     fi
 }
 

@@ -34,8 +34,8 @@ SPLIT_FIRMWARE_PACKAGES = "\
 
 do_install:append() {
     if [ -n "${ADRENO_URI}" ] ; then
-        install -m 0644 ${WORKDIR}/adreno/${ADRENO_PATH}/a730_sqe.fw ${D}${FW_QCOM_BASE_PATH}
-        install -m 0644 ${WORKDIR}/adreno/${ADRENO_PATH}/gmu_gen70000.bin ${D}${FW_QCOM_BASE_PATH}
+        install -m 0644 ${UNPACKDIR}/adreno/${ADRENO_PATH}/a730_sqe.fw ${D}${FW_QCOM_BASE_PATH}
+        install -m 0644 ${UNPACKDIR}/adreno/${ADRENO_PATH}/gmu_gen70000.bin ${D}${FW_QCOM_BASE_PATH}
     fi
 }
 
