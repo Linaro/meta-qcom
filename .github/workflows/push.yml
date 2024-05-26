@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - master
-      - honister
+      - scarthgap
+      - kirkstone
       - dunfell
 
 jobs:
