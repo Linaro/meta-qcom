@@ -12,6 +12,7 @@ directory rather than the default /usr/lib/rfsa/adsp).
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Change-Id: I1dac61d36edc9e8ff1fdc2d56f968d2578f10399
+Upstream-Status: Submitted [https://review.linaro.org/c/landing-teams/working/qualcomm/fastrpc/+/38017]
 ---
  src/apps_std_imp.c | 60 ++++++++++++++++++++++------------------------
  1 file changed, 28 insertions(+), 32 deletions(-)
