@@ -24,9 +24,9 @@ S = "${WORKDIR}/git"
 do_install () {
 	install -d ${D}/${bindir}
 	install -m 0755 tools/scripts/*/* ${D}/${bindir}
-	install -m 0755 ${WORKDIR}/ath10k-generate-board-2_json.sh ${D}/${bindir}
-	install -m 0755 ${WORKDIR}/ath10k-generate-pci-board-2_json.sh ${D}/${bindir}
-	install -m 0755 ${WORKDIR}/ath11k-generate-board-2_json.sh ${D}/${bindir}
+	install -m 0755 ${UNPACKDIR}/ath10k-generate-board-2_json.sh ${D}/${bindir}
+	install -m 0755 ${UNPACKDIR}/ath10k-generate-pci-board-2_json.sh ${D}/${bindir}
+	install -m 0755 ${UNPACKDIR}/ath11k-generate-board-2_json.sh ${D}/${bindir}
 }
 
 BBCLASSEXTEND = "native nativesdk"
