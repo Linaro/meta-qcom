@@ -32,6 +32,7 @@ string "any".
 
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Upstream-Status: Submitted [https://gitlab.com/gpsd/gpsd/-/merge_requests/139]
 ---
  SConscript           |  11 ++
  drivers/driver_pds.c | 406 +++++++++++++++++++++++++++++++++++++++++++
