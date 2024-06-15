@@ -6,6 +6,7 @@ Subject: [PATCH 4/4] Fail if an image can not be opened
 In order to be sure that the images are really processed, fail if an
 image can not be opened.
 
+Upstream-Status: Inappropriate [Upstream explicitly ignores errors]
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
  src/qc_image_unpacker.c | 12 ++++++------
