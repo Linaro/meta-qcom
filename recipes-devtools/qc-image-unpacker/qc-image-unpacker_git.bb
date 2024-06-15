@@ -7,13 +7,10 @@ LIC_FILES_CHKSUM = "file://../LICENSE;md5=138532bb21858341808df2740a1d13bf"
 
 SRC_URI = " \
     git://github.com/anestisb/qc_image_unpacker;protocol=https;branch=master\
-    file://0001-Move-image-format-detection-to-separate-handlers.patch;patchdir=.. \
-    file://0002-Add-support-for-bootldr-images.patch;patchdir=.. \
-    file://0003-Do-not-let-dirname-tamper-with-inputFile.patch;patchdir=.. \
     file://0004-Fail-if-an-image-can-not-be-opened.patch;patchdir=.. \
 "
 
-SRCREV = "dbaf73822205753c9a7722b330f74673cad183a5"
+SRCREV = "28a783a9fc25dc87b7416b6d5b6f9ccd497d1c2e"
 
 PV = "0.2.0+${SRCPV}"
 S = "${WORKDIR}/git/src"

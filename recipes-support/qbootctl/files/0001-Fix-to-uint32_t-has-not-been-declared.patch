@@ -3,7 +3,7 @@ From: alefnode <adrian.campos@teachelp.com>
 Date: Thu, 4 May 2023 09:15:29 +0200
 Subject: [PATCH] Fix to << uint32_t has not been declared >>
 
-Link: https://gitlab.com/sdm845-mainline/qbootctl/-/commit/df63d7c21c19a3e3afb41d029b97b9d068880484
+Upstream-Status: Submitted [https://gitlab.com/sdm845-mainline/qbootctl/-/commit/df63d7c21c19a3e3afb41d029b97b9d068880484]
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
  bootctrl_impl.cpp | 1 +

@@ -4,6 +4,7 @@ Date: Wed, 29 Jan 2020 22:55:41 +0100
 Subject: [PATCH 2/2] mkbootimg: use python3
 
 Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+Upstream-Status: Inactive-Upstream [lastcommit: 3 Nov 2016]
 ---
  mkbootimg | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
