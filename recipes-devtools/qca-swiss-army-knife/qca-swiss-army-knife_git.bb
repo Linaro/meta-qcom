@@ -5,14 +5,9 @@ SECTION = "devel"
 LICENSE = "ISC"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=884c3f3a874b2a0cfa283c7db0e5d604"
 
-SRCREV = "5ede3cc07e9a52f115101c28f833242b772eeaab"
+SRCREV = "583eed7e66c661fe240189dd21c8f1eeb666c576"
 SRC_URI = " \
 	git://github.com/qca/${BPN}.git;branch=master;protocol=https \
-	file://0001-ath10k-bdencoder-Switch-to-python3.patch \
-	file://0002-ath10k-bdencoder-Add-option-to-switch-to-ath11k-mode.patch \
-	file://0001-read-powers-port-to-python3.patch \
-	file://0002-ath10k-fwencoder-port-to-python3.patch \
-	file://0003-scripts-port-to-python3.patch \
 	file://ath10k-generate-board-2_json.sh \
 	file://ath10k-generate-pci-board-2_json.sh \
 	file://ath11k-generate-board-2_json.sh \
