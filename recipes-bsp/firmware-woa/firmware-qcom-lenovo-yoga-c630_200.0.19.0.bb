@@ -29,6 +29,7 @@ SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \
     linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
     linux-firmware-qcom-${FW_QCOM_NAME}-venus \
+    linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
 "
 
 require firmware-woa.inc
