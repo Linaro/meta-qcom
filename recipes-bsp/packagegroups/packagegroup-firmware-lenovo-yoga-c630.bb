@@ -13,4 +13,5 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-lenovo-yoga-c630-modem \
     linux-firmware-qcom-lenovo-yoga-c630-sensors \
     linux-firmware-qcom-lenovo-yoga-c630-venus \
+    linux-firmware-qcom-lenovo-yoga-c630-wifi \
 "
