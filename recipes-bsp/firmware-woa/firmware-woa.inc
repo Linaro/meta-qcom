@@ -17,6 +17,9 @@ do_compile:append() {
     for file in ${UNPACKDIR}/*cab ; do
         cabextract $file || exit 1
     done
+    if [ -r "WLANMDSP.MBN" ] ; then
+        cp WLANMDSP.MBN wlanmdsp.mbn
+    fi
 }
 
 do_install:append() {
