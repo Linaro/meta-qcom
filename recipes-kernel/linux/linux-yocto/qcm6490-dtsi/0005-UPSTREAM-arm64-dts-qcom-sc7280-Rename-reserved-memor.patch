@@ -1,0 +1,108 @@
+From 928c38c36dbe67e5c84046024c5c02ecc48d95eb Mon Sep 17 00:00:00 2001
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Fri, 8 Dec 2023 16:07:59 +0100
+Subject: [PATCH 5/5] UPSTREAM: arm64: dts: qcom: sc7280: Rename
+ reserved-memory nodes
+
+It was clarified a while ago that reserved-memory nodes shouldn't be
+called memory@ but should have a descriptive name. Update sc7280.dtsi to
+follow that.
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Link: https://lore.kernel.org/r/20231208-sc7280-remoteprocs-v3-3-6aa394d33edf@fairphone.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 6615713c10c974d13a13297e95acd304e419dfba]
+---
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 32fea294414e..ce8a7c1f12d5 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -91,68 +91,68 @@ reserved-memory {
+ 		#size-cells = <2>;
+ 		ranges;
+ 
+-		wlan_ce_mem: memory@4cd000 {
++		wlan_ce_mem: wlan-ce@4cd000 {
+ 			no-map;
+ 			reg = <0x0 0x004cd000 0x0 0x1000>;
+ 		};
+ 
+-		hyp_mem: memory@80000000 {
++		hyp_mem: hyp@80000000 {
+ 			reg = <0x0 0x80000000 0x0 0x600000>;
+ 			no-map;
+ 		};
+ 
+-		xbl_mem: memory@80600000 {
++		xbl_mem: xbl@80600000 {
+ 			reg = <0x0 0x80600000 0x0 0x200000>;
+ 			no-map;
+ 		};
+ 
+-		aop_mem: memory@80800000 {
++		aop_mem: aop@80800000 {
+ 			reg = <0x0 0x80800000 0x0 0x60000>;
+ 			no-map;
+ 		};
+ 
+-		aop_cmd_db_mem: memory@80860000 {
++		aop_cmd_db_mem: aop-cmd-db@80860000 {
+ 			reg = <0x0 0x80860000 0x0 0x20000>;
+ 			compatible = "qcom,cmd-db";
+ 			no-map;
+ 		};
+ 
+-		reserved_xbl_uefi_log: memory@80880000 {
++		reserved_xbl_uefi_log: xbl-uefi-res@80880000 {
+ 			reg = <0x0 0x80884000 0x0 0x10000>;
+ 			no-map;
+ 		};
+ 
+-		sec_apps_mem: memory@808ff000 {
++		sec_apps_mem: sec-apps@808ff000 {
+ 			reg = <0x0 0x808ff000 0x0 0x1000>;
+ 			no-map;
+ 		};
+ 
+-		smem_mem: memory@80900000 {
++		smem_mem: smem@80900000 {
+ 			reg = <0x0 0x80900000 0x0 0x200000>;
+ 			no-map;
+ 		};
+ 
+-		cpucp_mem: memory@80b00000 {
++		cpucp_mem: cpucp@80b00000 {
+ 			no-map;
+ 			reg = <0x0 0x80b00000 0x0 0x100000>;
+ 		};
+ 
+-		wlan_fw_mem: memory@80c00000 {
++		wlan_fw_mem: wlan-fw@80c00000 {
+ 			reg = <0x0 0x80c00000 0x0 0xc00000>;
+ 			no-map;
+ 		};
+ 
+-		video_mem: memory@8b200000 {
++		video_mem: video@8b200000 {
+ 			reg = <0x0 0x8b200000 0x0 0x500000>;
+ 			no-map;
+ 		};
+ 
+-		ipa_fw_mem: memory@8b700000 {
++		ipa_fw_mem: ipa-fw@8b700000 {
+ 			reg = <0 0x8b700000 0 0x10000>;
+ 			no-map;
+ 		};
+ 
+-		rmtfs_mem: memory@9c900000 {
++		rmtfs_mem: rmtfs@9c900000 {
+ 			compatible = "qcom,rmtfs-mem";
+ 			reg = <0x0 0x9c900000 0x0 0x280000>;
+ 			no-map;
+-- 
+2.25.1
+

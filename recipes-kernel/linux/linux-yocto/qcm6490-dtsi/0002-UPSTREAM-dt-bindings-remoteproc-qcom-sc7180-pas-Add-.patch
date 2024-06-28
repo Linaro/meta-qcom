@@ -1,0 +1,102 @@
+From 009646f64a3a967e6be558d1abdea97397aa938e Mon Sep 17 00:00:00 2001
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Fri, 8 Dec 2023 16:08:01 +0100
+Subject: [PATCH 2/5] UPSTREAM: dt-bindings: remoteproc: qcom: sc7180-pas: Add
+ SC7280 compatibles
+
+Add the compatibles and constraints for the ADSP, CDSP and WPSS found on
+the SC7280 SoC.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Link: https://lore.kernel.org/r/20231208-sc7280-remoteprocs-v3-5-6aa394d33edf@fairphone.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 11eff1020440060c53d2261531432927c9fb4ee3]
+---
+ .../bindings/remoteproc/qcom,sc7180-pas.yaml  | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/remoteproc/qcom,sc7180-pas.yaml b/Documentation/devicetree/bindings/remoteproc/qcom,sc7180-pas.yaml
+index 4b97eeb2782b..c712db0e81c5 100644
+--- a/Documentation/devicetree/bindings/remoteproc/qcom,sc7180-pas.yaml
++++ b/Documentation/devicetree/bindings/remoteproc/qcom,sc7180-pas.yaml
+@@ -17,7 +17,10 @@ properties:
+   compatible:
+     enum:
+       - qcom,sc7180-mpss-pas
++      - qcom,sc7280-adsp-pas
++      - qcom,sc7280-cdsp-pas
+       - qcom,sc7280-mpss-pas
++      - qcom,sc7280-wpss-pas
+ 
+   reg:
+     maxItems: 1
+@@ -71,6 +74,41 @@ required:
+ 
+ allOf:
+   - $ref: /schemas/remoteproc/qcom,pas-common.yaml#
++  - if:
++      properties:
++        compatible:
++          enum:
++            - qcom,sc7180-adsp-pas
++    then:
++      properties:
++        interrupts:
++          maxItems: 5
++        interrupt-names:
++          maxItems: 5
++    else:
++      properties:
++        interrupts:
++          minItems: 6
++        interrupt-names:
++          minItems: 6
++
++  - if:
++      properties:
++        compatible:
++          enum:
++            - qcom,sc7180-adsp-pas
++            - qcom,sc7280-adsp-pas
++    then:
++      properties:
++        power-domains:
++          items:
++            - description: LCX power domain
++            - description: LMX power domain
++        power-domain-names:
++          items:
++            - const: lcx
++            - const: lmx
++
+   - if:
+       properties:
+         compatible:
+@@ -96,6 +134,23 @@ allOf:
+             - const: cx
+             - const: mss
+ 
++  - if:
++      properties:
++        compatible:
++          enum:
++            - qcom,sc7280-cdsp-pas
++            - qcom,sc7280-wpss-pas
++    then:
++      properties:
++        power-domains:
++          items:
++            - description: CX power domain
++            - description: MX power domain
++        power-domain-names:
++          items:
++            - const: cx
++            - const: mx
++
+ unevaluatedProperties: false
+ 
+ examples:
+-- 
+2.25.1
+

@@ -1,0 +1,63 @@
+From 8922a712f9571f7bcf2a0a80a949f83d9d4e0655 Mon Sep 17 00:00:00 2001
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Fri, 8 Dec 2023 16:08:02 +0100
+Subject: [PATCH] UPSTREAM: remoteproc: qcom_q6v5_pas: Add SC7280 ADSP, CDSP &
+ WPSS
+
+Add support for the ADSP, CDSP and WPSS remoteprocs found on the SC7280
+SoC using the q6v5-pas driver.
+
+This driver can be used on regular LA ("Linux Android") based releases,
+however the SC7280 ChromeOS devices need different driver support due to
+firmware differences.
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Link: https://lore.kernel.org/r/20231208-sc7280-remoteprocs-v3-6-6aa394d33edf@fairphone.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 300ed425dfa99f6926299ec196a1eedf05f47b21]
+---
+ drivers/remoteproc/qcom_q6v5_pas.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+index b5447dd2dd35..c97aeb1cff77 100644
+--- a/drivers/remoteproc/qcom_q6v5_pas.c
++++ b/drivers/remoteproc/qcom_q6v5_pas.c
+@@ -1150,6 +1150,22 @@ static const struct adsp_data sm8550_mpss_resource = {
+ 	.region_assign_idx = 2,
+ };
+ 
++static const struct adsp_data sc7280_wpss_resource = {
++	.crash_reason_smem = 626,
++	.firmware_name = "wpss.mdt",
++	.pas_id = 6,
++	.auto_boot = true,
++	.proxy_pd_names = (char*[]){
++		"cx",
++		"mx",
++		NULL
++	},
++	.load_state = "wpss",
++	.ssr_name = "wpss",
++	.sysmon_name = "wpss",
++	.ssctl_id = 0x19,
++};
++
+ static const struct of_device_id adsp_of_match[] = {
+ 	{ .compatible = "qcom,msm8226-adsp-pil", .data = &adsp_resource_init},
+ 	{ .compatible = "qcom,msm8953-adsp-pil", .data = &msm8996_adsp_resource},
+@@ -1162,7 +1178,10 @@ static const struct of_device_id adsp_of_match[] = {
+ 	{ .compatible = "qcom,qcs404-cdsp-pas", .data = &cdsp_resource_init },
+ 	{ .compatible = "qcom,qcs404-wcss-pas", .data = &wcss_resource_init },
+ 	{ .compatible = "qcom,sc7180-mpss-pas", .data = &mpss_resource_init},
++	{ .compatible = "qcom,sc7280-adsp-pas", .data = &sm8350_adsp_resource},
++	{ .compatible = "qcom,sc7280-cdsp-pas", .data = &sm6350_cdsp_resource},
+ 	{ .compatible = "qcom,sc7280-mpss-pas", .data = &mpss_resource_init},
++	{ .compatible = "qcom,sc7280-wpss-pas", .data = &sc7280_wpss_resource},
+ 	{ .compatible = "qcom,sc8180x-adsp-pas", .data = &sm8150_adsp_resource},
+ 	{ .compatible = "qcom,sc8180x-cdsp-pas", .data = &sm8150_cdsp_resource},
+ 	{ .compatible = "qcom,sc8180x-mpss-pas", .data = &sc8180x_mpss_resource},
+-- 
+2.25.1
+

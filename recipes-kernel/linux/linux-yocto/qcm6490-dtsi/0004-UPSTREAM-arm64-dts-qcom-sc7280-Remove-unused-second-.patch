@@ -1,0 +1,53 @@
+From b4c0cfe346f7f16f5459cce528b7c65a5ffd4d2c Mon Sep 17 00:00:00 2001
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Fri, 8 Dec 2023 16:07:58 +0100
+Subject: [PATCH 4/5] UPSTREAM: arm64: dts: qcom: sc7280: Remove unused second
+ MPSS reg
+
+The bindings for sc7280-mpss-pas neither expects a second reg nor a
+reg-names property, which is only required by the sc7280-mss-pil
+bindings.
+
+Move it to sc7280-herobrine-lte-sku.dtsi, the only place where that
+other compatible is used.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Link: https://lore.kernel.org/r/20231208-sc7280-remoteprocs-v3-2-6aa394d33edf@fairphone.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 419618bd90f6b2c3adec87beb0d62adfcae619eb]
+---
+ arch/arm64/boot/dts/qcom/sc7280-herobrine-lte-sku.dtsi | 2 ++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi                   | 3 +--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine-lte-sku.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine-lte-sku.dtsi
+index 95505549adcc..203274c10532 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280-herobrine-lte-sku.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine-lte-sku.dtsi
+@@ -33,6 +33,8 @@ &ipa {
+ 
+ &remoteproc_mpss {
+ 	compatible = "qcom,sc7280-mss-pil";
++	reg = <0 0x04080000 0 0x10000>, <0 0x04180000 0 0x48>;
++	reg-names = "qdsp6", "rmb";
+ 
+ 	clocks = <&gcc GCC_MSS_CFG_AHB_CLK>,
+ 		 <&gcc GCC_MSS_OFFLINE_AXI_CLK>,
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 96dc1f5b85c3..32fea294414e 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -2741,8 +2741,7 @@ adreno_smmu: iommu@3da0000 {
+ 
+ 		remoteproc_mpss: remoteproc@4080000 {
+ 			compatible = "qcom,sc7280-mpss-pas";
+-			reg = <0 0x04080000 0 0x10000>, <0 0x04180000 0 0x48>;
+-			reg-names = "qdsp6", "rmb";
++			reg = <0 0x04080000 0 0x10000>;
+ 
+ 			interrupts-extended = <&intc GIC_SPI 264 IRQ_TYPE_EDGE_RISING>,
+ 					      <&modem_smp2p_in 0 IRQ_TYPE_EDGE_RISING>,
+-- 
+2.25.1
+
