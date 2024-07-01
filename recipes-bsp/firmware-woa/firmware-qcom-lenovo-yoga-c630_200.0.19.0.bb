@@ -6,10 +6,14 @@ FW_QCOM_SUBDIR = "sdm850/LENOVO/81JL"
 FW_QCOM_NAME = "lenovo-yoga-c630"
 WOA_SUBDIR = "Lenovo/YogaC630"
 
-SRC_URI = "\
-    ${WOA_FW_URL}/qcdx850.cab;name=dx \
-    ${WOA_FW_URL}/qcipa850.cab;name=ipa \
-    ${WOA_FW_URL}/qcsubsys850.cab;name=dsp \
+WOA_CABINETS = " \
+    qcdx850.cab;name=dx \
+    qcipa850.cab;name=ipa \
+    qcsubsys850.cab;name=dsp \
+"
+
+SRC_URI = " \
+    ${WOA_SRC_URI} \
     file://adspr.jsn \
     file://adspua.jsn \
     file://cdspr.jsn \

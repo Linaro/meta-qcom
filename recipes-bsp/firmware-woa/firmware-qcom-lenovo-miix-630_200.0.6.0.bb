@@ -6,10 +6,14 @@ FW_QCOM_SUBDIR = "msm8998/LENOVO/81F1"
 FW_QCOM_NAME = "lenovo-miix-630"
 WOA_SUBDIR = "Lenovo/Miix630"
 
+WOA_CABINETS = " \
+    qcdx8998.cab;name=dx \
+    qcipa8998.cab;name=ipa \
+    qcsubsys8998.cab;name=dsp \
+"
+
 SRC_URI = "\
-    ${WOA_FW_URL}/qcdx8998.cab;name=dx \
-    ${WOA_FW_URL}/qcipa8998.cab;name=ipa \
-    ${WOA_FW_URL}/qcsubsys8998.cab;name=dsp \
+    ${WOA_SRC_URI} \
     file://adspr.jsn \
     file://adspua.jsn \
     file://slpir.jsn \

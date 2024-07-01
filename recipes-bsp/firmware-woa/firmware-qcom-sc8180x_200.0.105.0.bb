@@ -5,13 +5,17 @@ LICENSE = "CLOSED"
 FW_QCOM_NAME = "sc8180x"
 WOA_SUBDIR = "8180_CLS"
 
-SRC_URI = "\
-    ${WOA_FW_URL}/qcdx8180.cab;name=dx \
-    ${WOA_FW_URL}/qcipa8180.cab;name=ipa \
-    ${WOA_FW_URL}/qcsubsys_ext_adsp8180.cab;name=adsp \
-    ${WOA_FW_URL}/qcsubsys_ext_cdsp8180.cab;name=cdsp \
-    ${WOA_FW_URL}/qcsubsys_ext_mpss8180.cab;name=mpss \
-    ${WOA_FW_URL}/qcsubsys_ext_scss8180.cab;name=slpi \
+WOA_CABINETS = " \
+    qcdx8180.cab;name=dx \
+    qcipa8180.cab;name=ipa \
+    qcsubsys_ext_adsp8180.cab;name=adsp \
+    qcsubsys_ext_cdsp8180.cab;name=cdsp \
+    qcsubsys_ext_mpss8180.cab;name=mpss \
+    qcsubsys_ext_scss8180.cab;name=slpi \
+"
+
+SRC_URI = " \
+    ${WOA_SRC_URI} \
     file://adspr.jsn \
     file://adspua.jsn \
     file://battmgr.jsn \
