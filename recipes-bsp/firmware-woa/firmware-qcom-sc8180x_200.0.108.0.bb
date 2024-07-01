@@ -12,6 +12,7 @@ WOA_CABINETS = " \
     qcsubsys_ext_cdsp8180.cab;name=cdsp \
     qcsubsys_ext_mpss8180.cab;name=mpss \
     qcsubsys_ext_scss8180.cab;name=slpi \
+    qcwlan8180.cab;name=wlan \
 "
 
 SRC_URI = " \
@@ -30,6 +31,7 @@ SRC_URI[adsp.sha256sum] = "a89c65ecebcc17c58851768d69c5d28c7853c207e5cda3cf06f70
 SRC_URI[cdsp.sha256sum] = "cecfcdef349d178c53557dfe2ec00ea33b4573e9ea6934bb44a2b328ee4a2f34"
 SRC_URI[mpss.sha256sum] = "099cd6f74d44de19925bba98f4f8efc2f70cac12aed9335047a8e4611e536761"
 SRC_URI[slpi.sha256sum] = "7f148ef79645612355df415826a5d03aafc6813ce2e06e22b03655a1c84a4b28"
+SRC_URI[wlan.sha256sum] = "17a108fdd699f7a66e35509b19612d276ea823f0145413784eb4df17559bcb02"
 
 SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
@@ -39,6 +41,7 @@ SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \
     linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
     linux-firmware-qcom-${FW_QCOM_NAME}-venus \
+    linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
 "
 
 require firmware-woa.inc
