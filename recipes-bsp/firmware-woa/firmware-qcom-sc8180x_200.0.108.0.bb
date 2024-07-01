@@ -24,12 +24,12 @@ SRC_URI = " \
     file://slpius.jsn \
 "
 
-SRC_URI[dx.sha256sum] = "c5295509720898758e9a61f1f5f64a013cb6c7706e82d1598232cdca5754d115"
+SRC_URI[dx.sha256sum] = "33a582149868d2a4fe3c2cded4dbb05128a29248028961438ae687c2feaa9e63"
 SRC_URI[ipa.sha256sum] = "e083779b7ee99edfd0fc4a54fb562c355476cf359f29cc729052158f97c3769d"
-SRC_URI[adsp.sha256sum] = "0679e45ae07b4b19db97ac06b12fce64cba4dfe65102d1f615564ca90387e8dd"
-SRC_URI[cdsp.sha256sum] = "eb6b1ff4d02736cd2b2ecaaf4136c164d712fcec7d8ad232434be1c67b703ffc"
-SRC_URI[mpss.sha256sum] = "7c7ed01e9c8cff1c7d1546a2b6f14c23d9224afd0de9a6f52c33ad04bfe053a8"
-SRC_URI[slpi.sha256sum] = "4dc4be421f46ffa3ee8b9141faac4214e7d19e60dc7c63734ef2bdba08cca73d"
+SRC_URI[adsp.sha256sum] = "a89c65ecebcc17c58851768d69c5d28c7853c207e5cda3cf06f70e2456b1be2c"
+SRC_URI[cdsp.sha256sum] = "cecfcdef349d178c53557dfe2ec00ea33b4573e9ea6934bb44a2b328ee4a2f34"
+SRC_URI[mpss.sha256sum] = "099cd6f74d44de19925bba98f4f8efc2f70cac12aed9335047a8e4611e536761"
+SRC_URI[slpi.sha256sum] = "7f148ef79645612355df415826a5d03aafc6813ce2e06e22b03655a1c84a4b28"
 
 SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
