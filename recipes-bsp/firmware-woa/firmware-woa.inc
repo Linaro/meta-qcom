@@ -30,3 +30,13 @@ do_install:append() {
 
     install -m 0644 ${UNPACKDIR}/*.jsn ${D}${FW_QCOM_PATH}
 }
+
+# cabinet filenams are neither unique nor contain the version. Construct
+# downloaded file names to solve name conflicts.
+python __anonymous () {
+    urls = []
+    for cab in (d.getVar("WOA_CABINETS") or "").split():
+        name = cab.split(';')[0]
+        urls.append("${WOA_FW_URL}/%s;downloadfilename=${WOA_SUBDIR}/${PV}/%s" % (cab, name))
+    d.setVar("WOA_SRC_URI", " ".join(urls));
+}

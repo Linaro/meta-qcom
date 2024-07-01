@@ -6,10 +6,7 @@ PACKAGE_INSTALL += " \
 
 BAD_RECOMMENDATIONS = " \
     linux-firmware-qca \
-    linux-firmware-ath10k \
     linux-firmware-qcom-sc8180x-compute \
-    linux-firmware-qcom-sc8180x-ipa \
-    linux-firmware-qcom-sc8180x-modem \
     linux-firmware-qcom-sc8180x-sensors \
     linux-firmware-qcom-sc8180x-venus \
 "

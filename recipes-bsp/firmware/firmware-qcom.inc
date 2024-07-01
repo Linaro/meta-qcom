@@ -21,7 +21,7 @@ RRECOMMENDS:${PN} += "${@ ' '.join(filter(lambda p: not p.endswith('-split'), d.
 # Default settings for several split packages
 FILES:${PN}-dspso += "${FW_QCOM_BASE_PATH}/*/*dspso.bin"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-adreno = "${FW_QCOM_PATH}/*_zap.mbn"
-FILES:linux-firmware-qcom-${FW_QCOM_NAME}-audio = "${FW_QCOM_PATH}/adsp.mbn ${FW_QCOM_PATH}/adsp*.jsn"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-audio = "${FW_QCOM_PATH}/adsp.mbn ${FW_QCOM_PATH}/adsp*.jsn ${FW_QCOM_PATH}/battmgr.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-audio-split = "${FW_QCOM_PATH}/adsp.mdt ${FW_QCOM_PATH}/adsp.b*"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute = "${FW_QCOM_PATH}/cdsp.mbn ${FW_QCOM_PATH}/cdsp*.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute-split = "${FW_QCOM_PATH}/cdsp.mdt ${FW_QCOM_PATH}/cdsp.b*"
