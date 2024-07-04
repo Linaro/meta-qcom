@@ -1,0 +1,95 @@
+From 0d8cdf23b491a8bf9fbbd784c4f0179e77798def Mon Sep 17 00:00:00 2001
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Fri, 8 Dec 2023 16:08:03 +0100
+Subject: [PATCH 3/5] UPSTREAM: arm64: dts: qcom: sc7280: Use WPSS PAS instead
+ of PIL
+
+The wpss-pil driver wants to manage too many resources that cannot be
+touched with standard Qualcomm firmware.
+
+Use the compatible from the PAS driver and move the ChromeOS-specific
+bits to sc7280-chrome-common.dtsi.
+
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Link: https://lore.kernel.org/r/20231208-sc7280-remoteprocs-v3-7-6aa394d33edf@fairphone.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 0bcbf092560cc1c163156af67176cbb4b8a327f9]
+---
+ .../boot/dts/qcom/sc7280-chrome-common.dtsi   | 19 ++++++++++++++++++-
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          | 15 +++------------
+ 2 files changed, 21 insertions(+), 13 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+index 459ff877df54..323b7954b68c 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+@@ -95,8 +95,25 @@ spi_flash: flash@0 {
+ };
+ 
+ &remoteproc_wpss {
+-	status = "okay";
++	compatible = "qcom,sc7280-wpss-pil";
++	clocks = <&gcc GCC_WPSS_AHB_BDG_MST_CLK>,
++		 <&gcc GCC_WPSS_AHB_CLK>,
++		 <&gcc GCC_WPSS_RSCP_CLK>,
++		 <&rpmhcc RPMH_CXO_CLK>;
++	clock-names = "ahb_bdg",
++		      "ahb",
++		      "rscp",
++		      "xo";
++
++	resets = <&aoss_reset AOSS_CC_WCSS_RESTART>,
++		 <&pdc_reset PDC_WPSS_SYNC_RESET>;
++	reset-names = "restart", "pdc_sync";
++
++	qcom,halt-regs = <&tcsr_1 0x17000>;
++
+ 	firmware-name = "ath11k/WCN6750/hw1.0/wpss.mdt";
++
++	status = "okay";
+ };
+ 
+ &scm {
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 7d0492c23d6d..96dc1f5b85c3 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -3536,7 +3536,7 @@ qspi: spi@88dc000 {
+ 		};
+ 
+ 		remoteproc_wpss: remoteproc@8a00000 {
+-			compatible = "qcom,sc7280-wpss-pil";
++			compatible = "qcom,sc7280-wpss-pas";
+ 			reg = <0 0x08a00000 0 0x10000>;
+ 
+ 			interrupts-extended = <&intc GIC_SPI 587 IRQ_TYPE_EDGE_RISING>,
+@@ -3548,12 +3548,8 @@ remoteproc_wpss: remoteproc@8a00000 {
+ 			interrupt-names = "wdog", "fatal", "ready", "handover",
+ 					  "stop-ack", "shutdown-ack";
+ 
+-			clocks = <&gcc GCC_WPSS_AHB_BDG_MST_CLK>,
+-				 <&gcc GCC_WPSS_AHB_CLK>,
+-				 <&gcc GCC_WPSS_RSCP_CLK>,
+-				 <&rpmhcc RPMH_CXO_CLK>;
+-			clock-names = "ahb_bdg", "ahb",
+-				      "rscp", "xo";
++			clocks = <&rpmhcc RPMH_CXO_CLK>;
++			clock-names = "xo";
+ 
+ 			power-domains = <&rpmhpd SC7280_CX>,
+ 					<&rpmhpd SC7280_MX>;
+@@ -3566,11 +3562,6 @@ remoteproc_wpss: remoteproc@8a00000 {
+ 			qcom,smem-states = <&wpss_smp2p_out 0>;
+ 			qcom,smem-state-names = "stop";
+ 
+-			resets = <&aoss_reset AOSS_CC_WCSS_RESTART>,
+-				 <&pdc_reset PDC_WPSS_SYNC_RESET>;
+-			reset-names = "restart", "pdc_sync";
+-
+-			qcom,halt-regs = <&tcsr_1 0x17000>;
+ 
+ 			status = "disabled";
+ 
+-- 
+2.25.1
+
