@@ -3,9 +3,9 @@ SUMMARY = "simple low-level testing tool for qcom boards"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=987293312a134ab40eec5f3d446cfaff"
 
-SRCREV = "bd84c8a164e9c603db85781cfa019b516a6d2ded"
+SRCREV = "7dd53678fe1e677a63883639c2dad927d7266c00"
 SRC_URI = "\
-	git://github.com/andersson/bootrr.git;branch=master;protocol=https \
+	git://github.com/linux-msm/bootrr.git;branch=master;protocol=https \
 "
 
 S = "${WORKDIR}/git"
