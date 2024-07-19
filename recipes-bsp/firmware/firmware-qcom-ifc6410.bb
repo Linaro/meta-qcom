@@ -11,6 +11,8 @@ FW_QCOM_NAME = "apq8064"
 
 FW_QCOM_LIST = "dsps.mbn gss.mbn q6.mbn wcnss.mbn"
 
+S = "${UNPACKDIR}"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 require recipes-bsp/firmware/firmware-qcom-nhlos.inc
 

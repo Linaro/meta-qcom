@@ -17,6 +17,8 @@ FW_QCOM_LIST = "\
     slpi.mbn slpir.jsn slpius.jsn \
 "
 
+S = "${UNPACKDIR}"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 require recipes-bsp/firmware/firmware-qcom-nhlos.inc
 require recipes-bsp/firmware/firmware-qcom-adreno.inc

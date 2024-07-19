@@ -14,6 +14,8 @@ FW_QCOM_LIST = "\
     ipa_fws.mbn \
 "
 
+S = "${UNPACKDIR}"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 require recipes-bsp/firmware/firmware-qcom-nhlos.inc
 require recipes-bsp/firmware/firmware-qcom-adreno.inc
