@@ -29,7 +29,7 @@ SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-${FW_QCOM_NAME}-modem \
     linux-firmware-qcom-${FW_QCOM_NAME}-sensors \
     linux-firmware-qcom-adreno-a730 \
-    linux-firmware-qcom-adreno-gmu-a700 \
+    linux-firmware-qcom-adreno-gmu-g700 \
 "
 
 do_install:append() {
@@ -40,5 +40,5 @@ do_install:append() {
 }
 
 FILES:linux-firmware-qcom-adreno-a730 += "${FW_QCOM_BASE_PATH}/a730_sqe.fw"
-FILES:linux-firmware-qcom-adreno-gmu-a700 += "${FW_QCOM_BASE_PATH}/gmu_gen70000.bin"
-RDEPENDS:linux-firmware-qcom-adreno-a730 += "linux-firmware-qcom-adreno-gmu-a700"
+FILES:linux-firmware-qcom-adreno-gmu-g700 += "${FW_QCOM_BASE_PATH}/gmu_gen70000.bin"
+RDEPENDS:linux-firmware-qcom-adreno-a730 += "linux-firmware-qcom-adreno-gmu-g700"
