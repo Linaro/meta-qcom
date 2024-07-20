@@ -28,7 +28,7 @@ do_compile:append() {
     if [ -z "${ADRENO_URI}" ] ; then
         bbwarn "${PN}: not packaging ADRENO firmware. Please provide ADRENO_URI"
     else
-        for fw in ${WORKDIR}/adreno/${ADRENO_PATH}/*_zap.mdt ; do
+        ls ${WORKDIR}/adreno/${ADRENO_PATH}/*_zap.mdt | while read fw ; do
             pil-squasher ${B}/`basename $fw mdt`mbn $fw || exit 1
         done
         for fw in ${FW_QCOM_LIST} ; do
