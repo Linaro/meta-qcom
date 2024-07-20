@@ -16,9 +16,7 @@ DEPENDS += "pil-squasher-native"
 
 python () {
     uri = d.getVar("ADRENO_URI")
-    if uri == "":
-        bb.warn("%s: not packaging ADRENO firmware. Please provide ADRENO_URI" % d.getVar("PN"))
-    else:
+    if uri:
         urldata = bb.fetch2.FetchData(d.getVar("ADRENO_URI"), d)
         if "fwpath" in urldata.parm:
             d.setVar("ADRENO_PATH", urldata.parm["fwpath"])
@@ -27,8 +25,10 @@ python () {
 }
 
 do_compile:append() {
-    if [ -n "${ADRENO_URI}" ] ; then
-        for fw in ${UNPACKDIR}/adreno/${ADRENO_PATH}/*_zap.mdt ; do
+    if [ -z "${ADRENO_URI}" ] ; then
+        bbwarn "${PN}: not packaging ADRENO firmware. Please provide ADRENO_URI"
+    else
+        ls ${UNPACKDIR}/adreno/${ADRENO_PATH}/*_zap.mdt | while read fw ; do
             pil-squasher ${B}/`basename $fw mdt`mbn $fw || exit 1
         done
         for fw in ${FW_QCOM_LIST} ; do

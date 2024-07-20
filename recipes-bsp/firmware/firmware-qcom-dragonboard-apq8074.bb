@@ -11,6 +11,8 @@ FW_QCOM_NAME = "apq8074"
 
 FW_QCOM_LIST = "adsp.mbn mba.mbn modem.mbn wcnss.mbn"
 
+S = "${UNPACKDIR}"
+
 require recipes-bsp/firmware/firmware-qcom.inc
 require recipes-bsp/firmware/firmware-qcom-nhlos.inc
 
