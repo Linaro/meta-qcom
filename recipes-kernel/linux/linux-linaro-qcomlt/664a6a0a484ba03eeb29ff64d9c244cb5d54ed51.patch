@@ -1,0 +1,44 @@
+From 664a6a0a484ba03eeb29ff64d9c244cb5d54ed51 Mon Sep 17 00:00:00 2001
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 13 Jul 2022 12:18:15 -0400
+Subject: tools: use basename to identify file in gen-mach-types
+
+FILENAME is replaced by the full path to the executing script. If
+the script is executed via a fully specified path, that is captured
+in the output. Although it doesn't impact the output, it does trigger
+reproducibility warnings/errors.
+
+So we introduce a basename() function in the script and use it to
+make sure the output file contains only the name of the awk script.
+
+Upstream-Status: Inappropriate [Yocto-specific]
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ arch/arm/tools/gen-mach-types | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+(limited to 'arch/arm/tools')
+
+diff --git a/arch/arm/tools/gen-mach-types b/arch/arm/tools/gen-mach-types
+index cb2b69f2a39d..1fcdba948623 100644
+--- a/arch/arm/tools/gen-mach-types
++++ b/arch/arm/tools/gen-mach-types
+@@ -21,10 +21,14 @@ NF == 3 {
+ 	  num[nr] = ""; nr++
+ 	}
+ 
++	function basename(file) {
++	   sub(".*/", "", file)
++	   return file
++	}
+ 
+ END	{
+ 	  printf("/*\n");
+-	  printf(" * This was automagically generated from %s!\n", FILENAME);
++	  printf(" * This was automagically generated from %s!\n", basename(FILENAME));
+ 	  printf(" * Do NOT edit\n");
+ 	  printf(" */\n\n");
+ 	  printf("#ifndef __ASM_ARM_MACH_TYPE_H\n");
+-- 
+cgit 1.2.3-korg
+
