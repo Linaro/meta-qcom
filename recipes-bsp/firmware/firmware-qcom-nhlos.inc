@@ -33,7 +33,9 @@ def get_nhlos_path(path):
     return url.path.rsplit('/', 1)[1]
 
 do_compile:prepend() {
-    if [ -n "${NHLOS_URI}" ] ; then
+    if [ -z "${NHLOS_URI}" ] ; then
+        bbwarn "${PN}: not packaging NHLOS firmware. Please provide HNLOS_URI"
+    else
         handle_nonhlos_image ${WORKDIR}/${@get_nhlos_path(d.getVar("NHLOS_URI"))}
     fi
 }
@@ -50,11 +52,4 @@ do_install:prepend() {
             install -m 0644 ${B}/firmware/image/$fw ${D}${FW_QCOM_PATH}
         fi
     done
-}
-
-# If firmware files are not provided, do not download/package anything
-python () {
-    uri = d.getVar("NHLOS_URI")
-    if uri == "":
-        bb.warn("%s: not packaging NHLOS firmware. Please provide HNLOS_URI" % d.getVar("PN"))
 }
