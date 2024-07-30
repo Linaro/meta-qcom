@@ -51,9 +51,27 @@ do_compile() {
     ukify_cmd="$ukify_cmd --uname ${KERNEL_VERSION}"
 
     # Kernel cmdline
-    if [ -n "${KERNEL_CMDLINE_EXTRA}" ]; then
-        ukify_cmd="$ukify_cmd --cmdline='${KERNEL_CMDLINE_EXTRA}'"
+    cmdline=""
+    if [ -n "${QCOM_BOOTIMG_ROOTFS}" ]; then
+        cmdline="$cmdline root=${QCOM_BOOTIMG_ROOTFS} rw rootwait"
     fi
+
+    if [ ! -z "${SERIAL_CONSOLES}" ]; then
+        tmp="${SERIAL_CONSOLES}"
+        for entry in $tmp ; do
+            baudrate=`echo $entry | sed 's/\;.*//'`
+            tty=`echo $entry | sed -e 's/^[0-9]*\;//' -e 's/\;.*//'`
+	    console="$tty","$baudrate"n8
+            cmdline="$cmdline console=$console"
+        done
+    fi
+
+    if [ -n "${KERNEL_CMDLINE_EXTRA}" ]; then
+        cmdline="$cmdline ${KERNEL_CMDLINE_EXTRA}"
+    fi
+
+    printf '%s' "$cmdline" > ${B}/cmdline
+    ukify_cmd="$ukify_cmd --cmdline @${B}/cmdline"
 
     # Architecture
     ukify_cmd="$ukify_cmd --efi-arch ${EFI_ARCH}"
@@ -77,6 +95,7 @@ do_compile() {
     echo "ukify cmd:$ukify_cmd"
     ukify build $ukify_cmd
 }
+do_compile[vardeps] += "KERNEL_CMDLINE_EXTRA QCOM_BOOTIMG_ROOTFS"
 
 do_install() {
     install -Dm 0755 ${B}${EFI_UKI_PATH}/${EFI_LINUX_IMG} ${D}${EFI_UKI_PATH}/${EFI_LINUX_IMG}
