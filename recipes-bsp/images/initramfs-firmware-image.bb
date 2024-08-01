@@ -9,6 +9,7 @@ PACKAGE_INSTALL:qcom-armv8a = " \
     packagegroup-firmware-dragonboard845c \
     packagegroup-firmware-rb1 \
     packagegroup-firmware-rb2 \
+    packagegroup-firmware-rb3gen2 \
     packagegroup-firmware-rb5 \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'wireless-regdb-static', '', d)} \
 "
