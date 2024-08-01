@@ -16,6 +16,8 @@ SRC_URI = "\
     ${WOA_SRC_URI} \
     file://adspr.jsn \
     file://adspua.jsn \
+    file://modemr.jsn \
+    file://modemuw.jsn \
     file://slpir.jsn \
     file://slpius.jsn \
 "
