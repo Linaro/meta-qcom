@@ -4,11 +4,13 @@ JSON="$2"
 
 iter=0
 echo "[" > "${JSON}"
+echo "  {" >> "${JSON}"
+echo "      \"board\": [" >> "${JSON}"
 for file in $1/bdwlan.elf $1/bdwlan.e* ; do
     iter=$((iter+1))
     [ $iter -ne 1 ] && echo "  }," >> "${JSON}"
 
-    echo "  {" >> "${JSON}"
+    echo "      {" >> "${JSON}"
     echo "          \"data\": \"$file\"," >> "${JSON}"
     if [ `basename $file` = "bdwlan.elf" ]; then
         file_ext="255"
@@ -18,6 +20,8 @@ for file in $1/bdwlan.elf $1/bdwlan.e* ; do
     echo "          \"names\": [\"bus=pci,qmi-chip-id=0,qmi-board-id=${file_ext}\"]" >> "${JSON}"
 done
 
+echo "      }" >> "${JSON}"
+echo "    ]" >> "${JSON}"
 echo "  }" >> "${JSON}"
 echo "]" >> "${JSON}"
 
