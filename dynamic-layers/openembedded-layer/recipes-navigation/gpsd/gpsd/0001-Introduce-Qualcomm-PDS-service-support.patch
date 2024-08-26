@@ -606,7 +606,7 @@ index 110c5601f..b55f1913c 100644
 @@ -800,6 +801,14 @@ struct gps_device_t {
              char ais_channel;
          } aivdm;
- #endif /* AIVDM_ENABLE */
+ #endif  // AIVDM_ENABLE
 +#ifdef PDS_ENABLE
 +       struct {
 +           int ready;
@@ -614,7 +614,7 @@ index 110c5601f..b55f1913c 100644
 +           unsigned int pds_node;
 +           unsigned int pds_port;
 +       } pds;
-+#endif /* PDS_ENABLE */
++#endif  // PDS_ENABLE
      } driver;
  
      /*
