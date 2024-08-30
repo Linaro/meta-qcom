@@ -12,6 +12,7 @@ FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute += "${FW_QCOM_PATH}/qccdsp*.mb
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-modem += "${FW_QCOM_PATH}/qcmpss*.mbn ${FW_QCOM_PATH}/qcdsp*.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-sensors += "${FW_QCOM_PATH}/qcslpi*.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-venus += "${FW_QCOM_PATH}/qcvss*.mbn"
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi += "${FW_QCOM_PATH}/bdwlan*"
 
 do_compile:append() {
     for file in ${UNPACKDIR}/*cab ; do
@@ -27,6 +28,7 @@ do_install:append() {
 
     install -m 0644 ${B}/*.mbn ${D}${FW_QCOM_PATH}
     ls ${B}/*.elf && install -m 0644 ${B}/*.elf ${D}${FW_QCOM_PATH}
+    ls ${B}/bdwlan.* && install -m 0644 ${B}/bdwlan.* ${D}${FW_QCOM_PATH}
 
     install -m 0644 ${UNPACKDIR}/*.jsn ${D}${FW_QCOM_PATH}
 }
