@@ -9,5 +9,5 @@ RRECOMMENDS:${PN} += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'linux-firmware-qca', '', d)} \
     linux-firmware-qcom-qcs6490-audio \
     linux-firmware-qcom-qcs6490-compute \
-    linux-firmware-qcom-vpu-2.0 \
+    linux-firmware-qcom-vpu \
 "

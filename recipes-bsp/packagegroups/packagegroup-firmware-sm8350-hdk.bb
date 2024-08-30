@@ -14,5 +14,5 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-sm8350-ipa \
     linux-firmware-qcom-sm8350-modem \
     linux-firmware-qcom-sm8350-sensors \
-    linux-firmware-qcom-vpu-2.0 \
+    linux-firmware-qcom-vpu \
 "

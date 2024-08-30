@@ -10,5 +10,5 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-lt9611uxc \
     linux-firmware-qcom-sm8250-audio \
     linux-firmware-qcom-sm8250-compute \
-    linux-firmware-qcom-vpu-1.0 \
+    linux-firmware-qcom-vpu \
 "
