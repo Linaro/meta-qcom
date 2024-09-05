@@ -85,6 +85,13 @@ do_compile() {
     [ -f $stub ] && echo "Creating UKI with $stub" || bbfatal "$stub is not a valid stub to create UKI."
     ukify_cmd="$ukify_cmd --stub $stub"
 
+    # DTB
+    if [ -n "${EFI_LINUX_IMG_DTB}" ]; then
+        dtb="${DEPLOY_DIR_IMAGE}/${EFI_LINUX_IMG_DTB}"
+        [ -r "$dtb" ] && echo "Creating UKI with $dtb" || bbfatal "$dtb is not valid dtb to create UKI."
+        ukify_cmd="$ukify_cmd --devicetree=$dtb"
+    fi
+
     # Output
     mkdir -p "${B}${EFI_UKI_PATH}"
     output="${B}${EFI_UKI_PATH}/${EFI_LINUX_IMG}"
