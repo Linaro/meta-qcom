@@ -12,3 +12,8 @@ SRC_URI:append:qcom = " \
 QCOM_BOOTIMG = ""
 QCOM_BOOTIMG:qcom = "linux-qcom-bootimg"
 inherit ${QCOM_BOOTIMG}
+
+# For dtb.bin
+QCOM_DTBBIN = ""
+QCOM_DTBBIN:qcom = "linux-qcom-dtbbin"
+inherit ${QCOM_DTBBIN}
