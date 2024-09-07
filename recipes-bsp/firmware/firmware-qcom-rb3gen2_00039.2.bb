@@ -38,7 +38,7 @@ require recipes-bsp/firmware/firmware-qcom-adreno.inc
 
 do_compile:append() {
     # Build board-2.bin needed by WiFi
-    ath11k-generate-board-2_json.sh ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH} board-2.json
+    ath11k-generate-ahb-board-2_json.sh ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH} board-2.json
     python3 "${STAGING_BINDIR_NATIVE}/ath11k-bdencoder" -c board-2.json -o board-2.bin
 }
 
