@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${LICENSE_FILE};md5=164e3362a538eb11d3ac51e8e134294b 
     file://${LICENSE_FILE_PDF};md5=e1d82f4252cf04ba59b8b9d0011e0180 \
     "
 
-DEPENDS += "qca-swiss-army-knife-native"
+DEPENDS += "qca-swiss-army-knife-native pil-squasher"
 
 FW_D_NAME = "QCM6490_fw"
 
@@ -37,6 +37,7 @@ require recipes-bsp/firmware/firmware-qcom.inc
 require recipes-bsp/firmware/firmware-qcom-adreno.inc
 
 do_compile:append() {
+    pil-squasher wpss.mbn ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH}/wpss.mdt
     # Build board-2.bin needed by WiFi
     ath11k-generate-ahb-board-2_json.sh ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH} board-2.json
     python3 "${STAGING_BINDIR_NATIVE}/ath11k-bdencoder" -c board-2.json -o board-2.bin
@@ -47,6 +48,8 @@ do_install:append() {
 
     install -m 0644 ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH}/*dsp*.mbn ${D}${FW_QCOM_PATH}
     install -m 0644 ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH}/*dsp*.jsn ${D}${FW_QCOM_PATH}
+
+    install -m 0644 ${B}/wpss.mbn ${D}${FW_QCOM_PATH}
 
     install -m 0644  ${UNPACKDIR}/adreno/${ADRENO_PATH}/a660_zap.mbn ${D}${FW_QCOM_PATH}
 
@@ -62,6 +65,7 @@ SPLIT_FIRMWARE_PACKAGES = "\
     linux-firmware-qcom-${FW_QCOM_NAME}-audio \
     linux-firmware-qcom-${FW_QCOM_NAME}-compute \
     linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
+    linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
 "
 
 inherit update-alternatives
@@ -69,3 +73,5 @@ inherit update-alternatives
 ALTERNATIVE:${PN} += "wcn6750-hw10-board-2"
 ALTERNATIVE_LINK_NAME[wcn6750-hw10-board-2] = "${nonarch_base_libdir}/firmware/ath11k/WCN6750/hw1.0/board-2.bin"
 ALTERNATIVE_PRIORITY = "100"
+
+FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi = "${FW_QCOM_PATH}/wpss.mbn"
