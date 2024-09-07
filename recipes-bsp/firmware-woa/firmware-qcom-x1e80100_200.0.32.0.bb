@@ -35,3 +35,11 @@ FILES:linux-firmware-qcom-${FW_QCOM_NAME}-compute:append = " ${FW_QCOM_PATH}/cds
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-wifi:append = " ${FW_QCOM_PATH}/wpss.mbn"
 
 require firmware-woa.inc
+
+do_install:append() {
+    ln -s -T qcadsp8380.mbn ${D}${FW_QCOM_PATH}/adsp.mbn
+    ln -s -T qccdsp8380.mbn ${D}${FW_QCOM_PATH}/cdsp.mbn
+
+    ln -s -T adsp_dtbs.elf ${D}${FW_QCOM_PATH}/adsp_dtb.mbn
+    ln -s -T cdsp_dtbs.elf ${D}${FW_QCOM_PATH}/cdsp_dtb.mbn
+}
