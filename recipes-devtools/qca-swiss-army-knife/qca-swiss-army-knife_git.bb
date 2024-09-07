@@ -10,7 +10,8 @@ SRC_URI = " \
 	git://github.com/qca/${BPN}.git;branch=master;protocol=https \
 	file://ath10k-generate-board-2_json.sh \
 	file://ath10k-generate-pci-board-2_json.sh \
-	file://ath11k-generate-board-2_json.sh \
+	file://ath11k-generate-pci-board-2_json.sh \
+	file://ath11k-generate-ahb-board-2_json.sh \
 "
 
 PV = "0.0+${SRCPV}"
@@ -21,7 +22,8 @@ do_install () {
 	install -m 0755 tools/scripts/*/* ${D}/${bindir}
 	install -m 0755 ${UNPACKDIR}/ath10k-generate-board-2_json.sh ${D}/${bindir}
 	install -m 0755 ${UNPACKDIR}/ath10k-generate-pci-board-2_json.sh ${D}/${bindir}
-	install -m 0755 ${UNPACKDIR}/ath11k-generate-board-2_json.sh ${D}/${bindir}
+	install -m 0755 ${UNPACKDIR}/ath11k-generate-pci-board-2_json.sh ${D}/${bindir}
+	install -m 0755 ${UNPACKDIR}/ath11k-generate-ahb-board-2_json.sh ${D}/${bindir}
 }
 
 BBCLASSEXTEND = "native nativesdk"
