@@ -4,4 +4,4 @@ PACKAGE_INSTALL += " \
     packagegroup-firmware-lenovo-miix-630 \
 "
 
-require initramfs-firmware-image.inc
+require recipes-bsp/images/initramfs-firmware-image.inc

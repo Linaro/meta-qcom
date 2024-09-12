@@ -4,4 +4,4 @@ PACKAGE_INSTALL += " \
     packagegroup-firmware-ecs-liva-qc710 \
 "
 
-require initramfs-firmware-image.inc
+require recipes-bsp/images/initramfs-firmware-image.inc
