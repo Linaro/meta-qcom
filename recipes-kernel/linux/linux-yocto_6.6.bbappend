@@ -12,10 +12,7 @@ SRC_URI:append:qcom = " \
     file://generic-drivers/mpm/0001-dt-bindings-interrupt-controller-mpm-Pass-MSG-RAM-sl.patch \
     file://generic-drivers/mpm/0002-irqchip-irq-qcom-mpm-Support-passing-a-slice-of-SRAM.patch \
     file://generic-drivers/mdss-icc/0002_dt_bindings_display_msm_add_reg_bus_and_rotator_interconnects.patch \
-    file://generic-drivers/mdss-icc/0001_drm_msm_mdss_switch_mdss_to_use_devm_of_icc_get.patch \
-    file://generic-drivers/mdss-icc/0002_drm_msm_mdss_rename_path_references_to_mdp_path.patch \
     file://generic-drivers/mdss-icc/0003_drm_msm_mdss_inline_msm_mdss_icc_request_bw.patch \
-    file://generic-drivers/mdss-icc/0004_drm_msm_mdss_handle_the_reg_bus_icc_path.patch \
     file://generic-drivers/icc/0001-interconnect-qcom-icc-rpm-Add-AB-IB-calculations-coe.patch \
     file://generic-drivers/icc/0002-interconnect-qcom-icc-rpm-Separate-out-clock-rate-ca.patch \
     file://generic-drivers/icc/0003-interconnect-qcom-icc-rpm-Let-nodes-drive-their-own-.patch \
