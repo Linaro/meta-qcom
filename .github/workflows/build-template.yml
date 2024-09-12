@@ -28,6 +28,7 @@ on:
 
 env:
   POKY_URL: https://git.yoctoproject.org/poky
+  META_OE_URL: https://github.com/openembedded/meta-openembedded
   DISTRO: poky
   TCLIBC: glibc musl
   KERNELS: linaro-qcomlt yocto
@@ -58,12 +59,14 @@ jobs:
             git_trees:
               - branch: ${{inputs.branch}}
                 url: $POKY_URL
+              - branch: ${{inputs.branch}}
+                url: $META_OE_URL
               - ${{inputs.ref_type}}: ${{inputs.ref}}
                 url: ${{inputs.url}}
           distro: $DISTRO
           target: ${{inputs.images}}
           bblayers_conf:
-            - BBLAYERS += '../$(echo ${{github.repository}} | cut -d'/' -f2)'
+            - BBLAYERS += '../$(echo ${{github.repository}} | cut -d'/' -f2) ../meta-openembedded/meta-oe'
           artifacts: []
         EOF
 
