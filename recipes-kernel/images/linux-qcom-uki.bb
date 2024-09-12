@@ -44,7 +44,7 @@ do_compile() {
     # Kernel Image
     # Note: systemd-boot can't handle compressed kernel image.
     kernel_image="${DEPLOY_DIR_IMAGE}/Image"
-    [ -f $kernel_image ] && echo "Creating UKI with $kernel_image" || bbfatal "No valid kernel image to create UKI. Add 'Image' to KERNEL_IMAGETYPES."
+    [ -f $kernel_image ] && echo "Creating UKI with $kernel_image" || bbfatal "$kernel_image is not valid to create UKI."
     ukify_cmd="$ukify_cmd --linux=$kernel_image"
 
     # Kernel version
