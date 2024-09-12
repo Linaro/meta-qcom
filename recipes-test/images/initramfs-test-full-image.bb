@@ -27,7 +27,7 @@ PACKAGE_INSTALL:append:libc-glibc = " \
 
 # ncurses-terminfo is provided by oe-core layer, but it's only needed for gps (cgps), so include it here
 PACKAGE_INSTALL_openembedded-layer += " \
-    crash \
+    ${@['crash', ''][${TCLIBC} != 'musl']} \
     dhrystone \
     gpsd \
     gpsd-machine-conf \
