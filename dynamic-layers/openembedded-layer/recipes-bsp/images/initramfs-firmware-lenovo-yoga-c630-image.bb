@@ -4,4 +4,4 @@ PACKAGE_INSTALL += " \
     packagegroup-firmware-lenovo-yoga-c630 \
 "
 
-require initramfs-firmware-image.inc
+require recipes-bsp/images/initramfs-firmware-image.inc

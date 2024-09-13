@@ -11,4 +11,4 @@ BAD_RECOMMENDATIONS = " \
     linux-firmware-qcom-sc8180x-venus \
 "
 
-require initramfs-firmware-image.inc
+require recipes-bsp/images/initramfs-firmware-image.inc

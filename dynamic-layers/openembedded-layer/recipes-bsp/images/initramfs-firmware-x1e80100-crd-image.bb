@@ -10,4 +10,4 @@ BAD_RECOMMENDATIONS = " \
     linux-firmware-qcom-x1e80100-crd-venus \
 "
 
-require initramfs-firmware-image.inc
+require recipes-bsp/images/initramfs-firmware-image.inc
