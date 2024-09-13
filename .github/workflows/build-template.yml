@@ -70,13 +70,21 @@ jobs:
         for tclibc in ${TCLIBC}; do
         for kernel in ${KERNELS}; do
         cat << EOF >> plan.yaml
-        ${tclibc}-${kernel}: &${tclibc}-${kernel}
+        ${tclibc}-${kernel}-initramfs: &${tclibc}-${kernel}
           local_conf:
             - INHERIT += 'buildstats buildstats-summary'
             - INHERIT:remove = 'rm_work'
             - TCLIBC := '${tclibc}'
             - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
             - INITRAMFS_IMAGE ?= 'initramfs-rootfs-image'
+
+        ${tclibc}-${kernel}: &${tclibc}-${kernel}-noinitramfs
+          local_conf:
+            - INHERIT += 'buildstats buildstats-summary'
+            - INHERIT:remove = 'rm_work'
+            - TCLIBC := '${tclibc}'
+            - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
+            - INITRAMFS_IMAGE ?= ''
 
         EOF
         done
@@ -99,6 +107,7 @@ jobs:
         if [ "${machine}" = "qcom-armv8a" -a "${{inputs.branch}}" = "master" ] ; then
         cat << EOF >> plan.yaml
               - { <<: [*commondata, *${tclibc}-yocto], machine: qcom-armv8a, name: qcom-armv8a-${tclibc}-yocto }
+              - { <<: [*commondata, *${tclibc}-yocto-noinitramfs], machine: qcom-armv8a, name: qcom-armv8a-${tclibc}-yocto-noinitramfs }
         EOF
         fi
         done
