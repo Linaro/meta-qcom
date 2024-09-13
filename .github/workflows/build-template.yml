@@ -31,7 +31,6 @@ env:
   DISTRO: poky
   TCLIBC: glibc musl
   KERNELS: linaro-qcomlt yocto
-  INITRAMFS: initramfs-rootfs-image ~
 
 jobs:
   build:
@@ -70,7 +69,6 @@ jobs:
 
         for tclibc in ${TCLIBC}; do
         for kernel in ${KERNELS}; do
-        for initramfs in ${INITRAMFS}; do
         cat << EOF >> plan.yaml
         ${tclibc}-${kernel}: &${tclibc}-${kernel}
           local_conf:
@@ -78,10 +76,9 @@ jobs:
             - INHERIT:remove = 'rm_work'
             - TCLIBC := '${tclibc}'
             - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
-            - INITRAMFS_IMAGE := '${initramfs}'
+            - INITRAMFS_IMAGE ?= 'initramfs-rootfs-image'
 
         EOF
-        done
         done
         done
 
