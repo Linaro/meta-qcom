@@ -8,7 +8,7 @@ LICENSE_FILE = "LICENSE.qcom"
 LICENSE_FILE_PDF = "NO.LOGIN.BINARY.LICENSE.QTI.pdf"
 
 LIC_FILES_CHKSUM = "file://${LICENSE_FILE};md5=164e3362a538eb11d3ac51e8e134294b \
-    file://${LICENSE_FILE_PDF};md5=e1d82f4252cf04ba59b8b9d0011e0180 \
+    file://${LICENSE_FILE_PDF};md5=4ceffe94cb40cdce6d2f4fb93cc063d1 \
     "
 
 DEPENDS += "qca-swiss-army-knife-native pil-squasher"
@@ -17,12 +17,12 @@ FW_D_NAME = "QCM6490_fw"
 
 SRC_URI = "\
     https://artifacts.codelinaro.org/artifactory/qli-ci/software/chip/qualcomm_linux-spf-1-0/qualcomm-linux-spf-1-0_test_device_public/r1.0_${PV}/QCM6490.LE.1.0/common/build/ufs/bin/${FW_D_NAME}.zip;name=fw \
-    https://artifacts.codelinaro.org/ui/repos/tree/General/qli-ci/software/chip/qualcomm_linux-spf-1-0/qualcomm-linux-spf-1-0_test_device_public/r1.0_${PV}/QCM6490.LE.1.0/common/build/ufs/bin/${LICENSE_FILE_PDF};name=licensepdf \
+    https://artifacts.codelinaro.org/artifactory/qli-ci/software/chip/qualcomm_linux-spf-1-0/qualcomm-linux-spf-1-0_test_device_public/r1.0_${PV}/QCM6490.LE.1.0/common/build/ufs/bin/${LICENSE_FILE_PDF};name=licensepdf \
     https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/${LICENSE_FILE};name=license \
     "
 
 SRC_URI[fw.sha256sum] = "7e5cec86d3222b1d6625d63776f6c278b41c585ace416f7589e3a99d3550c9eb"
-SRC_URI[licensepdf.sha256sum] = "447485ea2ea3e47a19f95ddb555ad6d6ca0562af7e1be69d9bf82169a7480c5c"
+SRC_URI[licensepdf.sha256sum] = "606e6bab7c428ceac51e920376de65a3e2f7287b45d7ce5d616a8e6e266e51ab"
 SRC_URI[license.sha256sum] = "be904cd28cb292b80cdb6cf412ab0d9159d431671e987ad433c1f62e0988a9bc"
 
 FW_QCOM_NAME = "qcs6490"
