@@ -10,6 +10,9 @@ on:
       machines:
         required: true
         type: string
+      variants:
+        required: true
+        type: string
       url:
         required: true
         type: string
@@ -78,6 +81,13 @@ jobs:
             - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
             - INITRAMFS_IMAGE ?= 'initramfs-rootfs-image'
 
+        ${tclibc}-${kernel}-noinitramfs: &${tclibc}-${kernel}-noinitramfs
+          local_conf:
+            - INHERIT += 'buildstats buildstats-summary'
+            - INHERIT:remove = 'rm_work'
+            - TCLIBC := '${tclibc}'
+            - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
+
         EOF
         done
         done
@@ -93,14 +103,12 @@ jobs:
             bakes:
         EOF
         for machine in ${{inputs.machines}}; do
+        for variant in ${{inputs.variants}}; do
+        [ ${variant##${machine}-${tclibc}} == ${variant} ] && continue
         cat << EOF >> plan.yaml
-              - { <<: [*commondata, *${tclibc}-linaro-qcomlt], machine: ${machine}, name: ${machine}-${tclibc} }
+              - { <<: [*commondata, *${variant#${machine}-}], machine: ${machine}, name: ${variant} }
         EOF
-        if [ "${machine}" = "qcom-armv8a" -a "${{inputs.branch}}" = "master" ] ; then
-        cat << EOF >> plan.yaml
-              - { <<: [*commondata, *${tclibc}-yocto], machine: qcom-armv8a, name: qcom-armv8a-${tclibc}-yocto }
-        EOF
-        fi
+        done
         done
         done
 

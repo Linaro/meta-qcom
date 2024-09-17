@@ -9,8 +9,14 @@ jobs:
     uses: ./.github/workflows/build-template.yml
     with:
       host: debian-bookworm
-      images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-rootfs-image cryptodev-module
+      images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-rootfs-image cryptodev-module esp-qcom-image
       machines: qcom-armv8a qcom-armv7a-modem qcom-armv7a
+      variants: >-
+        qcom-armv8a-glibc-yocto qcom-armv8a-musl-yocto
+        qcom-armv7a-glibc-yocto qcom-armv7a-musl-yocto
+        qcom-armv7a-modem-glibc-linaro-qcomlt qcom-armv7a-modem-musl-linaro-qcomlt
+        qcom-armv8a-glibc-linaro-qcomlt
+        qcom-armv8a-glibc-yocto-noinitramfs
       ref_type: branch
       ref: master
       branch: master
@@ -23,6 +29,10 @@ jobs:
       host: debian-bookworm
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-rootfs-image cryptodev-module
       machines: qcom-armv8a sdx55-mtp qcom-armv7a
+      variants: >-
+        qcom-armv8a-glibc-linaro-qcomlt qcom-armv8a-musl-linaro-qcomlt
+        qcom-armv7a-glibc-linaro-qcomlt qcom-armv7a-musl-linaro-qcomlt
+        sdx55-mtp-modem-glibc-linaro-qcomlt sdx55-mtp-modem-musl-linaro-qcomlt
       ref_type: branch
       ref: kirkstone
       branch: kirkstone
@@ -35,6 +45,8 @@ jobs:
       host: debian-bookworm
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
       machines: qcom-armv8a
+      variants: >-
+        qcom-armv8a-glibc-linaro-qcomlt qcom-armv8a-musl-linaro-qcomlt
       ref_type: branch
       ref: dunfell
       branch: dunfell
