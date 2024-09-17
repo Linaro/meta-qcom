@@ -18,6 +18,8 @@ require conf/image-uefi.conf
 
 KERNEL_VERSION = "${@get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}')}"
 
+INITRAMFS_IMAGE ?= ''
+
 do_configure[depends] += " \
     systemd-boot:do_deploy \
     virtual/kernel:do_deploy \
