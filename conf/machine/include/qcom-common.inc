@@ -60,4 +60,4 @@ EFI_LINUX_IMG_DTB ?= ""
 KERNEL_DTBDEST = "${EFI_DTB_DIR}"
 
 # UKI generation needs uncompressed Kernel image
-KERNEL_IMAGETYPES:append = " Image"
+KERNEL_IMAGETYPES += "Image"
