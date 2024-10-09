@@ -10,7 +10,7 @@ BAD_RECOMMENDATIONS = "\
     linux-firmware-qcom-sda660-modem \
     linux-firmware-qcom-sda660-venus \
     linux-firmware-qca \
-    linux-firmware-ath10k \
+    linux-firmware-ath10k-wcn3990 \
 "
 
 require initramfs-firmware-image.inc

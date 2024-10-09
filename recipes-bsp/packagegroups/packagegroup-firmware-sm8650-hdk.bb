@@ -9,6 +9,7 @@ RRECOMMENDS:${PN} += " \
     firmware-qcom-sm8650-hdk \
     linux-firmware-lt9611uxc \
     linux-firmware-qcom-sm8650-audio \
+    linux-firmware-qcom-sm8650-audio-tplg \
     linux-firmware-qcom-sm8650-compute \
     linux-firmware-qcom-sm8650-ipa \
 "
