@@ -64,7 +64,6 @@ jobs:
               - ${{inputs.ref_type}}: ${{inputs.ref}}
                 url: ${{inputs.url}}
           distro: $DISTRO
-          target: ${{inputs.images}}
           bblayers_conf:
             - BBLAYERS += '../$(echo ${{github.repository}} | cut -d'/' -f2)'
           artifacts: ["licenses"]
@@ -92,11 +91,25 @@ jobs:
         done
         done
 
+        # armv7 machines do not support ESP / UKI
+        for machine in ${{inputs.machines}}; do
+        if [ ${machine##qcom-armv8a} == ${machine} ] ; then
+          images=`echo ${{inputs.images}} | sed -e 's/esp-qcom-image//g'`
+        else
+          images="${{inputs.images}}"
+        fi
+        cat << EOF >> plan.yaml
+        ${machine}: &${machine}
+          machine: ${machine}
+          target: ${images}
+
+        EOF
+        done
+
         cat << EOF >> plan.yaml
         jobs:
         EOF
 
-        # FIXME: loop over kernels instead of hardcoding them, need to support armv7a and modem first
         for tclibc in ${TCLIBC}; do
         cat << EOF >> plan.yaml
           - name: ${tclibc}
@@ -106,7 +119,7 @@ jobs:
         for variant in ${{inputs.variants}}; do
         [ ${variant##${machine}-${tclibc}} == ${variant} ] && continue
         cat << EOF >> plan.yaml
-              - { <<: [*commondata, *${variant#${machine}-}], machine: ${machine}, name: ${variant} }
+              - { <<: [*commondata, *${variant#${machine}-}, *${machine}], name: ${variant} }
         EOF
         done
         done

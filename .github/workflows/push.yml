@@ -13,7 +13,7 @@ jobs:
     uses: ./.github/workflows/build-template.yml
     with:
       host: debian-bookworm
-      images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-firmware-mega-image initramfs-rootfs-image cryptodev-module
+      images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image initramfs-firmware-image initramfs-firmware-mega-image initramfs-rootfs-image cryptodev-module esp-qcom-image
       machines: qcom-armv8a qcom-armv7a-modem qcom-armv7a
       variants: >-
         qcom-armv8a-glibc-yocto qcom-armv8a-musl-yocto
