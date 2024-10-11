@@ -58,6 +58,3 @@ EFI_LINUX_IMG_DTB ?= ""
 
 # Place dtb at EFIDTDIR to seamlessly package
 KERNEL_DTBDEST = "${EFI_DTB_DIR}"
-
-# UKI generation needs uncompressed Kernel image
-KERNEL_IMAGETYPES:append = " Image"
