@@ -20,6 +20,21 @@ KERNEL_VERSION = "${@get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}')}"
 
 INITRAMFS_IMAGE ?= ''
 
+# This recipe is skipped based on KERNEL_IMAGETYPES. However the list of kernel type can also be set with
+# KERNEL_IMAGETYPE or KERNEL_ALT_IMAGETYPE.
+# We need to combine them all to be correct (like it's done in kernel.bbclass)
+python __anonymous () {
+    # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+    type = d.getVar('KERNEL_IMAGETYPE') or ""
+    alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+    types = d.getVar('KERNEL_IMAGETYPES') or ""
+    if type not in types.split():
+        types = (type + ' ' + types).strip()
+    if alttype not in types.split():
+        types = (alttype + ' ' + types).strip()
+    d.setVar('KERNEL_IMAGETYPES', types)
+}
+
 do_configure[depends] += " \
     systemd-boot:do_deploy \
     virtual/kernel:do_deploy \
