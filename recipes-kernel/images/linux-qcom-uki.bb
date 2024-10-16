@@ -24,7 +24,7 @@ INITRAMFS_IMAGE ?= ''
 # KERNEL_IMAGETYPE or KERNEL_ALT_IMAGETYPE.
 # We need to combine them all to be correct (like it's done in kernel.bbclass)
 python __anonymous () {
-    # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+    # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into types
     type = d.getVar('KERNEL_IMAGETYPE') or ""
     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
     types = d.getVar('KERNEL_IMAGETYPES') or ""
@@ -32,7 +32,9 @@ python __anonymous () {
         types = (type + ' ' + types).strip()
     if alttype not in types.split():
         types = (alttype + ' ' + types).strip()
-    d.setVar('KERNEL_IMAGETYPES', types)
+
+    if 'Image' not in types.split():
+        raise bb.parse.SkipRecipe('systemd-boot needs uncompressed kernel image. Add "Image" to KERNEL_IMAGETYPES.')
 }
 
 do_configure[depends] += " \
@@ -129,4 +131,3 @@ FILES:${PN} = "${EFI_UKI_PATH}/${EFI_LINUX_IMG}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SKIP_RECIPE[linux-qcom-uki] ?= "${@bb.utils.contains('KERNEL_IMAGETYPES', 'Image', '', 'systemd-boot needs uncompressed kernel image. Add "Image" to KERNEL_IMAGETYPES.', d)}"
