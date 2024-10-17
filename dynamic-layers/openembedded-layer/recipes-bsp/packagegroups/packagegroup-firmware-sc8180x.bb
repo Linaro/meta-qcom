@@ -5,7 +5,7 @@ inherit packagegroup
 RRECOMMENDS:${PN} += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'linux-firmware-qcom-adreno-a640 linux-firmware-qcom-sc8180x-adreno', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'linux-firmware-qca', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'linux-firmware-ath10k', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'linux-firmware-ath10k-wcn3990', '', d)} \
     firmware-qcom-sc8180x \
     linux-firmware-qcom-sc8180x-audio \
     linux-firmware-qcom-sc8180x-compute \
