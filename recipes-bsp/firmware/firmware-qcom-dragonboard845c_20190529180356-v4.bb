@@ -18,6 +18,7 @@ do_install() {
     install -d ${D}${FW_QCOM_PATH}
 
     install -m 0444 ./08-dspso/dspso.bin ${D}${FW_QCOM_PATH}
+    install -m 0444 ./4k-support/4k-support.bin ${D}${FW_QCOM_PATH}
 
     install -m 0444 ./17-USB3-201-202-FW/K2026090.mem ${D}${nonarch_base_libdir}/firmware/renesas_usb_fw.mem
 

@@ -27,4 +27,5 @@ CORE_IMAGE_BASE_INSTALL += " \
     mesa-demos \
     openbox \
     rsync \
+    xrandr --output HDMI-1 --mode 3840x2160 --rate 30 \
 "

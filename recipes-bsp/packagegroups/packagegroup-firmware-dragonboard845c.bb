@@ -10,4 +10,6 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-sdm845-audio \
     linux-firmware-qcom-sdm845-compute \
     linux-firmware-qcom-venus-5.2 \
+    linux-firmware-qcom-sdm845-hdmi \
+    linux-firmware-qcom-sdm845-4k \
 "
