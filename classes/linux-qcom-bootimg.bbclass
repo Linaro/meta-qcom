@@ -68,16 +68,18 @@ python do_qcom_img_deploy() {
         dtb_name = dtb.rsplit('.', 1)[0]
 
         def getVarDTB(name):
-            return d.getVarFlag(name, dtb_name) or d.getVar(name)
+            var = d.getVarFlag(name, dtb_name)
+            return d.getVar(name) if var is None else var
 
         def make_image_internal(output, output_link, rootfs, initrd = definitrd):
+            rootfs_cmdline = "root=%s " % (rootfs) if rootfs else ""
             subprocess.check_call([mkbootimg,
                 "--kernel", kernel,
                 "--ramdisk", initrd,
                 "--output", output,
                 "--pagesize", getVarDTB("QCOM_BOOTIMG_PAGE_SIZE"),
                 "--base", getVarDTB("QCOM_BOOTIMG_KERNEL_BASE"),
-                "--cmdline", "root=%s rw rootwait %s %s" % (rootfs, consoles, getVarDTB("KERNEL_CMDLINE_EXTRA") or "")])
+                "--cmdline", "%srw rootwait %s %s" % (rootfs_cmdline, consoles, getVarDTB("KERNEL_CMDLINE_EXTRA") or "")])
             if os.path.exists(output_link):
                 os.unlink(output_link)
             os.symlink(os.path.basename(output), output_link)
@@ -108,7 +110,7 @@ python do_qcom_img_deploy() {
                 shutil.copyfileobj(rfd, wfd)
 
         rootfs = getVarDTB("QCOM_BOOTIMG_ROOTFS")
-        if not rootfs:
+        if rootfs is None:
             bb.fatal("QCOM_BOOTIMG_ROOTFS is undefined")
 
         output = make_image("boot-%s-%s.img", rootfs)
