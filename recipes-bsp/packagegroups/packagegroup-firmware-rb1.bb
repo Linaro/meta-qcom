@@ -10,4 +10,5 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-qcm2290-audio \
     linux-firmware-qcom-qcm2290-modem \
     linux-firmware-qcom-venus-6.0 \
+    hexagon-dsp-binaries-thundercomm-rb1-adsp \
 "

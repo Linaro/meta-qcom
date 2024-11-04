@@ -11,4 +11,6 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-qrb4210-compute \
     linux-firmware-qcom-qrb4210-modem \
     linux-firmware-qcom-venus-6.0 \
+    hexagon-dsp-binaries-thundercomm-rb2-adsp \
+    hexagon-dsp-binaries-thundercomm-rb2-cdsp \
 "

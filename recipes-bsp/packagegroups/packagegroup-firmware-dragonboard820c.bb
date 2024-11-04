@@ -10,4 +10,5 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-apq8096-audio \
     linux-firmware-qcom-apq8096-modem \
     linux-firmware-qcom-venus-4.2 \
+    hexagon-dsp-binaries-qcom-db820c-adsp \
 "

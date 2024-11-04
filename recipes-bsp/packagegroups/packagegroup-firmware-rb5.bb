@@ -11,4 +11,6 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-sm8250-audio \
     linux-firmware-qcom-sm8250-compute \
     linux-firmware-qcom-vpu \
+    hexagon-dsp-binaries-thundercomm-rb5-adsp \
+    hexagon-dsp-binaries-thundercomm-rb5-cdsp \
 "
