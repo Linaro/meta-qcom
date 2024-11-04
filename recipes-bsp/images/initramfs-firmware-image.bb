@@ -15,11 +15,6 @@ PACKAGE_INSTALL:qcom-armv8a = " \
 "
 
 BAD_RECOMMENDATIONS = " \
-    firmware-qcom-dragonboard820c-dspso \
-    firmware-qcom-dragonboard845c-dspso \
-    firmware-qcom-rb1-dspso \
-    firmware-qcom-rb2-dspso \
-    firmware-qcom-rb5-dspso \
     hexagon-dsp-binaries-qcom-db820c-adsp \
     hexagon-dsp-binaries-thundercomm-db845c-adsp \
     hexagon-dsp-binaries-thundercomm-db845c-cdsp \
