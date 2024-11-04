@@ -7,24 +7,13 @@ SRC_URI = "https://releases.linaro.org/96boards/dragonboard845c/qualcomm/firmwar
 SRC_URI[md5sum] = "ad69855a1275547b16d94a1b5405ac62"
 SRC_URI[sha256sum] = "4289d2f2a7124b104d0274879e702aae9b1e50c42eec3747f8584c6744ef65e3"
 
-FW_QCOM_NAME = "sdm845"
-
-require recipes-bsp/firmware/firmware-qcom.inc
-
-DEPENDS += "pil-squasher-native"
+FILES:${PN} += "${nonarch_base_libdir}/firmware/"
 
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/
-    install -d ${D}${FW_QCOM_PATH}
-
-    install -m 0444 ./08-dspso/dspso.bin ${D}${FW_QCOM_PATH}
 
     install -m 0444 ./17-USB3-201-202-FW/K2026090.mem ${D}${nonarch_base_libdir}/firmware/renesas_usb_fw.mem
 
     install -d ${D}${sysconfdir}/
     install -m 0644 LICENSE.qcom.txt ${D}${sysconfdir}/QCOM-LINUX-BOARD-SUPPORT-LICENSE-${PN}
 }
-
-SPLIT_FIRMWARE_PACKAGES = " \
-    ${PN}-dspso \
-"
