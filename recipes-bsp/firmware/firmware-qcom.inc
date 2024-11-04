@@ -22,7 +22,6 @@ PACKAGE_BEFORE_PN += "${SPLIT_FIRMWARE_PACKAGES}"
 RRECOMMENDS:${PN} += "${@ ' '.join(filter(lambda p: not p.endswith('-split'), d.getVar('SPLIT_FIRMWARE_PACKAGES').split())) }"
 
 # Default settings for several split packages
-FILES:${PN}-dspso += "${FW_QCOM_BASE_PATH}/*/*dspso.bin"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-adreno = "${FW_QCOM_PATH}/*_zap.mbn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-audio = "${FW_QCOM_PATH}/adsp.mbn ${FW_QCOM_PATH}/adsp_dtb.mbn ${FW_QCOM_PATH}/adsp*.jsn ${FW_QCOM_PATH}/battmgr.jsn"
 FILES:linux-firmware-qcom-${FW_QCOM_NAME}-audio-split = "${FW_QCOM_PATH}/adsp.mdt ${FW_QCOM_PATH}/adsp.b*"
