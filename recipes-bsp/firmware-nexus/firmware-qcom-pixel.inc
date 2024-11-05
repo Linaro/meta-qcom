@@ -16,6 +16,12 @@ DEPENDS += "pil-squasher-native"
 
 VENDOR_IMG_SPARSE ?= "1"
 
+PACKAGES =+ "${PN}-dsp-binaries"
+INSANE_SKIP:${PN}-dsp-binaries += "arch libdir file-rdeps textrel"
+FILES:${PN}-dsp-binaries = "${DSP_QCOM_BASE_PATH}"
+RDEPENDS:${PN}-dsp-binaries += "${PN} (= ${PV})"
+RRECOMMENDS:${PN} += "${PN}-dsp-binaries"
+
 # extract the license file
 do_extract() {
     head -n 280 ${UNPACKDIR}/extract-${VENDOR}-${FW_QCOM_NAME}.sh | tail -n +16 > ${S}/license.txt
@@ -27,14 +33,13 @@ do_extract() {
         ln -sr ${S}/vendor/${VENDOR}/${FW_QCOM_NAME}/proprietary/vendor.img ${B}/vendor.img
     fi
 
-    # FIXME: also extract fastrpc shell
-    mkdir -p ${B}/firmware
-    debugfs ${B}/vendor.img -R 'ls -p /firmware' | \
-        grep '^/[0-9]*/100' | cut -d/ -f6 > ${B}/firmware/fw.lst
-    debugfs ${B}/vendor.img -R 'ls -p /firmware' | \
-        grep '^/[0-9]*/100' | cut -d/ -f6 | \
-        while read name ; do echo "dump /firmware/$name ${B}/firmware/$name" ; done | \
-        debugfs ${B}/vendor.img
+    for path in firmware dsp/adsp dsp/cdsp dsp/sdsp lib/rfsa/adsp ; do
+        mkdir -p ${B}/$path
+        debugfs ${B}/vendor.img -R "ls -p /$path" | \
+            grep '^/[0-9]*/100' | cut -d/ -f6 | \
+            while read name ; do echo "dump /$path/$name ${B}/$path/$name" ; done | \
+            debugfs ${B}/vendor.img
+    done
 
     radio="${S}/vendor/${VENDOR}/${FW_QCOM_NAME}/proprietary/radio.img"
     if [ -r "${radio}" ] ; then
@@ -75,6 +80,11 @@ do_install() {
     ls ${B}/firmware/a[0-9]*_gmu.bin && install -m 0644 ${B}/firmware/a[0-9]*_gmu.bin ${D}${FW_QCOM_PATH}
     ls ${B}/a[0-9]*.mbn && install -m 0644 ${B}/a[0-9]*.mbn ${D}${FW_QCOM_PATH}
 
+    ls ${B}/dsp/adsp/* && mkdir -p ${D}${DSP_QCOM_PATH}/dsp/adsp && install -m 0644 ${B}/dsp/adsp/* ${D}${DSP_QCOM_PATH}/dsp/adsp
+    ls ${B}/dsp/cdsp/* && mkdir -p ${D}${DSP_QCOM_PATH}/dsp/cdsp && install -m 0644 ${B}/dsp/cdsp/* ${D}${DSP_QCOM_PATH}/dsp/cdsp
+    ls ${B}/dsp/sdsp/* && mkdir -p ${D}${DSP_QCOM_PATH}/dsp/sdsp && install -m 0644 ${B}/dsp/sdsp/* ${D}${DSP_QCOM_PATH}/dsp/sdsp
+    ls ${B}/lib/rfsa/adsp/* && mkdir -p ${D}${DSP_QCOM_PATH}/dsp/lib && install -m 0644 ${B}/lib/rfsa/adsp/* ${D}${DSP_QCOM_PATH}/dsp/lib
+
     install -m 0644 license.txt ${D}${FW_QCOM_PATH}
 
     # Remove duplicates
@@ -82,4 +92,5 @@ do_install() {
     rm -f ${D}${FW_QCOM_PATH}/a650_gmu.bin
 
     [ -z "${EXTRA_DEVICE_SUBDIR}" ] || ln -sr ${D}${FW_QCOM_PATH} ${D}${FW_QCOM_BASE_PATH}/${EXTRA_DEVICE_SUBDIR}
+    [ -n "${EXTRA_DEVICE_SUBDIR}" -a -d ${D}${DSP_QCOM_PATH} ] && ln -sr ${D}${DSP_QCOM_PATH} ${D}${DSP_QCOM_BASE_PATH}/${EXTRA_DEVICE_SUBDIR} || true
 }
