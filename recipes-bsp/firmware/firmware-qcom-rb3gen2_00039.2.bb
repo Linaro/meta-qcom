@@ -46,12 +46,7 @@ do_compile:append() {
 do_install:append() {
     install -d ${D}${FW_QCOM_PATH}
 
-    install -m 0644 ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH}/*dsp*.mbn ${D}${FW_QCOM_PATH}
-    install -m 0644 ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH}/*dsp*.jsn ${D}${FW_QCOM_PATH}
-
     install -m 0644 ${B}/wpss.mbn ${D}${FW_QCOM_PATH}
-
-    install -m 0644  ${UNPACKDIR}/adreno/${ADRENO_PATH}/a660_zap.mbn ${D}${FW_QCOM_PATH}
 
     install -d ${D}${nonarch_base_libdir}/firmware/ath11k/WCN6750/hw1.0/
     install -m 0444 ${S}/board-2.bin ${D}${nonarch_base_libdir}/firmware/ath11k/WCN6750/hw1.0/board-2.bin
@@ -62,9 +57,6 @@ do_install:append() {
 }
 
 SPLIT_FIRMWARE_PACKAGES = "\
-    linux-firmware-qcom-${FW_QCOM_NAME}-audio \
-    linux-firmware-qcom-${FW_QCOM_NAME}-compute \
-    linux-firmware-qcom-${FW_QCOM_NAME}-adreno \
     linux-firmware-qcom-${FW_QCOM_NAME}-wifi \
 "
 
