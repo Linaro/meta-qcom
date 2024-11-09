@@ -11,7 +11,7 @@ PACKAGE_INSTALL = " \
 "
 
 # Do not pollute the initrd image with rootfs features
-IMAGE_FEATURES = "debug-tweaks"
+IMAGE_FEATURES = ""
 IMAGE_LINGUAS = ""
 
 LICENSE = "MIT"
