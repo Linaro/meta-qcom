@@ -9,7 +9,7 @@ PACKAGE_INSTALL = " \
 "
 
 # Do not pollute the initrd image with rootfs features
-IMAGE_FEATURES = "debug-tweaks"
+IMAGE_FEATURES = "allow-empty-password empty-root-password allow-root-login post-install-logging"
 IMAGE_LINGUAS = ""
 
 LICENSE = "MIT"
