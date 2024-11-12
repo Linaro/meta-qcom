@@ -6,8 +6,9 @@ PACKAGE_INSTALL += " \
 "
 
 BAD_RECOMMENDATIONS = " \
-    firmware-qcom-rb1-dspso \
-    firmware-qcom-rb2-dspso \
+    hexagon-dsp-binaries-thundercomm-rb1-adsp \
+    hexagon-dsp-binaries-thundercomm-rb2-adsp \
+    hexagon-dsp-binaries-thundercomm-rb2-cdsp \
     linux-firmware-qcom-venus-6.0 \
 "
 

@@ -4,32 +4,28 @@ set -e
 
 modprobe socinfo || true
 
-if [ -r /sys/devices/soc0/machine ] ; then
-	MACHINE=`cat /sys/devices/soc0/machine`
-	case $MACHINE in
-		QRB2210)
-			WHAT=/lib/firmware/qcom/qrb2210/dspso.bin
+if [ -r /sys/firmware/devicetree/base/model ] ; then
+	MACHINE=`cat /sys/firmware/devicetree/base/model`
+	case "$MACHINE" in
+		*DB820c*)
+			WHAT=/usr/share/qcom/apq8096/Qualcomm/db820c/dsp
 			;;
-		QRB4210)
-			WHAT=/lib/firmware/qcom/qrb4210/dspso.bin
+		*"Dragonboard 845c"*)
+			WHAT=/usr/share/qcom/sdm845/Thundercomm/db845c/dsp
 			;;
-		SM8250|QRB5165)
-			WHAT=/lib/firmware/qcom/sm8250/dspso.bin
+		*"Robotics RB1"*)
+			WHAT=/usr/share/qcom/qcm2290/Thundercomm/RB1/dsp
 			;;
-		APQ8096)
-			WHAT=/lib/firmware/qcom/msm8996/adspso.bin
+		*"QRB4210 RB2"*)
+			WHAT=/usr/share/qcom/qrb4210/Thundercomm/RB2/dsp
+			;;
+		*"Robotics RB5"*)
+			WHAT=/usr/share/qcom/sm8250/Thundercomm/RB5/dsp
 			;;
 	esac
 fi
 
-if [ -z "$WHAT" -o ! -r "$WHAT" ] ; then
-	i=0
-	while ! [ -d /dev/disk/by-partlabel ] ; do
-		i=$(( $i + 1))
-		[ $i -gt 30 ] && break;
-		sleep 1
-	done
-
+if [ -z "$WHAT" -o ! -d "$WHAT" ] ; then
 	if [ -h /dev/disk/by-partlabel/dsp_a ] ; then
 		WHAT=/dev/disk/by-partlabel/dsp_a
 	else
@@ -37,8 +33,12 @@ if [ -z "$WHAT" -o ! -r "$WHAT" ] ; then
 	fi
 fi
 
-if [ -e "$WHAT" ] ; then
-	mount $WHAT /usr/lib/rfsa -o ro
+if [ -d "$WHAT" ] ; then
+	mount $WHAT /usr/lib/rfsa -o bind
+elif [ -h /dev/disk/by-partlabel/dsp_a ] ; then
+	mount /dev/disk/by-partlabel/dsp_a /usr/lib/rfsa -o ro
+elif [ -h /dev/disk/by-partlabel/dsp ] ; then
+	mount /dev/disk/by-partlabel/dsp /usr/lib/rfsa -o ro
 else
 	echo "Not mounting /usr/lib/rfsa, partition/image not found" 1>&2
 fi

@@ -10,4 +10,6 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-sdm845-audio \
     linux-firmware-qcom-sdm845-compute \
     linux-firmware-qcom-venus-5.2 \
+    hexagon-dsp-binaries-thundercomm-db845c-adsp \
+    hexagon-dsp-binaries-thundercomm-db845c-cdsp \
 "
