@@ -10,4 +10,6 @@ RRECOMMENDS:${PN} += " \
     linux-firmware-qcom-qcs6490-audio \
     linux-firmware-qcom-qcs6490-compute \
     linux-firmware-qcom-vpu \
+    hexagon-dsp-binaries-thundercomm-rb3gen2-adsp \
+    hexagon-dsp-binaries-thundercomm-rb3gen2-cdsp \
 "

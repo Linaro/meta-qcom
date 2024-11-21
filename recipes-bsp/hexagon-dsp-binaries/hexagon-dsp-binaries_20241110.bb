@@ -34,6 +34,8 @@ PACKAGES =+ "\
     ${PN}-thundercomm-rb1-adsp \
     ${PN}-thundercomm-rb2-adsp \
     ${PN}-thundercomm-rb2-cdsp \
+    ${PN}-thundercomm-rb3gen2-adsp \
+    ${PN}-thundercomm-rb3gen2-cdsp \
     ${PN}-thundercomm-rb5-adsp \
     ${PN}-thundercomm-rb5-cdsp \
     ${PN}-thundercomm-rb5-sdsp \
@@ -46,6 +48,8 @@ RDEPENDS:${PN}-thundercomm-db845c-sdsp = "${PN}-qcom-license linux-firmware-qcom
 RDEPENDS:${PN}-thundercomm-rb1-adsp = "${PN}-qcom-license linux-firmware-qcom-qcm2290-audio (= 1:${PV})"
 RDEPENDS:${PN}-thundercomm-rb2-adsp = "${PN}-qcom-license linux-firmware-qcom-qrb4210-audio (= 1:${PV})"
 RDEPENDS:${PN}-thundercomm-rb2-cdsp = "${PN}-qcom-license linux-firmware-qcom-qrb4210-compute (= 1:${PV})"
+RDEPENDS:${PN}-thundercomm-rb3gen2-adsp = "${PN}-qcom-license linux-firmware-qcom-qrb4210-audio (= 1:${PV})"
+RDEPENDS:${PN}-thundercomm-rb3gen2-cdsp = "${PN}-qcom-license linux-firmware-qcom-qrb4210-compute (= 1:${PV})"
 RDEPENDS:${PN}-thundercomm-rb5-adsp = "${PN}-qcom-license linux-firmware-qcom-sm8250-audio (= 1:${PV})"
 RDEPENDS:${PN}-thundercomm-rb5-cdsp = "${PN}-qcom-license linux-firmware-qcom-sm8250-compute (= 1:${PV})"
 RDEPENDS:${PN}-thundercomm-rb5-sdsp = "${PN}-qcom-license linux-firmware-qcom-sm8250-thundercomm-rb5-sensors (= 1:${PV})"
@@ -59,6 +63,8 @@ FILES:${PN}-thundercomm-db845c-sdsp = "${datadir}/qcom/sdm845/Thundercomm/db845c
 FILES:${PN}-thundercomm-rb1-adsp = "${datadir}/qcom/qcm2290/Thundercomm/RB1/dsp/adsp"
 FILES:${PN}-thundercomm-rb2-adsp = "${datadir}/qcom/qrb4210/Thundercomm/RB2/dsp/adsp"
 FILES:${PN}-thundercomm-rb2-cdsp = "${datadir}/qcom/qrb4210/Thundercomm/RB2/dsp/cdsp"
+FILES:${PN}-thundercomm-rb3gen2-adsp = "${datadir}/qcom/qrb4210/Thundercomm/RB2/dsp/adsp"
+FILES:${PN}-thundercomm-rb3gen2-cdsp = "${datadir}/qcom/qrb4210/Thundercomm/RB2/dsp/cdsp"
 FILES:${PN}-thundercomm-rb5-adsp = "${datadir}/qcom/sm8250/Thundercomm/RB5/dsp/adsp"
 FILES:${PN}-thundercomm-rb5-cdsp = "${datadir}/qcom/sm8250/Thundercomm/RB5/dsp/cdsp"
 FILES:${PN}-thundercomm-rb5-sdsp = "${datadir}/qcom/sm8250/Thundercomm/RB5/dsp/sdsp"
@@ -70,6 +76,8 @@ INSANE_SKIP:${PN}-thundercomm-db845c-sdsp = "arch libdir file-rdeps textrel"
 INSANE_SKIP:${PN}-thundercomm-rb1-adsp = "arch libdir file-rdeps textrel"
 INSANE_SKIP:${PN}-thundercomm-rb2-adsp = "arch libdir file-rdeps textrel"
 INSANE_SKIP:${PN}-thundercomm-rb2-cdsp = "arch libdir file-rdeps textrel"
+INSANE_SKIP:${PN}-thundercomm-rb3gen2-adsp = "arch libdir file-rdeps textrel"
+INSANE_SKIP:${PN}-thundercomm-rb3gen2-cdsp = "arch libdir file-rdeps textrel"
 INSANE_SKIP:${PN}-thundercomm-rb5-adsp = "arch libdir file-rdeps textrel"
 INSANE_SKIP:${PN}-thundercomm-rb5-cdsp = "arch libdir file-rdeps textrel"
 INSANE_SKIP:${PN}-thundercomm-rb5-sdsp = "arch libdir file-rdeps textrel"
