@@ -23,7 +23,6 @@ PACKAGE_INSTALL += " \
     gptfdisk \
     i2c-tools \
     iw \
-    lava-test-shell \
     libdrm-tests \
     lrzsz \
     mybw \
