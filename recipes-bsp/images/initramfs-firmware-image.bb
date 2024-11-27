@@ -29,7 +29,6 @@ BAD_RECOMMENDATIONS = " \
 
 PACKAGE_INSTALL:qcom-armv7a = " \
     packagegroup-firmware-ifc6410 \
-    firmware-qcom-nexus7-2013 \
 "
 
 require initramfs-firmware-image.inc
