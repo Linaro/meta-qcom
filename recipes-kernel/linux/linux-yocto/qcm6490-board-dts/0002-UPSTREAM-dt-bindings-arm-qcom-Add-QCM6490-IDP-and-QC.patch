@@ -10,7 +10,7 @@ various form factor including IoT and qcs6490-rb3gen2 based off
 qcs6490 SoC derivative of qcm6490 without internal modem.
 
 Co-developed by: Naina Mehta <quic_nainmeht@quicinc.com>
-Signed-off by: Naina Mehta <quic_nainmeht@quicinc.com>
+Signed-off-by: Naina Mehta <quic_nainmeht@quicinc.com>
 
 Signed-off-by: Komal Bajaj <quic_kbajaj@quicinc.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
