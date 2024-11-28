@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${LICENSE_FILE};md5=164e3362a538eb11d3ac51e8e134294b 
     file://${LICENSE_FILE_PDF};md5=4ceffe94cb40cdce6d2f4fb93cc063d1 \
     "
 
-DEPENDS += "qca-swiss-army-knife-native pil-squasher"
+DEPENDS += "qca-swiss-army-knife-native pil-squasher-native"
 
 FW_D_NAME = "QCM6490_fw"
 
