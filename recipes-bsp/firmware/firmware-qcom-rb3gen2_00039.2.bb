@@ -28,13 +28,9 @@ SRC_URI[license.sha256sum] = "be904cd28cb292b80cdb6cf412ab0d9159d431671e987ad433
 FW_QCOM_NAME = "qcs6490"
 QCS6490_FW_SRC_PATH = "lib/firmware/qcom/qcs6490"
 
-ADRENO_URI = "https://artifacts.codelinaro.org/artifactory/qli-ci/software/chip/qualcomm_linux-spf-1-0/qualcomm-linux-spf-1-0_test_device_public/r1.0_${PV}/le-qclinux-1-0-r1/apps_proc/prebuilt_HY22/adreno_1.0_qcm6490.tar.gz;fwpath=lib/firmware"
-SRC_URI[adreno.sha256sum] = "efa9b263faef4e0891b2bc568f9ca18bab1c0e810311c764f0c59ebb5fb1ee39"
-
 S = "${UNPACKDIR}"
 
 require recipes-bsp/firmware/firmware-qcom.inc
-require recipes-bsp/firmware/firmware-qcom-adreno.inc
 
 do_compile:append() {
     pil-squasher wpss.mbn ${UNPACKDIR}/${FW_D_NAME}/${QCS6490_FW_SRC_PATH}/wpss.mdt
