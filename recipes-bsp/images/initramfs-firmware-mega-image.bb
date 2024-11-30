@@ -26,10 +26,4 @@ PACKAGE_INSTALL += " \
     packagegroup-firmware-sm8650-hdk \
 "
 
-# Inforce / Penguin Edge devkits
-PACKAGE_INSTALL += " \
-    packagegroup-firmware-ifc6410 \
-    packagegroup-firmware-ifc6560 \
-"
-
 require initramfs-firmware-image.inc
