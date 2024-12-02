@@ -24,3 +24,8 @@ IMAGE_ROOTFS_EXTRA_SPACE = "0"
 
 IMAGE_LINGUAS = ""
 IMAGE_FEATURES = ""
+
+remove_unused_files() {
+    find ${IMAGE_ROOTFS} -mindepth 1 ! -path "${IMAGE_ROOTFS}/EFI*" -exec rm -rf {} +
+}
+IMAGE_PREPROCESS_COMMAND:append = " remove_unused_files"
