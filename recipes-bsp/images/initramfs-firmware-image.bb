@@ -27,8 +27,4 @@ BAD_RECOMMENDATIONS = " \
     hexagon-dsp-binaries-thundercomm-rb5-sdsp \
 "
 
-PACKAGE_INSTALL:qcom-armv7a = " \
-    packagegroup-firmware-ifc6410 \
-"
-
 require initramfs-firmware-image.inc
