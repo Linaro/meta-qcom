@@ -3,7 +3,6 @@ DESCRIPTION = "EFI System Partition Image to boot Qualcomm boards"
 PACKAGE_INSTALL = " \
     linux-qcom-uki \
     systemd-boot \
-    systemd-bootconf \
 "
 
 KERNELDEPMODDEPEND = ""
