@@ -9,7 +9,7 @@ DEPENDS = "libxml2 libusb1"
 
 inherit pkgconfig
 
-SRCREV = "aeb70e0645d6583b34b99c3025ebd2b8475d322b"
+SRCREV = "fa070e81b4a33a4fa6f33af08ef8cf7245715540"
 SRC_URI = "git://github.com/linux-msm/${BPN}.git;branch=master;protocol=https"
 
 PV = "0.0+${SRCREV}"
