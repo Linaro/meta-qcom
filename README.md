@@ -16,7 +16,7 @@ branch: master
 revision: HEAD
 ```
 
-This layers has an optional dependency on meta-oe layer:
+This layers has an optional dependency on `meta-oe` layer:
 
 ```
 URI: https://github.com/openembedded/meta-openembedded.git
@@ -25,16 +25,16 @@ branch: master
 revision: HEAD
 ```
 
-The dependency is optional, and not strictly required. When meta-oe is enabled
+The dependency is optional, and not strictly required. When `meta-oe` is enabled
 in the build (e.g. it is used in BBLAYERS) then additional recipes from
-meta-qcom are added to the metadata. You can refer to meta-qcom/conf/layer.conf
+`meta-qcom` are added to the metadata. You can refer to `meta-qcom/conf/layer.conf`
 for the implementation details.
 
 ## Device support
 
-All contemporary boards are supported by a single qcom-armv8a machine. Please
+All contemporary boards are supported by a single `qcom-armv8a` machine. Please
 use it instead of using the per-board configuration file. In order to enable
-support for the particular device extend the qcom-armv8a.conf file .
+support for the particular device extend the `qcom-armv8a.conf` file .
 
 
 ## Quick build
@@ -43,34 +43,34 @@ If you're new to the Yocto Project, you might want to read the ![Yocto Project
 Quick Build](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html) 
 document in order to setup your Yocto Project build environment. 
 
-From inside ```poky``` folder, clone this repository:
+From inside `poky` folder, clone this repository:
 
-```
+```bash
 git clone git://git.yoctoproject.org/meta-qcom
 ```
 
-Now, from inside ```poky``` folder initialize your build folder:
+Now, from inside `poky` folder initialize your build folder:
 
-```
+```bash
 source oe-init-build-env build/qcom-armv8a
 ```
 
-The script will cd into the newly created ```build/qcom-armv8a``` folder.
+The script will cd into the newly created `build/qcom-armv8a` folder.
 From within this folder, add meta-qcom layer:
 
-```
+```bash
 bitbake-layers add-layer ../../meta-qcom
 ```
 
-Change ```MACHINE``` variable into ```conf/local.conf``` to:
+Change `MACHINE` variable into `conf/local.conf` to:
 
-```
+```python
 MACHINE ?= "qcom-armv8a"
 ```
 
 Finally, build your image:
 
-```
+```bash
 bitbake core-image-minimal
 ```
 
