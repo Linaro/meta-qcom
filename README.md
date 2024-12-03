@@ -39,7 +39,7 @@ support for the particular device extend the qcom-armv8a.conf file .
 
 ## Quick build
 
-If you're new to the Yocto Project, you might want to read the ![Yocto Project
+If you're new to the Yocto Project, you might want to read the [Yocto Project
 Quick Build](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html) 
 document in order to setup your Yocto Project build environment. 
 
