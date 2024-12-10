@@ -1,0 +1,134 @@
+on:
+  workflow_call:
+    inputs:
+      host:
+        required: true
+        type: string
+      images:
+        required: true
+        type: string
+      machines:
+        required: true
+        type: string
+      variants:
+        required: true
+        type: string
+      url:
+        required: true
+        type: string
+      branch:
+        required: true
+        type: string
+      ref:
+        required: true
+        type: string
+      ref_type:
+        type: string
+        default: ref
+    secrets:
+      TUXSUITE_TOKEN:
+        required: true
+
+env:
+  POKY_URL: https://git.yoctoproject.org/poky
+  DISTRO: poky
+  TCLIBC: glibc musl
+  KERNELS: linaro-qcomlt yocto
+
+jobs:
+  build:
+    name: ${{github.event_name}} - ${{github.ref}}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade tuxsuite
+    - name: Setup tux plan
+      run: |
+        cat << EOF > plan.yaml
+        name: CI for ${{github.repository}}
+        description: ${{github.workflow}} - ${{github.ref}}
+        version: 1
+
+        common: &commondata
+          container: ${{inputs.host}}
+          envsetup: poky/oe-init-build-env
+          sources:
+            git_trees:
+              - branch: ${{inputs.branch}}
+                url: $POKY_URL
+              - ${{inputs.ref_type}}: ${{inputs.ref}}
+                url: ${{inputs.url}}
+          distro: $DISTRO
+          bblayers_conf:
+            - BBLAYERS += '../$(echo ${{github.repository}} | cut -d'/' -f2)'
+          artifacts: ["licenses"]
+        EOF
+
+        for tclibc in ${TCLIBC}; do
+        for kernel in ${KERNELS}; do
+        cat << EOF >> plan.yaml
+        ${tclibc}-${kernel}: &${tclibc}-${kernel}
+          local_conf:
+            - INHERIT += 'buildstats buildstats-summary'
+            - INHERIT:remove = 'rm_work'
+            - TCLIBC := '${tclibc}'
+            - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
+            - INITRAMFS_IMAGE ?= 'initramfs-rootfs-image'
+
+        ${tclibc}-${kernel}-noinitramfs: &${tclibc}-${kernel}-noinitramfs
+          local_conf:
+            - INHERIT += 'buildstats buildstats-summary'
+            - INHERIT:remove = 'rm_work'
+            - TCLIBC := '${tclibc}'
+            - PREFERRED_PROVIDER_virtual/kernel := 'linux-${kernel}'
+
+        EOF
+        done
+        done
+
+        # armv7 machines do not support ESP / UKI
+        for machine in ${{inputs.machines}}; do
+        if [ ${machine##qcom-armv8a} == ${machine} ] ; then
+          images=`echo ${{inputs.images}} | sed -e 's/esp-qcom-image//g'`
+        else
+          images="${{inputs.images}}"
+        fi
+        cat << EOF >> plan.yaml
+        ${machine}: &${machine}
+          machine: ${machine}
+          target: ${images}
+
+        EOF
+        done
+
+        cat << EOF >> plan.yaml
+        jobs:
+        EOF
+
+        for tclibc in ${TCLIBC}; do
+        cat << EOF >> plan.yaml
+          - name: ${tclibc}
+            bakes:
+        EOF
+        for machine in ${{inputs.machines}}; do
+        for variant in ${{inputs.variants}}; do
+        [ ${variant##${machine}-${tclibc}} == ${variant} ] && continue
+        cat << EOF >> plan.yaml
+              - { <<: [*commondata, *${variant#${machine}-}, *${machine}], name: ${variant} }
+        EOF
+        done
+        done
+        done
+
+        echo "Ready to submit this Tux Plan:"
+        cat plan.yaml
+    - name: Run build
+      run: |
+        tuxsuite plan plan.yaml
+      env:
+        TUXSUITE_TOKEN: ${{ secrets.TUXSUITE_TOKEN }}
