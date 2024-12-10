@@ -10,6 +10,12 @@ jobs:
       host: ubuntu-20.04
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
       machines: dragonboard-410c dragonboard-845c qrb5165-rb5 qcom-armv8a sa8155p-adp
+      variants: >-
+        dragonboard-410c-glibc-linaro-qcomlt dragonboard-410c-musl-linaro-qcomlt
+        dragonboard-845c-glibc-linaro-qcomlt dragonboard-845c-musl-linaro-qcomlt
+        qrb5165-rb5-glibc-linaro-qcomlt      qrb5165-rb5-musl-linaro-qcomlt
+        qcom-armv8a-glibc-linaro-qcomlt      qcom-armv8a-musl-linaro-qcomlt
+        sa8155p-adp-glibc-linaro-qcomlt      sa8155p-adp-musl-linaro-qcomlt
       ref: refs/pull/${{github.event.pull_request.number}}/merge
       branch: ${{github.base_ref}}
       url: ${{github.server_url}}/${{github.repository}}
