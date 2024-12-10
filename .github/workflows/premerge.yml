@@ -5,11 +5,15 @@ on:
 
 jobs:
   build:
-    uses: ndechesne/meta-qcom/.github/workflows/build-template.yml@master
+    uses: ./.github/workflows/build-template.yml
     with:
       host: ubuntu-20.04
       images: core-image-base core-image-weston core-image-x11 initramfs-test-image initramfs-test-full-image cryptodev-module
       machines: dragonboard-410c qcom-armv8a sdx55-mtp
+      variants: >-
+        dragonboard-410c-glibc-linaro-qcomlt dragonboard-410c-musl-linaro-qcomlt
+        qcom-armv8a-glibc-linaro-qcomlt      qcom-armv8a-musl-linaro-qcomlt
+        sdx55-mtp-glibc-linaro-qcomlt        sdx55-mtp-musl-linaro-qcomlt
       ref: refs/pull/${{github.event.pull_request.number}}/merge
       branch: ${{github.base_ref}}
       url: ${{github.server_url}}/${{github.repository}}
