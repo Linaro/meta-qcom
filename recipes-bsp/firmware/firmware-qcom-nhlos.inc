@@ -13,9 +13,12 @@ DEPENDS += "pil-squasher-native mtools-native"
 # script to let base.bbclass to pick up dependencies
 SRC_URI += "${NHLOS_URI}"
 
-handle_nonhlos_image() {
+unpack_nhlos_image() {
     mkdir -p ${B}/firmware
     mcopy -n -s -i "$1" ::/* ${B}/firmware/
+}
+
+handle_nonhlos_image() {
     for fw in ${B}/firmware/image/*.mdt ; do
         pil-squasher ${B}/`basename $fw mdt`mbn $fw || exit 1
     done
@@ -36,7 +39,8 @@ do_compile:prepend() {
     if [ -z "${NHLOS_URI}" ] ; then
         bbwarn "${PN}: not packaging NHLOS firmware. Please provide HNLOS_URI"
     else
-        handle_nonhlos_image ${UNPACKDIR}/${@get_nhlos_path(d.getVar("NHLOS_URI"))}
+        unpack_nhlos_image ${UNPACKDIR}/${@get_nhlos_path(d.getVar("NHLOS_URI"))}
+        handle_nonhlos_image
     fi
 }
 
